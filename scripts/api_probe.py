@@ -1,11 +1,10 @@
-"""Manual diagnostic: how deep can this API key page through Iran ads?"""
+"""Manual diagnostic: paging depth for this API key, with and without filters."""
 import json, os, requests
 API = "https://tgadsspy.com/api/v1"
 S = requests.Session(); S.headers["X-Api-Key"] = os.environ["TGADS_API_KEY"]
-for off in (0, 100, 200, 1000, 4900, 5000):
-    r = S.get(f"{API}/ads", params={"geo": "IR", "sort": "new", "limit": 100, "offset": off}, timeout=40)
-    try: j = r.json()
-    except Exception: j = {}
-    d = j.get("data") or []
-    print(f"offset={off:5} http={r.status_code} rows={len(d)} first_id={d[0].get('id') if d else None} "
-          f"meta={json.dumps(j.get('meta'))} plan={r.headers.get('X-Plan')} err={str(j.get('error') or '')[:150]}")
+for name, q in {"no filter": {}, "geo=IR": {"geo": "IR"}, "niche=crypto": {"niche": "crypto"}}.items():
+    for off in (100, 1000):
+        r = S.get(f"{API}/ads", params={**q, "limit": 100, "offset": off}, timeout=40)
+        m = (r.json() if r.ok else {}).get("meta") or {}
+        print(f"{name:13} offset={off:5} http={r.status_code} plan={m.get('plan')} maxOffset={m.get('maxOffset')} "
+              f"returnedOffset={m.get('offset')} clamped={m.get('offsetClamped')} reachable={m.get('totalReachable')}")
