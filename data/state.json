@@ -11,7 +11,7 @@
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/index.html": "8f18d42360ea037c",
+  "tgads/index.html": "99fe7b5527678f3c",
   "tgads/channels.json": "e760515bda3816c4"
  },
  "runs": [
@@ -90,6 +90,16 @@
    "sent_media": 2,
    "sent_files": 3,
    "secs": 31
+  },
+  {
+   "at": "2026-11-12T22:34:15Z",
+   "ok": false,
+   "error": "upload: upload tgchannels/index.html failed: 400 {\"ok\":false,\"error\":\"bad path\"}",
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "secs": 2
   }
  ],
  "last_upload_ok": "2026-11-12T21:49:40Z",
