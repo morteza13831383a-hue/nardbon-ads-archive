@@ -547,7 +547,7 @@ def upload(ads, state, run):
         }
         for name, obj, root in (("manifest.json", manifest, REMOTE_ROOT), ("status.json", status, REMOTE_ROOT),
                                 ("status.json", ch_status, CH_ROOT)):
-            p = tmp / f"{root}-{name}"
+            p = tmp / f"{root.replace('/', '_')}-{name}"
             p.write_text(json.dumps(obj, ensure_ascii=False), "utf-8")
             up.put(p, f"{root}/{name}")
     log(f"upload: {sent_media} images, {sent_files} files")
