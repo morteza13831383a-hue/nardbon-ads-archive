@@ -37,7 +37,7 @@ ADS_DIR = DATA / "ads"
 STATE_F = DATA / "state.json"
 PANEL = ROOT / "panel"
 PANEL_CH = ROOT / "panel_channels"              # separate channels panel
-CH_ROOT = os.environ.get("REMOTE_CH_ROOT", "tgchannels").strip("/")
+CH_ROOT = os.environ.get("REMOTE_CH_ROOT", "tgads/channels").strip("/")   # nb-upload.php only accepts tgads/*
 OUTBOX = ROOT / "outbox"            # persisted between runs with actions/cache
 OUT_MEDIA = OUTBOX / "media"
 
