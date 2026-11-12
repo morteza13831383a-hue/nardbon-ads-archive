@@ -1,0 +1,60 @@
+name: sync-telegram-ads
+
+on:
+  schedule:
+    - cron: "17 * * * *"      # every hour at minute 17 (UTC)
+  workflow_dispatch: {}       # "Run workflow" button for manual runs
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # images that could not reach the host yet are kept between runs
+      - uses: actions/cache/restore@v4
+        with:
+          path: outbox
+          key: outbox-${{ github.run_id }}
+          restore-keys: outbox-
+
+      - name: Sync
+        env:
+          TGADS_API_KEY: ${{ secrets.TGADS_API_KEY }}
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
+        run: python scripts/sync.py
+
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: outbox
+          key: outbox-${{ github.run_id }}
+
+      - name: Save data to repository
+        if: always()
+        run: |
+          git config user.name "nardbon-archive-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if ! git diff --cached --quiet; then
+            git commit -m "sync $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull --rebase --autostash || true
+            git push
+          fi

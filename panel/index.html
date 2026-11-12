@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>آرشیو تبلیغات نردبون</title>
+<style>
+@font-face{font-family:Vaz;font-weight:400;src:url(fonts/Vazirmatn-UI-FD-Regular.woff2) format("woff2");font-display:swap}
+@font-face{font-family:Vaz;font-weight:700;src:url(fonts/Vazirmatn-UI-FD-Bold.woff2) format("woff2");font-display:swap}
+@font-face{font-family:Vaz;font-weight:900;src:url(fonts/Vazirmatn-UI-FD-Black.woff2) format("woff2");font-display:swap}
+:root{--bg:#F5F6FA;--card:#fff;--ink:#1B2236;--mute:#6B7389;--line:#E3E6EE;--acc:#3D5AFE;--acc-soft:#E8ECFF;--ok:#16A36B;--warn:#E09A12;--bad:#DC4141;--new:#FF5C7A}
+@media (prefers-color-scheme:dark){:root{--bg:#10131C;--card:#191D2A;--ink:#E9ECF5;--mute:#98A0B5;--line:#2A3042;--acc:#7C8FFF;--acc-soft:#232A47}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Vaz,Tahoma,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7}
+header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bar{max-width:1280px;margin:auto;padding:12px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+h1{font-size:19px;font-weight:900}
+h1 small{font-weight:400;color:var(--mute);font-size:13px;margin-right:6px}
+nav{display:flex;gap:6px;margin-right:auto}
+nav button{font:inherit;border:0;background:none;color:var(--mute);padding:6px 14px;border-radius:99px;cursor:pointer;font-weight:700}
+nav button.on{background:var(--acc-soft);color:var(--acc)}
+.health{font-size:13px;display:flex;align-items:center;gap:6px;color:var(--mute)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--mute)}
+.filters{max-width:1280px;margin:auto;padding:0 16px 12px;display:flex;gap:8px;flex-wrap:wrap}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:7px 12px}
+input[type=search]{flex:1;min-width:200px}
+label.chk{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--mute);padding:0 4px}
+main{max-width:1280px;margin:auto;padding:16px}
+.count{color:var(--mute);font-size:14px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.media{aspect-ratio:16/9;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--mute);font-size:13px;position:relative}
+.media img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}
+.badge{position:absolute;top:8px;right:8px;background:var(--new);color:#fff;font-size:12px;font-weight:700;border-radius:99px;padding:1px 10px}
+.body{padding:12px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.ttl{font-weight:700}
+.txt{font-size:14px;white-space:pre-wrap;word-break:break-word}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.chip{font-size:12px;background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:1px 10px;color:var(--mute)}
+.chip.cta{background:var(--acc-soft);color:var(--acc);border-color:transparent;font-weight:700;text-decoration:none}
+.meta{font-size:12px;color:var(--mute);border-top:1px solid var(--line);padding:8px 14px;display:grid;grid-template-columns:auto 1fr;gap:0 10px}
+.more{display:block;margin:18px auto;font:inherit;font-weight:700;background:var(--acc);color:#fff;border:0;border-radius:12px;padding:9px 26px;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:18px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.stat b{display:block;font-size:24px;font-weight:900}
+.stat span{font-size:13px;color:var(--mute)}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden;font-size:14px}
+th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:right}
+th{color:var(--mute);font-weight:700;background:var(--bg)}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+.empty{padding:60px;text-align:center;color:var(--mute)}
+#zoom{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9;cursor:zoom-out}
+#zoom img{max-width:94vw;max-height:94vh;border-radius:8px}
+.hidden{display:none}
+@media (max-width:600px){nav{margin-right:0}.bar{gap:8px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1>آرشیو تبلیغات تلگرام <small>نردبون</small></h1>
+    <nav><button class="on" data-tab="cat">کاتالوگ</button><button data-tab="sys">وضعیت سیستم</button></nav>
+    <div class="health"><span class="dot" id="hdot"></span><span id="htxt">در حال بارگذاری…</span></div>
+  </div>
+  <div class="filters" id="filters">
+    <input type="search" id="q" placeholder="جستجو در متن، عنوان یا تبلیغ‌دهنده…">
+    <select id="niche"><option value="">همه حوزه‌ها</option></select>
+    <select id="sort">
+      <option value="new">جدیدترین</option>
+      <option value="long">ماندگارترین (احتمالاً جواب‌داده)</option>
+      <option value="found">آخرین دریافت‌شده</option>
+    </select>
+    <label class="chk"><input type="checkbox" id="img"> فقط با تصویر</label>
+    <label class="chk"><input type="checkbox" id="fresh"> فقط جدیدها (۲۴ ساعت)</label>
+  </div>
+</header>
+
+<main>
+  <section id="cat">
+    <div class="count" id="count"></div>
+    <div class="grid" id="grid"></div>
+    <button class="more hidden" id="more">نمایش بیشتر</button>
+    <button class="more hidden" id="older">بارگذاری ماه‌های قبل</button>
+  </section>
+  <section id="sys" class="hidden">
+    <div class="stats" id="stats"></div>
+    <h3 style="margin:8px 0 10px">آخرین اجراها</h3>
+    <div style="overflow-x:auto"><table id="runs"></table></div>
+  </section>
+</main>
+<div id="zoom"><img alt=""></div>
+
+<script>
+const fmt = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {timeZone:'Asia/Tehran', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'});
+const fmtD = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {timeZone:'Asia/Tehran', year:'numeric', month:'long', day:'numeric'});
+const T = s => s ? fmt.format(new Date(s)).replace('،', ' ·').replace(',', ' ·') : '—';
+const D = s => s ? fmtD.format(new Date(s)) : '—';
+const N = n => (n ?? 0).toLocaleString('fa-IR');
+const ago = s => { if(!s) return '—'; const m = (Date.now() - new Date(s)) / 6e4;
+  return m < 1 ? 'همین الان' : m < 60 ? N(Math.round(m)) + ' دقیقه پیش' : m < 1440 ? N(Math.round(m/60)) + ' ساعت پیش' : N(Math.round(m/1440)) + ' روز پیش'; };
+const esc = s => (s ?? '').toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = id => document.getElementById(id);
+
+let manifest = {months:[]}, loaded = 0, ads = [], view = [], shown = 0;
+const PAGE = 60, bust = '?t=' + Math.floor(Date.now() / 6e4);
+
+async function getJSON(u){ const r = await fetch(u, {cache:'no-cache'}); if(!r.ok) throw new Error(u + ' ' + r.status); return r.json(); }
+
+async function loadMonths(k){
+  const next = manifest.months.slice(loaded, loaded + k);
+  const parts = await Promise.all(next.map(m => getJSON('data/' + m.m + '.json?h=' + m.h).catch(() => [])));
+  parts.forEach(p => ads.push(...p)); loaded += next.length;
+  $('older').classList.toggle('hidden', loaded >= manifest.months.length);
+  fillNiches(); apply();
+}
+
+function fillNiches(){
+  const sel = $('niche'), cur = sel.value, c = {};
+  ads.forEach(a => { const n = a.labels?.niche_fa || a.niche; if(n) c[n] = (c[n]||0) + 1; });
+  sel.innerHTML = '<option value="">همه حوزه‌ها</option>' + Object.entries(c).sort((a,b) => b[1]-a[1])
+    .map(([n,k]) => `<option value="${esc(n)}">${esc(n)} (${N(k)})</option>`).join('');
+  sel.value = cur;
+}
+
+function apply(){
+  const q = $('q').value.trim().toLowerCase(), ni = $('niche').value, img = $('img').checked, fresh = $('fresh').checked;
+  const day = Date.now() - 864e5;
+  view = ads.filter(a => (!ni || (a.labels?.niche_fa || a.niche) === ni)
+    && (!img || a.media_file)
+    && (!fresh || new Date(a.found_at) > day)
+    && (!q || `${a.title} ${a.text} ${a.advertiser} ${a.cta_url}`.toLowerCase().includes(q)));
+  const dur = a => new Date(a.last_seen || a.first_seen) - new Date(a.first_seen);
+  const s = $('sort').value;
+  view.sort(s === 'long' ? (a,b) => dur(b) - dur(a) : s === 'found' ? (a,b) => (b.found_at||'').localeCompare(a.found_at||'')
+                         : (a,b) => (b.first_seen||'').localeCompare(a.first_seen||''));
+  shown = 0; $('grid').innerHTML = ''; more();
+  $('count').textContent = N(view.length) + ' تبلیغ' + (loaded < manifest.months.length ? ' (از ' + N(loaded) + ' ماه اخیر)' : '');
+}
+
+function card(a){
+  const isNew = a.found_at && Date.now() - new Date(a.found_at) < 864e5;
+  const media = a.media_file ? `<img loading="lazy" src="${esc(a.media_file)}" alt="">`
+    : a.media_status === 'video' ? `<a href="${esc(a.media_src)}" target="_blank" rel="noopener">ویدیو (لینک منبع)</a>`
+    : a.media_status === 'none' ? 'بدون تصویر' : 'تصویر در صف ارسال';
+  const days = a.first_seen && a.last_seen ? Math.max(1, Math.round((new Date(a.last_seen) - new Date(a.first_seen)) / 864e5)) : null;
+  const ctaHref = a.cta_url && /^https?:/i.test(a.cta_url) ? a.cta_url : null;
+  return `<article class="card">
+    <div class="media">${media}${isNew ? '<span class="badge">جدید</span>' : ''}</div>
+    <div class="body">
+      ${a.title ? `<div class="ttl" dir="auto">${esc(a.title)}</div>` : ''}
+      <div class="txt" dir="auto">${esc(a.text)}</div>
+      <div class="chips">
+        ${a.cta_text ? (ctaHref ? `<a class="chip cta" href="${esc(ctaHref)}" target="_blank" rel="noopener">${esc(a.cta_text)}</a>` : `<span class="chip cta">${esc(a.cta_text)}</span>`) : ''}
+        ${a.advertiser ? `<span class="chip"><bdi>${esc(a.advertiser)}</bdi></span>` : ''}
+        ${a.niche ? `<span class="chip">${esc(a.labels?.niche_fa || a.niche)}</span>` : ''}
+        ${days ? `<span class="chip">${N(days)} روز در پخش</span>` : ''}
+      </div>
+    </div>
+    <div class="meta">
+      <span>اولین نمایش</span><span>${D(a.first_seen)}</span>
+      <span>آخرین نمایش</span><span>${D(a.last_seen)}</span>
+      <span>دریافت ما</span><span>${T(a.found_at)}</span>
+      <span>رسیده به هاست</span><span>${T(a.sent_at)}</span>
+    </div></article>`;
+}
+
+function more(){
+  $('grid').insertAdjacentHTML('beforeend', view.slice(shown, shown + PAGE).map(card).join(''));
+  shown += PAGE;
+  $('more').classList.toggle('hidden', shown >= view.length);
+  if(!view.length) $('grid').innerHTML = '<div class="empty">تبلیغی با این فیلترها پیدا نشد.</div>';
+}
+
+function renderStatus(s){
+  const last = s.last_upload_ok, hrs = last ? (Date.now() - new Date(last)) / 36e5 : 99;
+  const [cls, txt] = hrs < 2.5 ? ['ok','سالم'] : hrs < 12 ? ['warn','تأخیر در ارسال'] : ['bad','ارسال متوقف شده'];
+  $('hdot').style.background = `var(--${cls === 'ok' ? 'ok' : cls === 'warn' ? 'warn' : 'bad'})`;
+  $('htxt').textContent = `${txt} · آخرین ارسال ${ago(last)}`;
+  const t = s.totals || {}, bf = s.backfill || {};
+  $('stats').innerHTML = [
+    [N(t.ads), 'کل تبلیغ‌ها'], [N(t.new_24h), 'جدید در ۲۴ ساعت'], [N(t.with_image), 'با تصویر'],
+    [N(t.media_waiting), 'تصویر در صف'], [ago(last), 'آخرین ارسال موفق به هاست<br>' + T(last)],
+    [bf.done ? 'کامل شد' : 'در حال انجام', 'جمع‌آوری آرشیو قدیمی (' + N(bf.rows) + ' ردیف)']
+  ].map(([b,sp]) => `<div class="stat"><b>${b}</b><span>${sp}</span></div>`).join('');
+  $('runs').innerHTML = '<tr><th>زمان اجرا</th><th>وضعیت</th><th>تبلیغ جدید</th><th>به‌روزشده</th><th>تصویر ارسالی</th><th>فایل ارسالی</th><th>مدت</th><th>خطا</th></tr>' +
+    (s.runs || []).map(r => `<tr><td>${T(r.at)}</td><td class="${r.ok ? 'ok' : 'bad'}">${r.ok ? 'موفق' : 'ناموفق'}</td>
+      <td>${N(r.new)}</td><td>${N(r.updated)}</td><td>${N(r.sent_media)}</td><td>${N(r.sent_files)}</td>
+      <td>${r.secs != null ? N(r.secs) + ' ثانیه' : '—'}</td><td class="bad">${esc(r.error || '')}</td></tr>`).join('');
+}
+
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
+  $('cat').classList.toggle('hidden', b.dataset.tab !== 'cat');
+  $('sys').classList.toggle('hidden', b.dataset.tab !== 'sys');
+  $('filters').classList.toggle('hidden', b.dataset.tab !== 'cat');
+});
+let tmr; $('q').oninput = () => { clearTimeout(tmr); tmr = setTimeout(apply, 200); };
+['niche','sort','img','fresh'].forEach(id => $(id).onchange = apply);
+$('more').onclick = more;
+$('older').onclick = () => loadMonths(3);
+$('grid').onclick = e => { if(e.target.tagName === 'IMG'){ $('zoom').querySelector('img').src = e.target.src; $('zoom').style.display = 'flex'; } };
+$('zoom').onclick = () => $('zoom').style.display = 'none';
+
+(async () => {
+  try { renderStatus(await getJSON('status.json' + bust)); } catch(e){ $('htxt').textContent = 'وضعیت در دسترس نیست'; }
+  try { manifest = await getJSON('manifest.json' + bust); await loadMonths(3); }
+  catch(e){ $('grid').innerHTML = '<div class="empty">هنوز داده‌ای ارسال نشده. بعد از اولین اجرای موفق اینجا پر می‌شه.</div>'; }
+})();
+</script>
+</body>
+</html>
