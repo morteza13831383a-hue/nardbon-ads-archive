@@ -231,8 +231,12 @@ def merge(ads, raw, source):
 def pull(ads, state, params, source, row_cap, stats, keep_all=False):
     """Page through /ads with offset. Returns (rows_read, max_first_seen, exhausted)."""
     rows, max_fs, offset = 0, None, 0
+    stats.pop("_meta", None)
     while offset < MAX_DEPTH and rows < row_cap and time_left() > 120:
         page = api_get("/ads", {**params, "limit": PAGE, "offset": offset})
+        meta = page.get("meta") or {}
+        if offset == 0:
+            stats["_meta"] = meta
         items = page.get("data") or []
         for raw in items:
             lang = (raw.get("lang") or "-")
@@ -246,9 +250,13 @@ def pull(ads, state, params, source, row_cap, stats, keep_all=False):
                     stats[r] += 1
         rows += len(items)
         offset += PAGE
-        total = (page.get("meta") or {}).get("total")
+        total = meta.get("total")
         if len(items) < PAGE or (total is not None and offset >= total):
             return rows, max_fs, True
+        if meta.get("offsetClamped") or meta.get("hasMore") is False:
+            return rows, max_fs, False            # plan depth reached: the API would only repeat rows
+        if meta.get("maxOffset") is not None and offset > meta["maxOffset"]:
+            return rows, max_fs, False
     return rows, max_fs, False
 
 
@@ -260,8 +268,15 @@ def run_incremental(ads, state, stats):
     else:
         params["days"] = 2
     rows, _, _ = pull(ads, state, params, "live", 3000, stats, keep_all=True)
-    state["cursor"] = iso(NOW - dt.timedelta(hours=2))
-    log(f"incremental: read {rows} rows")
+    state["cursor"] = iso(NOW - dt.timedelta(hours=1))   # runs every 30 min, 1h overlap
+    meta = stats.pop("_meta", None) or {}
+    total, reach = meta.get("total"), meta.get("totalReachable")
+    if total is not None and reach is not None and total > reach:
+        # more ads in this window than the plan lets us page to: some may be lost
+        stats["missed"] = total - reach
+        state["missed_total"] = state.get("missed_total", 0) + stats["missed"]
+        state["missed_last"] = now_iso()
+    log(f"incremental: read {rows} rows (window total {total}, reachable {reach})")
     return rows
 
 
@@ -449,6 +464,8 @@ def build_status(ads, state, shards):
             "not_sent": sum(1 for a in ads.values() if not a.get("sent_at")),
         },
         "backfill": state["backfill"],
+        "missed_total": state.get("missed_total", 0),
+        "missed_last": state.get("missed_last"),
         "runs": list(reversed(state["runs"][-30:])),
     }
     manifest = {
@@ -542,6 +559,8 @@ def main():
             except Exception as e:
                 errors.append(f"{step.__name__}: {e}")
                 traceback.print_exc()
+    if stats.get("missed"):
+        errors.append(f"missed: up to {stats['missed']} ads beyond the API plan's reach in this window")
     if API_INFO:
         state["api_info"] = API_INFO
     try:
@@ -551,7 +570,7 @@ def main():
         traceback.print_exc()
 
     write_shards(ads)
-    run.update({"new": stats["new"], "updated": stats["upd"], "media": stats["media"]})
+    run.update({"new": stats["new"], "updated": stats["upd"], "media": stats["media"], "missed": stats.get("missed", 0)})
     try:
         upload(ads, state, run)
     except Exception as e:

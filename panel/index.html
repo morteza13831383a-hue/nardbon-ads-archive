@@ -195,11 +195,12 @@ function renderStatus(s){
   $('stats').innerHTML = [
     [N(t.ads), 'کل تبلیغ‌ها'], [N(t.new_24h), 'جدید در ۲۴ ساعت'], [N(t.with_image), 'با تصویر'],
     [N(t.media_waiting), 'تصویر در صف'], [ago(last), 'آخرین ارسال موفق به هاست<br>' + T(last)],
-    [bf.done ? 'کامل شد' : 'در حال انجام', 'جمع‌آوری آرشیو قدیمی (' + N(bf.rows) + ' ردیف)']
+    [bf.done ? 'کامل شد' : 'در حال انجام', 'جمع‌آوری آرشیو قدیمی (' + N(bf.rows) + ' ردیف)'],
+    [N(s.missed_total), 'احتمال جا افتادن (بیش از سقف پلن API)' + (s.missed_last ? '<br>آخرین بار ' + T(s.missed_last) : '')]
   ].map(([b,sp]) => `<div class="stat"><b>${b}</b><span>${sp}</span></div>`).join('');
-  $('runs').innerHTML = '<tr><th>زمان اجرا</th><th>وضعیت</th><th>تبلیغ جدید</th><th>به‌روزشده</th><th>تصویر ارسالی</th><th>فایل ارسالی</th><th>مدت</th><th>خطا</th></tr>' +
+  $('runs').innerHTML = '<tr><th>زمان اجرا</th><th>وضعیت</th><th>تبلیغ جدید</th><th>به‌روزشده</th><th>جاافتاده</th><th>تصویر ارسالی</th><th>فایل ارسالی</th><th>مدت</th><th>خطا</th></tr>' +
     (s.runs || []).map(r => `<tr><td>${T(r.at)}</td><td class="${r.ok ? 'ok' : 'bad'}">${r.ok ? 'موفق' : 'ناموفق'}</td>
-      <td>${N(r.new)}</td><td>${N(r.updated)}</td><td>${N(r.sent_media)}</td><td>${N(r.sent_files)}</td>
+      <td>${N(r.new)}</td><td>${N(r.updated)}</td><td class="${r.missed ? 'bad' : ''}">${N(r.missed)}</td><td>${N(r.sent_media)}</td><td>${N(r.sent_files)}</td>
       <td>${r.secs != null ? N(r.secs) + ' ثانیه' : '—'}</td><td class="bad">${esc(r.error || '')}</td></tr>`).join('');
 }
 
