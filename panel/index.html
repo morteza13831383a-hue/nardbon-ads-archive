@@ -57,6 +57,17 @@ th{color:var(--mute);font-weight:700;background:var(--bg)}
 .empty{padding:60px;text-align:center;color:var(--mute)}
 #zoom{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9;cursor:zoom-out}
 #zoom img{max-width:94vw;max-height:94vh;border-radius:8px}
+.chbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.chc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.chc a.nm{font-weight:700;color:var(--ink);text-decoration:none}
+.chc a.nm:hover{color:var(--acc)}
+.chc .un{font-size:12px;color:var(--mute);direction:ltr;text-align:right}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}
+.nums div{background:var(--bg);border-radius:10px;padding:4px}
+.nums b{display:block;font-weight:900}
+.nums span{font-size:11px;color:var(--mute)}
+.chip.ok{color:var(--ok);border-color:transparent;background:var(--acc-soft)}
 .hidden{display:none}
 @media (max-width:600px){nav{margin-right:0}.bar{gap:8px}}
 </style>
@@ -65,7 +76,7 @@ th{color:var(--mute);font-weight:700;background:var(--bg)}
 <header>
   <div class="bar">
     <h1>آرشیو تبلیغات تلگرام <small>نردبون</small></h1>
-    <nav><button class="on" data-tab="cat">کاتالوگ</button><button data-tab="sys">وضعیت سیستم</button></nav>
+    <nav><button class="on" data-tab="cat">کاتالوگ</button><button data-tab="ch">کانال‌ها</button><button data-tab="sys">وضعیت سیستم</button></nav>
     <div class="health"><span class="dot" id="hdot"></span><span id="htxt">در حال بارگذاری…</span></div>
   </div>
   <div class="filters" id="filters">
@@ -87,6 +98,25 @@ th{color:var(--mute);font-weight:700;background:var(--bg)}
     <div class="grid" id="grid"></div>
     <div class="pager hidden" id="pager" role="navigation" aria-label="صفحه‌ها"></div>
     <button class="more hidden" id="older">بارگذاری ماه‌های قبل</button>
+  </section>
+  <section id="ch" class="hidden">
+    <div class="chbar">
+      <input type="search" id="cq" placeholder="حوزه مشتری یا اسم کانال، مثلاً: آموزش زبان، پوشاک، املاک…">
+      <select id="cmin">
+        <option value="0">هر تعداد عضو</option><option value="1000">بیش از ۱ هزار عضو</option>
+        <option value="10000">بیش از ۱۰ هزار</option><option value="50000">بیش از ۵۰ هزار</option>
+        <option value="200000">بیش از ۲۰۰ هزار</option>
+      </select>
+      <select id="csort">
+        <option value="v">بیشترین بازدید پست</option>
+        <option value="r">بهترین نسبت بازدید به عضو</option>
+        <option value="m">بیشترین عضو</option>
+      </select>
+      <label class="chk"><input type="checkbox" id="celig" checked> فقط قابل هدف‌گیری در تلگرام ادز</label>
+    </div>
+    <div class="count" id="ccount"></div>
+    <div class="chlist" id="clist"></div>
+    <div class="pager hidden" id="cpager" role="navigation" aria-label="صفحه‌ها"></div>
   </section>
   <section id="sys" class="hidden">
     <div class="stats" id="stats"></div>
@@ -178,12 +208,55 @@ function render(){
   const pg = $('pager');
   pg.classList.toggle('hidden', pages < 2);
   if(pages < 2){ pg.innerHTML = ''; return; }
+  pg.innerHTML = pagerHTML(page, pages);
+}
+
+function pagerHTML(page, pages){
   const nums = [...new Set([1, page - 2, page - 1, page, page + 1, page + 2, pages])].filter(n => n >= 1 && n <= pages).sort((a,b) => a - b);
   let h = `<button data-p="${page - 1}" ${page === 1 ? 'disabled' : ''}>قبلی</button>`, prev = 0;
   nums.forEach(n => { if(n - prev > 1) h += '<span class="gap">…</span>';
     h += `<button data-p="${n}" class="${n === page ? 'on' : ''}">${N(n)}</button>`; prev = n; });
-  h += `<button data-p="${page + 1}" ${page === pages ? 'disabled' : ''}>بعدی</button>`;
-  pg.innerHTML = h;
+  return h + `<button data-p="${page + 1}" ${page === pages ? 'disabled' : ''}>بعدی</button>`;
+}
+
+// ---- channel catalog (phase 2) ----
+let chans = null, cview = [], cpage = 1;
+const CPAGE = 30;
+const fa = s => (s || '').replace(/ي/g, 'ی').replace(/ك/g, 'ک').replace(/\u200c/g, ' ').toLowerCase();
+async function loadChannels(){
+  if(chans) return;
+  $('ccount').textContent = 'در حال بارگذاری فهرست کانال‌ها…';
+  try {
+    const j = await getJSON('channels.json' + bust);
+    const F = j.fields;
+    chans = j.rows.map(r => { const o = {}; F.forEach((f, i) => o[f] = r[i]); o.h = fa(`${o.t} ${o.u} ${(o.k || []).join(' ')}`); return o; });
+    capply();
+  } catch(e){ chans = null; $('ccount').textContent = 'فهرست کانال‌ها هنوز ساخته نشده. بعد از اولین به‌روزرسانی روزانه اینجا پر می‌شه.'; }
+}
+function capply(){
+  if(!chans) return;
+  const words = fa($('cq').value).split(/\s+/).filter(Boolean), min = +$('cmin').value, el = $('celig').checked;
+  const rate = c => (c.m || 0) >= 1000 ? (c.v || 0) / c.m : 0;   // tiny channels make the ratio meaningless
+  cview = chans.filter(c => (c.m || 0) >= min && (!el || c.e) && words.every(w => c.h.includes(w)));
+  const s = $('csort').value;
+  cview.sort(s === 'm' ? (a,b) => (b.m||0) - (a.m||0) : s === 'r' ? (a,b) => rate(b) - rate(a) : (a,b) => (b.v||0) - (a.v||0));
+  cpage = 1; crender();
+  $('ccount').textContent = `${N(cview.length)} کانال از ${N(chans.length)}` + (cview.length > CPAGE ? ' · ' + N(Math.ceil(cview.length / CPAGE)) + ' صفحه' : '');
+}
+function ccard(c){
+  const r = c.m ? Math.round((c.v || 0) / c.m * 1000) / 10 : null;
+  return `<div class="chc">
+    <a class="nm" dir="auto" href="https://t.me/${encodeURIComponent(c.u)}" target="_blank" rel="noopener">${esc(c.t || c.u)}</a>
+    <div class="un">@${esc(c.u)}</div>
+    <div class="nums"><div><b>${N(c.m)}</b><span>عضو</span></div><div><b>${N(c.v)}</b><span>بازدید هر پست</span></div><div><b>${r == null ? '—' : N(r) + '٪'}</b><span>بازدید به عضو</span></div></div>
+    <div class="chips">${c.e ? '<span class="chip ok">قابل هدف‌گیری در ادز</span>' : ''}${c.c ? `<span class="chip">${esc(c.c)}</span>` : ''}${(c.k || []).slice(0, 4).map(k => `<span class="chip">${esc(k)}</span>`).join('')}</div>
+  </div>`;
+}
+function crender(){
+  const pages = Math.max(1, Math.ceil(cview.length / CPAGE));
+  cpage = Math.min(Math.max(1, cpage), pages);
+  $('clist').innerHTML = cview.length ? cview.slice((cpage - 1) * CPAGE, cpage * CPAGE).map(ccard).join('') : '<div class="empty">کانالی با این فیلترها پیدا نشد.</div>';
+  const pg = $('cpager'); pg.classList.toggle('hidden', pages < 2); pg.innerHTML = pages < 2 ? '' : pagerHTML(cpage, pages);
 }
 
 function renderStatus(s){
@@ -196,6 +269,7 @@ function renderStatus(s){
     [N(t.ads), 'کل تبلیغ‌ها'], [N(t.new_24h), 'جدید در ۲۴ ساعت'], [N(t.with_image), 'با تصویر'],
     [N(t.media_waiting), 'تصویر در صف'], [ago(last), 'آخرین ارسال موفق به هاست<br>' + T(last)],
     [bf.done ? 'کامل شد' : 'در حال انجام', 'جمع‌آوری آرشیو قدیمی (' + N(bf.rows) + ' ردیف)'],
+    [N(s.channels_total), 'کانال در فهرست' + (s.channels_at ? '<br>به‌روزرسانی ' + T(s.channels_at) : '')],
     [N(s.missed_total), 'احتمال جا افتادن (بیش از سقف پلن API)' + (s.missed_last ? '<br>آخرین بار ' + T(s.missed_last) : '')]
   ].map(([b,sp]) => `<div class="stat"><b>${b}</b><span>${sp}</span></div>`).join('');
   $('runs').innerHTML = '<tr><th>زمان اجرا</th><th>وضعیت</th><th>تبلیغ جدید</th><th>به‌روزشده</th><th>جاافتاده</th><th>تصویر ارسالی</th><th>فایل ارسالی</th><th>مدت</th><th>خطا</th></tr>' +
@@ -204,12 +278,16 @@ function renderStatus(s){
       <td>${r.secs != null ? N(r.secs) + ' ثانیه' : '—'}</td><td class="bad">${esc(r.error || '')}</td></tr>`).join('');
 }
 
-document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
-  document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
-  $('cat').classList.toggle('hidden', b.dataset.tab !== 'cat');
-  $('sys').classList.toggle('hidden', b.dataset.tab !== 'sys');
+document.querySelectorAll('header nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('header nav button').forEach(x => x.classList.toggle('on', x === b));
+  ['cat', 'ch', 'sys'].forEach(t => $(t).classList.toggle('hidden', b.dataset.tab !== t));
   $('filters').classList.toggle('hidden', b.dataset.tab !== 'cat');
+  if(b.dataset.tab === 'ch') loadChannels();
 });
+let ctmr; $('cq').oninput = () => { clearTimeout(ctmr); ctmr = setTimeout(capply, 200); };
+['cmin', 'csort', 'celig'].forEach(id => $(id).onchange = capply);
+$('cpager').onclick = e => { const b = e.target.closest('button[data-p]'); if(!b || b.disabled) return;
+  cpage = +b.dataset.p; crender(); window.scrollTo(0, 0); };
 let tmr; $('q').oninput = () => { clearTimeout(tmr); tmr = setTimeout(apply, 200); };
 ['niche','sort','img','fresh'].forEach(id => $(id).onchange = apply);
 $('pager').onclick = e => { const b = e.target.closest('button[data-p]'); if(!b || b.disabled) return;

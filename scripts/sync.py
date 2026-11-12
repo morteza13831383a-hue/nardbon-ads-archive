@@ -29,6 +29,8 @@ from urllib.parse import urljoin
 import requests
 from PIL import Image
 
+import channels
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 ADS_DIR = DATA / "ads"
@@ -469,6 +471,8 @@ def build_status(ads, state, shards):
         "backfill": state["backfill"],
         "missed_total": state.get("missed_total", 0),
         "missed_last": state.get("missed_last"),
+        "channels_at": state.get("channels_at"),
+        "channels_total": state.get("channels_total", 0),
         "runs": list(reversed(state["runs"][-30:])),
     }
     manifest = {
@@ -514,15 +518,16 @@ def upload(ads, state, run):
             for a in pending:            # not confirmed on the host -> still "not sent"
                 a["sent_at"] = None
             raise
-        # 3) panel (only changed files)
-        for f in sorted(PANEL.rglob("*")):
-            if f.is_file():
-                remote = f"{REMOTE_ROOT}/{f.relative_to(PANEL).as_posix()}"
-                h = sha(f)
-                if state["uploaded"].get(remote) != h:
-                    up.put(f, remote)
-                    state["uploaded"][remote] = h
-                    sent_files += 1
+        # 3) panel + channel catalog (only changed files)
+        files = [(f, f"{REMOTE_ROOT}/{f.relative_to(PANEL).as_posix()}") for f in sorted(PANEL.rglob("*")) if f.is_file()]
+        if channels.CHANNELS_F.exists():
+            files.append((channels.CHANNELS_F, f"{REMOTE_ROOT}/channels.json"))
+        for f, remote in files:
+            h = sha(f)
+            if state["uploaded"].get(remote) != h:
+                up.put(f, remote)
+                state["uploaded"][remote] = h
+                sent_files += 1
         # 4) manifest + status last, so the panel never points at missing files
         state["last_upload_ok"] = now_iso()
         run.update({"sent_media": sent_media, "sent_files": sent_files, "ok": not run.get("error"),
@@ -562,6 +567,21 @@ def main():
             except Exception as e:
                 errors.append(f"{step.__name__}: {e}")
                 traceback.print_exc()
+    # phase 2: refresh the Persian channel catalog once a day (or on demand)
+    last_ch = state.get("channels_at") or ""
+    if (os.environ.get("CHANNELS_FORCE") or last_ch < iso(NOW - dt.timedelta(hours=24))) \
+            and not (state.get("api_blocked_until") or "") > now_iso():
+        try:
+            complete, n = channels.refresh(api_get, time_left, log, now_iso)
+            state["channels_total"] = n
+            if complete:
+                state["channels_at"] = now_iso()
+        except RateLimited as e:
+            state["api_blocked_until"] = iso(dt.datetime.now(dt.timezone.utc) + dt.timedelta(seconds=e.wait))
+            errors.append(f"api: rate limited during channels, paused until {state['api_blocked_until']}")
+        except Exception as e:
+            errors.append(f"channels: {e}")
+            traceback.print_exc()
     if stats.get("missed"):
         errors.append(f"missed: up to {stats['missed']} ads beyond the API plan's reach in this window")
     if API_INFO:
