@@ -16,6 +16,11 @@ jobs:
         run: curl -sS -m 30 -i "https://dl.nardboon.com/nb-upload.php?ping=1" || echo "FAILED"
       - name: Panel page
         run: curl -sS -m 30 -o /dev/null -w "%{http_code}\n" "http://dl.nardboon.com/tgads/" || echo "FAILED"
+      - name: Channels panel
+        run: |
+          for u in channels/ channels/channels.json channels/status.json; do
+            echo "$u $(curl -sS -m 30 -o /dev/null -w '%{http_code}' "http://dl.nardboon.com/tgads/$u")"
+          done
       - name: Raw TCP ports on 195.28.168.30
         run: |
           for p in 21 80 443; do
