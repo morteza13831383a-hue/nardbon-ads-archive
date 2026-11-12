@@ -80,6 +80,9 @@ def refresh(api_get, time_left, log, now_iso):
         try:
             items = fetch(api_get, params, time_left, log)
         except Exception as e:
+            if type(e).__name__ == "RateLimited":
+                save(chans, now_iso())
+                raise                      # stop at once: every further request extends the block
             log(f"channels: query {params} failed: {e}")
             continue
         done += 1
