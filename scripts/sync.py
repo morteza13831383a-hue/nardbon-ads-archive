@@ -40,11 +40,13 @@ API = os.environ.get("API_BASE", "https://tgadsspy.com/api/v1").rstrip("/")
 KEY = os.environ.get("TGADS_API_KEY", "")
 REMOTE_ROOT = os.environ.get("REMOTE_ROOT", "tgads").strip("/")
 LOCAL_UPLOAD_DIR = os.environ.get("LOCAL_UPLOAD_DIR")  # testing only: copy instead of FTP
+UPLOAD_URL = os.environ.get("UPLOAD_URL", "").strip()   # HTTP receiver (nb-upload.php); preferred over FTP
+UPLOAD_TOKEN = os.environ.get("UPLOAD_TOKEN", "").strip()
 
 PAGE = 100                                   # FREE plan cap per request
 MAX_DEPTH = 5000                             # FREE plan paging depth
 TIME_BUDGET = int(os.environ.get("TIME_BUDGET_SEC", "600"))
-BACKFILL_ROWS = int(os.environ.get("BACKFILL_ROWS_PER_RUN", "1500"))   # ~36k/day, under 50k
+BACKFILL_ROWS = int(os.environ.get("BACKFILL_ROWS_PER_RUN", "1000"))   # ~24k/day, under 50k
 MEDIA_PER_RUN = int(os.environ.get("MEDIA_PER_RUN", "500"))
 MEDIA_MAX_W = 900
 
@@ -128,6 +130,15 @@ if KEY:
     SESSION.headers["X-Api-Key"] = KEY
 
 
+class RateLimited(Exception):
+    def __init__(self, wait):
+        super().__init__(f"rate limited for {wait}s")
+        self.wait = wait
+
+
+API_INFO = {}
+
+
 def api_get(path, params):
     for attempt in range(6):
         try:
@@ -136,14 +147,19 @@ def api_get(path, params):
             log("network error", e)
             time.sleep(5 * (attempt + 1))
             continue
+        if not API_INFO:
+            API_INFO.update({k: r.headers.get(k) for k in ("X-Plan", "X-RateLimit-Limit", "X-RateLimit-Remaining", "X-RateLimit-Reset")})
+            log("API plan/limits:", API_INFO)
         if r.status_code == 429:
             try:
                 wait = int(r.json().get("retryAfter") or 0)
             except Exception:
                 wait = 0
             wait = wait or int(r.headers.get("Retry-After", "15") or 15)
+            if wait > 90:
+                raise RateLimited(wait)       # don't burn Actions minutes; resume next run
             log(f"rate limited, waiting {wait}s")
-            time.sleep(min(wait, 120))
+            time.sleep(wait)
             continue
         if r.status_code >= 500:
             log("server error", r.status_code)
@@ -236,12 +252,12 @@ def pull(ads, state, params, source, row_cap, stats, keep_all=False):
 
 def run_incremental(ads, state, stats):
     # cursor = start of previous run minus 2h overlap (duplicates are merged, never doubled)
-    params = {"sort": "new"}
+    params = {"sort": "new", "geo": "IR"}
     if state["cursor"]:
         params["visibleSince"] = state["cursor"]
     else:
         params["days"] = 2
-    rows, _, _ = pull(ads, state, params, "live", 10 ** 9, stats)
+    rows, _, _ = pull(ads, state, params, "live", 3000, stats, keep_all=True)
     state["cursor"] = iso(NOW - dt.timedelta(hours=2))
     log(f"incremental: read {rows} rows")
     return rows
@@ -309,11 +325,29 @@ def fetch_media(ads, stats):
 class Uploader:
     def __init__(self):
         self.ftp = None
+        self.http = None
         self.dirs = set()
 
     def __enter__(self):
         if LOCAL_UPLOAD_DIR:
             return self
+        if UPLOAD_URL:
+            if not UPLOAD_TOKEN:
+                raise RuntimeError("UPLOAD_URL is set but UPLOAD_TOKEN is missing")
+            self.http = requests.Session()
+            self.http.headers["X-Upload-Token"] = UPLOAD_TOKEN
+            last = None
+            for _ in range(3):
+                try:
+                    r = self.http.get(UPLOAD_URL, params={"ping": 1}, timeout=30)
+                    if r.status_code == 200 and r.json().get("ok"):
+                        log("HTTP receiver reachable:", r.json())
+                        return self
+                    last = f"{r.status_code} {r.text[:200]}"
+                except Exception as e:
+                    last = e
+                time.sleep(5)
+            raise RuntimeError(f"HTTP receiver not reachable: {last}")
         host, user, pw = (os.environ.get(k, "") for k in ("FTP_HOST", "FTP_USER", "FTP_PASS"))
         if not host:
             raise RuntimeError("FTP_HOST is not set")
@@ -356,6 +390,27 @@ class Uploader:
             self.dirs.add(path)
 
     def put(self, local, remote):
+        if UPLOAD_URL and not LOCAL_UPLOAD_DIR:
+            raw = pathlib.Path(local).read_bytes()
+            headers = {"X-Sha1": hashlib.sha1(raw).hexdigest(), "Content-Type": "application/octet-stream"}
+            body = raw
+            if remote.endswith((".json", ".html", ".txt", ".css", ".js")):
+                import gzip
+                body = gzip.compress(raw, 6)
+                headers["X-Gzip"] = "1"
+            last = None
+            for attempt in range(3):
+                try:
+                    r = self.http.post(UPLOAD_URL, params={"path": remote}, data=body, headers=headers, timeout=120)
+                    if r.status_code == 200 and r.json().get("ok"):
+                        return
+                    last = f"{r.status_code} {r.text[:200]}"
+                    if r.status_code in (400, 403, 413):
+                        break
+                except Exception as e:
+                    last = e
+                time.sleep(3 * (attempt + 1))
+            raise RuntimeError(f"upload {remote} failed: {last}")
         if LOCAL_UPLOAD_DIR:
             dst = pathlib.Path(LOCAL_UPLOAD_DIR) / remote
             dst.parent.mkdir(parents=True, exist_ok=True)
@@ -467,12 +522,23 @@ def main():
     run = {"at": now_iso(), "ok": False, "error": None}
     errors = []
 
-    for step in (run_incremental, run_backfill):
-        try:
-            step(ads, state, stats)
-        except Exception as e:
-            errors.append(f"{step.__name__}: {e}")
-            traceback.print_exc()
+    blocked = state.get("api_blocked_until")
+    if blocked and blocked > now_iso():
+        log(f"API paused until {blocked} (rate limit) — skipping fetch this run")
+    else:
+        for step in (run_incremental, run_backfill):
+            try:
+                step(ads, state, stats)
+            except RateLimited as e:
+                state["api_blocked_until"] = iso(dt.datetime.now(dt.timezone.utc) + dt.timedelta(seconds=e.wait))
+                errors.append(f"api: rate limited, paused until {state['api_blocked_until']}")
+                log(errors[-1])
+                break
+            except Exception as e:
+                errors.append(f"{step.__name__}: {e}")
+                traceback.print_exc()
+    if API_INFO:
+        state["api_info"] = API_INFO
     try:
         fetch_media(ads, stats)
     except Exception as e:
@@ -496,7 +562,8 @@ def main():
     save_state(state)
     log("done", json.dumps(run, ensure_ascii=False))
     # a failed upload is not a failed run: data is safe in git and will be retried
-    if errors and not any(e.startswith("upload") for e in errors) and stats["new"] == 0:
+    hard = [e for e in errors if not e.startswith(("upload", "api: rate"))]
+    if hard and stats["new"] == 0:
         sys.exit(1)
 
 
