@@ -1,8 +1,8 @@
 """
 Persian Telegram channel catalog (phase 2: channel suggestions).
 
-A slow, steady collector: every sync run (every 30 min) it makes only a few
-/channels requests, one keyword at a time from data/channel_keywords.txt,
+A deliberately slow collector: once every CHANNELS_EVERY_HOURS (5 h) it makes
+at most 2 /channels requests, 15 s apart, for one keyword from data/channel_keywords.txt,
 rotating through the list, and merges the results into data/channels.json.
 The panel's "کانال‌ها" tab searches that file locally.
 
@@ -24,8 +24,9 @@ KEYWORDS_F = ROOT / "data" / "channel_keywords.txt"
 CHANNELS_F = ROOT / "data" / "channels.json"
 API = os.environ.get("CHANNELS_API_BASE", "https://tgadsspy.com/api/v1").rstrip("/")
 KEY = os.environ.get("CHANNELS_API_KEY", "").strip()
-PER_RUN = int(os.environ.get("CHANNELS_PER_RUN", "1"))       # keywords per run
-GAP = float(os.environ.get("CHANNELS_GAP_SEC", "4"))          # pause between requests
+PER_RUN = int(os.environ.get("CHANNELS_PER_RUN", "1"))       # keywords per slice
+GAP = float(os.environ.get("CHANNELS_GAP_SEC", "15"))         # pause between requests
+EVERY_H = float(os.environ.get("CHANNELS_EVERY_HOURS", "5"))  # one slice every 5 h: ~5 keywords/day, a full pass in ~4 weeks
 PAGE = 100
 PERSIAN = re.compile("[پچژگکی]")
 # compact rows keep the file small for the browser
@@ -40,6 +41,15 @@ class Blocked(Exception):
 
 def enabled():
     return bool(KEY)
+
+
+def due(state, now):
+    """True when the last slice was at least EVERY_H hours ago."""
+    last = state.get("channels_last")
+    if not last:
+        return True
+    last = dt.datetime.strptime(last, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=dt.timezone.utc)
+    return now - last >= dt.timedelta(hours=EVERY_H)
 
 
 def keywords():
@@ -89,6 +99,7 @@ def _get(session, params):
 
 def step(state, log, now_iso):
     """One small slice of work. Returns the catalog size."""
+    state["channels_last"] = now_iso()            # counted even if it fails, so a failure never speeds things up
     kws = keywords()
     queries = [""] + kws                       # "" = biggest Persian channels overall
     session = requests.Session()

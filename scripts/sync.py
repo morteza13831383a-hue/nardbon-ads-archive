@@ -569,7 +569,8 @@ def main():
                 traceback.print_exc()
     # phase 2: a small slice of the Persian channel catalog each run (own key; off without one)
     ch_block = state.get("channels_blocked_until") or ""
-    if channels.enabled() and not ch_block > now_iso() and not (state.get("api_blocked_until") or "") > now_iso():
+    if channels.enabled() and channels.due(state, dt.datetime.now(dt.timezone.utc)) \
+            and not ch_block > now_iso() and not (state.get("api_blocked_until") or "") > now_iso():
         try:
             state["channels_total"] = channels.step(state, log, now_iso)
         except channels.Blocked as e:
