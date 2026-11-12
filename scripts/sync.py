@@ -24,6 +24,7 @@ import shutil
 import sys
 import time
 import traceback
+from urllib.parse import urljoin
 
 import requests
 from PIL import Image
@@ -37,6 +38,7 @@ OUTBOX = ROOT / "outbox"            # persisted between runs with actions/cache
 OUT_MEDIA = OUTBOX / "media"
 
 API = os.environ.get("API_BASE", "https://tgadsspy.com/api/v1").rstrip("/")
+SITE = os.environ.get("MEDIA_BASE", re.sub(r"(https?://[^/]+).*", r"\1", API))
 KEY = os.environ.get("TGADS_API_KEY", "")
 REMOTE_ROOT = os.environ.get("REMOTE_ROOT", "tgads").strip("/")
 LOCAL_UPLOAD_DIR = os.environ.get("LOCAL_UPLOAD_DIR")  # testing only: copy instead of FTP
@@ -284,6 +286,9 @@ def run_backfill(ads, state, stats):
 # --------------------------------------------------------------------------- media
 def fetch_media(ads, stats):
     OUT_MEDIA.mkdir(parents=True, exist_ok=True)
+    for a in ads.values():                      # retry images that failed only because of relative URLs
+        if a["media_status"] == "failed" and (a.get("media_src") or "").startswith("/") and not a.get("media_rel_retry"):
+            a["media_status"], a["media_tries"], a["media_rel_retry"] = "pending", 0, True
     todo = [a for a in ads.values() if a["media_status"] == "pending"]
     todo.sort(key=lambda a: a.get("first_seen") or "", reverse=True)    # newest first
     done = 0
@@ -294,7 +299,7 @@ def fetch_media(ads, stats):
         if dest.exists():
             a["media_status"] = "queued"
             continue
-        url = a["media_src"]
+        url = urljoin(SITE + "/", a["media_src"])     # API gives relative paths like /m/3c/...jpg
         if re.search(r"\.(mp4|mov|webm)(\?|$)", url, re.I):
             a["media_status"] = "video"       # keep the link; videos are not stored
             continue
@@ -561,9 +566,10 @@ def main():
     state["runs"].append(run)
     save_state(state)
     log("done", json.dumps(run, ensure_ascii=False))
-    # a failed upload is not a failed run: data is safe in git and will be retried
-    hard = [e for e in errors if not e.startswith(("upload", "api: rate"))]
-    if hard and stats["new"] == 0:
+    # data is committed by the workflow either way; a red run makes GitHub send an alert email.
+    # Only running out of API quota is treated as normal.
+    hard = [e for e in errors if not e.startswith("api: rate")]
+    if hard:
         sys.exit(1)
 
 

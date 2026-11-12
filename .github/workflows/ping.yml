@@ -1,0 +1,23 @@
+name: host-check
+
+# Manual diagnostic: can GitHub's servers (outside Iran) reach the download host?
+on: workflow_dispatch
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Runner IP
+        run: curl -sS -m 15 https://api.ipify.org || true
+      - name: HTTP ping (nb-upload.php)
+        run: curl -sS -m 30 -i "http://dl.nardboon.com/nb-upload.php?ping=1" || echo "FAILED"
+      - name: HTTPS ping (nb-upload.php)
+        run: curl -sS -m 30 -i "https://dl.nardboon.com/nb-upload.php?ping=1" || echo "FAILED"
+      - name: Panel page
+        run: curl -sS -m 30 -o /dev/null -w "%{http_code}\n" "http://dl.nardboon.com/tgads/" || echo "FAILED"
+      - name: Raw TCP ports on 195.28.168.30
+        run: |
+          for p in 21 80 443; do
+            if timeout 10 bash -c "</dev/tcp/195.28.168.30/$p"; then echo "port $p open"; else echo "port $p closed/filtered"; fi
+          done
