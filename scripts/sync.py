@@ -2,13 +2,13 @@
 """
 Nardbon Telegram Ads archive — sync job.
 
-Every run (GitHub Actions, hourly):
+Every run (GitHub Actions, every 30 minutes):
   1. incremental: pull ads that became visible since the last run (tgadsspy API),
      keep Iranian / Persian ones, update last-seen dates of known ads
   2. backfill:    walk the historical Iran archive a slice at a time until done
   3. media:       download images, shrink to WebP, put them in the outbox
   4. upload:      push outbox media + changed data shards + panel + status to the
-                  download host over FTP. Anything that fails stays queued and is
+                  download host (HTTP receiver nb-upload.php; FTP as fallback). Anything that fails stays queued and is
                   retried on the next run; nothing is dropped until the host has it.
 The source of truth is data/ in this repository (committed after each run).
 """
@@ -46,7 +46,7 @@ UPLOAD_URL = os.environ.get("UPLOAD_URL", "").strip()   # HTTP receiver (nb-uplo
 UPLOAD_TOKEN = os.environ.get("UPLOAD_TOKEN", "").strip()
 
 PAGE = 100                                   # FREE plan cap per request
-MAX_DEPTH = 5000                             # FREE plan paging depth
+MAX_DEPTH = 5000                             # safety cap; the API reports the real depth in meta.maxOffset
 TIME_BUDGET = int(os.environ.get("TIME_BUDGET_SEC", "600"))
 BACKFILL_ROWS = int(os.environ.get("BACKFILL_ROWS_PER_RUN", "1000"))   # ~24k/day, under 50k
 MEDIA_PER_RUN = int(os.environ.get("MEDIA_PER_RUN", "500"))
@@ -276,6 +276,9 @@ def run_incremental(ads, state, stats):
         stats["missed"] = total - reach
         state["missed_total"] = state.get("missed_total", 0) + stats["missed"]
         state["missed_last"] = now_iso()
+        state.setdefault("missed_windows", []).append(
+            {"from": params.get("visibleSince"), "to": now_iso(), "total": total, "reachable": reach})
+        state["missed_windows"] = state["missed_windows"][-500:]
     log(f"incremental: read {rows} rows (window total {total}, reachable {reach})")
     return rows
 
@@ -522,7 +525,7 @@ def upload(ads, state, run):
                     sent_files += 1
         # 4) manifest + status last, so the panel never points at missing files
         state["last_upload_ok"] = now_iso()
-        run.update({"sent_media": sent_media, "sent_files": sent_files, "ok": True,
+        run.update({"sent_media": sent_media, "sent_files": sent_files, "ok": not run.get("error"),
                     "secs": round(time.time() - STARTED)})
         state["runs"].append(run)
         status, manifest = build_status(ads, state, shards)
@@ -570,6 +573,7 @@ def main():
         traceback.print_exc()
 
     write_shards(ads)
+    run["error"] = " | ".join(errors)[:500] or None      # so status.json already shows this run's problems
     run.update({"new": stats["new"], "updated": stats["upd"], "media": stats["media"], "missed": stats.get("missed", 0)})
     try:
         upload(ads, state, run)
@@ -580,7 +584,7 @@ def main():
     write_shards(ads)
 
     run["error"] = " | ".join(errors)[:500] or None
-    run["ok"] = run.get("ok", False) and not errors
+    run["ok"] = bool(run.get("sent_files") is not None) and not errors
     run["secs"] = round(time.time() - STARTED)
     state["runs"].append(run)
     save_state(state)
