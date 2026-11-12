@@ -1,0 +1,13 @@
+name: api-probe
+# Manual diagnostic: counts of Iran ads in the tgadsspy API for several queries
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install requests
+      - env:
+          TGADS_API_KEY: ${{ secrets.TGADS_API_KEY }}
+        run: python scripts/api_probe.py
