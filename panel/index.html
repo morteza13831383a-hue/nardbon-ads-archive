@@ -40,6 +40,11 @@ main{max-width:1280px;margin:auto;padding:16px}
 .chip{font-size:12px;background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:1px 10px;color:var(--mute)}
 .chip.cta{background:var(--acc-soft);color:var(--acc);border-color:transparent;font-weight:700;text-decoration:none}
 .meta{font-size:12px;color:var(--mute);border-top:1px solid var(--line);padding:8px 14px;display:grid;grid-template-columns:auto 1fr;gap:0 10px}
+.pager{display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;margin:22px 0 8px}
+.pager button{font:inherit;min-width:38px;height:38px;padding:0 10px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;cursor:pointer;font-weight:700}
+.pager button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.pager button:disabled{opacity:.4;cursor:default}
+.pager .gap{color:var(--mute);padding:0 2px}
 .more{display:block;margin:18px auto;font:inherit;font-weight:700;background:var(--acc);color:#fff;border:0;border-radius:12px;padding:9px 26px;cursor:pointer}
 .stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:18px}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
@@ -80,7 +85,7 @@ th{color:var(--mute);font-weight:700;background:var(--bg)}
   <section id="cat">
     <div class="count" id="count"></div>
     <div class="grid" id="grid"></div>
-    <button class="more hidden" id="more">نمایش بیشتر</button>
+    <div class="pager hidden" id="pager" role="navigation" aria-label="صفحه‌ها"></div>
     <button class="more hidden" id="older">بارگذاری ماه‌های قبل</button>
   </section>
   <section id="sys" class="hidden">
@@ -102,8 +107,8 @@ const ago = s => { if(!s) return '—'; const m = (Date.now() - new Date(s)) / 6
 const esc = s => (s ?? '').toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const $ = id => document.getElementById(id);
 
-let manifest = {months:[]}, loaded = 0, ads = [], view = [], shown = 0;
-const PAGE = 60, bust = '?t=' + Math.floor(Date.now() / 6e4);
+let manifest = {months:[]}, loaded = 0, ads = [], view = [], page = 1;
+const PAGE = 30, bust = '?t=' + Math.floor(Date.now() / 6e4);
 
 async function getJSON(u){ const r = await fetch(u, {cache:'no-cache'}); if(!r.ok) throw new Error(u + ' ' + r.status); return r.json(); }
 
@@ -134,8 +139,8 @@ function apply(){
   const s = $('sort').value;
   view.sort(s === 'long' ? (a,b) => dur(b) - dur(a) : s === 'found' ? (a,b) => (b.found_at||'').localeCompare(a.found_at||'')
                          : (a,b) => (b.first_seen||'').localeCompare(a.first_seen||''));
-  shown = 0; $('grid').innerHTML = ''; more();
-  $('count').textContent = N(view.length) + ' تبلیغ' + (loaded < manifest.months.length ? ' (از ' + N(loaded) + ' ماه اخیر)' : '');
+  page = 1; render();
+  $('count').textContent = N(view.length) + ' تبلیغ' + (view.length > PAGE ? ' · ' + N(Math.ceil(view.length / PAGE)) + ' صفحه' : '') + (loaded < manifest.months.length ? ' (از ' + N(loaded) + ' ماه اخیر)' : '');
 }
 
 function card(a){
@@ -146,7 +151,7 @@ function card(a){
   const days = a.first_seen && a.last_seen ? Math.max(1, Math.round((new Date(a.last_seen) - new Date(a.first_seen)) / 864e5)) : null;
   const ctaHref = a.cta_url && /^https?:/i.test(a.cta_url) ? a.cta_url : null;
   return `<article class="card">
-    <div class="media">${media}${isNew ? '<span class="badge">جدید</span>' : ''}</div>
+    <div class="media">${media}${isNew ? `<span class="badge" title="${esc(T(a.found_at))}">جدید · ${ago(a.found_at)}</span>` : ''}</div>
     <div class="body">
       ${a.title ? `<div class="ttl" dir="auto">${esc(a.title)}</div>` : ''}
       <div class="txt" dir="auto">${esc(a.text)}</div>
@@ -165,11 +170,20 @@ function card(a){
     </div></article>`;
 }
 
-function more(){
-  $('grid').insertAdjacentHTML('beforeend', view.slice(shown, shown + PAGE).map(card).join(''));
-  shown += PAGE;
-  $('more').classList.toggle('hidden', shown >= view.length);
-  if(!view.length) $('grid').innerHTML = '<div class="empty">تبلیغی با این فیلترها پیدا نشد.</div>';
+function render(){
+  const pages = Math.max(1, Math.ceil(view.length / PAGE));
+  page = Math.min(Math.max(1, page), pages);
+  $('grid').innerHTML = view.length ? view.slice((page - 1) * PAGE, page * PAGE).map(card).join('')
+    : '<div class="empty">تبلیغی با این فیلترها پیدا نشد.</div>';
+  const pg = $('pager');
+  pg.classList.toggle('hidden', pages < 2);
+  if(pages < 2){ pg.innerHTML = ''; return; }
+  const nums = [...new Set([1, page - 2, page - 1, page, page + 1, page + 2, pages])].filter(n => n >= 1 && n <= pages).sort((a,b) => a - b);
+  let h = `<button data-p="${page - 1}" ${page === 1 ? 'disabled' : ''}>قبلی</button>`, prev = 0;
+  nums.forEach(n => { if(n - prev > 1) h += '<span class="gap">…</span>';
+    h += `<button data-p="${n}" class="${n === page ? 'on' : ''}">${N(n)}</button>`; prev = n; });
+  h += `<button data-p="${page + 1}" ${page === pages ? 'disabled' : ''}>بعدی</button>`;
+  pg.innerHTML = h;
 }
 
 function renderStatus(s){
@@ -197,7 +211,8 @@ document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
 });
 let tmr; $('q').oninput = () => { clearTimeout(tmr); tmr = setTimeout(apply, 200); };
 ['niche','sort','img','fresh'].forEach(id => $(id).onchange = apply);
-$('more').onclick = more;
+$('pager').onclick = e => { const b = e.target.closest('button[data-p]'); if(!b || b.disabled) return;
+  page = +b.dataset.p; render(); $('cat').scrollIntoView({block:'start'}); window.scrollBy(0, -document.querySelector('header').offsetHeight); };
 $('older').onclick = () => loadMonths(3);
 $('grid').onclick = e => { if(e.target.tagName === 'IMG'){ $('zoom').querySelector('img').src = e.target.src; $('zoom').style.display = 'flex'; } };
 $('zoom').onclick = () => $('zoom').style.display = 'none';
