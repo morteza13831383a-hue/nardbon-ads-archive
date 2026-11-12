@@ -36,6 +36,8 @@ DATA = ROOT / "data"
 ADS_DIR = DATA / "ads"
 STATE_F = DATA / "state.json"
 PANEL = ROOT / "panel"
+PANEL_CH = ROOT / "panel_channels"              # separate channels panel
+CH_ROOT = os.environ.get("REMOTE_CH_ROOT", "tgchannels").strip("/")
 OUTBOX = ROOT / "outbox"            # persisted between runs with actions/cache
 OUT_MEDIA = OUTBOX / "media"
 
@@ -471,8 +473,6 @@ def build_status(ads, state, shards):
         "backfill": state["backfill"],
         "missed_total": state.get("missed_total", 0),
         "missed_last": state.get("missed_last"),
-        "channels_at": state.get("channels_at"),
-        "channels_total": state.get("channels_total", 0),
         "runs": list(reversed(state["runs"][-30:])),
     }
     manifest = {
@@ -520,8 +520,11 @@ def upload(ads, state, run):
             raise
         # 3) panel + channel catalog (only changed files)
         files = [(f, f"{REMOTE_ROOT}/{f.relative_to(PANEL).as_posix()}") for f in sorted(PANEL.rglob("*")) if f.is_file()]
+        if PANEL_CH.exists():
+            files += [(f, f"{CH_ROOT}/{f.relative_to(PANEL_CH).as_posix()}") for f in sorted(PANEL_CH.rglob("*")) if f.is_file()]
+            files += [(f, f"{CH_ROOT}/fonts/{f.name}") for f in sorted((PANEL / "fonts").glob("*.woff2"))]
         if channels.CHANNELS_F.exists():
-            files.append((channels.CHANNELS_F, f"{REMOTE_ROOT}/channels.json"))
+            files.append((channels.CHANNELS_F, f"{CH_ROOT}/channels.json"))
         for f, remote in files:
             h = sha(f)
             if state["uploaded"].get(remote) != h:
@@ -535,10 +538,18 @@ def upload(ads, state, run):
         state["runs"].append(run)
         status, manifest = build_status(ads, state, shards)
         state["runs"].pop()
-        for name, obj in (("manifest.json", manifest), ("status.json", status)):
-            p = tmp / name
+        ch_status = {
+            "enabled": channels.enabled(), "total": state.get("channels_total", 0),
+            "idx": state.get("channels_idx", 0), "queries": len(channels.keywords()) + 1,
+            "last_slice": state.get("channels_last"), "full_pass": state.get("channels_at"),
+            "blocked_until": max(state.get("channels_blocked_until") or "", state.get("api_blocked_until") or "") or None,
+            "every_hours": channels.EVERY_H,
+        }
+        for name, obj, root in (("manifest.json", manifest, REMOTE_ROOT), ("status.json", status, REMOTE_ROOT),
+                                ("status.json", ch_status, CH_ROOT)):
+            p = tmp / f"{root}-{name}"
             p.write_text(json.dumps(obj, ensure_ascii=False), "utf-8")
-            up.put(p, f"{REMOTE_ROOT}/{name}")
+            up.put(p, f"{root}/{name}")
     log(f"upload: {sent_media} images, {sent_files} files")
 
 

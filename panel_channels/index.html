@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>کانال‌های تلگرام نردبون</title>
+<style>
+@font-face{font-family:Vaz;font-weight:400;src:url(fonts/Vazirmatn-UI-FD-Regular.woff2) format("woff2");font-display:swap}
+@font-face{font-family:Vaz;font-weight:700;src:url(fonts/Vazirmatn-UI-FD-Bold.woff2) format("woff2");font-display:swap}
+@font-face{font-family:Vaz;font-weight:900;src:url(fonts/Vazirmatn-UI-FD-Black.woff2) format("woff2");font-display:swap}
+:root{--bg:#F5F6FA;--card:#fff;--ink:#1B2236;--mute:#6B7389;--line:#E3E6EE;--acc:#3D5AFE;--acc-soft:#E8ECFF;--ok:#16A36B;--warn:#E09A12;--bad:#DC4141;--new:#FF5C7A}
+@media (prefers-color-scheme:dark){:root{--bg:#10131C;--card:#191D2A;--ink:#E9ECF5;--mute:#98A0B5;--line:#2A3042;--acc:#7C8FFF;--acc-soft:#232A47}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Vaz,Tahoma,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7}
+header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+.bar{max-width:1280px;margin:auto;padding:12px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+h1{font-size:19px;font-weight:900}
+h1 small{font-weight:400;color:var(--mute);font-size:13px;margin-right:6px}
+nav{display:flex;gap:6px;margin-right:auto}
+nav button{font:inherit;border:0;background:none;color:var(--mute);padding:6px 14px;border-radius:99px;cursor:pointer;font-weight:700}
+nav button.on{background:var(--acc-soft);color:var(--acc)}
+.health{font-size:13px;display:flex;align-items:center;gap:6px;color:var(--mute)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--mute)}
+.filters{max-width:1280px;margin:auto;padding:0 16px 12px;display:flex;gap:8px;flex-wrap:wrap}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:7px 12px}
+input[type=search]{flex:1;min-width:200px}
+label.chk{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--mute);padding:0 4px}
+main{max-width:1280px;margin:auto;padding:16px}
+.count{color:var(--mute);font-size:14px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.media{aspect-ratio:16/9;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--mute);font-size:13px;position:relative}
+.media img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}
+.badge{position:absolute;top:8px;right:8px;background:var(--new);color:#fff;font-size:12px;font-weight:700;border-radius:99px;padding:1px 10px}
+.body{padding:12px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.ttl{font-weight:700}
+.txt{font-size:14px;white-space:pre-wrap;word-break:break-word}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.chip{font-size:12px;background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:1px 10px;color:var(--mute)}
+.chip.cta{background:var(--acc-soft);color:var(--acc);border-color:transparent;font-weight:700;text-decoration:none}
+.meta{font-size:12px;color:var(--mute);border-top:1px solid var(--line);padding:8px 14px;display:grid;grid-template-columns:auto 1fr;gap:0 10px}
+.pager{display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;margin:22px 0 8px}
+.pager button{font:inherit;min-width:38px;height:38px;padding:0 10px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;cursor:pointer;font-weight:700}
+.pager button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.pager button:disabled{opacity:.4;cursor:default}
+.pager .gap{color:var(--mute);padding:0 2px}
+.more{display:block;margin:18px auto;font:inherit;font-weight:700;background:var(--acc);color:#fff;border:0;border-radius:12px;padding:9px 26px;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:18px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.stat b{display:block;font-size:24px;font-weight:900}
+.stat span{font-size:13px;color:var(--mute)}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden;font-size:14px}
+th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:right}
+th{color:var(--mute);font-weight:700;background:var(--bg)}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+.empty{padding:60px;text-align:center;color:var(--mute)}
+#zoom{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9;cursor:zoom-out}
+#zoom img{max-width:94vw;max-height:94vh;border-radius:8px}
+.chbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.chc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.chc a.nm{font-weight:700;color:var(--ink);text-decoration:none}
+.chc a.nm:hover{color:var(--acc)}
+.chc .un{font-size:12px;color:var(--mute);direction:ltr;text-align:right}
+.nums{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}
+.nums div{background:var(--bg);border-radius:10px;padding:4px}
+.nums b{display:block;font-weight:900}
+.nums span{font-size:11px;color:var(--mute)}
+.chip.ok{color:var(--ok);border-color:transparent;background:var(--acc-soft)}
+.hidden{display:none}
+@media (max-width:600px){nav{margin-right:0}.bar{gap:8px}}
+.xlink{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1>کانال‌های تلگرام فارسی <small>نردبون</small></h1>
+    <a class="xlink" href="../tgads/">پنل تبلیغات ←</a>
+    <nav><button class="on" data-tab="ch">کانال‌ها</button><button data-tab="sys">وضعیت</button></nav>
+    <div class="health"><span class="dot" id="hdot"></span><span id="htxt">در حال بارگذاری…</span></div>
+  </div>
+</header>
+
+<main>
+  <section id="ch">
+    <div class="chbar">
+      <input type="search" id="cq" placeholder="حوزه مشتری یا اسم کانال، مثلاً: آموزش زبان، پوشاک، املاک…">
+      <select id="cmin">
+        <option value="0">هر تعداد عضو</option><option value="1000">بیش از ۱ هزار عضو</option>
+        <option value="10000">بیش از ۱۰ هزار</option><option value="50000">بیش از ۵۰ هزار</option>
+        <option value="200000">بیش از ۲۰۰ هزار</option>
+      </select>
+      <select id="csort">
+        <option value="v">بیشترین بازدید پست</option>
+        <option value="r">بهترین نسبت بازدید به عضو</option>
+        <option value="m">بیشترین عضو</option>
+      </select>
+      <label class="chk"><input type="checkbox" id="celig" checked> فقط قابل هدف‌گیری در تلگرام ادز</label>
+    </div>
+    <div class="count" id="ccount"></div>
+    <div class="chlist" id="clist"></div>
+    <div class="pager hidden" id="cpager" role="navigation" aria-label="صفحه‌ها"></div>
+  </section>
+  <section id="sys" class="hidden">
+    <div class="stats" id="stats"></div>
+    <p class="count" id="sysnote"></p>
+  </section>
+</main>
+
+<script>
+const fmt = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {timeZone:'Asia/Tehran', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'});
+const T = s => s ? fmt.format(new Date(s)).replace('،', ' ·').replace(',', ' ·') : '—';
+const N = n => (n ?? 0).toLocaleString('fa-IR');
+const ago = s => { if(!s) return '—'; const m = (Date.now() - new Date(s)) / 6e4;
+  return m < 1 ? 'همین الان' : m < 60 ? N(Math.round(m)) + ' دقیقه پیش' : m < 1440 ? N(Math.round(m/60)) + ' ساعت پیش' : N(Math.round(m/1440)) + ' روز پیش'; };
+const esc = s => (s ?? '').toString().replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = id => document.getElementById(id);
+const bust = '?t=' + Math.floor(Date.now() / 6e4);
+async function getJSON(u){ const r = await fetch(u, {cache:'no-cache'}); if(!r.ok) throw new Error(u + ' ' + r.status); return r.json(); }
+
+function pagerHTML(page, pages){
+  const nums = [...new Set([1, page - 2, page - 1, page, page + 1, page + 2, pages])].filter(n => n >= 1 && n <= pages).sort((a,b) => a - b);
+  let h = `<button data-p="${page - 1}" ${page === 1 ? 'disabled' : ''}>قبلی</button>`, prev = 0;
+  nums.forEach(n => { if(n - prev > 1) h += '<span class="gap">…</span>';
+    h += `<button data-p="${n}" class="${n === page ? 'on' : ''}">${N(n)}</button>`; prev = n; });
+  return h + `<button data-p="${page + 1}" ${page === pages ? 'disabled' : ''}>بعدی</button>`;
+}
+
+// ---- channel catalog (phase 2) ----
+let chans = null, cview = [], cpage = 1;
+const CPAGE = 30;
+const fa = s => (s || '').replace(/ي/g, 'ی').replace(/ك/g, 'ک').replace(/\u200c/g, ' ').toLowerCase();
+async function loadChannels(){
+  if(chans) return;
+  $('ccount').textContent = 'در حال بارگذاری فهرست کانال‌ها…';
+  try {
+    const j = await getJSON('channels.json' + bust);
+    const F = j.fields;
+    chans = j.rows.map(r => { const o = {}; F.forEach((f, i) => o[f] = r[i]); o.h = fa(`${o.t} ${o.u} ${(o.k || []).join(' ')}`); return o; });
+    capply();
+  } catch(e){ chans = null; $('ccount').textContent = 'فهرست کانال‌ها هنوز ساخته نشده. بعد از اولین به‌روزرسانی روزانه اینجا پر می‌شه.'; }
+}
+function capply(){
+  if(!chans) return;
+  const words = fa($('cq').value).split(/\s+/).filter(Boolean), min = +$('cmin').value, el = $('celig').checked;
+  const rate = c => (c.m || 0) >= 1000 ? (c.v || 0) / c.m : 0;   // tiny channels make the ratio meaningless
+  cview = chans.filter(c => (c.m || 0) >= min && (!el || c.e) && words.every(w => c.h.includes(w)));
+  const s = $('csort').value;
+  cview.sort(s === 'm' ? (a,b) => (b.m||0) - (a.m||0) : s === 'r' ? (a,b) => rate(b) - rate(a) : (a,b) => (b.v||0) - (a.v||0));
+  cpage = 1; crender();
+  $('ccount').textContent = `${N(cview.length)} کانال از ${N(chans.length)}` + (cview.length > CPAGE ? ' · ' + N(Math.ceil(cview.length / CPAGE)) + ' صفحه' : '');
+}
+function ccard(c){
+  const r = c.m ? Math.round((c.v || 0) / c.m * 1000) / 10 : null;
+  return `<div class="chc">
+    <a class="nm" dir="auto" href="https://t.me/${encodeURIComponent(c.u)}" target="_blank" rel="noopener">${esc(c.t || c.u)}</a>
+    <div class="un">@${esc(c.u)}</div>
+    <div class="nums"><div><b>${N(c.m)}</b><span>عضو</span></div><div><b>${N(c.v)}</b><span>بازدید هر پست</span></div><div><b>${r == null ? '—' : N(r) + '٪'}</b><span>بازدید به عضو</span></div></div>
+    <div class="chips">${c.e ? '<span class="chip ok">قابل هدف‌گیری در ادز</span>' : ''}${c.c ? `<span class="chip">${esc(c.c)}</span>` : ''}${(c.k || []).slice(0, 4).map(k => `<span class="chip">${esc(k)}</span>`).join('')}</div>
+  </div>`;
+}
+function crender(){
+  const pages = Math.max(1, Math.ceil(cview.length / CPAGE));
+  cpage = Math.min(Math.max(1, cpage), pages);
+  $('clist').innerHTML = cview.length ? cview.slice((cpage - 1) * CPAGE, cpage * CPAGE).map(ccard).join('') : '<div class="empty">کانالی با این فیلترها پیدا نشد.</div>';
+  const pg = $('cpager'); pg.classList.toggle('hidden', pages < 2); pg.innerHTML = pages < 2 ? '' : pagerHTML(cpage, pages);
+}
+
+
+function renderStatus(s){
+  const blocked = s.blocked_until && s.blocked_until > new Date().toISOString();
+  const last = s.last_slice, hrs = last ? (Date.now() - new Date(last)) / 36e5 : 99;
+  const [cls, txt] = !s.enabled ? ['warn', 'منتظر کلید API'] : blocked ? ['bad', 'متوقف تا ' + T(s.blocked_until)] : hrs < 7 ? ['ok', 'در حال جمع‌آوری'] : ['warn', 'تأخیر در جمع‌آوری'];
+  $('hdot').style.background = `var(--${cls})`;
+  $('htxt').textContent = txt + (last ? ' · آخرین برداشت ' + ago(last) : '');
+  const pct = s.queries ? Math.round(s.idx / s.queries * 100) : 0;
+  $('stats').innerHTML = [
+    [N(s.total), 'کانال در فهرست'],
+    [N(s.idx) + ' / ' + N(s.queries), 'پیشرفت دور فعلی (' + N(pct) + '٪)'],
+    [ago(last), 'آخرین برداشت<br>' + T(last)],
+    [s.full_pass ? ago(s.full_pass) : 'هنوز نه', 'آخرین دور کامل'],
+  ].map(([b,sp]) => `<div class="stat"><b>${b}</b><span>${sp}</span></div>`).join('');
+  $('sysnote').textContent = `هر ${N(s.every_hours)} ساعت یک کلمه کلیدی جستجو می‌شه تا ریسک محدودیت API کم بمونه. کلمه‌ها در فایل data/channel_keywords.txt مخزن هستن.`;
+}
+
+document.querySelectorAll('header nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('header nav button').forEach(x => x.classList.toggle('on', x === b));
+  ['ch', 'sys'].forEach(t => $(t).classList.toggle('hidden', b.dataset.tab !== t));
+});
+let ctmr; $('cq').oninput = () => { clearTimeout(ctmr); ctmr = setTimeout(capply, 200); };
+['cmin', 'csort', 'celig'].forEach(id => $(id).onchange = capply);
+$('cpager').onclick = e => { const b = e.target.closest('button[data-p]'); if(!b || b.disabled) return;
+  cpage = +b.dataset.p; crender(); window.scrollTo(0, 0); };
+
+(async () => {
+  try { renderStatus(await getJSON('status.json' + bust)); } catch(e){ $('htxt').textContent = 'وضعیت در دسترس نیست'; }
+  loadChannels();
+})();
+</script>
+</body>
+</html>
