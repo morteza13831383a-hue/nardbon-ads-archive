@@ -3,12 +3,7 @@ name: sync-telegram-ads
 on:
   schedule:
     - cron: "17,47 * * * *"   # every 30 minutes, at minutes 17 and 47 (UTC)
-  workflow_dispatch:          # "Run workflow" button for manual runs
-    inputs:
-      channels:
-        description: "Refresh the channel catalog now"
-        type: boolean
-        default: false
+  workflow_dispatch: {}       # "Run workflow" button for manual runs
 
 permissions:
   contents: write
@@ -46,7 +41,7 @@ jobs:
           FTP_PASS: ${{ secrets.FTP_PASS }}
           UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
           UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
-          CHANNELS_FORCE: ${{ inputs.channels && '1' || '' }}
+          CHANNELS_API_KEY: ${{ secrets.CHANNELS_API_KEY }}
         run: python scripts/sync.py
 
       - uses: actions/cache/save@v4

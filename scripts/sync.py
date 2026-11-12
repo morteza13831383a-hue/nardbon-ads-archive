@@ -567,18 +567,17 @@ def main():
             except Exception as e:
                 errors.append(f"{step.__name__}: {e}")
                 traceback.print_exc()
-    # phase 2: refresh the Persian channel catalog once a day (or on demand)
-    last_ch = state.get("channels_at") or ""
-    if (os.environ.get("CHANNELS_FORCE") or last_ch < iso(NOW - dt.timedelta(hours=24))) \
-            and not (state.get("api_blocked_until") or "") > now_iso():
+    # phase 2: a small slice of the Persian channel catalog each run (own key; off without one)
+    ch_block = state.get("channels_blocked_until") or ""
+    if channels.enabled() and not ch_block > now_iso() and not (state.get("api_blocked_until") or "") > now_iso():
         try:
-            complete, n = channels.refresh(api_get, time_left, log, now_iso)
-            state["channels_total"] = n
-            if complete:
-                state["channels_at"] = now_iso()
-        except RateLimited as e:
-            state["api_blocked_until"] = iso(dt.datetime.now(dt.timezone.utc) + dt.timedelta(seconds=e.wait))
-            errors.append(f"api: rate limited during channels, paused until {state['api_blocked_until']}")
+            state["channels_total"] = channels.step(state, log, now_iso)
+        except channels.Blocked as e:
+            until = iso(dt.datetime.now(dt.timezone.utc) + dt.timedelta(seconds=e.wait))
+            state["channels_blocked_until"] = until
+            if e.shared:
+                state["api_blocked_until"] = max(state.get("api_blocked_until") or "", until)
+            errors.append(f"channels: API paused until {until}" + (" (whole identity)" if e.shared else ""))
         except Exception as e:
             errors.append(f"channels: {e}")
             traceback.print_exc()
