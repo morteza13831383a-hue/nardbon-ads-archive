@@ -11,8 +11,13 @@
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/index.html": "99fe7b5527678f3c",
-  "tgads/channels.json": "e760515bda3816c4"
+  "tgads/index.html": "4f5ea210278fae3b",
+  "tgads/channels.json": "e760515bda3816c4",
+  "tgads/channels/index.html": "ddb6e1e0fb3e2afb",
+  "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
+  "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
+  "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
+  "tgads/channels/channels.json": "e760515bda3816c4"
  },
  "runs": [
   {
@@ -100,9 +105,21 @@
    "media": 0,
    "missed": 0,
    "secs": 2
+  },
+  {
+   "at": "2026-11-12T22:34:56Z",
+   "ok": false,
+   "error": "upload: [Errno 2] No such file or directory: '/home/runner/work/nardbon-ads-archive/nardbon-ads-archive/outbox/_gen/tgads/channels-status.json'",
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 6,
+   "secs": 2
   }
  ],
- "last_upload_ok": "2026-11-12T21:49:40Z",
+ "last_upload_ok": "2026-11-12T22:34:58Z",
  "lang_seen": {
   "-": 111,
   "tr": 63,
