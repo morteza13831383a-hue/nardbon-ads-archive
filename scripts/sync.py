@@ -593,6 +593,10 @@ def main():
         except Exception as e:
             errors.append(f"channels: {e}")
             traceback.print_exc()
+    try:                                      # channel descriptions from public t.me pages (no API key involved)
+        channels.fill_descriptions(log, now_iso, time_left)
+    except Exception as e:
+        log(f"descriptions failed: {e}")      # never fails the run
     if stats.get("missed"):
         errors.append(f"missed: up to {stats['missed']} ads beyond the API plan's reach in this window")
     if API_INFO:

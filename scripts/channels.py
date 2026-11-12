@@ -11,6 +11,7 @@ ads sync key is never spent on it. It is off unless CHANNELS_API_KEY is set.
 On the first 429 it stops, records the pause, and makes no further requests.
 """
 import datetime as dt
+import html
 import json
 import os
 import pathlib
@@ -30,7 +31,11 @@ EVERY_H = float(os.environ.get("CHANNELS_EVERY_HOURS", "5"))  # one slice every 
 PAGE = 100
 PERSIAN = re.compile("[پچژگکی]")
 # compact rows keep the file small for the browser
-FIELDS = ["u", "t", "m", "v", "c", "e", "k", "s"]   # username, title, members, avg views, category, sponsor-eligible, keywords, last snapshot
+FIELDS = ["u", "t", "m", "v", "c", "e", "k", "s", "d", "dd"]   # username, title, members, avg views, category, sponsor-eligible, keywords, last snapshot, description, description date
+DESC_PER_RUN = int(os.environ.get("CHANNELS_DESC_PER_RUN", "40"))   # public t.me pages read per run
+DESC_GAP = float(os.environ.get("CHANNELS_DESC_GAP_SEC", "2"))
+DESC_MAX_AGE_DAYS = 30
+OG_DESC = re.compile(r'<meta property="og:description" content="([^"]*)"')
 
 
 class Blocked(Exception):
@@ -136,3 +141,41 @@ def step(state, log, now_iso):
         log(f"channels: '{kw or 'lang=fa'}' done, next {idx}/{len(queries)}, catalog {len(chans)}")
     save(chans, now_iso())
     return len(chans)
+
+
+def fill_descriptions(log, now_iso, time_left):
+    """Read the public t.me/<username> page of channels that have no (fresh) description.
+    Biggest channels first. Uses no API key and no Telegram account."""
+    chans = load()
+    if not chans:
+        return 0
+    stale = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=DESC_MAX_AGE_DAYS)).strftime("%Y-%m-%d")
+    todo = [c for c in chans.values() if not c.get("dd") or c["dd"] < stale]
+    todo.sort(key=lambda c: -(c.get("v") or 0))
+    session = requests.Session()
+    session.headers["User-Agent"] = "Mozilla/5.0 (compatible; nardbon-archive/1.0)"
+    done = 0
+    for c in todo[:DESC_PER_RUN]:
+        if time_left() < 90:
+            break
+        try:
+            r = session.get(f"https://t.me/{c['u']}", timeout=20)
+        except requests.RequestException as e:
+            log(f"descriptions: network error {e}")
+            break
+        if r.status_code == 429:
+            log("descriptions: t.me asked us to slow down, stopping for this run")
+            break
+        if r.status_code == 200:
+            m = OG_DESC.search(r.text)
+            d = html.unescape(m.group(1)).strip() if m else ""
+            if d.startswith("You can view and join @") or d.startswith("If you have Telegram"):
+                d = ""                                     # t.me's generic text, not the channel's own
+            c["d"] = re.sub(r"\s+", " ", d)[:400]
+            c["dd"] = now_iso()[:10]
+            done += 1
+        time.sleep(DESC_GAP)
+    if done:
+        save(chans, now_iso())
+    log(f"descriptions: {done} read this run, {len(todo) - done} waiting")
+    return done
