@@ -395,7 +395,7 @@ def main():
     parser.add_argument('--work-dir',type=Path,default=ROOT/'archive-work')
     parser.add_argument('--max-pages',type=int,default=1500)
     parser.add_argument('--max-seconds',type=int,default=5400)
-    parser.add_argument('--delay',type=float,default=2)
+    parser.add_argument('--delay',type=float,default=4)
     parser.add_argument('--cutoff',help='ISO-8601 UTC cutoff, fixed on first invocation')
     parser.add_argument('--retry-failed',action='store_true')
     parser.add_argument('--export-only',action='store_true')

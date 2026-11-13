@@ -2,6 +2,7 @@
 """Bounded HTML crawler. Python 3.10+, standard library only; no API calls."""
 import json
 import logging
+import random
 import re
 import time
 from html.parser import HTMLParser
@@ -142,7 +143,7 @@ class Client:
             if not robots and (not self.robots or not self.robots.allowed(url)):
                 raise ValueError('robots.txt disallows: ' + url)
             for attempt in range(3):
-                time.sleep(max(0, self.delay - (time.monotonic() - self.last)))
+                time.sleep(max(0, self.delay + random.uniform(0, 2) - (time.monotonic() - self.last)))
                 self.last = time.monotonic()
                 try:
                     with self.opener.open(Request(url, headers={'User-Agent': UA, 'Accept': 'text/html,text/plain'}), timeout=30) as r:
@@ -159,7 +160,9 @@ class Client:
                         break
                     if robots and e.code in (404, 410):
                         return ''
-                    if e.code in (429, 500, 502, 503, 504) and attempt < 2:
+                    if e.code == 429:
+                        raise  # Pause the whole collection immediately; never retry a rate limit here.
+                    if e.code in (500, 502, 503, 504) and attempt < 2:
                         retry = e.headers.get('Retry-After', '')
                         wait = int(retry) if retry.isdigit() else 5 * (attempt + 1)
                         # Do not occupy a cron worker for an arbitrarily long server cooldown.

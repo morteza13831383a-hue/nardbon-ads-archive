@@ -114,6 +114,16 @@ class Tests(unittest.TestCase):
         self.assertTrue(robots.allowed(URL))
         self.assertFalse(robots.allowed(a.BASE+'/api/v1/ads'))
         self.assertEqual(robots.delay,4)
+    def test_transport_does_not_retry_rate_limit(self):
+        from urllib.error import HTTPError
+        from unittest.mock import Mock
+        client=Client(a.BASE,4)
+        client.robots=Robots('User-agent: *\nAllow: /')
+        client.opener=Mock()
+        client.opener.open.side_effect=HTTPError(URL,429,'Too Many Requests',{'Retry-After':'120'},None)
+        with patch('html_core.time.sleep'), self.assertRaises(HTTPError):
+            client.get(URL)
+        self.assertEqual(client.opener.open.call_count,1)
     def test_transport_rejects_api_and_external_redirect_target(self):
         client=Client(a.BASE)
         client.robots=Robots('User-agent: *\nAllow: /')
