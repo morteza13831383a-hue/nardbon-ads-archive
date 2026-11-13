@@ -1,0 +1,83 @@
+{
+  "code_revision": "c3ab9d7517220159e716c409d447748b61cb891d",
+  "measurement": {
+    "exit_code": 0,
+    "seconds": 374.09403265499714,
+    "pages_per_slice": 10,
+    "slices": 3
+  },
+  "queue_pages_attempted": 30,
+  "source_http_requests": 33,
+  "http_status": {
+    "200": 33
+  },
+  "http_by_type": {
+    "robots": 3,
+    "advertiser": 8,
+    "profile": 15,
+    "persian_listing": 7
+  },
+  "profiles_before": 93,
+  "records_after": 243,
+  "new_unique_channels": 150,
+  "new_unique_channels_per_100_http": 454.55,
+  "new_persian_or_iran_evidence_channels": 150,
+  "new_persian_or_iran_per_100_http": 454.55,
+  "new_records_by_detail": {
+    "profile": 15,
+    "listing": 135
+  },
+  "new_records_by_classification": {
+    "persian_candidate": 148,
+    "unclassified": 2
+  },
+  "queue_after": [
+    [
+      "done",
+      213
+    ],
+    [
+      "failed",
+      29
+    ],
+    [
+      "listing_saved",
+      61
+    ],
+    [
+      "pending",
+      21306
+    ],
+    [
+      "robots_disallowed",
+      22
+    ]
+  ],
+  "rotation_turn": "0",
+  "listing_record_examples": [
+    {
+      "username": "tofan_trade",
+      "title": "Tofan Trade | سیگنال کریپتو",
+      "members": 6330765,
+      "avg_views": 114670,
+      "classification": "persian_candidate",
+      "source_url": "https://tgadsspy.com/channels?lang=fa"
+    },
+    {
+      "username": "ne_wg",
+      "title": "خبرفوری ࡆ اخبارفوری ࡆ جنگ فوری امریکا",
+      "members": 5235656,
+      "avg_views": 57603,
+      "classification": "persian_candidate",
+      "source_url": "https://tgadsspy.com/channels?lang=fa"
+    },
+    {
+      "username": "kh_mx",
+      "title": "اخبارفوری خبرفوری جنگ امریکا فوری",
+      "members": 5071154,
+      "avg_views": 13210,
+      "classification": "persian_candidate",
+      "source_url": "https://tgadsspy.com/channels?lang=fa"
+    }
+  ]
+}
