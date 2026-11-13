@@ -17,6 +17,7 @@ from urllib.parse import urljoin, urlsplit
 import xml.etree.ElementTree as ET
 
 from html_core import Client, Document, canonical, origin
+import archive_yield as ay
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 'https://tgadsspy.com'
@@ -42,6 +43,7 @@ def connect(directory, cutoff=None):
     CREATE TABLE IF NOT EXISTS discovery_edges (parent TEXT, child TEXT, relation TEXT, PRIMARY KEY(parent,child,relation));
     CREATE TABLE IF NOT EXISTS listing_counts (url TEXT PRIMARY KEY, ad_links INTEGER, iran_links INTEGER);
     ''')
+    ay.ensure_schema(db)
     if not db.execute("SELECT 1 FROM meta WHERE key='cutoff'").fetchone():
         value = cutoff or now()
         if datetime.fromisoformat(value.replace('Z', '+00:00')).tzinfo is None:
@@ -51,14 +53,22 @@ def connect(directory, cutoff=None):
         enqueue(db, BASE+'/countries/ir/advertisers', 'listing', 2)
         enqueue(db, BASE+'/sitemap.xml', 'sitemap', 10)
         db.commit()
+    if not db.execute("SELECT 1 FROM meta WHERE key='yield_seeded_v1'").fetchone():
+        cutoff_value = db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
+        ay.seed_snapshots(db, cutoff_value, enqueue)
+        for (payload,) in db.execute('SELECT payload FROM records').fetchall():
+            ay.expand_from_record(db, json.loads(payload), enqueue)
+        db.execute("INSERT INTO meta VALUES('yield_seeded_v1',?)", (now(),))
+        db.commit()
     return db
 
 
-def enqueue(db, url, kind, priority):
+def enqueue(db, url, kind, priority, via=None):
     url = canonical(url)
     if origin(url) != origin(BASE) or '/api/' in urlsplit(url).path:
         return
-    db.execute('INSERT INTO queue(url,kind,priority) VALUES(?,?,?) ON CONFLICT(url) DO UPDATE SET priority=MIN(priority,excluded.priority)', (url,kind,priority))
+    # `via` records which discovery strategy found the URL first (for yield measurement)
+    db.execute('INSERT INTO queue(url,kind,priority,via) VALUES(?,?,?,?) ON CONFLICT(url) DO UPDATE SET priority=MIN(priority,excluded.priority)', (url,kind,priority,via))
 
 
 def compact(node):
@@ -172,6 +182,9 @@ def extract(doc, url, cutoff):
 
 def discover(db, doc, url):
     links, iran = 0, 0
+    row = db.execute('SELECT via FROM queue WHERE url=?', (canonical(url),)).fetchone()
+    parent_via = (row[0] if row else None) or 'listing'
+    child_via = parent_via.split('>')[0] + '>ad'
     for n in doc.root.nodes():
         if n.tag != 'a' or 'href' not in n.attrs:
             continue
@@ -179,12 +192,16 @@ def discover(db, doc, url):
         if origin(link) != origin(BASE):
             continue
         p = urlsplit(link)
+        extra = None if p.query else ay.classify_listing(urlsplit(url).path, p.path)
+        if extra:
+            enqueue(db, link, 'listing', extra[0], via=extra[1])
+            continue
         if AD_PATH.fullmatch(p.path) and not p.query:
             links += 1
             is_ir = urlsplit(url).path.startswith('/countries/ir') or any(x.attrs.get('aria-label') == 'Iran' for x in n.nodes())
             iran += int(is_ir)
             # Every detail is still verified independently, including cards from Iran pages.
-            enqueue(db,link,'detail',1 if is_ir else 30)
+            enqueue(db,link,'detail',1 if is_ir else 30,via=child_via)
         elif LIST_PATH.fullmatch(p.path):
             # Only bounded useful catalogue filters; no search or sort permutations.
             if p.query not in ('','geo=IR','intent=all','intent=strict'):
@@ -267,8 +284,10 @@ def sitemap(db, body):
     return count
 
 
-def crawl(db, client, max_pages, max_seconds):
+def crawl(db, client, max_pages, max_seconds, only_via=None):
     cutoff = db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
+    plan = ay.reprioritize(db, cutoff)
+    LOG.info('Yield plan: %s', json.dumps(plan)[:1500])
     started = time.monotonic()
     initial_iran = db.execute('SELECT COUNT(*) FROM records').fetchone()[0]
     db.execute("INSERT OR REPLACE INTO meta VALUES('last_stop_reason','')")
@@ -277,7 +296,12 @@ def crawl(db, client, max_pages, max_seconds):
     db.execute("DELETE FROM attempted")
     while attempts < max_pages and time.monotonic()-started < max_seconds:
         # Limit retrying failed jobs to a later invocation; zero-try jobs first at equal priority.
-        job = db.execute("SELECT q.url,q.kind,q.tries FROM queue q WHERE status='pending' AND tries<3 AND NOT EXISTS (SELECT 1 FROM attempted a WHERE a.url=q.url) ORDER BY priority,tries,q.url LIMIT 1").fetchone()
+        # only_via: test slices limited to some strategies (prefix match, e.g. 'channel_advertisers')
+        via_sql, via_args = '', []
+        if only_via:
+            via_sql = ' AND (' + ' OR '.join('q.via LIKE ?' for _ in only_via) + ')'
+            via_args = [v + '%' for v in only_via]
+        job = db.execute("SELECT q.url,q.kind,q.tries FROM queue q WHERE status='pending' AND tries<3 AND NOT EXISTS (SELECT 1 FROM attempted a WHERE a.url=q.url)" + via_sql + " ORDER BY priority,tries,q.url LIMIT 1", via_args).fetchone()
         if not job:
             break
         url,kind,tries = job
@@ -301,10 +325,14 @@ def crawl(db, client, max_pages, max_seconds):
                             record['html_sha256'] = hashlib.sha256(body.encode()).hexdigest()
                             db.execute('INSERT OR REPLACE INTO records VALUES(?,?)',(record['id'],json.dumps(record,ensure_ascii=False)))
                             discover_related(db,record,doc)
+                            ay.expand_from_record(db,record,enqueue)
                             LOG.info('Iran ad %s',record['id'])
                     else:
                         found,ir = discover(db,doc,url)
                         LOG.info('Listing %s: %s ads (%s Iran cards)',url,found,ir)
+                        if '/countries/ir/snapshot/' in url:
+                            month = ay.parse_snapshot(db, url, compact(doc.root))
+                            LOG.info('Snapshot %s: site total stored=%s', url, bool(month))
                         if url == BASE+'/countries/ir':
                             visible = ' '.join(x.text() for x in doc.root.nodes() if x.tag in ('h1','p'))
                             m = re.search(r'([\d,]+)\s+creatives targeting Iran',visible)
@@ -384,6 +412,7 @@ def report(db):
         'queue_status':statuses,'queue_kinds':kinds,
         'discovered_queue_exhausted':not any(statuses.get(x,0) for x in ('pending','failed','blocked_robots')),
         'complete_iran_archive_verified':False,
+        'coverage':ay.coverage_report(db),
         'limitations':[
             'Sitemaps and public listings are discovery sources, not a guaranteed complete Iran export.',
             'The source shows only top placement channels on each ad; those lists are not complete.',
@@ -462,6 +491,7 @@ def main():
     parser.add_argument('--cutoff',help='ISO-8601 UTC cutoff, fixed on first invocation')
     parser.add_argument('--retry-failed',action='store_true')
     parser.add_argument('--export-only',action='store_true')
+    parser.add_argument('--only-via',help='Comma-separated strategy prefixes for a test slice, e.g. channel_advertisers,advertiser_niche')
     parser.add_argument('--import-dir',type=Path,help='Import collected ads-*.jsonl.gz parts before export; no network')
     args=parser.parse_args()
     if min(args.max_pages,args.max_seconds)<1 or args.delay<1:
@@ -485,7 +515,7 @@ def main():
             seed_related(db)
             client=Client(BASE,args.delay)
             client.initialize()
-            crawl(db,client,args.max_pages,args.max_seconds)
+            crawl(db,client,args.max_pages,args.max_seconds,[v.strip() for v in args.only_via.split(',') if v.strip()] if args.only_via else None)
         info=export(db,args.work_dir)
         if not args.export_only and info.get('last_stop_reason'):
             raise SystemExit(2)

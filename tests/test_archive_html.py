@@ -63,12 +63,12 @@ class Tests(unittest.TestCase):
             db.execute('DELETE FROM queue')
             a.enqueue(db,a.BASE+'/countries/ir','listing',0)
             listing='<a href="/ads/abc"><span aria-label="Iran">Iran</span></a>'
-            client=FakeClient({a.BASE+'/countries/ir':listing,URL:html()})
+            client=FakeClient({a.BASE+'/countries/ir':listing,URL:html(),a.BASE+'/channels/example/advertisers':'<html></html>'})
             a.crawl(db,client,1,20)
             db.close()
             db=a.connect(path,'2030-01-01T00:00:00Z')
             a.crawl(db,client,10,20)
-            self.assertEqual(client.calls,[a.BASE+'/countries/ir',URL])
+            self.assertEqual(client.calls,[a.BASE+'/countries/ir',URL,a.BASE+'/channels/example/advertisers'])
             self.assertEqual(a.report(db)['cutoff'],CUTOFF)
             self.assertEqual(a.report(db)['iran_ads_extracted'],1)
             self.assertFalse(a.report(db)['complete_iran_archive_verified'])
@@ -126,6 +126,30 @@ class Tests(unittest.TestCase):
             a.discover_related(db,record)
             self.assertEqual(db.execute('SELECT status FROM queue WHERE url=?',(a.BASE+'/ads/related',)).fetchone()[0],'iran')
             self.assertEqual(db.execute('SELECT COUNT(*) FROM discovery_edges').fetchone()[0],2)
+            db.close()
+    def test_near_cutoff_cuid_outlier_is_deferred_not_dropped(self):
+        import archive_yield as y
+        with tempfile.TemporaryDirectory() as tmp:
+            db=a.connect(Path(tmp),'2026-05-16T00:00:00Z')
+            url=a.BASE+'/ads/cmpaeawsn0nvhm6b4tgp9bdbp'
+            a.enqueue(db,url,'detail',30,via='sitemap')
+            y.reprioritize(db,'2026-05-16T00:00:00Z')
+            self.assertEqual(db.execute('SELECT status,month,priority FROM queue WHERE url=?',(url,)).fetchone(),('pending','~late',29))
+            db.close()
+    def test_only_via_selects_inherited_ad_and_leaves_other_work_pending(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db=a.connect(Path(tmp),CUTOFF)
+            db.execute('DELETE FROM queue')
+            parent=a.BASE+'/advertisers/tg-test'
+            a.enqueue(db,parent,'listing',3,via='advertiser')
+            a.discover(db,Document('<a href="/ads/abc"><span aria-label="Iran">Iran</span></a>'),parent)
+            db.execute("UPDATE queue SET status='done' WHERE url=?",(parent,))
+            a.enqueue(db,a.BASE+'/ads/outside','detail',0,via='sitemap')
+            client=FakeClient({URL:html()})
+            a.crawl(db,client,1,20,only_via=['advertiser'])
+            self.assertEqual(client.calls,[URL])
+            self.assertEqual(db.execute('SELECT via,status FROM queue WHERE url=?',(URL,)).fetchone(),('advertiser>ad','iran'))
+            self.assertEqual(db.execute('SELECT status FROM queue WHERE url=?',(a.BASE+'/ads/outside',)).fetchone()[0],'pending')
             db.close()
     def test_robots_wildcard(self):
         robots=Robots('User-agent: *\nAllow: /\nDisallow: /ads?*\nDisallow: /api/\nCrawl-delay: 4')

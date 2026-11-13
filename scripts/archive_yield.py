@@ -1,0 +1,212 @@
+"""
+Raise the Iran yield of the one-off HTML archive without more requests, without the
+source API and without touching blocked paths.
+
+Four ideas, all from public pages the crawler already may read:
+
+1. Ad ids are cuid v1: 'c' + 8 base36 chars of the creation time in ms. In our data the
+   id time is close to first_seen (median 0 h). So every sitemap id can be
+   dated *without fetching it*. Measured on 4,611 ads: id time - first_seen is between
+   -2 h and +71.3 h (5 ads above +24 h), so the margins below are wide:
+     - ids created more than 7 days after the cutoff are skipped; within 7 days they only
+       go to the back of the queue;
+     - ids from two or more months before Iran coverage began are skipped; the month just
+       before only goes to the back;
+     - the rest are ordered by the expected Iran yield of their month (point 2).
+2. /countries/ir/snapshot/YYYY-MM states the exact number of Iran creatives that month and
+   per niche ("16,687 Telegram ad creatives targeting Iran during September 2026", "VPN 2,331",
+   ...). That is the ground truth for completeness, per month and per niche, and it tells
+   which months still have the most missing Iran ads per remaining sitemap id.
+3. The advertiser graph is widened through channels: every Iran ad page lists the channels it
+   ran in ("Where this ad ran"). /channels/<username>/advertisers lists who bought there, so
+   Iranian advertisers outside the current graph surface through Persian channels.
+4. Advertiser pages show a limited list; /advertisers/<slug>/niches/<niche> (in the sitemap)
+   splits one advertiser by niche, so more of its ads become reachable.
+
+Everything is attributed: queue.via records which strategy found a URL, and the report
+gives Iran ads per 100 requests for each strategy, so the order can be tuned on evidence.
+"""
+import json
+import re
+from datetime import datetime, timedelta, timezone
+from urllib.parse import urlsplit
+
+BASE = 'https://tgadsspy.com'
+CUID = re.compile(r'^c[a-z0-9]{24}$')
+SNAPSHOT_TOTAL = re.compile(r'([\d,]+)\s+Telegram ad creatives targeting Iran during')
+CHANNEL_ADVERTISERS = re.compile(r'^/channels/([A-Za-z0-9_]{4,64})/advertisers$')
+ADVERTISER_NICHE = re.compile(r'^/advertisers/([a-z0-9_-]+)/niches/([a-z-]+)$')
+NICHE_PAIR = re.compile(r'([A-Z][A-Za-z&/ -]{1,30}?)\s+([\d,]+)')
+
+
+def cuid_time(ad_id):
+    """Creation time encoded in a cuid v1 id, or None if the id is not a cuid."""
+    if not CUID.fullmatch(ad_id or ''):
+        return None
+    try:
+        return datetime.fromtimestamp(int(ad_id[1:9], 36) / 1000, timezone.utc)
+    except (ValueError, OverflowError, OSError):
+        return None
+
+
+def ensure_schema(db):
+    db.executescript('''
+    CREATE TABLE IF NOT EXISTS coverage (month TEXT NOT NULL, niche TEXT NOT NULL, site_count INTEGER NOT NULL,
+                                         PRIMARY KEY(month, niche));
+    ''')
+    cols = {r[1] for r in db.execute('PRAGMA table_info(queue)')}
+    if 'via' not in cols:
+        db.execute('ALTER TABLE queue ADD COLUMN via TEXT')
+    if 'month' not in cols:
+        db.execute('ALTER TABLE queue ADD COLUMN month TEXT')
+    db.execute('CREATE INDEX IF NOT EXISTS queue_month ON queue(kind, status, month)')
+    # label rows queued before `via` existed, from the priority their discoverer gave them,
+    # so yield is not credited to the wrong strategy
+    if not db.execute("SELECT 1 FROM meta WHERE key='via_backfilled_v1'").fetchone():
+        for kind, prio, via in (('detail', 1, 'iran_listing'), ('detail', 2, 'same_advertiser'),
+                                ('detail', 30, 'sitemap'), ('listing', 3, 'advertiser'),
+                                ('listing', 5, 'advertiser'), ('listing', 4, 'listing'),
+                                ('listing', 0, 'listing'), ('listing', 2, 'listing'), ('sitemap', 10, 'sitemap')):
+            db.execute('UPDATE queue SET via=? WHERE via IS NULL AND kind=? AND priority=?', (via, kind, prio))
+        db.execute("INSERT INTO meta VALUES('via_backfilled_v1', datetime('now'))")
+    db.commit()
+
+
+def months_between(start, end):
+    y, m = start.year, start.month
+    while (y, m) <= (end.year, end.month):
+        yield f'{y:04d}-{m:02d}'
+        y, m = (y + 1, 1) if m == 12 else (y, m + 1)
+
+
+def seed_snapshots(db, cutoff, enqueue, first_month='2026-01'):
+    """Queue every Iran monthly snapshot up to the cutoff month (cheap listing pages)."""
+    start = datetime.strptime(first_month + '-01', '%Y-%m-%d').replace(tzinfo=timezone.utc)
+    end = datetime.fromisoformat(cutoff.replace('Z', '+00:00'))
+    for month in months_between(start, end):
+        enqueue(db, f'{BASE}/countries/ir/snapshot/{month}', 'listing', 0, via='snapshot')
+
+
+def parse_snapshot(db, url, visible_text):
+    """Store the site's exact Iran totals for one month: overall and per niche."""
+    m = re.search(r'/countries/ir/snapshot/(\d{4}-\d{2})$', urlsplit(url).path)
+    if not m:
+        return None
+    month = m[1]
+    total = SNAPSHOT_TOTAL.search(visible_text)
+    if not total:
+        return None
+    db.execute('INSERT OR REPLACE INTO coverage VALUES(?,?,?)', (month, '', int(total[1].replace(',', ''))))
+    niches = re.search(r'Top niches\s+(.*?)\s+Top advertisers', visible_text)
+    if niches:
+        for name, count in NICHE_PAIR.findall(niches[1]):
+            db.execute('INSERT OR REPLACE INTO coverage VALUES(?,?,?)',
+                       (month, name.strip().lower(), int(count.replace(',', ''))))
+    return month
+
+
+def iran_start(db):
+    """First month with an Iran snapshot, trusted only when the site answered 404 (status
+    'gone') for the month before it; otherwise None and nothing is skipped by age."""
+    row = db.execute("SELECT MIN(month) FROM coverage WHERE niche=''").fetchone()
+    if not row or not row[0]:
+        return None
+    y, m = map(int, row[0].split('-'))
+    prev = f'{y - 1:04d}-12' if m == 1 else f'{y:04d}-{m - 1:02d}'
+    gone = db.execute("SELECT 1 FROM queue WHERE url=? AND status='gone'",
+                      (f'{BASE}/countries/ir/snapshot/{prev}',)).fetchone()
+    return row[0] if gone else None
+
+
+def found_by_month(db):
+    found = {}
+    for (payload,) in db.execute('SELECT payload FROM records'):
+        first = (json.loads(payload).get('first_seen') or '')[:7]
+        found[first] = found.get(first, 0) + 1
+    return found
+
+
+def reprioritize(db, cutoff):
+    """Date pending sitemap details by their id (once per row), drop impossible ones, and
+    order months by expected Iran yield (one UPDATE per month). No network."""
+    cutoff_dt = datetime.fromisoformat(cutoff.replace('Z', '+00:00'))
+    start_month = iran_start(db)
+    skipped = {'after_cutoff_by_id': 0, 'before_iran_by_id': 0}
+    # 1) date rows not dated yet
+    rows = db.execute("SELECT url FROM queue WHERE status='pending' AND kind='detail' AND month IS NULL").fetchall()
+    for (url,) in rows:
+        t = cuid_time(urlsplit(url).path.rsplit('/', 1)[-1])
+        if t is None:
+            db.execute("UPDATE queue SET month='?' WHERE url=?", (url,))
+            continue
+        db.execute('UPDATE queue SET month=? WHERE url=?', (t.strftime('%Y-%m'), url))
+        if t > cutoff_dt + timedelta(days=7):            # measured max id-vs-first_seen gap is +71.3 h
+            db.execute("UPDATE queue SET status='skipped_time' WHERE url=?", (url,)); skipped['after_cutoff_by_id'] += 1
+        elif t > cutoff_dt:
+            db.execute("UPDATE queue SET month='~late', priority=29 WHERE url=?", (url,))
+    # 2) months before Iran coverage began (known once the first snapshot is stored)
+    if start_month:
+        y, m = map(int, start_month.split('-'))
+        prev = f'{y - 1:04d}-12' if m == 1 else f'{y:04d}-{m - 1:02d}'
+        before = db.execute("UPDATE queue SET status='skipped_time' WHERE status='pending' AND kind='detail' "
+                            "AND month NOT IN ('?','~late') AND month<?", (prev,))
+        skipped['before_iran_by_id'] = before.rowcount
+        db.execute("UPDATE queue SET priority=29 WHERE status='pending' AND kind='detail' AND month=?", (prev,))
+    # 3) rank months by missing Iran ads per remaining id
+    per_month = dict(db.execute("SELECT month, COUNT(*) FROM queue WHERE status='pending' AND kind='detail' "
+                                "AND month IS NOT NULL AND month NOT IN ('?','~late') GROUP BY month"))
+    site = dict(db.execute("SELECT month, site_count FROM coverage WHERE niche=''"))
+    found = found_by_month(db)
+    yield_ = {m: max(0, site.get(m, 0) - found.get(m, 0)) / n for m, n in per_month.items() if n}
+    order = sorted(yield_, key=lambda m: -yield_[m])
+    if start_month:
+        order = [m for m in order if m >= start_month]
+    for i, m in enumerate(order):
+        # only sitemap-level rows (>=20); graph-found candidates keep their better priority
+        db.execute("UPDATE queue SET priority=? WHERE status='pending' AND kind='detail' AND month=? AND priority>=20",
+                   (20 + min(i, 9), m))
+    db.commit()
+    return {'pending_dated': sum(per_month.values()), **skipped,
+            'month_order': [(m, round(yield_[m], 3), per_month[m]) for m in order]}
+
+
+def expand_from_record(db, record, enqueue):
+    """Channels an Iran ad ran in -> who else bought there."""
+    for p in (record.get('details') or {}).get('placements_shown') or []:
+        path = urlsplit(p.get('url') or '').path
+        m = re.fullmatch(r'/channels/([A-Za-z0-9_]{4,64})', path)
+        if m:
+            enqueue(db, f'{BASE}/channels/{m[1]}/advertisers', 'listing', 6, via='channel_advertisers')
+
+
+def classify_listing(source_path, link_path):
+    """Extra listing paths worth following, with priority and strategy label, or None."""
+    if CHANNEL_ADVERTISERS.fullmatch(link_path):
+        return 6, 'channel_advertisers'
+    if ADVERTISER_NICHE.fullmatch(link_path) and source_path.startswith('/advertisers/'):
+        return 5, 'advertiser_niche'
+    if re.fullmatch(r'/advertisers/[a-z0-9_-]+', link_path) and CHANNEL_ADVERTISERS.fullmatch(source_path):
+        return 7, 'advertiser_via_channel'
+    return None
+
+
+def coverage_report(db):
+    site = {}
+    for month, niche, count in db.execute('SELECT month, niche, site_count FROM coverage ORDER BY month, niche'):
+        site.setdefault(month, {})[niche] = count
+    found = found_by_month(db)
+    months = []
+    for month in sorted(site):
+        total = site[month].get('', 0)
+        months.append({'month': month, 'site_iran_total': total, 'extracted': found.get(month, 0),
+                       'missing': max(0, total - found.get(month, 0)),
+                       'coverage_pct': round(100 * found.get(month, 0) / total, 1) if total else None})
+    strategies = [dict(via=v or 'original', requests=n, iran=i, iran_per_100=round(100 * i / n, 2) if n else None)
+                  for v, n, i in db.execute(
+                      "SELECT via, COUNT(*), SUM(status='iran') FROM queue "
+                      "WHERE status NOT IN ('pending','skipped_time') GROUP BY via ORDER BY 3 DESC")]
+    site_sum = sum(m['site_iran_total'] for m in months)
+    return {'by_month': months, 'site_sum_of_months': site_sum,
+            'extracted_total': sum(found.values()),
+            'by_strategy': strategies,
+            'skipped_by_id_time': db.execute("SELECT COUNT(*) FROM queue WHERE status='skipped_time'").fetchone()[0]}
