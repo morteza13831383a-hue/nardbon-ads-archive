@@ -35,6 +35,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 ADS_DIR = DATA / "ads"
 STATE_F = DATA / "state.json"
+SEEDS_F = DATA / "advertiser_seeds.txt"           # one advertiser per line: tg-slug, @handle or its tgadsspy URL
 PANEL = ROOT / "panel"
 PANEL_CH = ROOT / "panel_channels"              # separate channels panel
 CH_ROOT = os.environ.get("REMOTE_CH_ROOT", "tgads/channels").strip("/")   # nb-upload.php only accepts tgads/*
@@ -348,8 +349,21 @@ def run_advertisers(ads, state, stats):
         s = advertiser_slug(a)
         if s:
             counts[s] = counts.get(s, 0) + 1
-    todo = [s for s in sorted(counts, key=lambda s: -counts[s]) if sw["done"].get(s, "") < stale]
-    sw["known"], sw["waiting"] = len(counts), len(todo)
+    # advertisers discovered by hand / browser (data/advertiser_seeds.txt) come first
+    seeds = []
+    if SEEDS_F.exists():
+        for line in SEEDS_F.read_text("utf-8").splitlines():
+            w = line.split("#", 1)[0].strip().lower()
+            if w.startswith("@"):
+                w = "tg-" + w[1:]
+            elif w.startswith("https://tgadsspy.com/advertisers/"):
+                w = w.rsplit("/", 1)[-1]
+            if re.fullmatch(r"[a-z0-9_-]{3,80}", w) and w not in seeds:
+                seeds.append(w)
+    sw["seeds"] = len(seeds)
+    order = seeds + [s for s in sorted(counts, key=lambda s: -counts[s]) if s not in seeds]
+    todo = [s for s in order if sw["done"].get(s, "") < stale]
+    sw["known"], sw["waiting"] = len(set(counts) | set(seeds)), len(todo)
     for i, slug in enumerate(todo[:ADV_PER_RUN]):
         if time_left() < 200:
             break
