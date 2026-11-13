@@ -106,6 +106,16 @@ def seed_snapshots(db, cutoff, enqueue, first_month='2026-01'):
         enqueue(db, f'{BASE}/countries/ir/snapshot/{month}', 'listing', 0, via='snapshot')
 
 
+def requeue_missing_snapshots(db):
+    """Snapshot pages fetched before totals were parsed (status done, no coverage row) are
+    queued once more, so coverage.by_month and month weights get real numbers (~1 page/month)."""
+    cur = db.execute("""UPDATE queue SET status='pending', tries=0, error=NULL, priority=0
+                        WHERE url LIKE '%/countries/ir/snapshot/____-__' AND status='done'
+                        AND substr(url, -7) NOT IN (SELECT month FROM coverage WHERE niche='')""")
+    db.commit()
+    return cur.rowcount
+
+
 def parse_snapshot(db, url, visible_text):
     """Store the site's exact Iran totals for one month: overall and per niche."""
     m = re.search(r'/countries/ir/snapshot/(\d{4}-\d{2})$', urlsplit(url).path)

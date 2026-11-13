@@ -101,7 +101,7 @@ def main():
     if args.pages_per_slice<1 or args.max_slices<0:
         parser.error('Invalid budgets')
     # Do not pass an API key or upload-host token to the source collector.
-    db=archive.connect(args.work_dir)
+    db=archive.connect(args.work_dir,seed_known=True)
     try:
         publish(db,args.work_dir,args.repo,args.seed_dir)
         index=0

@@ -210,4 +210,19 @@ class Tests(unittest.TestCase):
         self.assertEqual(ads['abc']['media_file'],'media/abc.webp')
         self.assertEqual(ads['abc']['media_status'],'ok')
 
+
+class SnapshotRevisit(unittest.TestCase):
+    def test_done_snapshot_without_totals_is_requeued_once(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db=a.connect(Path(tmp),CUTOFF)
+            url=a.BASE+'/countries/ir/snapshot/2026-09'
+            db.execute("UPDATE queue SET status='done' WHERE url=?",(url,)); db.commit()
+            import archive_yield as ay
+            self.assertEqual(ay.requeue_missing_snapshots(db),1)
+            self.assertEqual(db.execute('SELECT status,priority FROM queue WHERE url=?',(url,)).fetchone(),('pending',0))
+            ay.parse_snapshot(db,url,'16,687 Telegram ad creatives targeting Iran during September 2026 Top niches VPN 2,331 Top advertisers')
+            db.execute("UPDATE queue SET status='done' WHERE url=?",(url,)); db.commit()
+            self.assertEqual(ay.requeue_missing_snapshots(db),0)
+
+
 if __name__=='__main__':unittest.main()

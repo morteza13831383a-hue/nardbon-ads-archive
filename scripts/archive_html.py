@@ -30,7 +30,7 @@ def now():
     return datetime.now(timezone.utc).isoformat()
 
 
-def connect(directory, cutoff=None):
+def connect(directory, cutoff=None, seed_known=False):
     directory.mkdir(parents=True, exist_ok=True)
     db = sqlite3.connect(directory / 'checkpoint.sqlite3')
     db.executescript('''
@@ -53,7 +53,9 @@ def connect(directory, cutoff=None):
         enqueue(db, BASE+'/countries/ir/advertisers', 'listing', 2)
         enqueue(db, BASE+'/sitemap.xml', 'sitemap', 10)
         db.commit()
-    ay.seed_known(db, ROOT / 'data' / 'ads')
+    if seed_known:                       # real runs only: tests must not read the repo's data
+        ay.seed_known(db, ROOT / 'data' / 'ads')
+    ay.requeue_missing_snapshots(db)
     if not db.execute("SELECT 1 FROM meta WHERE key='yield_seeded_v1'").fetchone():
         cutoff_value = db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
         ay.seed_snapshots(db, cutoff_value, enqueue)
@@ -505,7 +507,7 @@ def main():
         parser.error('Positive budgets and at least one second request delay required')
     logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(message)s')
     lock=source_lock(args.work_dir)
-    db=connect(args.work_dir,args.cutoff)
+    db=connect(args.work_dir,args.cutoff,seed_known=True)
     try:
         if args.import_dir:
             imported=import_records(db,sorted(args.import_dir.glob('ads-*.jsonl.gz')))
