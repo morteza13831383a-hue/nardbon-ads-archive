@@ -39,6 +39,7 @@ def connect(directory, cutoff=None):
         status TEXT NOT NULL DEFAULT 'pending', tries INTEGER NOT NULL DEFAULT 0, error TEXT);
     CREATE INDEX IF NOT EXISTS queue_work ON queue(status,priority,tries,url);
     CREATE TABLE IF NOT EXISTS records (id TEXT PRIMARY KEY, payload TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS discovery_edges (parent TEXT, child TEXT, relation TEXT, PRIMARY KEY(parent,child,relation));
     CREATE TABLE IF NOT EXISTS listing_counts (url TEXT PRIMARY KEY, ad_links INTEGER, iran_links INTEGER);
     ''')
     if not db.execute("SELECT 1 FROM meta WHERE key='cutoff'").fetchone():
@@ -204,6 +205,48 @@ def discover(db, doc, url):
     return links,iran
 
 
+def discover_related(db,record,doc=None):
+    """Follow the advertiser graph of verified Iran ads, not random niche suggestions."""
+    parent=record['source_url']
+    advertiser=(record.get('advertiser') or '').strip().casefold()
+    links=[]
+    for link in record.get('details',{}).get('article_links',[]):
+        text=(link.get('text') or '').strip().casefold()
+        same=bool(advertiser) and (text==advertiser or text.startswith(advertiser+' ') or text.startswith('see all by') and advertiser in text)
+        if same:
+            links.append(link['href'])
+    if doc is not None:
+        for section in doc.root.nodes():
+            if section.tag!='section':
+                continue
+            headings=[n for n in section.nodes() if n.tag=='h2']
+            if not headings or not compact(headings[0]).startswith('More from this advertiser'):
+                continue
+            links.extend(n.attrs['href'] for n in section.nodes() if n.tag=='a' and 'href' in n.attrs)
+    for href in set(links):
+        url=canonical(urljoin(parent,href))
+        parsed=urlsplit(url)
+        if origin(url)!=origin(BASE) or parsed.query:
+            continue
+        if AD_PATH.fullmatch(parsed.path):
+            kind,priority,relation='detail',2,'same_advertiser'
+        elif re.fullmatch(r'/advertisers/[a-z0-9_-]+',parsed.path):
+            kind,priority,relation='listing',3,'advertiser'
+        else:
+            continue
+        enqueue(db,url,kind,priority)
+        db.execute('INSERT OR IGNORE INTO discovery_edges VALUES(?,?,?)',(parent,url,relation))
+
+
+def seed_related(db):
+    if db.execute("SELECT 1 FROM meta WHERE key='related_graph_seeded_v1'").fetchone():
+        return
+    for (payload,) in db.execute('SELECT payload FROM records').fetchall():
+        discover_related(db,json.loads(payload))
+    db.execute("INSERT INTO meta VALUES('related_graph_seeded_v1',?)",(now(),))
+    db.commit()
+
+
 def sitemap(db, body):
     root = ET.fromstring(body)
     kind = root.tag.rsplit('}',1)[-1]
@@ -227,6 +270,7 @@ def sitemap(db, body):
 def crawl(db, client, max_pages, max_seconds):
     cutoff = db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
     started = time.monotonic()
+    initial_iran = db.execute('SELECT COUNT(*) FROM records').fetchone()[0]
     db.execute("INSERT OR REPLACE INTO meta VALUES('last_stop_reason','')")
     attempts = 0
     db.execute("CREATE TEMP TABLE IF NOT EXISTS attempted (url TEXT PRIMARY KEY)")
@@ -256,6 +300,7 @@ def crawl(db, client, max_pages, max_seconds):
                         if record:
                             record['html_sha256'] = hashlib.sha256(body.encode()).hexdigest()
                             db.execute('INSERT OR REPLACE INTO records VALUES(?,?)',(record['id'],json.dumps(record,ensure_ascii=False)))
+                            discover_related(db,record,doc)
                             LOG.info('Iran ad %s',record['id'])
                     else:
                         found,ir = discover(db,doc,url)
@@ -282,6 +327,10 @@ def crawl(db, client, max_pages, max_seconds):
             db.commit()
             LOG.warning('Stopping source requests after access/rate-limit response')
             break
+    stats={'pages_attempted':attempts,'new_iran_ads':db.execute('SELECT COUNT(*) FROM records').fetchone()[0]-initial_iran,'seconds':round(time.monotonic()-started,2)}
+    db.execute("INSERT OR REPLACE INTO meta VALUES('last_slice_performance',?)",(json.dumps(stats),))
+    db.commit()
+    LOG.info('Slice performance: %s',stats)
     return attempts
 
 
@@ -323,7 +372,9 @@ def report(db):
     count = db.execute('SELECT COUNT(*) FROM records').fetchone()[0]
     stopped = db.execute("SELECT value FROM meta WHERE key='last_stop_reason'").fetchone()
     external = db.execute("SELECT value FROM meta WHERE key='external_collection'").fetchone()
+    performance = db.execute("SELECT value FROM meta WHERE key='last_slice_performance'").fetchone()
     return {
+        'last_slice_performance':json.loads(performance[0]) if performance else None,
         'external_collection':json.loads(external[0]) if external else None,
         'last_stop_reason':stopped[0] if stopped else None,
         'schema_version':1, 'generated_at':now(),
@@ -431,6 +482,7 @@ def main():
             db.execute("UPDATE queue SET status='pending',tries=0,error=NULL WHERE status='failed'")
             db.commit()
         if not args.export_only:
+            seed_related(db)
             client=Client(BASE,args.delay)
             client.initialize()
             crawl(db,client,args.max_pages,args.max_seconds)

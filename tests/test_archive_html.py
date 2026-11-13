@@ -108,6 +108,25 @@ class Tests(unittest.TestCase):
             self.assertIn('403',a.report(db)['last_stop_reason'])
             self.assertEqual(a.report(db)['queue_status'],{'pending':1})
             db.close()
+    def test_related_graph_uses_advertiser_and_skips_niche_recommendations(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db=a.connect(Path(tmp),CUTOFF)
+            record={'source_url':URL,'advertiser':'@test','details':{'article_links':[
+                {'href':a.BASE+'/ads/related','text':'@test Another creative'},
+                {'href':a.BASE+'/ads/random','text':'@other Unrelated niche creative'},
+                {'href':a.BASE+'/advertisers/tg-test','text':'See all by · @test →'},
+                {'href':a.BASE+'/channels/test','text':'@test Channel'},
+            ]}}
+            a.enqueue(db,a.BASE+'/ads/related','detail',30)
+            a.discover_related(db,record)
+            self.assertEqual(db.execute('SELECT priority FROM queue WHERE url=?',(a.BASE+'/ads/related',)).fetchone()[0],2)
+            self.assertIsNone(db.execute('SELECT 1 FROM queue WHERE url=?',(a.BASE+'/ads/random',)).fetchone())
+            self.assertEqual(db.execute('SELECT kind,priority FROM queue WHERE url=?',(a.BASE+'/advertisers/tg-test',)).fetchone(),('listing',3))
+            db.execute("UPDATE queue SET status='iran' WHERE url=?",(a.BASE+'/ads/related',))
+            a.discover_related(db,record)
+            self.assertEqual(db.execute('SELECT status FROM queue WHERE url=?',(a.BASE+'/ads/related',)).fetchone()[0],'iran')
+            self.assertEqual(db.execute('SELECT COUNT(*) FROM discovery_edges').fetchone()[0],2)
+            db.close()
     def test_robots_wildcard(self):
         robots=Robots('User-agent: *\nAllow: /\nDisallow: /ads?*\nDisallow: /api/\nCrawl-delay: 4')
         self.assertFalse(robots.allowed(a.BASE+'/ads?geo=IR'))
