@@ -2,6 +2,7 @@
 """Bounded HTML crawler. Python 3.10+, standard library only; no API calls."""
 import json
 import logging
+import os
 import random
 import re
 import time
@@ -146,7 +147,13 @@ class Client:
                 time.sleep(max(0, self.delay + random.uniform(0, 2) - (time.monotonic() - self.last)))
                 self.last = time.monotonic()
                 try:
-                    with self.opener.open(Request(url, headers={'User-Agent': UA, 'Accept': 'text/html,text/plain'}), timeout=30) as r:
+                    headers = {'User-Agent': UA, 'Accept': 'text/html,text/plain'}
+                    # Agreed with the site owner: their Cloudflare skips the bot challenge for
+                    # requests carrying this header. Unset = normal public access.
+                    token = os.environ.get('ARCHIVE_ACCESS_TOKEN', '').strip()
+                    if token:
+                        headers['X-Nardbon-Archive'] = token
+                    with self.opener.open(Request(url, headers=headers), timeout=30) as r:
                         content_type = r.headers.get('Content-Type', '')
                         if not robots and not any(x in content_type for x in ('text/html', 'application/xhtml+xml', 'application/xml', 'text/xml')):
                             raise ValueError('Not an HTML page: ' + content_type)

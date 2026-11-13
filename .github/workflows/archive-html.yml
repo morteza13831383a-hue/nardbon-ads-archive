@@ -88,6 +88,7 @@ jobs:
           PAGE_BUDGET: ${{ inputs.max_pages || '80' }}
           RETRY_FAILED: ${{ inputs.retry_failed }}
           FETCH_SOURCE: ${{ github.event_name == 'workflow_dispatch' && inputs.import_only == false }}
+          ARCHIVE_ACCESS_TOKEN: ${{ secrets.ARCHIVE_ACCESS_TOKEN }}
         shell: bash
         run: |
           set -euo pipefail
