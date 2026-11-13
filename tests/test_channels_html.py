@@ -122,3 +122,29 @@ class RotationTests(unittest.TestCase):
             self.assertTrue(any('/advertisers/' in u for u in picked))
             db.close()
 
+
+    def test_listing_row_saves_numbers_and_defers_complete_profile(self):
+        html='''<div role="table"><div role="row"><span role="columnheader">Channel</span><span role="columnheader">Avg. views</span><span role="columnheader">Members</span><span role="columnheader">Category</span></div>
+        <div role="row"><div role="cell"><a href="/channels/Example">کانال نمونه<span>@Example</span></a></div><span role="cell">12.3K</span><span role="cell">۱٬۲۳۴</span><span role="cell">News</span></div></div>'''
+        rows=c.extract_listing(Document(html),c.BASE+'/channels?lang=fa&page=2')
+        self.assertEqual(len(rows),1);r=rows[0]
+        self.assertEqual((r['username'],r['title'],r['members'],r['avg_views']),('example','کانال نمونه',1234,12300))
+        self.assertEqual(r['classification'],'persian_candidate');self.assertEqual(r['source_url'],c.BASE+'/channels?lang=fa&page=2')
+        with tempfile.TemporaryDirectory() as tmp:
+            db=c.connect(Path(tmp));c.save_listing(db,rows);c.enqueue(db,'/channels/example',priority=1)
+            self.assertEqual(db.execute('select status from queue').fetchone()[0],'listing_saved')
+            c.enqueue(db,'/channels/example',priority=0)
+            self.assertEqual(db.execute('select status from queue').fetchone()[0],'pending');db.close()
+
+    def test_listing_missing_numbers_keeps_profile_and_does_not_erase_full_record(self):
+        html='''<table><tr><th>Channel</th><th>Members</th><th>Avg. views</th></tr><tr><td><a href="/channels/example">Example @example</a></td><td>0</td><td>—</td></tr></table>'''
+        rows=c.extract_listing(Document(html),c.BASE+'/channels?lang=fa')
+        self.assertEqual(rows[0]['members'],0);self.assertIsNone(rows[0]['avg_views'])
+        self.assertEqual(c.extract_listing(Document(html),c.BASE+'/channels?lang=en'),[])
+        with tempfile.TemporaryDirectory() as tmp:
+            db=c.connect(Path(tmp));c.save_listing(db,rows)
+            self.assertEqual(db.execute('select status from queue').fetchone()[0],'pending')
+            old={'username':'example','title':'Full profile','classification':'iran_confirmed','members':999,'iran_advertisers':['tg-example'],'description':'bio'}
+            db.execute('insert or replace into channels values(?,?)',('example',json.dumps(old)))
+            c.save_listing(db,rows)
+            self.assertEqual(json.loads(db.execute('select payload from channels').fetchone()[0]),old);db.close()

@@ -85,7 +85,8 @@ def enqueue(db, url, kind=None, priority=None):
         priority = {'listing': P_LISTING, 'channel': P_OTHER, 'sitemap': P_SITEMAP}.get(kind, P_OTHER)
     # a URL found again with stronger Iranian evidence moves forward in the queue
     db.execute('INSERT INTO queue(url,kind,priority) VALUES(?,?,?) '
-               'ON CONFLICT(url) DO UPDATE SET priority=MIN(priority, excluded.priority)', (url, kind, priority))
+               'ON CONFLICT(url) DO UPDATE SET priority=MIN(priority, excluded.priority), '
+               "status=CASE WHEN status='listing_saved' AND excluded.priority=0 THEN 'pending' ELSE status END", (url, kind, priority))
 
 
 def seed(db, archive):
@@ -167,6 +168,70 @@ def extract(doc, url):
             'media': [dict(n.attrs) for n in doc.root.nodes() if n.tag in ('img','video','source')]}
 
 
+def listing_number(text):
+    text = str(text).translate(str.maketrans('۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩', '01234567890123456789'))
+    text = text.replace(',', '').replace('٬', '').replace('\u00a0', '').strip()
+    m = re.fullmatch(r'(\d+(?:\.\d+)?)\s*([KkMm]?)', text)
+    return int(float(m[1]) * {'': 1, 'k': 1000, 'm': 1000000}[m[2].lower()]) if m else None
+
+
+def extract_listing(doc, url):
+    """Read public Persian listing table rows by heading, never infer columns by position."""
+    if urlsplit(url).path != '/channels' or parse_qs(urlsplit(url).query).get('lang') != ['fa']:
+        return []
+    result = {}
+    for table in doc.root.nodes():
+        if table.tag != 'table' and table.attrs.get('role') != 'table':
+            continue
+        headers = []
+        for row in table.nodes():
+            if row.tag != 'tr' and row.attrs.get('role') != 'row':
+                continue
+            heads = [n.text().strip() for n in row.nodes() if n.tag == 'th' or n.attrs.get('role') == 'columnheader']
+            if heads:
+                headers = heads
+                continue
+            cells = [n for n in row.nodes() if n.tag == 'td' or n.attrs.get('role') == 'cell']
+            if len(cells) != len(headers) or 'Channel' not in headers:
+                continue
+            fields = dict(zip(headers, cells))
+            anchor = next((n for n in fields['Channel'].nodes() if n.tag == 'a' and CHANNEL.fullmatch(urlsplit(n.attrs.get('href', '')).path)), None)
+            if anchor is None:
+                continue
+            username = CHANNEL.fullmatch(urlsplit(anchor.attrs['href']).path)[1].lower()
+            title = re.sub(r'\s*@' + re.escape(username) + r'\s*$', '', anchor.text().strip(), flags=re.I).strip()
+            if not title or username in result:
+                continue
+            metrics = {key: fields[key].text().strip() for key in ('Members', 'Avg. views') if key in fields}
+            result[username] = {'username': username, 'title': title, 'source_url': url,
+                'channel_url': BASE + '/channels/' + username, 'classification': 'persian_candidate',
+                'members': listing_number(metrics.get('Members', '')), 'avg_views': listing_number(metrics.get('Avg. views', '')),
+                'metrics': metrics, 'category': fields['Category'].text().strip() if 'Category' in fields else None,
+                'source_language_tags': ['fa'], 'iran_advertisers': [], 'iran_evidence': [],
+                'collected_at': now(), 'record_detail': 'listing'}
+    return list(result.values())
+
+
+def save_listing(db, rows):
+    for row in rows:
+        old = db.execute('SELECT payload FROM channels WHERE username=?', (row['username'],)).fetchone()
+        current = json.loads(old[0]) if old else {}
+        # A summary never overwrites a fetched profile, explicit Iran evidence or a known value with null.
+        if current and current.get('record_detail') != 'listing':
+            continue
+        merged = dict(current)
+        for key, value in row.items():
+            if value is not None and (value != [] or key not in merged):
+                merged[key] = value
+        merged['metrics'] = dict(current.get('metrics', {}), **row['metrics'])
+        db.execute('INSERT OR REPLACE INTO channels VALUES(?,?)', (row['username'], json.dumps(merged, ensure_ascii=False)))
+        enqueue(db, row['channel_url'], priority=P_PERSIAN_LINK)
+        queued = db.execute('SELECT priority FROM queue WHERE url=?', (row['channel_url'],)).fetchone()
+        needs_profile = bool(merged.get('iran_advertisers')) or queued[0] == P_IRAN_PLACEMENT or any(merged.get(k) is None for k in ('members','avg_views'))
+        if not needs_profile:
+            db.execute("UPDATE queue SET status='listing_saved',error=NULL WHERE url=? AND status='pending'", (row['channel_url'],))
+
+
 def export(db, work):
     out = work / 'exports'; out.mkdir(exist_ok=True)
     counts = dict(db.execute('SELECT status,COUNT(*) FROM queue GROUP BY status'))
@@ -230,9 +295,21 @@ def run(db, client, pages):
                         enqueue(db, node.text or '', 'sitemap' if index else None)
             else:
                 doc = Document(body)
+                save_listing(db, extract_listing(doc, url))
                 page_priority = P_OTHER
                 if kind == 'channel':
                     value = extract(doc, url)
+                    previous = db.execute('SELECT payload FROM channels WHERE username=?', (value['username'],)).fetchone()
+                    if previous:
+                        summary = json.loads(previous[0])
+                        if summary.get('record_detail') == 'listing':
+                            value['listing_source_url'] = summary['source_url']
+                            if value['classification'] == 'unclassified':
+                                value['classification'] = summary['classification']
+                            for key in ('members', 'avg_views'):
+                                if value.get(key) is None and summary.get(key) is not None:
+                                    value[key] = summary[key]
+                    value['record_detail'] = 'profile'
                     db.execute('INSERT OR REPLACE INTO channels VALUES(?,?)', (value['username'], json.dumps(value, ensure_ascii=False)))
                     if value['classification'] != 'unclassified' or value.get('iran_advertisers'):
                         page_priority = P_FROM_PERSIAN
