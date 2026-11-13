@@ -98,8 +98,18 @@ jobs:
           mode=()
           if [[ "$FETCH_SOURCE" != 'true' ]]; then mode=(--export-only); fi
           python scripts/archive_html.py --import-dir data/html-archive-import --max-pages "$PAGE_BUDGET" --max-seconds 5400 "${retry[@]}" "${mode[@]}"
+      # hashFiles() hashes the whole file; the checkpoint is large now and it timed out
+      # after 120 s. A plain existence test is instant.
+      - name: Check work files
+        id: work
+        if: always()
+        shell: bash
+        run: |
+          echo "manifest=$([ -f archive-work/exports/manifest.json ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+          echo "checkpoint=$([ -f archive-work/checkpoint.sqlite3 ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+          ls -la archive-work/checkpoint.sqlite3 2>/dev/null || true
       - name: Merge and upload collected archive
-        if: always() && hashFiles('archive-work/exports/manifest.json') != ''
+        if: always() && steps.work.outputs.manifest == 'yes'
         env:
           UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
           UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
@@ -129,7 +139,7 @@ jobs:
           PY
           fi
       - name: Prepare resumable checkpoint
-        if: always() && hashFiles('archive-work/checkpoint.sqlite3') != ''
+        if: always() && steps.work.outputs.checkpoint == 'yes'
         run: |
           mkdir -p archive-checkpoint/archive-work archive-checkpoint/outbox/media
           cp archive-work/checkpoint.sqlite3 archive-checkpoint/archive-work/
@@ -139,14 +149,14 @@ jobs:
           cp -a outbox/media/. archive-checkpoint/outbox/media/
           touch archive-checkpoint/outbox/media/placeholder.txt
       - name: Save resumable checkpoint and queued images
-        if: always() && hashFiles('archive-work/checkpoint.sqlite3') != ''
+        if: always() && steps.work.outputs.checkpoint == 'yes'
         uses: actions/upload-artifact@v4
         with:
           name: iran-html-checkpoint
           retention-days: 90
           path: archive-checkpoint/
       - name: Save detailed exports
-        if: always() && hashFiles('archive-work/exports/manifest.json') != ''
+        if: always() && steps.work.outputs.manifest == 'yes'
         uses: actions/upload-artifact@v4
         with:
           name: iran-html-exports
