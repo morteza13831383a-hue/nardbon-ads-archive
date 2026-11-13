@@ -6,6 +6,7 @@ import os
 import random
 import re
 import time
+from source_budget import reserve
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit, urlunsplit
 from urllib.request import Request, build_opener, HTTPRedirectHandler
@@ -145,6 +146,7 @@ class Client:
                 raise ValueError('robots.txt disallows: ' + url)
             for attempt in range(3):
                 time.sleep(max(0, self.delay + random.uniform(0, 2) - (time.monotonic() - self.last)))
+                reserve(self.base, self.delay)
                 self.last = time.monotonic()
                 try:
                     headers = {'User-Agent': UA, 'Accept': 'text/html,text/plain'}
