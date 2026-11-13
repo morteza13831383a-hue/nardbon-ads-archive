@@ -182,6 +182,9 @@ def extract(doc, url, cutoff):
 
 def discover(db, doc, url):
     links, iran = 0, 0
+    row = db.execute('SELECT via FROM queue WHERE url=?', (canonical(url),)).fetchone()
+    parent_via = (row[0] if row else None) or 'listing'
+    child_via = parent_via.split('>')[0] + '>ad'
     for n in doc.root.nodes():
         if n.tag != 'a' or 'href' not in n.attrs:
             continue
@@ -198,7 +201,7 @@ def discover(db, doc, url):
             is_ir = urlsplit(url).path.startswith('/countries/ir') or any(x.attrs.get('aria-label') == 'Iran' for x in n.nodes())
             iran += int(is_ir)
             # Every detail is still verified independently, including cards from Iran pages.
-            enqueue(db,link,'detail',1 if is_ir else 30)
+            enqueue(db,link,'detail',1 if is_ir else 30,via=child_via)
         elif LIST_PATH.fullmatch(p.path):
             # Only bounded useful catalogue filters; no search or sort permutations.
             if p.query not in ('','geo=IR','intent=all','intent=strict'):
@@ -281,7 +284,7 @@ def sitemap(db, body):
     return count
 
 
-def crawl(db, client, max_pages, max_seconds):
+def crawl(db, client, max_pages, max_seconds, only_via=None):
     cutoff = db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
     plan = ay.reprioritize(db, cutoff)
     LOG.info('Yield plan: %s', json.dumps(plan)[:1500])
@@ -293,7 +296,12 @@ def crawl(db, client, max_pages, max_seconds):
     db.execute("DELETE FROM attempted")
     while attempts < max_pages and time.monotonic()-started < max_seconds:
         # Limit retrying failed jobs to a later invocation; zero-try jobs first at equal priority.
-        job = db.execute("SELECT q.url,q.kind,q.tries FROM queue q WHERE status='pending' AND tries<3 AND NOT EXISTS (SELECT 1 FROM attempted a WHERE a.url=q.url) ORDER BY priority,tries,q.url LIMIT 1").fetchone()
+        # only_via: test slices limited to some strategies (prefix match, e.g. 'channel_advertisers')
+        via_sql, via_args = '', []
+        if only_via:
+            via_sql = ' AND (' + ' OR '.join('q.via LIKE ?' for _ in only_via) + ')'
+            via_args = [v + '%' for v in only_via]
+        job = db.execute("SELECT q.url,q.kind,q.tries FROM queue q WHERE status='pending' AND tries<3 AND NOT EXISTS (SELECT 1 FROM attempted a WHERE a.url=q.url)" + via_sql + " ORDER BY priority,tries,q.url LIMIT 1", via_args).fetchone()
         if not job:
             break
         url,kind,tries = job
@@ -483,6 +491,7 @@ def main():
     parser.add_argument('--cutoff',help='ISO-8601 UTC cutoff, fixed on first invocation')
     parser.add_argument('--retry-failed',action='store_true')
     parser.add_argument('--export-only',action='store_true')
+    parser.add_argument('--only-via',help='Comma-separated strategy prefixes for a test slice, e.g. channel_advertisers,advertiser_niche')
     parser.add_argument('--import-dir',type=Path,help='Import collected ads-*.jsonl.gz parts before export; no network')
     args=parser.parse_args()
     if min(args.max_pages,args.max_seconds)<1 or args.delay<1:
@@ -506,7 +515,7 @@ def main():
             seed_related(db)
             client=Client(BASE,args.delay)
             client.initialize()
-            crawl(db,client,args.max_pages,args.max_seconds)
+            crawl(db,client,args.max_pages,args.max_seconds,[v.strip() for v in args.only_via.split(',') if v.strip()] if args.only_via else None)
         info=export(db,args.work_dir)
         if not args.export_only and info.get('last_stop_reason'):
             raise SystemExit(2)

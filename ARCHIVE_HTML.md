@@ -105,7 +105,7 @@ request rate, no source API and no blocked paths.
 | Step | Public path | What it gives |
 |---|---|---|
 | 1 | `/countries/ir/snapshot/YYYY-MM` (2026-01 .. cutoff month) | exact Iran total per month and per niche, e.g. "16,687 ... targeting Iran during September 2026", "VPN 2,331". A 404 for the month before the first snapshot proves where Iran coverage starts. |
-| 2 | sitemap ids, dated offline | cuid v1 ids carry the creation time (`int(id[1:9], 36)` ms); in our data it equals first_seen (median 0 h, max 2 h earlier). Ids after the cutoff or before Iran coverage are skipped without a request; the rest are ordered by (site total − extracted) ÷ remaining ids of their month. |
+| 2 | sitemap ids, dated offline | cuid v1 ids carry the creation time (`int(id[1:9], 36)` ms); measured on 4,611 ads it is within -2 h and +71.3 h of first_seen (median 0 h). Ids more than 7 days after the cutoff, or two+ months before Iran coverage, are skipped without a request (closer ones only go to the back); the rest are ordered by (site total − extracted) ÷ remaining ids of their month. |
 | 3 | `/channels/<username>/advertisers` for channels listed under "Where this ad ran" on Iran ads | advertisers outside the current graph who bought in the same (Persian) channels |
 | 4 | `/advertisers/<slug>/niches/<niche>` from advertiser pages | more of one advertiser's ads than its capped main page |
 

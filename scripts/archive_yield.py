@@ -5,10 +5,13 @@ source API and without touching blocked paths.
 Four ideas, all from public pages the crawler already may read:
 
 1. Ad ids are cuid v1: 'c' + 8 base36 chars of the creation time in ms. In our data the
-   id time equals first_seen (median 0 h, at most 2 h earlier). So every sitemap id can be
-   dated *without fetching it*:
-     - ids created after the cutoff are skipped (they can never qualify);
-     - ids created before Iran coverage began (first Iran snapshot month) are skipped;
+   id time is close to first_seen (median 0 h). So every sitemap id can be
+   dated *without fetching it*. Measured on 4,611 ads: id time - first_seen is between
+   -2 h and +71.3 h (5 ads above +24 h), so the margins below are wide:
+     - ids created more than 7 days after the cutoff are skipped; within 7 days they only
+       go to the back of the queue;
+     - ids from two or more months before Iran coverage began are skipped; the month just
+       before only goes to the back;
      - the rest are ordered by the expected Iran yield of their month (point 2).
 2. /countries/ir/snapshot/YYYY-MM states the exact number of Iran creatives that month and
    per niche ("16,687 Telegram ad creatives targeting Iran during September 2026", "VPN 2,331",
@@ -57,6 +60,15 @@ def ensure_schema(db):
     if 'month' not in cols:
         db.execute('ALTER TABLE queue ADD COLUMN month TEXT')
     db.execute('CREATE INDEX IF NOT EXISTS queue_month ON queue(kind, status, month)')
+    # label rows queued before `via` existed, from the priority their discoverer gave them,
+    # so yield is not credited to the wrong strategy
+    if not db.execute("SELECT 1 FROM meta WHERE key='via_backfilled_v1'").fetchone():
+        for kind, prio, via in (('detail', 1, 'iran_listing'), ('detail', 2, 'same_advertiser'),
+                                ('detail', 30, 'sitemap'), ('listing', 3, 'advertiser'),
+                                ('listing', 5, 'advertiser'), ('listing', 4, 'listing'),
+                                ('listing', 0, 'listing'), ('listing', 2, 'listing'), ('sitemap', 10, 'sitemap')):
+            db.execute('UPDATE queue SET via=? WHERE via IS NULL AND kind=? AND priority=?', (via, kind, prio))
+        db.execute("INSERT INTO meta VALUES('via_backfilled_v1', datetime('now'))")
     db.commit()
 
 
@@ -128,20 +140,27 @@ def reprioritize(db, cutoff):
             db.execute("UPDATE queue SET month='?' WHERE url=?", (url,))
             continue
         db.execute('UPDATE queue SET month=? WHERE url=?', (t.strftime('%Y-%m'), url))
-        if t > cutoff_dt + timedelta(hours=3):           # id time is never later than first_seen + 2 h
+        if t > cutoff_dt + timedelta(days=7):            # measured max id-vs-first_seen gap is +71.3 h
             db.execute("UPDATE queue SET status='skipped_time' WHERE url=?", (url,)); skipped['after_cutoff_by_id'] += 1
+        elif t > cutoff_dt:
+            db.execute("UPDATE queue SET month='~late', priority=29 WHERE url=?", (url,))
     # 2) months before Iran coverage began (known once the first snapshot is stored)
     if start_month:
+        y, m = map(int, start_month.split('-'))
+        prev = f'{y - 1:04d}-12' if m == 1 else f'{y:04d}-{m - 1:02d}'
         before = db.execute("UPDATE queue SET status='skipped_time' WHERE status='pending' AND kind='detail' "
-                            "AND month<>'?' AND month<?", (start_month,))
+                            "AND month NOT IN ('?','~late') AND month<?", (prev,))
         skipped['before_iran_by_id'] = before.rowcount
+        db.execute("UPDATE queue SET priority=29 WHERE status='pending' AND kind='detail' AND month=?", (prev,))
     # 3) rank months by missing Iran ads per remaining id
     per_month = dict(db.execute("SELECT month, COUNT(*) FROM queue WHERE status='pending' AND kind='detail' "
-                                "AND month IS NOT NULL AND month<>'?' GROUP BY month"))
+                                "AND month IS NOT NULL AND month NOT IN ('?','~late') GROUP BY month"))
     site = dict(db.execute("SELECT month, site_count FROM coverage WHERE niche=''"))
     found = found_by_month(db)
     yield_ = {m: max(0, site.get(m, 0) - found.get(m, 0)) / n for m, n in per_month.items() if n}
     order = sorted(yield_, key=lambda m: -yield_[m])
+    if start_month:
+        order = [m for m in order if m >= start_month]
     for i, m in enumerate(order):
         # only sitemap-level rows (>=20); graph-found candidates keep their better priority
         db.execute("UPDATE queue SET priority=? WHERE status='pending' AND kind='detail' AND month=? AND priority>=20",
