@@ -1,0 +1,1043 @@
+{
+  "revision": "de040d67411dee49d8204073b53e24d44c1fa2fe",
+  "records": {
+    "channel": 22,
+    "group": 22
+  },
+  "http_requests_total": 166,
+  "all_run_per_100_requests": {
+    "channel": 13.25,
+    "group": 13.25
+  },
+  "profile_benchmark": {
+    "source_http_requests": 60,
+    "new_records": {
+      "group": 20,
+      "channel": 20
+    },
+    "per_100_requests": {
+      "group": 33.33,
+      "channel": 33.33
+    }
+  },
+  "http_status": {
+    "0": 1,
+    "200": 147,
+    "302": 18
+  },
+  "fields_present_by_type": {
+    "channel": {
+      "title": 22,
+      "description": 22,
+      "members": 22,
+      "avg_reach": 0,
+      "err": 0,
+      "category": 22,
+      "country": 22,
+      "language": 22,
+      "text_sample": 22
+    },
+    "group": {
+      "title": 22,
+      "description": 20,
+      "members": 0,
+      "avg_reach": 0,
+      "err": 0,
+      "category": 22,
+      "country": 22,
+      "language": 22,
+      "text_sample": 0
+    }
+  },
+  "importer_region": {
+    "ir": 9,
+    "unknown": 33,
+    "af": 2
+  },
+  "categories": [
+    {
+      "category": "adult",
+      "title": "Adult",
+      "channel_listing": {
+        "category": "adult",
+        "type": "channel",
+        "profile_link_occurrences": 97,
+        "unique_handles": 97,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "adult",
+        "type": "group",
+        "profile_link_occurrences": 66,
+        "unique_handles": 66,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "apps",
+      "title": "Software & Applications",
+      "channel_listing": {
+        "category": "apps",
+        "type": "channel",
+        "profile_link_occurrences": 99,
+        "unique_handles": 99,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "apps",
+        "type": "group",
+        "profile_link_occurrences": 40,
+        "unique_handles": 40,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "art",
+      "title": "Art",
+      "channel_listing": {
+        "category": "art",
+        "type": "channel",
+        "profile_link_occurrences": 102,
+        "unique_handles": 102,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "art",
+        "type": "group",
+        "profile_link_occurrences": 2,
+        "unique_handles": 2,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "babies",
+      "title": "Family & Children",
+      "channel_listing": {
+        "category": "babies",
+        "type": "channel",
+        "profile_link_occurrences": 62,
+        "unique_handles": 62,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "babies",
+        "type": "group",
+        "profile_link_occurrences": 5,
+        "unique_handles": 5,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "beauty",
+      "title": "Fashion and beauty",
+      "channel_listing": {
+        "category": "beauty",
+        "type": "channel",
+        "profile_link_occurrences": 93,
+        "unique_handles": 93,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "beauty",
+        "type": "group",
+        "profile_link_occurrences": 8,
+        "unique_handles": 8,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "blogs",
+      "title": "Blogs",
+      "channel_listing": {
+        "category": "blogs",
+        "type": "channel",
+        "profile_link_occurrences": 101,
+        "unique_handles": 101,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "blogs",
+        "type": "group",
+        "profile_link_occurrences": 19,
+        "unique_handles": 19,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "books",
+      "title": "Books",
+      "channel_listing": {
+        "category": "books",
+        "type": "channel",
+        "profile_link_occurrences": 93,
+        "unique_handles": 93,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "books",
+        "type": "group",
+        "profile_link_occurrences": 24,
+        "unique_handles": 24,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "business",
+      "title": "Business and startups",
+      "channel_listing": {
+        "category": "business",
+        "type": "channel",
+        "profile_link_occurrences": 97,
+        "unique_handles": 97,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "business",
+        "type": "group",
+        "profile_link_occurrences": 45,
+        "unique_handles": 45,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "career",
+      "title": "Career",
+      "channel_listing": {
+        "category": "career",
+        "type": "channel",
+        "profile_link_occurrences": 101,
+        "unique_handles": 101,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "career",
+        "type": "group",
+        "profile_link_occurrences": 7,
+        "unique_handles": 7,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "construction",
+      "title": "Interior and construction",
+      "channel_listing": {
+        "category": "construction",
+        "type": "channel",
+        "profile_link_occurrences": 33,
+        "unique_handles": 33,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "construction",
+        "type": "group",
+        "profile_link_occurrences": 5,
+        "unique_handles": 5,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "courses",
+      "title": "Courses and guides",
+      "channel_listing": {
+        "category": "courses",
+        "type": "channel",
+        "profile_link_occurrences": 39,
+        "unique_handles": 39,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "courses",
+        "type": "group",
+        "profile_link_occurrences": 4,
+        "unique_handles": 4,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "crypto",
+      "title": "Cryptocurrencies",
+      "channel_listing": {
+        "category": "crypto",
+        "type": "channel",
+        "profile_link_occurrences": 101,
+        "unique_handles": 101,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "crypto",
+        "type": "group",
+        "profile_link_occurrences": 98,
+        "unique_handles": 98,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "darknet",
+      "title": "Darknet",
+      "channel_listing": {
+        "category": "darknet",
+        "type": "channel",
+        "profile_link_occurrences": 69,
+        "unique_handles": 69,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "darknet",
+        "type": "group",
+        "profile_link_occurrences": 9,
+        "unique_handles": 9,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "design",
+      "title": "Design",
+      "channel_listing": {
+        "category": "design",
+        "type": "channel",
+        "profile_link_occurrences": 100,
+        "unique_handles": 100,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "design",
+        "type": "group",
+        "profile_link_occurrences": 14,
+        "unique_handles": 14,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "economics",
+      "title": "Economics",
+      "channel_listing": {
+        "category": "economics",
+        "type": "channel",
+        "profile_link_occurrences": 102,
+        "unique_handles": 102,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "economics",
+        "type": "group",
+        "profile_link_occurrences": 68,
+        "unique_handles": 68,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "education",
+      "title": "Education",
+      "channel_listing": {
+        "category": "education",
+        "type": "channel",
+        "profile_link_occurrences": 93,
+        "unique_handles": 93,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "education",
+        "type": "group",
+        "profile_link_occurrences": 98,
+        "unique_handles": 98,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "edutainment",
+      "title": "Edutainment",
+      "channel_listing": {
+        "category": "edutainment",
+        "type": "channel",
+        "profile_link_occurrences": 97,
+        "unique_handles": 97,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "edutainment",
+        "type": "group",
+        "profile_link_occurrences": 1,
+        "unique_handles": 1,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "entertainment",
+      "title": "Humor and entertainment",
+      "channel_listing": {
+        "category": "entertainment",
+        "type": "channel",
+        "profile_link_occurrences": 96,
+        "unique_handles": 96,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "entertainment",
+        "type": "group",
+        "profile_link_occurrences": 14,
+        "unique_handles": 14,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "erotica",
+      "title": "Erotic",
+      "channel_listing": {
+        "category": "erotica",
+        "type": "channel",
+        "profile_link_occurrences": 87,
+        "unique_handles": 87,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "erotica",
+        "type": "group",
+        "profile_link_occurrences": 7,
+        "unique_handles": 7,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "esoterics",
+      "title": "Esoterics",
+      "channel_listing": {
+        "category": "esoterics",
+        "type": "channel",
+        "profile_link_occurrences": 86,
+        "unique_handles": 86,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "esoterics",
+        "type": "group",
+        "profile_link_occurrences": 4,
+        "unique_handles": 4,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "food",
+      "title": "Food and cooking",
+      "channel_listing": {
+        "category": "food",
+        "type": "channel",
+        "profile_link_occurrences": 75,
+        "unique_handles": 75,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "food",
+        "type": "group",
+        "profile_link_occurrences": 8,
+        "unique_handles": 8,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "gambling",
+      "title": "Bookmaking",
+      "channel_listing": {
+        "category": "gambling",
+        "type": "channel",
+        "profile_link_occurrences": 97,
+        "unique_handles": 97,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "gambling",
+        "type": "group",
+        "profile_link_occurrences": 18,
+        "unique_handles": 18,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "games",
+      "title": "Games",
+      "channel_listing": {
+        "category": "games",
+        "type": "channel",
+        "profile_link_occurrences": 101,
+        "unique_handles": 101,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "games",
+        "type": "group",
+        "profile_link_occurrences": 82,
+        "unique_handles": 82,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "handmade",
+      "title": "Handiwork",
+      "channel_listing": {
+        "category": "handmade",
+        "type": "channel",
+        "profile_link_occurrences": 45,
+        "unique_handles": 45,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "handmade",
+        "type": "group",
+        "profile_link_occurrences": 0,
+        "unique_handles": 0,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "health",
+      "title": "Health and Fitness",
+      "channel_listing": {
+        "category": "health",
+        "type": "channel",
+        "profile_link_occurrences": 102,
+        "unique_handles": 102,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "health",
+        "type": "group",
+        "profile_link_occurrences": 10,
+        "unique_handles": 10,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "instagram",
+      "title": "Instagram",
+      "channel_listing": {
+        "category": "instagram",
+        "type": "channel",
+        "profile_link_occurrences": 36,
+        "unique_handles": 36,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "instagram",
+        "type": "group",
+        "profile_link_occurrences": 4,
+        "unique_handles": 4,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "language",
+      "title": "Linguistics",
+      "channel_listing": {
+        "category": "language",
+        "type": "channel",
+        "profile_link_occurrences": 102,
+        "unique_handles": 102,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "language",
+        "type": "group",
+        "profile_link_occurrences": 16,
+        "unique_handles": 16,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "law",
+      "title": "Law",
+      "channel_listing": {
+        "category": "law",
+        "type": "channel",
+        "profile_link_occurrences": 52,
+        "unique_handles": 52,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "law",
+        "type": "group",
+        "profile_link_occurrences": 9,
+        "unique_handles": 9,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "marketing",
+      "title": "Marketing, PR, advertising",
+      "channel_listing": {
+        "category": "marketing",
+        "type": "channel",
+        "profile_link_occurrences": 101,
+        "unique_handles": 101,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "marketing",
+        "type": "group",
+        "profile_link_occurrences": 21,
+        "unique_handles": 21,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "medicine",
+      "title": "Medicine",
+      "channel_listing": {
+        "category": "medicine",
+        "type": "channel",
+        "profile_link_occurrences": 99,
+        "unique_handles": 99,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "medicine",
+        "type": "group",
+        "profile_link_occurrences": 21,
+        "unique_handles": 21,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "music",
+      "title": "Music",
+      "channel_listing": {
+        "category": "music",
+        "type": "channel",
+        "profile_link_occurrences": 101,
+        "unique_handles": 101,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "music",
+        "type": "group",
+        "profile_link_occurrences": 17,
+        "unique_handles": 17,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "nature",
+      "title": "Nature",
+      "channel_listing": {
+        "category": "nature",
+        "type": "channel",
+        "profile_link_occurrences": 44,
+        "unique_handles": 44,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "nature",
+        "type": "group",
+        "profile_link_occurrences": 6,
+        "unique_handles": 6,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "news",
+      "title": "News and media",
+      "channel_listing": {
+        "category": "news",
+        "type": "channel",
+        "profile_link_occurrences": 101,
+        "unique_handles": 101,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "news",
+        "type": "group",
+        "profile_link_occurrences": 44,
+        "unique_handles": 44,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "other",
+      "title": "Other",
+      "channel_listing": {
+        "category": "other",
+        "type": "channel",
+        "profile_link_occurrences": 100,
+        "unique_handles": 100,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "other",
+        "type": "group",
+        "profile_link_occurrences": 97,
+        "unique_handles": 97,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "pics",
+      "title": "Pictures and photos",
+      "channel_listing": {
+        "category": "pics",
+        "type": "channel",
+        "profile_link_occurrences": 99,
+        "unique_handles": 99,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "pics",
+        "type": "group",
+        "profile_link_occurrences": 1,
+        "unique_handles": 1,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "politics",
+      "title": "Politics",
+      "channel_listing": {
+        "category": "politics",
+        "type": "channel",
+        "profile_link_occurrences": 102,
+        "unique_handles": 102,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "politics",
+        "type": "group",
+        "profile_link_occurrences": 43,
+        "unique_handles": 43,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "psychology",
+      "title": "Psychology",
+      "channel_listing": {
+        "category": "psychology",
+        "type": "channel",
+        "profile_link_occurrences": 98,
+        "unique_handles": 98,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "psychology",
+        "type": "group",
+        "profile_link_occurrences": 3,
+        "unique_handles": 3,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "quotes",
+      "title": "Quotes",
+      "channel_listing": null,
+      "group_listing": null,
+      "note": "Excluded by quotes URL policy"
+    },
+    {
+      "category": "religion",
+      "title": "Religion",
+      "channel_listing": {
+        "category": "religion",
+        "type": "channel",
+        "profile_link_occurrences": 101,
+        "unique_handles": 101,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "religion",
+        "type": "group",
+        "profile_link_occurrences": 44,
+        "unique_handles": 44,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "sales",
+      "title": "Sales",
+      "channel_listing": {
+        "category": "sales",
+        "type": "channel",
+        "profile_link_occurrences": 102,
+        "unique_handles": 102,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "sales",
+        "type": "group",
+        "profile_link_occurrences": 52,
+        "unique_handles": 52,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "shock",
+      "title": "Shock content",
+      "channel_listing": {
+        "category": "shock",
+        "type": "channel",
+        "profile_link_occurrences": 21,
+        "unique_handles": 21,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "shock",
+        "type": "group",
+        "profile_link_occurrences": 3,
+        "unique_handles": 3,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "sport",
+      "title": "Sport",
+      "channel_listing": {
+        "category": "sport",
+        "type": "channel",
+        "profile_link_occurrences": 101,
+        "unique_handles": 101,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "sport",
+        "type": "group",
+        "profile_link_occurrences": 15,
+        "unique_handles": 15,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "tech",
+      "title": "Technologies",
+      "channel_listing": {
+        "category": "tech",
+        "type": "channel",
+        "profile_link_occurrences": 102,
+        "unique_handles": 102,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "tech",
+        "type": "group",
+        "profile_link_occurrences": 45,
+        "unique_handles": 45,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "telegram",
+      "title": "Telegram",
+      "channel_listing": {
+        "category": "telegram",
+        "type": "channel",
+        "profile_link_occurrences": 99,
+        "unique_handles": 99,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "telegram",
+        "type": "group",
+        "profile_link_occurrences": 78,
+        "unique_handles": 78,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "transport",
+      "title": "Transport",
+      "channel_listing": {
+        "category": "transport",
+        "type": "channel",
+        "profile_link_occurrences": 101,
+        "unique_handles": 101,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "transport",
+        "type": "group",
+        "profile_link_occurrences": 8,
+        "unique_handles": 8,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "travels",
+      "title": "Travel",
+      "channel_listing": {
+        "category": "travels",
+        "type": "channel",
+        "profile_link_occurrences": 86,
+        "unique_handles": 86,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "travels",
+        "type": "group",
+        "profile_link_occurrences": 8,
+        "unique_handles": 8,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    },
+    {
+      "category": "video",
+      "title": "Video and films",
+      "channel_listing": {
+        "category": "video",
+        "type": "channel",
+        "profile_link_occurrences": 96,
+        "unique_handles": 96,
+        "public_next_links": 0,
+        "continuation": "form_show_more_not_followed"
+      },
+      "group_listing": {
+        "category": "video",
+        "type": "group",
+        "profile_link_occurrences": 28,
+        "unique_handles": 28,
+        "public_next_links": 0,
+        "continuation": "no_public_pagination_links"
+      },
+      "note": "Only the public page was measured; full directory depth is unverified."
+    }
+  ],
+  "public_list_pages": 95,
+  "public_next_links": 0,
+  "failed_jobs": [],
+  "queue": {
+    "done": 139,
+    "pending": 5227
+  },
+  "timings": {
+    "benchmark_seconds": 313.0191343070037,
+    "inventory_resume_seconds": 91.84451721200458
+  }
+}
