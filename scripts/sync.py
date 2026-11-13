@@ -54,6 +54,9 @@ MAX_DEPTH = 5000                             # safety cap; the API reports the r
 TIME_BUDGET = int(os.environ.get("TIME_BUDGET_SEC", "600"))
 BACKFILL_ROWS = int(os.environ.get("BACKFILL_ROWS_PER_RUN", "600"))    # one reachable window per run
 BACKFILL_GAP = float(os.environ.get("BACKFILL_GAP_SEC", "5"))           # pause between backfill pages
+ADV_PER_RUN = int(os.environ.get("ADVERTISERS_PER_RUN", "5"))         # advertiser history sweep
+ADV_GAP = float(os.environ.get("ADVERTISERS_GAP_SEC", "10"))
+ADV_REVISIT_DAYS = 30
 MEDIA_PER_RUN = int(os.environ.get("MEDIA_PER_RUN", "100"))             # images per run, gently
 MEDIA_GAP = float(os.environ.get("MEDIA_GAP_SEC", "0.5"))
 MEDIA_MAX_W = 900
@@ -327,6 +330,44 @@ def run_backfill(ads, state, stats):
     return rows
 
 
+def advertiser_slug(a):
+    s = a.get("advertiser_slug") or ""
+    if not s and (a.get("advertiser") or "").startswith("@"):
+        s = "tg-" + a["advertiser"][1:].strip().lower()
+    return s
+
+
+def run_advertisers(ads, state, stats):
+    """History of every known Iranian advertiser through the documented `advertiser` filter.
+    Most advertisers have far fewer Iran ads than the reachable depth, so their whole history
+    comes in one or two requests. Biggest advertisers first; each revisited after 30 days."""
+    sw = state.setdefault("adv_sweep", {"done": {}, "partial": {}, "ads_found": 0})
+    stale = iso(NOW - dt.timedelta(days=ADV_REVISIT_DAYS))
+    counts = {}
+    for a in ads.values():
+        s = advertiser_slug(a)
+        if s:
+            counts[s] = counts.get(s, 0) + 1
+    todo = [s for s in sorted(counts, key=lambda s: -counts[s]) if sw["done"].get(s, "") < stale]
+    sw["known"], sw["waiting"] = len(counts), len(todo)
+    for i, slug in enumerate(todo[:ADV_PER_RUN]):
+        if time_left() < 200:
+            break
+        if i:
+            time.sleep(ADV_GAP)
+        before = stats["new"]
+        _, _, exhausted = pull(ads, state, {"advertiser": slug, "geo": "IR"}, "advertiser", 600, stats,
+                               keep_all=True, gap=ADV_GAP)
+        meta = stats.pop("_meta", None) or {}
+        sw["done"][slug] = now_iso()
+        sw["ads_found"] += stats["new"] - before
+        total, reach = meta.get("total"), meta.get("totalReachable")
+        if total is not None and reach is not None and total > reach:
+            sw["partial"][slug] = {"total": total, "reachable": reach}
+    log(f"advertisers: {min(len(todo), ADV_PER_RUN)} checked, {sw['waiting']} waiting of {sw['known']}, "
+        f"{sw['ads_found']} old ads found so far")
+
+
 # --------------------------------------------------------------------------- media
 def fetch_media(ads, stats):
     OUT_MEDIA.mkdir(parents=True, exist_ok=True)
@@ -489,12 +530,13 @@ def build_status(ads, state, shards):
         "totals": {
             "ads": len(ads),
             "with_image": sum(1 for a in ads.values() if a.get("media_file")),
-            "new_24h": sum(1 for a in ads.values() if a.get("source") != "backfill" and (a.get("found_at") or "") >= today),
+            "new_24h": sum(1 for a in ads.values() if a.get("source") == "live" and (a.get("found_at") or "") >= today),
             "media_waiting": sum(1 for a in ads.values() if a["media_status"] in ("pending", "queued")),
             "not_sent": sum(1 for a in ads.values() if not a.get("sent_at")),
         },
         "backfill": state["backfill"],
         "missed_total": state.get("missed_total", 0),
+        "adv_sweep": {k: v for k, v in (state.get("adv_sweep") or {}).items() if k != "done"},
         "missed_last": state.get("missed_last"),
         "runs": list(reversed(state["runs"][-30:])),
     }
@@ -590,7 +632,7 @@ def main():
     if blocked and blocked > now_iso():
         log(f"API paused until {blocked} (rate limit) — skipping fetch this run")
     else:
-        for step in (run_incremental, run_backfill):
+        for step in (run_incremental, run_backfill, run_advertisers):
             try:
                 step(ads, state, stats)
             except RateLimited as e:
