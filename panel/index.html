@@ -146,7 +146,7 @@ function apply(){
   const day = Date.now() - 864e5;
   view = ads.filter(a => (!ni || (a.labels?.niche_fa || a.niche) === ni)
     && (!img || a.media_file)
-    && (!fresh || (a.source !== 'backfill' && new Date(a.found_at) > day))
+    && (!fresh || (a.source === 'live' && new Date(a.found_at) > day))
     && (!q || `${a.title} ${a.text} ${a.advertiser} ${a.cta_url}`.toLowerCase().includes(q)));
   const dur = a => new Date(a.last_seen || a.first_seen) - new Date(a.first_seen);
   const s = $('sort').value;
@@ -160,7 +160,7 @@ function apply(){
 }
 
 function card(a){
-  const isNew = a.source !== 'backfill' && a.found_at && Date.now() - new Date(a.found_at) < 864e5;
+  const isNew = a.source === 'live' && a.found_at && Date.now() - new Date(a.found_at) < 864e5;
   const media = a.media_file ? `<img loading="lazy" src="${esc(a.media_file)}" alt="">`
     : a.media_status === 'video' ? `<a href="${esc(a.media_src)}" target="_blank" rel="noopener">ویدیو (لینک منبع)</a>`
     : a.media_status === 'none' ? 'بدون تصویر' : 'تصویر در صف ارسال';
