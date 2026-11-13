@@ -28,6 +28,7 @@ import channels
 
 IMPORT_DIR = channels.ROOT / "data" / "channel-import"
 HTML_DIR = channels.ROOT / "data" / "channel-html-import"     # buckets from scripts/channels_html.py
+TGSTAT_DIR = channels.ROOT / "data" / "tgstat-import"          # Iran-related channels and groups from tgstat.com
 PLACEMENTS_F = channels.ROOT / "data" / "placements.json"
 USERNAME = re.compile(r"^[A-Za-z][A-Za-z0-9_]{3,31}$")
 
@@ -36,6 +37,28 @@ def load_placements():
     if PLACEMENTS_F.exists():
         return json.loads(PLACEMENTS_F.read_text("utf-8"))
     return {"done_parts": [], "rows": {}}       # rows: "advertiser|channel" -> {...}
+
+
+# Iran vs Afghanistan (both write Persian; TGStat's country label is not reliable).
+# Concrete signals only: cities, currency, phone codes, domains, everyday Iranian services.
+IRAN_SIGNS = re.compile(
+    r"ایران|تهران|اصفهان|مشهد|شیراز|تبریز|کرج|اهواز|(?<![\u0600-\u06FF])قم(?![\u0600-\u06FF])|کرمانشاه|رشت|ارومیه|زاهدان|همدان|یزد|اردبیل|"
+    r"بندرعباس|کرمان|قزوین|ساری|گرگان|سنندج|خرم\s*آباد|بوشهر|بیرجند|سمنان|ایلام|یاسوج|شهرکرد|زنجان|"
+    r"تومان|ریال|کارت\s*به\s*کارت|شماره\s*شبا|دیجی\s*کالا|اسنپ|ایرانسل|همراه\s*اول|کنکور|"
+    r"\+98|(?<!\d)0?9[0-3]\d[\s-]?\d{3}[\s-]?\d{4}(?!\d)|\.ir\b|Iran\b|Tehran", re.I)
+AFGHAN_SIGNS = re.compile(
+    r"افغانستان|افغان|کابل|هرات|مزار\s*شریف|قندهار|جلال\s*آباد|بلخ|بامیان|غزنی|کندز|بدخشان|"
+    r"طالبان|امارت\s*اسلامی|افغانی|\+93|\.af\b|Afghan|Kabul|Herat", re.I)
+
+
+def region(text):
+    """'ir', 'af' or None (unknown) from concrete signals in title, bio and post sample."""
+    ir, af = len(IRAN_SIGNS.findall(text or "")), len(AFGHAN_SIGNS.findall(text or ""))
+    if ir > af:
+        return "ir"
+    if af > ir:
+        return "af"
+    return None
 
 
 def metric(text):
@@ -94,12 +117,64 @@ def import_html_buckets(chans, pl, log, now_iso):
     return n
 
 
+def import_tgstat(chans, pl, log, now_iso):
+    """tgstat.com (permission granted for Iran-related channels and groups). Parts may be new
+    files or rewritten buckets: each is re-read when its digest changes. One row per entity:
+    {"type": "channel"|"group", "username", "title", "description", "members", "avg_reach",
+     "err", "category", "country", "language", "url", "collected_at"}"""
+    import hashlib
+    seen = pl.setdefault("tgstat_files", {})
+    n = 0
+    for path in sorted(glob.glob(str(TGSTAT_DIR / "*.jsonl.gz"))):
+        name = path.rsplit("/", 1)[-1]
+        raw = open(path, "rb").read()
+        digest = hashlib.sha256(raw).hexdigest()
+        if seen.get(name) == digest:
+            continue
+        for line in gzip.decompress(raw).decode("utf-8").splitlines():
+            if not line.strip():
+                continue
+            r = json.loads(line)
+            u = (r.get("username") or "").lstrip("@")
+            if not USERNAME.match(u) or r.get("type") not in ("channel", "group"):
+                continue
+            c = chans.get(u) or {"u": u, "k": [], "sr": "tgstat"}
+            c["kd"] = r["type"]
+            for src, dst in (("title", "t"), ("category", "c"), ("country", "co"), ("language", "lg")):
+                if r.get(src):
+                    c[dst] = r[src]
+            if r.get("description"):
+                c["d"] = str(r["description"])[:400]
+                c["dd"] = (r.get("collected_at") or now_iso())[:10]
+            members = r.get("members") if isinstance(r.get("members"), int) else metric(r.get("members"))
+            if members:
+                c["m"] = members
+                if c["kd"] == "channel":
+                    c.setdefault("e", members >= 1000)
+            reach = r.get("avg_reach") if isinstance(r.get("avg_reach"), int) else metric(r.get("avg_reach"))
+            if reach and not c.get("v"):
+                c["v"] = reach                      # TGStat average post reach ~ views per post
+            if r.get("err") not in (None, ""):
+                c["er"] = r["err"]
+            c["ts"] = (r.get("collected_at") or now_iso())[:10]
+            rg = region(" ".join(str(r.get(k) or "") for k in ("title", "description", "text_sample")))
+            if rg:
+                c["rg"] = rg
+            chans[u] = c
+            n += 1
+        seen[name] = digest
+    if n:
+        log(f"channel import: {n} TGStat channels/groups")
+    return n
+
+
 def run(log, now_iso):
     parts = sorted(glob.glob(str(IMPORT_DIR / "*.jsonl.gz")))
     pl = load_placements()
     todo = [p for p in parts if p.rsplit("/", 1)[-1] not in pl["done_parts"]]
     chans = channels.load()
     n_html = import_html_buckets(chans, pl, log, now_iso)
+    n_html += import_tgstat(chans, pl, log, now_iso)
     if not todo and not n_html:
         return 0
     n_ch = n_pl = bad = 0
@@ -148,6 +223,11 @@ def run(log, now_iso):
         p = per.setdefault(row["c"], [0, 0])
         p[0] += 1
         p[1] += row.get("n", 0)
+    for c in chans.values():
+        if not c.get("rg"):
+            rg = region(f"{c.get('t') or ''} {c.get('d') or ''}")
+            if rg:
+                c["rg"] = rg
     for u, (advs, creatives) in per.items():
         c = chans.setdefault(u, {"u": u, "k": [], "sr": "tgadsspy"})
         c["ia"], c["ic"] = advs, creatives
