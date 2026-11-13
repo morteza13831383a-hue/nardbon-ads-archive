@@ -31,6 +31,7 @@ from PIL import Image
 
 import channels
 import tme_crawler
+import channel_import
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -685,12 +686,31 @@ def main():
             traceback.print_exc()
     # Persian channel crawler on public t.me pages (no API key, no account); heavy runs only.
     # It also refreshes descriptions, so the separate description step is no longer needed.
-    if heavy:
+    if heavy and os.environ.get("TME_CRAWLER") == "1":      # off: channels come from tgadsspy (see channel_import)
         try:
             state["channels_total"] = tme_crawler.step(log, now_iso, time_left)
         except Exception as e:
             log(f"channels crawler failed: {e}")      # never fails the run
             traceback.print_exc()
+    # channel pages collected from tgadsspy by the external crawler (no network here)
+    try:
+        channel_import.run(log, now_iso)
+    except Exception as e:
+        errors.append(f"channel import: {e}")
+        traceback.print_exc()
+    # list of known Iranian advertisers for the external crawler (biggest first)
+    try:
+        counts = {}
+        for a in ads.values():
+            s_ = advertiser_slug(a)
+            if s_:
+                counts[s_] = counts.get(s_, 0) + 1
+        text = "\n".join(sorted(counts, key=lambda k: (-counts[k], k))) + "\n"
+        f = DATA / "iran_advertisers.txt"
+        if not f.exists() or f.read_text("utf-8") != text:
+            f.write_text(text, "utf-8")
+    except Exception as e:
+        log(f"advertiser list failed: {e}")
     if stats.get("missed"):
         errors.append(f"missed: up to {stats['missed']} ads beyond the API plan's reach in this window")
     if API_INFO:

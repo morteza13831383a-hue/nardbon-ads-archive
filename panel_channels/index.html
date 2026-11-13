@@ -98,9 +98,11 @@ th{color:var(--mute);font-weight:700;background:var(--bg)}
         <option value="r">بهترین نسبت بازدید به عضو</option>
         <option value="m">بیشترین عضو</option>
         <option value="p">پرکارترین (پست در روز)</option>
+        <option value="i">بیشترین تبلیغ‌دهنده ایرانی</option>
       </select>
       <label class="chk"><input type="checkbox" id="celig" checked> فقط قابل هدف‌گیری در تلگرام ادز</label>
       <label class="chk"><input type="checkbox" id="cact"> فقط فعال (پست در ۳۰ روز اخیر)</label>
+      <label class="chk"><input type="checkbox" id="ciran"> فقط جاهایی که تبلیغ‌دهنده ایرانی خریده</label>
     </div>
     <div class="count" id="ccount"></div>
     <div class="chlist" id="clist"></div>
@@ -151,10 +153,12 @@ function capply(){
   const words = fa($('cq').value).split(/\s+/).filter(Boolean), min = +$('cmin').value, el = $('celig').checked;
   const rate = c => (c.m || 0) >= 1000 ? (c.v || 0) / c.m : 0;   // tiny channels make the ratio meaningless
   const act = $('cact').checked, since = new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10);
-  cview = chans.filter(c => (c.m || 0) >= min && (!el || c.e) && (!act || (c.lp || '') >= since) && words.every(w => c.h.includes(w)));
+  const ir = $('ciran').checked;
+  cview = chans.filter(c => (!ir || c.ia) && (c.m || 0) >= min && (!el || c.e) && (!act || (c.lp || '') >= since) && words.every(w => c.h.includes(w)));
   const s = $('csort').value;
   cview.sort(s === 'm' ? (a,b) => (b.m||0) - (a.m||0) : s === 'r' ? (a,b) => rate(b) - rate(a)
-           : s === 'p' ? (a,b) => (b.pd||0) - (a.pd||0) : (a,b) => (b.v||0) - (a.v||0));
+           : s === 'p' ? (a,b) => (b.pd||0) - (a.pd||0) : s === 'i' ? (a,b) => (b.ia||0) - (a.ia||0) || (b.ic||0) - (a.ic||0)
+           : (a,b) => (b.v||0) - (a.v||0));
   cpage = 1; crender();
   $('ccount').textContent = `${N(cview.length)} کانال از ${N(chans.length)}` + (cview.length > CPAGE ? ' · ' + N(Math.ceil(cview.length / CPAGE)) + ' صفحه' : '');
 }
@@ -165,7 +169,7 @@ function ccard(c){
     <div class="un">@${esc(c.u)}</div>
     ${c.d ? `<div class="desc" dir="auto">${esc(c.d)}</div>` : ''}
     <div class="nums"><div><b>${N(c.m)}</b><span>عضو</span></div><div><b>${N(c.v)}</b><span>بازدید هر پست</span></div><div><b>${r == null ? '—' : N(r) + '٪'}</b><span>بازدید به عضو</span></div></div>
-    <div class="chips">${c.e ? '<span class="chip ok">قابل هدف‌گیری در ادز</span>' : ''}${c.pd != null ? `<span class="chip">${N(c.pd)} پست در روز</span>` : ''}${c.lp ? `<span class="chip">آخرین پست ${D(c.lp)}</span>` : ''}${c.c ? `<span class="chip">${esc(c.c)}</span>` : ''}${(c.k || []).slice(0, 4).map(k => `<span class="chip">${esc(k)}</span>`).join('')}</div>
+    <div class="chips">${c.ia ? `<span class="chip ok">${N(c.ia)} تبلیغ‌دهنده ایرانی · ${N(c.ic)} تبلیغ</span>` : ''}${c.e ? '<span class="chip ok">قابل هدف‌گیری در ادز</span>' : ''}${c.pd != null ? `<span class="chip">${N(c.pd)} پست در روز</span>` : ''}${c.lp ? `<span class="chip">آخرین پست ${D(c.lp)}</span>` : ''}${c.c ? `<span class="chip">${esc(c.c)}</span>` : ''}${(c.k || []).slice(0, 4).map(k => `<span class="chip">${esc(k)}</span>`).join('')}</div>
   </div>`;
 }
 function crender(){
@@ -198,7 +202,7 @@ document.querySelectorAll('header nav button').forEach(b => b.onclick = () => {
   ['ch', 'sys'].forEach(t => $(t).classList.toggle('hidden', b.dataset.tab !== t));
 });
 let ctmr; $('cq').oninput = () => { clearTimeout(ctmr); ctmr = setTimeout(capply, 200); };
-['cmin', 'csort', 'celig', 'cact'].forEach(id => $(id).onchange = capply);
+['cmin', 'csort', 'celig', 'cact', 'ciran'].forEach(id => $(id).onchange = capply);
 $('cpager').onclick = e => { const b = e.target.closest('button[data-p]'); if(!b || b.disabled) return;
   cpage = +b.dataset.p; crender(); window.scrollTo(0, 0); };
 
