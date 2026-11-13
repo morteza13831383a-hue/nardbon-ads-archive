@@ -1,0 +1,89 @@
+#!/usr/bin/env python3
+"""Publish collected HTML archive through the existing upload chain; no source API."""
+import argparse
+import gzip
+import hashlib
+import json
+from pathlib import Path
+import sqlite3
+import sys
+
+import sync
+
+
+def merge_record(ads, record):
+    aid=record['id']
+    raw={
+        'id':aid,'title':record['title'],'text':record['text'],'niche':record.get('niche'),
+        'geo':'IR','lang':record.get('lang'),'advertiserName':record.get('advertiser'),
+        'ctaButtonText':record.get('cta_text'),'ctaUrl':record.get('cta_url'),
+        'firstSeenAt':record.get('first_seen'),'lastSeenAt':record.get('last_seen'),
+        'mediaUrl':record.get('media_src'),
+    }
+    if aid not in ads:
+        sync.merge(ads,raw,'html-archive')
+    else:
+        current=ads[aid]
+        # Never replace fresher API observations with an older historical crawl.
+        for key in ('title','text','niche','geo','lang','advertiser','cta_text','cta_url','first_seen'):
+            if not current.get(key) and record.get(key):
+                current[key]=record[key]
+        if record.get('last_seen') and record['last_seen'] > (current.get('last_seen') or ''):
+            current['last_seen']=record['last_seen']
+        if not current.get('media_src') and record.get('media_src'):
+            current['media_src']=record['media_src']
+            current['media_status']='pending'
+    ads[aid]['html_archive']={
+        'source_url':record['source_url'],'collected_at':record['collected_at'],
+        'cutoff':record['archive_cutoff'],'html_sha256':record.get('html_sha256'),
+    }
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--work-dir',type=Path,default=sync.ROOT/'archive-work')
+    parser.add_argument('--upload',action='store_true',help='Also send data and queued media to the configured host')
+    args=parser.parse_args()
+    dbpath=args.work_dir/'checkpoint.sqlite3'
+    if not dbpath.exists():
+        parser.error('Checkpoint missing; run archive_html.py first')
+    ads=sync.load_ads()
+    with sqlite3.connect(dbpath) as db:
+        for (payload,) in db.execute('SELECT payload FROM records ORDER BY id'):
+            merge_record(ads,json.loads(payload))
+    state=sync.load_state()
+    run={'at':sync.now_iso(),'ok':False,'error':None,'source':'html-archive'}
+    stats={'media':0}
+    # No run_incremental, run_backfill, channels.step or t.me requests here.
+    sync.write_shards(ads)
+    if not args.upload:
+        print(f'Merged {len(ads)} total panel ads locally; no upload performed',flush=True)
+        return
+    try:
+        sync.fetch_media(ads,stats)
+        sync.upload(ads,state,run)
+        # Extra detailed exports are additive; existing panel paths stay the same.
+        receipt=args.work_dir/'export-receipts.json'
+        uploaded=json.loads(receipt.read_text()) if receipt.exists() else {}
+        files=sorted((args.work_dir/'exports').glob('ads-*'))
+        manifest=args.work_dir/'exports'/'manifest.json'
+        files.append(manifest)  # manifest is published last
+        with sync.Uploader() as uploader:
+            for path in files:
+                digest=hashlib.sha256(path.read_bytes()).hexdigest()
+                remote=f'{sync.REMOTE_ROOT}/exports/archive-html/{path.name}'
+                if uploaded.get(remote)==digest:
+                    continue
+                uploader.put(path,remote)
+                uploaded[remote]=digest
+                temp=receipt.with_suffix('.tmp')
+                temp.write_text(json.dumps(uploaded,sort_keys=True),encoding='utf-8')
+                temp.replace(receipt)
+        state['html_archive_exported_at']=sync.now_iso()
+        print('Panel files and detailed archive exports uploaded',flush=True)
+    finally:
+        sync.write_shards(ads)
+        sync.save_state(state)
+
+if __name__=='__main__':
+    main()

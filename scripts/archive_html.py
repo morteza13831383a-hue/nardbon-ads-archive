@@ -1,0 +1,382 @@
+#!/usr/bin/env python3
+"""One-off Iran ad backfill from public HTML and sitemaps, never source APIs."""
+import argparse
+import csv
+from datetime import datetime, timezone
+import gzip
+import hashlib
+import json
+import logging
+from pathlib import Path
+import re
+import sqlite3
+import time
+from urllib.error import HTTPError
+from urllib.parse import urljoin, urlsplit
+import xml.etree.ElementTree as ET
+
+from html_core import Client, Document, canonical, origin
+
+ROOT = Path(__file__).resolve().parents[1]
+BASE = 'https://tgadsspy.com'
+LOG = logging.getLogger('archive-html')
+AD_PATH = re.compile(r'^/ads/([A-Za-z0-9_-]+)$')
+LIST_PATH = re.compile(r'^/(?:countries/ir(?:/(?:advertisers|niches|snapshot/[0-9-]+|trending/(?:week|month)))?|archive(?:/[0-9-]+)?|niches/[a-z-]+|advertisers/[a-z0-9_-]+)$')
+
+
+def now():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def connect(directory, cutoff=None):
+    directory.mkdir(parents=True, exist_ok=True)
+    db = sqlite3.connect(directory / 'checkpoint.sqlite3')
+    db.executescript('''
+    CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS queue (
+        url TEXT PRIMARY KEY, kind TEXT NOT NULL, priority INTEGER NOT NULL,
+        status TEXT NOT NULL DEFAULT 'pending', tries INTEGER NOT NULL DEFAULT 0, error TEXT);
+    CREATE INDEX IF NOT EXISTS queue_work ON queue(status,priority,tries,url);
+    CREATE TABLE IF NOT EXISTS records (id TEXT PRIMARY KEY, payload TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS listing_counts (url TEXT PRIMARY KEY, ad_links INTEGER, iran_links INTEGER);
+    ''')
+    if not db.execute("SELECT 1 FROM meta WHERE key='cutoff'").fetchone():
+        value = cutoff or now()
+        if datetime.fromisoformat(value.replace('Z', '+00:00')).tzinfo is None:
+            raise ValueError('Cutoff must include a timezone')
+        db.execute('INSERT INTO meta VALUES(?,?)', ('cutoff',value))
+        enqueue(db, BASE+'/countries/ir', 'listing', 0)
+        enqueue(db, BASE+'/countries/ir/advertisers', 'listing', 2)
+        enqueue(db, BASE+'/sitemap.xml', 'sitemap', 10)
+        db.commit()
+    return db
+
+
+def enqueue(db, url, kind, priority):
+    url = canonical(url)
+    if origin(url) != origin(BASE) or '/api/' in urlsplit(url).path:
+        return
+    db.execute('INSERT INTO queue(url,kind,priority) VALUES(?,?,?) ON CONFLICT(url) DO UPDATE SET priority=MIN(priority,excluded.priority)', (url,kind,priority))
+
+
+def compact(node):
+    """Keep text boundaries for labels without storing executable HTML."""
+    def visible(n):
+        if n.tag in ('script','style','svg','button'):
+            return ''
+        return ' '.join(visible(c) if hasattr(c,'tag') else c for c in n.children)
+    return ' '.join(visible(node).split())
+
+
+def elements(node):
+    return [c for c in node.children if hasattr(c, 'tag')]
+
+
+def page_details(doc):
+    article = next((n for n in doc.root.nodes() if n.tag == 'article'), None)
+    if not article:
+        raise ValueError('Missing ad article; possible challenge or layout change')
+    details = {'info':{}, 'metrics':{}, 'daily_impressions':[], 'placements_shown':[], 'sections':[]}
+    for n in article.nodes():
+        children = elements(n)
+        # Named label/value rows used by Ad info and headline statistics.
+        if len(children) >= 2:
+            label = compact(children[0])
+            if label in ('Total impressions', 'Active days', 'Peak day', 'Channels'):
+                details['metrics'][label] = [compact(x) for x in children[1:]]
+            label_nodes = [x for x in children if 'w-[104px]' in x.attrs.get('class','').split()]
+            if label_nodes:
+                label = compact(label_nodes[0])
+                i = children.index(label_nodes[0])
+                if i+1 < len(children):
+                    details['info'][label] = compact(children[i+1])
+        if n.tag == 'section':
+            headings = [x for x in n.nodes() if x.tag == 'h2']
+            label = n.attrs.get('aria-label') or (compact(headings[0]) if headings else '')
+            if label == 'Impressions by day':
+                for cell in n.nodes():
+                    tooltip = cell.attrs.get('title','')
+                    m = re.fullmatch(r'([\d,]+) impressions · (\d{1,2}/\d{1,2}/\d{4})',tooltip)
+                    if m:
+                        details['daily_impressions'].append({'date':datetime.strptime(m[2],'%m/%d/%Y').date().isoformat(),'impressions':int(m[1].replace(',','')),'label':tooltip})
+            if label:
+                texts = []
+                # Leaf text segments preserve otherwise unmodelled public fields.
+                for x in n.nodes():
+                    if x.tag not in ('script','style','svg','path'):
+                        text = ' '.join(c for c in x.children if isinstance(c,str)).strip()
+                        if text:
+                            texts.append(text)
+                details['sections'].append({'label':label,'text_segments':texts})
+            if headings and compact(headings[0]) == 'Where this ad ran':
+                for a in n.nodes():
+                    if a.tag == 'a' and a.attrs.get('href','').startswith('/channels/'):
+                        details['placements_shown'].append({'url':urljoin(BASE,a.attrs['href']),'text':compact(a)})
+    details['article_text_segments'] = [text for n in article.nodes() if n.tag not in ('script','style','svg','path') for text in [' '.join(c for c in n.children if isinstance(c,str)).strip()] if text]
+    details['article_links'] = [dict(href=urljoin(BASE,n.attrs['href']),text=compact(n)) for n in article.nodes() if n.tag=='a' and 'href' in n.attrs]
+    details['article_media'] = [dict(n.attrs) for n in article.nodes() if n.tag in ('img','video','source')]
+    details['placements_complete'] = False  # source explicitly shows only top channels
+    return details
+
+
+def extract(doc, url, cutoff):
+    works = []
+    for item in doc.jsonld():
+        kinds = item.get('@type',[])
+        kinds = [kinds] if isinstance(kinds,str) else kinds
+        if 'CreativeWork' in kinds:
+            works.append(item)
+    if not works:
+        raise ValueError('No CreativeWork JSON-LD; do not mark page as successfully processed')
+    item = next((w for w in works if str(w.get('identifier','')) == AD_PATH.fullmatch(urlsplit(url).path)[1]), works[0])
+    country = item.get('contentLocation',{})
+    countries = country if isinstance(country,list) else [country]
+    if not any(isinstance(c,dict) and str(c.get('name','')).upper() in ('IR','IRAN','ایران') for c in countries):
+        return None, 'not_iran'
+    first = item.get('datePublished')
+    if not first:
+        raise ValueError('Missing first-seen date; cannot enforce archive cutoff')
+    first_dt = datetime.fromisoformat(first.replace('Z','+00:00'))
+    cutoff_dt = datetime.fromisoformat(cutoff.replace('Z','+00:00'))
+    if first_dt.tzinfo is None or cutoff_dt.tzinfo is None:
+        raise ValueError('Timezone required for datePublished and cutoff')
+    if first_dt > cutoff_dt:
+        return None, 'after_cutoff'
+    sponsor = item.get('sponsor') or {}
+    media = item.get('associatedMedia') or {}
+    sponsor = sponsor if isinstance(sponsor,dict) else {}
+    media = media if isinstance(media,dict) else {}
+    article = next((n for n in doc.root.nodes() if n.tag == 'article'), None)
+    if article is None:
+        raise ValueError('Missing ad article')
+    cta_url, cta_text = '', ''
+    # The creative's CTA is distinguished from links to the promoted entity.
+    for n in article.nodes():
+        if n.tag == 'a' and 'sponsored' in n.attrs.get('rel','').split() and 'uppercase' in n.attrs.get('class','').split():
+            cta_url, cta_text = n.attrs.get('href',''), compact(n)
+            break
+    return {
+        'id': AD_PATH.fullmatch(urlsplit(url).path)[1],
+        'title':item.get('name',''), 'text':item.get('description',''),
+        'niche':item.get('genre'), 'geo':'IR', 'lang':item.get('inLanguage'),
+        'advertiser':sponsor.get('name',''), 'advertiser_url':sponsor.get('sameAs'),
+        'cta_url':cta_url or sponsor.get('sameAs',''), 'cta_text':cta_text,
+        'first_seen':first, 'last_seen':item.get('dateModified'),
+        'media_src':urljoin(BASE,media['contentUrl']) if media.get('contentUrl') else None, 'source':'html-archive', 'source_url':url,
+        'archive_cutoff':cutoff, 'collected_at':now(),
+        'jsonld':item, 'details':page_details(doc),
+    }, 'iran'
+
+
+def discover(db, doc, url):
+    links, iran = 0, 0
+    for n in doc.root.nodes():
+        if n.tag != 'a' or 'href' not in n.attrs:
+            continue
+        link = canonical(urljoin(url, n.attrs['href']))
+        if origin(link) != origin(BASE):
+            continue
+        p = urlsplit(link)
+        if AD_PATH.fullmatch(p.path) and not p.query:
+            links += 1
+            is_ir = any(x.attrs.get('aria-label') == 'Iran' for x in n.nodes())
+            iran += int(is_ir)
+            # Every detail is still verified independently, including cards from Iran pages.
+            enqueue(db,link,'detail',1 if is_ir else 30)
+        elif LIST_PATH.fullmatch(p.path):
+            # Only bounded useful catalogue filters; no search or sort permutations.
+            if p.query not in ('','geo=IR','intent=all','intent=strict'):
+                continue
+            if p.path.startswith('/niches/') and p.query != 'geo=IR':
+                continue
+            if p.path.startswith('/archive'):
+                continue  # daily pages are capped; exhaustive detail discovery uses the sitemap
+            if p.path.startswith('/advertisers/'):
+                # Follow advertisers only from Iran index, not unrelated ad recommendations.
+                if '/countries/ir' not in urlsplit(url).path:
+                    continue
+                priority = 5
+            else:
+                priority = 4
+            enqueue(db,link,'listing',priority)
+    db.execute('INSERT OR REPLACE INTO listing_counts VALUES(?,?,?)',(url,links,iran))
+    return links,iran
+
+
+def sitemap(db, body):
+    root = ET.fromstring(body)
+    kind = root.tag.rsplit('}',1)[-1]
+    if kind not in ('sitemapindex','urlset'):
+        raise ValueError('Unexpected sitemap document')
+    count = 0
+    for node in root:
+        loc = next((x.text for x in node if x.tag.rsplit('}',1)[-1]=='loc'),None)
+        if not loc or origin(loc) != origin(BASE):
+            continue
+        path = urlsplit(loc).path
+        if kind == 'sitemapindex' and re.fullmatch(r'/sitemap/\d+\.xml',path):
+            enqueue(db,loc,'sitemap',10)
+            count += 1
+        elif kind == 'urlset' and AD_PATH.fullmatch(path):
+            enqueue(db,loc,'detail',30)
+            count += 1
+    return count
+
+
+def crawl(db, client, max_pages, max_seconds):
+    cutoff = db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
+    started = time.monotonic()
+    attempts = 0
+    db.execute("CREATE TEMP TABLE IF NOT EXISTS attempted (url TEXT PRIMARY KEY)")
+    db.execute("DELETE FROM attempted")
+    while attempts < max_pages and time.monotonic()-started < max_seconds:
+        # Limit retrying failed jobs to a later invocation; zero-try jobs first at equal priority.
+        job = db.execute("SELECT q.url,q.kind,q.tries FROM queue q WHERE status='pending' AND tries<3 AND NOT EXISTS (SELECT 1 FROM attempted a WHERE a.url=q.url) ORDER BY priority,tries,q.url LIMIT 1").fetchone()
+        if not job:
+            break
+        url,kind,tries = job
+        db.execute("INSERT INTO attempted VALUES(?)",(url,))
+        attempts += 1
+        status, error = 'done',None
+        stop = False
+        try:
+            if not client.robots.allowed(url):
+                status = 'blocked_robots'
+            else:
+                body = client.get(url)
+                if kind == 'sitemap':
+                    found = sitemap(db,body)
+                    LOG.info('Sitemap %s: %s useful URLs',url,found)
+                else:
+                    doc = Document(body)
+                    if kind == 'detail':
+                        record,status = extract(doc,url,cutoff)
+                        if record:
+                            record['html_sha256'] = hashlib.sha256(body.encode()).hexdigest()
+                            db.execute('INSERT OR REPLACE INTO records VALUES(?,?)',(record['id'],json.dumps(record,ensure_ascii=False)))
+                            LOG.info('Iran ad %s',record['id'])
+                    else:
+                        found,ir = discover(db,doc,url)
+                        LOG.info('Listing %s: %s ads (%s Iran cards)',url,found,ir)
+                        if url == BASE+'/countries/ir':
+                            visible = ' '.join(x.text() for x in doc.root.nodes() if x.tag in ('h1','p'))
+                            m = re.search(r'([\d,]+)\s+creatives targeting Iran',visible)
+                            if m:
+                                db.execute('INSERT OR REPLACE INTO meta VALUES(?,?)',('source_reported_iran_total',m[1].replace(',','')))
+                            if not found:
+                                raise ValueError('Iran catalogue has no ad links; possible layout/challenge')
+        except Exception as exc:
+            error = f'{type(exc).__name__}: {exc}'[:500]
+            status = 'failed' if tries+1 >= 3 else 'pending'
+            LOG.warning('%s %s',url,error)
+            if isinstance(exc,HTTPError) and exc.code in (404,410):
+                status = 'gone'
+            stop = isinstance(exc,HTTPError) and exc.code in (401,403,429)
+            stop = stop or isinstance(exc,RuntimeError) and 'cooldown' in str(exc)
+        db.execute('UPDATE queue SET status=?,tries=tries+1,error=? WHERE url=?',(status,error,url))
+        db.commit()
+        if stop:
+            LOG.warning('Stopping source requests after access/rate-limit response')
+            break
+    return attempts
+
+
+def report(db):
+    statuses = {k:v for k,v in db.execute('SELECT status,COUNT(*) FROM queue GROUP BY status')}
+    kinds = {k:v for k,v in db.execute('SELECT kind,COUNT(*) FROM queue GROUP BY kind')}
+    total = db.execute("SELECT value FROM meta WHERE key='source_reported_iran_total'").fetchone()
+    count = db.execute('SELECT COUNT(*) FROM records').fetchone()[0]
+    return {
+        'schema_version':1, 'generated_at':now(),
+        'cutoff':db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0],
+        'source':'https://tgadsspy.com', 'source_api_used':False,
+        'iran_ads_extracted':count, 'source_reported_iran_total':int(total[0]) if total else None,
+        'queue_status':statuses,'queue_kinds':kinds,
+        'discovered_queue_exhausted':not any(statuses.get(x,0) for x in ('pending','failed','blocked_robots')),
+        'complete_iran_archive_verified':False,
+        'limitations':[
+            'Sitemaps and public listings are discovery sources, not a guaranteed complete Iran export.',
+            'The source shows only top placement channels on each ad; those lists are not complete.',
+            'Cutoff applies to first-seen dates; other fields are observed at collection time.',
+            'Media files and host delivery are tracked separately from text extraction.',
+        ],
+        'errors':[dict(url=u,status=s,tries=t,error=e) for u,s,t,e in db.execute("SELECT url,status,tries,error FROM queue WHERE error IS NOT NULL OR status='blocked_robots' ORDER BY url LIMIT 200")],
+    }
+
+
+def safe_cell(value):
+    if value is None:
+        return ''
+    if isinstance(value,(dict,list)):
+        value = json.dumps(value,ensure_ascii=False,separators=(',',':'))
+    value = str(value)
+    return "'"+value if value.lstrip().startswith(('=','+','-','@')) else value
+
+
+def export(db,directory,part_bytes=4_000_000):
+    """Small independently readable gzip/CSV parts fit conservative upload limits."""
+    out = directory/'exports'
+    out.mkdir(exist_ok=True)
+    for old in out.glob('ads-*'):
+        old.unlink()
+    fields=['id','title','text','geo','lang','niche','advertiser','cta_url','cta_text','first_seen','last_seen','media_src','source_url','details']
+    files=[]
+    def write_part(rows,index):
+        gz=out/f'ads-{index:05d}.jsonl.gz'
+        with gz.open('wb') as raw, gzip.GzipFile(fileobj=raw,mode='wb',mtime=0,filename='') as handle:
+            for row in rows:
+                handle.write((json.dumps(row,ensure_ascii=False)+'\n').encode())
+        csvpath=out/f'ads-{index:05d}.csv'
+        with csvpath.open('w',encoding='utf-8-sig',newline='') as handle:
+            writer=csv.DictWriter(handle,fieldnames=fields)
+            writer.writeheader()
+            writer.writerows({k:safe_cell(row.get(k)) for k in fields} for row in rows)
+        for path in (gz,csvpath):
+            files.append({'name':path.name,'records':len(rows),'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
+    batch,size,index=[],0,1
+    for (payload,) in db.execute('SELECT payload FROM records ORDER BY id'):
+        row=json.loads(payload)
+        # Bound uncompressed JSON and CSV; one oversized record remains explicit in manifest.
+        n=max(len(payload.encode()),sum(len(safe_cell(row.get(k)).encode()) for k in fields)+len(fields)*4)
+        if batch and size+n>part_bytes:
+            write_part(batch,index)
+            batch,size,index=[],0,index+1
+        batch.append(row)
+        size+=n
+    if batch:
+        write_part(batch,index)
+    info=report(db)
+    info['files']=files
+    (out/'manifest.json').write_text(json.dumps(info,ensure_ascii=False,indent=2),encoding='utf-8')
+    LOG.info('Extracted %s Iran ads; queue: %s',info['iran_ads_extracted'],info['queue_status'])
+    return info
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--work-dir',type=Path,default=ROOT/'archive-work')
+    parser.add_argument('--max-pages',type=int,default=1500)
+    parser.add_argument('--max-seconds',type=int,default=5400)
+    parser.add_argument('--delay',type=float,default=2)
+    parser.add_argument('--cutoff',help='ISO-8601 UTC cutoff, fixed on first invocation')
+    parser.add_argument('--retry-failed',action='store_true')
+    parser.add_argument('--export-only',action='store_true')
+    args=parser.parse_args()
+    if min(args.max_pages,args.max_seconds)<1 or args.delay<1:
+        parser.error('Positive budgets and at least one second request delay required')
+    logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(message)s')
+    db=connect(args.work_dir,args.cutoff)
+    try:
+        if args.retry_failed:
+            db.execute("UPDATE queue SET status='pending',tries=0,error=NULL WHERE status='failed'")
+            db.commit()
+        if not args.export_only:
+            client=Client(BASE,args.delay)
+            client.initialize()
+            crawl(db,client,args.max_pages,args.max_seconds)
+        export(db,args.work_dir)
+    finally:
+        db.close()
+
+if __name__=='__main__':
+    main()

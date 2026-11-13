@@ -1,0 +1,177 @@
+#!/usr/bin/env python3
+"""Bounded HTML crawler. Python 3.10+, standard library only; no API calls."""
+import json
+import logging
+import re
+import time
+from html.parser import HTMLParser
+from urllib.parse import urljoin, urlsplit, urlunsplit
+from urllib.request import Request, build_opener, HTTPRedirectHandler
+from urllib.error import HTTPError
+
+LOG = logging.getLogger('crawler')
+UA = 'IranAdsCollector/1.0'
+VOID = set('area base br col embed hr img input link meta param source track wbr'.split())
+
+class Node:
+    def __init__(self, tag='', attrs=None):
+        self.tag, self.attrs, self.children = tag, attrs or {}, []
+    def nodes(self):
+        yield self
+        for c in self.children:
+            if isinstance(c, Node):
+                yield from c.nodes()
+    def text(self):
+        return ''.join(c.text() if isinstance(c, Node) else c for c in self.children)
+
+class Document(HTMLParser):
+    def __init__(self, html):
+        super().__init__(convert_charrefs=True)
+        self.root = Node()
+        self.stack = [self.root]
+        self.feed(html)
+    def handle_starttag(self, tag, attrs):
+        node = Node(tag, dict(attrs))
+        self.stack[-1].children.append(node)
+        if tag not in VOID:
+            self.stack.append(node)
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        if tag not in VOID:
+            self.stack.pop()
+    def handle_endtag(self, tag):
+        for i in range(len(self.stack)-1, 0, -1):
+            if self.stack[i].tag == tag:
+                del self.stack[i:]
+                break
+    def handle_data(self, data):
+        self.stack[-1].children.append(data)
+    def links(self):
+        return [n.attrs['href'] for n in self.root.nodes() if n.tag == 'a' and 'href' in n.attrs]
+    def jsonld(self):
+        def flatten(value):
+            if isinstance(value, list):
+                for x in value:
+                    yield from flatten(x)
+            elif isinstance(value, dict):
+                yield value
+                yield from flatten(value.get('@graph', []))
+        for n in self.root.nodes():
+            if n.tag == 'script' and n.attrs.get('type') == 'application/ld+json':
+                try:
+                    yield from flatten(json.loads(n.text()))
+                except (ValueError, TypeError):
+                    LOG.warning('Invalid JSON-LD skipped')
+
+
+def canonical(url):
+    p = urlsplit(url)
+    return urlunsplit((p.scheme.lower(), p.netloc.lower(), p.path or '/', p.query, ''))
+
+def origin(url):
+    p = urlsplit(url)
+    return p.scheme.lower(), p.netloc.lower()
+
+def match(pattern, text):
+    return bool(re.search(pattern, text))
+
+class Robots:
+    """robots rules with * and $, longest match and Allow tie priority."""
+    def __init__(self, body):
+        self.groups = []
+        agents, rules, delay = [], [], 0
+        seen_rule = False
+        for raw in body.splitlines() + ['User-agent: __end__']:
+            line = raw.split('#', 1)[0].strip()
+            if ':' not in line:
+                continue
+            key, value = (x.strip() for x in line.split(':', 1))
+            key = key.lower()
+            if key == 'user-agent':
+                if seen_rule:
+                    self.groups.append((agents, rules, delay))
+                    agents, rules, delay, seen_rule = [], [], 0, False
+                agents.append(value.lower())
+            elif agents and key in ('allow', 'disallow', 'crawl-delay'):
+                seen_rule = True
+                if key == 'crawl-delay':
+                    try:
+                        delay = max(0, float(value))
+                    except ValueError:
+                        pass
+                elif value:
+                    rules.append((value, key == 'allow'))
+    def selected(self):
+        groups = [(max((len(a) for a in aa if a != '*' and a in UA.lower()), default=0), aa, rr, dd)
+                  for aa, rr, dd in self.groups]
+        longest = max((g[0] for g in groups), default=0)
+        return [g for g in groups if g[0] == longest and (longest or '*' in g[1])]
+    @property
+    def delay(self):
+        return max((g[3] for g in self.selected()), default=0)
+    def allowed(self, url):
+        p = urlsplit(url)
+        target = p.path + ('?' + p.query if p.query else '')
+        hits = []
+        for _, _, rules, _ in self.selected():
+            for pattern, allow in rules:
+                end = pattern.endswith('$')
+                pat = pattern[:-1] if end else pattern
+                regex = '^' + '.*'.join(re.escape(x) for x in pat.split('*')) + ('$' if end else '')
+                if re.search(regex, target):
+                    hits.append((len(pat.replace('*', '')), allow))
+        return max(hits, default=(0, True))[1]
+
+class NoRedirect(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+class Client:
+    def __init__(self, base, delay=3):
+        self.base = base
+        self.delay = max(1, delay)
+        self.last = 0
+        self.opener = build_opener(NoRedirect())
+        self.robots = None
+    def get(self, url, robots=False):
+        for redirect in range(6):
+            if origin(url) != origin(self.base):
+                raise ValueError('Cross-origin URL/redirect rejected: ' + url)
+            if '/api/' in urlsplit(url).path:
+                raise ValueError('API paths are disabled')
+            if not robots and (not self.robots or not self.robots.allowed(url)):
+                raise ValueError('robots.txt disallows: ' + url)
+            for attempt in range(3):
+                time.sleep(max(0, self.delay - (time.monotonic() - self.last)))
+                self.last = time.monotonic()
+                try:
+                    with self.opener.open(Request(url, headers={'User-Agent': UA, 'Accept': 'text/html,text/plain'}), timeout=30) as r:
+                        content_type = r.headers.get('Content-Type', '')
+                        if not robots and not any(x in content_type for x in ('text/html', 'application/xhtml+xml', 'application/xml', 'text/xml')):
+                            raise ValueError('Not an HTML page: ' + content_type)
+                        raw = r.read(20_000_001)
+                        if len(raw) > 20_000_000:
+                            raise ValueError('Page exceeds 20 MB')
+                        return raw.decode(r.headers.get_content_charset() or 'utf-8', errors='replace')
+                except HTTPError as e:
+                    if e.code in (301, 302, 303, 307, 308):
+                        url = canonical(urljoin(url, e.headers['Location']))
+                        break
+                    if robots and e.code in (404, 410):
+                        return ''
+                    if e.code in (429, 500, 502, 503, 504) and attempt < 2:
+                        retry = e.headers.get('Retry-After', '')
+                        wait = int(retry) if retry.isdigit() else 5 * (attempt + 1)
+                        # Do not occupy a cron worker for an arbitrarily long server cooldown.
+                        if wait > 60:
+                            raise RuntimeError('Server requests cooldown; retry next cron run') from e
+                        time.sleep(max(1, wait))
+                        continue
+                    raise
+            else:
+                raise RuntimeError('Retries exhausted')
+        raise RuntimeError('Too many redirects')
+    def initialize(self):
+        self.robots = Robots(self.get(urljoin(self.base, '/robots.txt'), robots=True))
+        self.delay = max(self.delay, self.robots.delay)
+

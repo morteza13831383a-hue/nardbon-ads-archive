@@ -1,0 +1,127 @@
+import csv
+import gzip
+import hashlib
+import io
+import json
+from pathlib import Path
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
+
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
+import archive_html as a
+from html_core import Document, Robots, Client
+import archive_publish as p
+
+CUTOFF='2026-11-13T00:00:00+00:00'
+URL=a.BASE+'/ads/abc'
+
+
+def html(country='IR',date='2026-11-12T00:00:00Z'):
+    ld={'@type':'CreativeWork','identifier':'abc','name':'آزمون','description':'متن فارسی',
+        'contentLocation':{'name':country},'datePublished':date,
+        'dateModified':date,'sponsor':{'name':'@test','sameAs':'https://t.me/test'},
+        'associatedMedia':{'contentUrl':a.BASE+'/m/test.jpg'}}
+    return '<article><script type="application/ld+json">'+json.dumps(ld)+'</script><a rel="nofollow sponsored" class="uppercase" href="https://t.me/test?start=ad">View Bot</a><div><div>Total impressions</div><div>42</div></div><section aria-label="Impressions by day"><span title="42 impressions · 11/12/2026"></span></section><time title="2025-01-01T00:00:00Z"></time><section><h2>Where this ad ran</h2><a href="/channels/example">کانال نمونه 12 placements</a></section></article>'
+
+
+class FakeClient:
+    robots=Robots('User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /ads?*')
+    def __init__(self,pages): self.pages,self.calls=pages,[]
+    def get(self,url):
+        self.calls.append(url)
+        value=self.pages[url]
+        if isinstance(value,Exception): raise value
+        return value
+
+
+class Tests(unittest.TestCase):
+    def test_extract_iran_and_cutoff(self):
+        row,status=a.extract(Document(html()),URL,CUTOFF)
+        self.assertEqual(status,'iran')
+        self.assertEqual(row['cta_url'],'https://t.me/test?start=ad')
+        self.assertEqual(row['details']['metrics']['Total impressions'],['42'])
+        self.assertEqual(row['details']['daily_impressions'],[{'date':'2026-11-12','impressions':42,'label':'42 impressions · 11/12/2026'}])
+        self.assertFalse(row['details']['placements_complete'])
+        self.assertEqual(len(row['details']['placements_shown']),1)
+        self.assertEqual(a.extract(Document(html('US')),URL,CUTOFF),(None,'not_iran'))
+        self.assertEqual(a.extract(Document(html(date='2026-11-14T00:00:00Z')),URL,CUTOFF),(None,'after_cutoff'))
+        with self.assertRaises(ValueError):a.extract(Document('<h1>Cloudflare challenge</h1>'),URL,CUTOFF)
+    def test_sitemap_scope_and_dedup(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db=a.connect(Path(tmp),CUTOFF)
+            xml='<urlset><url><loc>'+URL+'</loc></url><url><loc>'+URL+'</loc></url><url><loc>'+a.BASE+'/channels/x</loc></url><url><loc>https://evil.test/ads/a</loc></url><url><loc>'+a.BASE+'/api/v1/ads</loc></url></urlset>'
+            a.sitemap(db,xml)
+            self.assertEqual(db.execute("SELECT COUNT(*) FROM queue WHERE kind='detail'").fetchone()[0],1)
+            self.assertEqual(db.execute("SELECT COUNT(*) FROM queue WHERE url LIKE '%api/%'").fetchone()[0],0)
+            db.close()
+    def test_resume_uses_fixed_cutoff_and_does_not_recrawl(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)
+            db=a.connect(path,CUTOFF)
+            db.execute('DELETE FROM queue')
+            a.enqueue(db,a.BASE+'/countries/ir','listing',0)
+            listing='<a href="/ads/abc"><span aria-label="Iran">Iran</span></a>'
+            client=FakeClient({a.BASE+'/countries/ir':listing,URL:html()})
+            a.crawl(db,client,1,20)
+            db.close()
+            db=a.connect(path,'2030-01-01T00:00:00Z')
+            a.crawl(db,client,10,20)
+            self.assertEqual(client.calls,[a.BASE+'/countries/ir',URL])
+            self.assertEqual(a.report(db)['cutoff'],CUTOFF)
+            self.assertEqual(a.report(db)['iran_ads_extracted'],1)
+            self.assertFalse(a.report(db)['complete_iran_archive_verified'])
+            db.close()
+    def test_parser_failure_remains_visible_and_retries_next_run(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db=a.connect(Path(tmp),CUTOFF)
+            db.execute('DELETE FROM queue')
+            a.enqueue(db,URL,'detail',1)
+            client=FakeClient({URL:'<h1>wrong</h1>'})
+            for i in range(3):a.crawl(db,client,10,20)
+            self.assertEqual(len(client.calls),3)
+            self.assertEqual(a.report(db)['queue_status'],{'failed':1})
+            self.assertFalse(a.report(db)['discovered_queue_exhausted'])
+            db.close()
+    def test_robots_wildcard(self):
+        robots=Robots('User-agent: *\nAllow: /\nDisallow: /ads?*\nDisallow: /api/\nCrawl-delay: 4')
+        self.assertFalse(robots.allowed(a.BASE+'/ads?geo=IR'))
+        self.assertTrue(robots.allowed(URL))
+        self.assertFalse(robots.allowed(a.BASE+'/api/v1/ads'))
+        self.assertEqual(robots.delay,4)
+    def test_transport_rejects_api_and_external_redirect_target(self):
+        client=Client(a.BASE)
+        client.robots=Robots('User-agent: *\nAllow: /')
+        for url in (a.BASE+'/api/v1/ads','https://evil.test/ads/abc'):
+            with self.assertRaises(ValueError):client.get(url)
+    def test_export_checksums_and_bom(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp);db=a.connect(path,CUTOFF)
+            row,_=a.extract(Document(html()),URL,CUTOFF)
+            db.execute('INSERT INTO records VALUES(?,?)',(row['id'],json.dumps(row)))
+            report=a.export(db,path)
+            self.assertEqual(len(report['files']),2)
+            for entry in report['files']:
+                content=(path/'exports'/entry['name']).read_bytes()
+                self.assertEqual(hashlib.sha256(content).hexdigest(),entry['sha256'])
+            gz=next((path/'exports').glob('*.jsonl.gz'))
+            self.assertEqual(json.loads(gzip.decompress(gz.read_bytes()))['geo'],'IR')
+            csvfile=next((path/'exports').glob('*.csv'))
+            self.assertTrue(csvfile.read_bytes().startswith(b'\xef\xbb\xbf'))
+            self.assertIn("'@test",csvfile.read_text(encoding='utf-8-sig'))
+            db.close()
+    def test_merge_preserves_fresher_api_data_and_media(self):
+        row,_=a.extract(Document(html()),URL,CUTOFF)
+        row['html_sha256']='test'
+        ads={}
+        p.merge_record(ads,row)
+        self.assertEqual(ads['abc']['media_status'],'pending')
+        ads['abc'].update(last_seen='2026-11-15T00:00:00Z',media_file='media/abc.webp',media_status='ok',title='Fresh API title')
+        p.merge_record(ads,row)
+        self.assertEqual(ads['abc']['last_seen'],'2026-11-15T00:00:00Z')
+        self.assertEqual(ads['abc']['title'],'Fresh API title')
+        self.assertEqual(ads['abc']['media_file'],'media/abc.webp')
+        self.assertEqual(ads['abc']['media_status'],'ok')
+
+if __name__=='__main__':unittest.main()
