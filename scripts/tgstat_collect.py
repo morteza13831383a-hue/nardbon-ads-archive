@@ -11,7 +11,7 @@ from pathlib import Path
 import re
 import sqlite3
 import time
-from urllib.error import HTTPError
+from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlsplit, urlunsplit, unquote
 from urllib.request import Request, build_opener, HTTPCookieProcessor, HTTPRedirectHandler
 
@@ -60,17 +60,18 @@ class Client:
             elif not scoped(url) or not self.rules or not all(r.allowed(url) for r in self.rules):
                 raise ValueError('Out of scope or robots-disallowed URL')
             reserve('https://tgstat.com',self.delay)
+            attempt=self.db.execute('INSERT INTO requests(url,status,at) VALUES(?,?,?)',(url,0,now())).lastrowid;self.db.commit()
             try:
                 response=self.opener.open(Request(url,headers={'User-Agent':UA,'Accept':'text/html,text/plain'}),timeout=30)
             except HTTPError as exc:
-                self.db.execute('INSERT INTO requests(url,status,at) VALUES(?,?,?)',(url,exc.code,now()));self.db.commit()
+                self.db.execute('UPDATE requests SET status=? WHERE id=?',(exc.code,attempt));self.db.commit()
                 if exc.code in (401,403,429): raise AccessStop(f'HTTP {exc.code}: source paused') from exc
                 if exc.code in (301,302,303,307,308):
                     url=canonical(urljoin(url,exc.headers['Location']));continue
                 if robots and exc.code in (404,410): return ''
                 raise
             with response:
-                self.db.execute('INSERT INTO requests(url,status,at) VALUES(?,?,?)',(url,response.status,now()));self.db.commit()
+                self.db.execute('UPDATE requests SET status=? WHERE id=?',(response.status,attempt));self.db.commit()
                 kind=response.headers.get('Content-Type','').lower()
                 if not robots and not any(t in kind for t in ('text/html','application/xhtml+xml')): raise ValueError('Non-HTML response rejected')
                 data=response.read(10_000_001)
@@ -240,7 +241,7 @@ def run(db,client,pages,inventory=False):
             db.execute("UPDATE queue SET status='done',error=NULL WHERE url=?",(url,))
         except AccessStop:
             db.rollback();raise
-        except (HTTPError,ValueError)as exc:
+        except (HTTPError,ValueError,URLError,TimeoutError,ConnectionError)as exc:
             db.execute("UPDATE queue SET status='failed',error=?WHERE url=?",(str(exc),url))
         turn+=1;db.execute("INSERT OR REPLACE INTO meta VALUES('turn',?)",(str(turn%4),));db.commit()
 

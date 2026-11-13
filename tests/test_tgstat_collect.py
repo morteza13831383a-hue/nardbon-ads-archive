@@ -47,3 +47,10 @@ class TGStatTests(unittest.TestCase):
                 with self.assertRaises(t.AccessStop):c.get(t.BASE+'/channel/@example')
                 self.assertEqual(opened.call_count,1)
             self.assertEqual(db.execute('SELECT status FROM requests').fetchone()[0],429);db.close()
+
+    def test_transport_timeout_is_counted_as_an_attempt(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            db=t.connect(Path(tmp));c=t.Client(db);c.rules=[t.Robots('User-agent: *\nAllow: /')]
+            with patch.object(t,'reserve'),patch.object(c.opener,'open',side_effect=TimeoutError('timed out')):
+                with self.assertRaises(TimeoutError):c.get(t.BASE+'/channel/@example')
+            self.assertEqual(db.execute('SELECT status FROM requests').fetchall(),[(0,)]);db.close()
