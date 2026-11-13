@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-11-13T08:53:22.736232+00:00",
+  "cutoff": "2026-11-13T08:53:18.687804+00:00",
+  "source": "https://tgadsspy.com",
+  "source_api_used": false,
+  "iran_ads_extracted": 0,
+  "source_reported_iran_total": 56483,
+  "queue_status": {
+    "done": 1,
+    "pending": 75
+  },
+  "queue_kinds": {
+    "detail": 50,
+    "listing": 25,
+    "sitemap": 1
+  },
+  "discovered_queue_exhausted": false,
+  "complete_iran_archive_verified": false,
+  "limitations": [
+    "Sitemaps and public listings are discovery sources, not a guaranteed complete Iran export.",
+    "The source shows only top placement channels on each ad; those lists are not complete.",
+    "Cutoff applies to first-seen dates; other fields are observed at collection time.",
+    "Media files and host delivery are tracked separately from text extraction."
+  ],
+  "errors": [
+    {
+      "url": "https://tgadsspy.com/ads/cmob1oes1020sm60kjt242ckr",
+      "status": "pending",
+      "tries": 1,
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    }
+  ],
+  "files": []
+}
