@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 """Publish collected HTML archive through the existing upload chain; no source API."""
 import argparse
-import gzip
 import hashlib
 import json
 from pathlib import Path
 import sqlite3
-import sys
 
 import sync
 
@@ -39,6 +37,49 @@ def merge_record(ads, record):
     }
 
 
+def upload_panel(ads,state,run):
+    """Reuse the transport while publishing only the ad panel, never channel files/status."""
+    sync.OUT_MEDIA.mkdir(parents=True,exist_ok=True)
+    tmp=sync.OUTBOX/'_gen'
+    tmp.mkdir(parents=True,exist_ok=True)
+    sent_media=sent_files=0
+    with sync.Uploader() as up:
+        for path in sorted(sync.OUT_MEDIA.glob('*.webp')):
+            if sync.time_left()<60:
+                break
+            up.put(path,f'{sync.REMOTE_ROOT}/media/{path.name}')
+            if path.stem in ads:
+                ads[path.stem].update(media_file=f'media/{path.name}',media_status='ok')
+            path.unlink()
+            sent_media+=1
+        pending=[ad for ad in ads.values() if not ad.get('sent_at')]
+        for ad in pending:
+            ad['sent_at']=sync.now_iso()
+        try:
+            shards=sync.write_shards(ads)
+            files=[(path,f'{sync.REMOTE_ROOT}/data/{month}.json') for month,path in shards.items()]
+            files += [(path,f'{sync.REMOTE_ROOT}/{path.relative_to(sync.PANEL).as_posix()}') for path in sorted(sync.PANEL.rglob('*')) if path.is_file()]
+            for path,remote in files:
+                digest=sync.sha(path)
+                if state['uploaded'].get(remote)!=digest:
+                    up.put(path,remote)
+                    state['uploaded'][remote]=digest
+                    sent_files+=1
+        except Exception:
+            for ad in pending:
+                ad['sent_at']=None
+            raise
+        run.update(sent_media=sent_media,sent_files=sent_files,ok=True)
+        state['last_upload_ok']=sync.now_iso()
+        state['runs'].append(run)
+        status,manifest=sync.build_status(ads,state,shards)
+        state['runs'].pop()
+        for name,obj in (('manifest.json',manifest),('status.json',status)):
+            path=tmp/f'archive-{name}'
+            path.write_text(json.dumps(obj,ensure_ascii=False),encoding='utf-8')
+            up.put(path,f'{sync.REMOTE_ROOT}/{name}')
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--work-dir',type=Path,default=sync.ROOT/'archive-work')
@@ -61,7 +102,7 @@ def main():
         return
     try:
         sync.fetch_media(ads,stats)
-        sync.upload(ads,state,run)
+        upload_panel(ads,state,run)
         # Extra detailed exports are additive; existing panel paths stay the same.
         receipt=args.work_dir/'export-receipts.json'
         uploaded=json.loads(receipt.read_text()) if receipt.exists() else {}

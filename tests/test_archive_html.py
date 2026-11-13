@@ -84,6 +84,30 @@ class Tests(unittest.TestCase):
             self.assertEqual(a.report(db)['queue_status'],{'failed':1})
             self.assertFalse(a.report(db)['discovered_queue_exhausted'])
             db.close()
+    def test_import_deduplicates_and_marks_collected_pages(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)
+            db=a.connect(path,CUTOFF)
+            row,_=a.extract(Document(html()),URL,CUTOFF)
+            file=path/'ads-00001.jsonl.gz'
+            with gzip.open(file,'wt',encoding='utf-8') as handle:
+                handle.write(json.dumps(row)+'\n'+json.dumps(row)+'\n')
+            a.import_records(db,[file])
+            self.assertEqual(a.report(db)['iran_ads_extracted'],1)
+            self.assertEqual(db.execute('SELECT status FROM queue WHERE url=?',(URL,)).fetchone()[0],'iran')
+            db.close()
+    def test_403_stops_and_is_reported(self):
+        from urllib.error import HTTPError
+        with tempfile.TemporaryDirectory() as tmp:
+            db=a.connect(Path(tmp),CUTOFF)
+            db.execute('DELETE FROM queue')
+            a.enqueue(db,URL,'detail',1)
+            client=FakeClient({URL:HTTPError(URL,403,'Forbidden',{},None)})
+            a.crawl(db,client,100,20)
+            self.assertEqual(len(client.calls),1)
+            self.assertIn('403',a.report(db)['last_stop_reason'])
+            self.assertEqual(a.report(db)['queue_status'],{'pending':1})
+            db.close()
     def test_robots_wildcard(self):
         robots=Robots('User-agent: *\nAllow: /\nDisallow: /ads?*\nDisallow: /api/\nCrawl-delay: 4')
         self.assertFalse(robots.allowed(a.BASE+'/ads?geo=IR'))

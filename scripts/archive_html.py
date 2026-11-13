@@ -179,7 +179,7 @@ def discover(db, doc, url):
         p = urlsplit(link)
         if AD_PATH.fullmatch(p.path) and not p.query:
             links += 1
-            is_ir = any(x.attrs.get('aria-label') == 'Iran' for x in n.nodes())
+            is_ir = urlsplit(url).path.startswith('/countries/ir') or any(x.attrs.get('aria-label') == 'Iran' for x in n.nodes())
             iran += int(is_ir)
             # Every detail is still verified independently, including cards from Iran pages.
             enqueue(db,link,'detail',1 if is_ir else 30)
@@ -226,6 +226,7 @@ def sitemap(db, body):
 def crawl(db, client, max_pages, max_seconds):
     cutoff = db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
     started = time.monotonic()
+    db.execute("INSERT OR REPLACE INTO meta VALUES('last_stop_reason','')")
     attempts = 0
     db.execute("CREATE TEMP TABLE IF NOT EXISTS attempted (url TEXT PRIMARY KEY)")
     db.execute("DELETE FROM attempted")
@@ -276,9 +277,42 @@ def crawl(db, client, max_pages, max_seconds):
         db.execute('UPDATE queue SET status=?,tries=tries+1,error=? WHERE url=?',(status,error,url))
         db.commit()
         if stop:
+            db.execute("INSERT OR REPLACE INTO meta VALUES('last_stop_reason',?)",(error,))
+            db.commit()
             LOG.warning('Stopping source requests after access/rate-limit response')
             break
     return attempts
+
+
+def import_records(db,paths):
+    """Import files collected on an executor with normal public-page access."""
+    cutoff=db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
+    cutoff_dt=datetime.fromisoformat(cutoff.replace('Z','+00:00'))
+    count=0
+    for path in paths:
+        path=Path(path)
+        opener=gzip.open if path.name.endswith('.gz') else open
+        with opener(path,'rt',encoding='utf-8') as handle:
+            for line in handle:
+                if not line.strip():
+                    continue
+                record=json.loads(line)
+                url=record.get('source_url','')
+                match=AD_PATH.fullmatch(urlsplit(url).path)
+                if origin(url)!=origin(BASE) or not match or match[1]!=record.get('id') or record.get('geo')!='IR':
+                    raise ValueError('Invalid imported ad identity or country')
+                first=datetime.fromisoformat(record['first_seen'].replace('Z','+00:00'))
+                if first.tzinfo is None:
+                    raise ValueError('Imported date requires timezone')
+                if first>cutoff_dt:
+                    continue
+                record['archive_cutoff']=cutoff
+                db.execute('INSERT OR REPLACE INTO records VALUES(?,?)',(record['id'],json.dumps(record,ensure_ascii=False)))
+                enqueue(db,url,'detail',1)
+                db.execute("UPDATE queue SET status='iran',error=NULL WHERE url=?",(url,))
+                count+=1
+        db.commit()
+    return count
 
 
 def report(db):
@@ -286,7 +320,11 @@ def report(db):
     kinds = {k:v for k,v in db.execute('SELECT kind,COUNT(*) FROM queue GROUP BY kind')}
     total = db.execute("SELECT value FROM meta WHERE key='source_reported_iran_total'").fetchone()
     count = db.execute('SELECT COUNT(*) FROM records').fetchone()[0]
+    stopped = db.execute("SELECT value FROM meta WHERE key='last_stop_reason'").fetchone()
+    external = db.execute("SELECT value FROM meta WHERE key='external_collection'").fetchone()
     return {
+        'external_collection':json.loads(external[0]) if external else None,
+        'last_stop_reason':stopped[0] if stopped else None,
         'schema_version':1, 'generated_at':now(),
         'cutoff':db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0],
         'source':'https://tgadsspy.com', 'source_api_used':False,
@@ -361,12 +399,21 @@ def main():
     parser.add_argument('--cutoff',help='ISO-8601 UTC cutoff, fixed on first invocation')
     parser.add_argument('--retry-failed',action='store_true')
     parser.add_argument('--export-only',action='store_true')
+    parser.add_argument('--import-dir',type=Path,help='Import collected ads-*.jsonl.gz parts before export; no network')
     args=parser.parse_args()
     if min(args.max_pages,args.max_seconds)<1 or args.delay<1:
         parser.error('Positive budgets and at least one second request delay required')
     logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(message)s')
     db=connect(args.work_dir,args.cutoff)
     try:
+        if args.import_dir:
+            imported=import_records(db,sorted(args.import_dir.glob('ads-*.jsonl.gz')))
+            LOG.info('Imported %s externally collected records',imported)
+            external_report=args.import_dir/'collection-report.json'
+            if external_report.exists():
+                data=json.loads(external_report.read_text(encoding='utf-8'))
+                db.execute("INSERT OR REPLACE INTO meta VALUES('external_collection',?)",(json.dumps(data,ensure_ascii=False),))
+                db.commit()
         if args.retry_failed:
             db.execute("UPDATE queue SET status='pending',tries=0,error=NULL WHERE status='failed'")
             db.commit()
@@ -374,7 +421,9 @@ def main():
             client=Client(BASE,args.delay)
             client.initialize()
             crawl(db,client,args.max_pages,args.max_seconds)
-        export(db,args.work_dir)
+        info=export(db,args.work_dir)
+        if not args.export_only and info.get('last_stop_reason'):
+            raise SystemExit(2)
     finally:
         db.close()
 

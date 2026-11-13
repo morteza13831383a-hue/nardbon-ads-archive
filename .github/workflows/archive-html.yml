@@ -3,9 +3,13 @@ name: One-off Iran HTML archive
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/archive-html.yml']
+    paths: ['data/html-archive-import/**']
   workflow_dispatch:
     inputs:
+      import_only:
+        description: 'Only import and publish externally collected pages; GitHub source access returned 403'
+        type: boolean
+        default: true
       max_pages:
         description: 'HTML/sitemap page budget for this slice (no API calls)'
         default: '1500'
@@ -75,18 +79,22 @@ jobs:
             fi
             echo 'Starting a new fixed-cutoff, one-off archive'
           fi
-      - name: Crawl public pages (no source API)
+      - name: Collect or import public HTML archive (no source API)
         env:
           PAGE_BUDGET: ${{ inputs.max_pages || '80' }}
           RETRY_FAILED: ${{ inputs.retry_failed }}
+          FETCH_SOURCE: ${{ github.event_name == 'workflow_dispatch' && inputs.import_only == false }}
         shell: bash
         run: |
           set -euo pipefail
           [[ "$PAGE_BUDGET" =~ ^[0-9]+$ ]] || { echo 'Invalid page budget'; exit 1; }
           retry=()
           if [[ "$RETRY_FAILED" == 'true' ]]; then retry=(--retry-failed); fi
-          python scripts/archive_html.py --max-pages "$PAGE_BUDGET" --max-seconds 5400 "${retry[@]}"
+          mode=()
+          if [[ "$FETCH_SOURCE" != 'true' ]]; then mode=(--export-only); fi
+          python scripts/archive_html.py --import-dir data/html-archive-import --max-pages "$PAGE_BUDGET" --max-seconds 5400 "${retry[@]}" "${mode[@]}"
       - name: Merge and upload collected archive
+        if: always() && hashFiles('archive-work/exports/manifest.json') != ''
         env:
           UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
           UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
@@ -97,6 +105,7 @@ jobs:
         if: always()
         run: |
           if [ -f archive-work/exports/manifest.json ]; then
+            mkdir -p data
             cp archive-work/exports/manifest.json data/html-archive-summary.json
             python - <<'PY'
           import json, os
