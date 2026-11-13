@@ -96,3 +96,31 @@ python -m venv .venv
 صف عمومی sitemap اولویت ۳۰ دارد. تبلیغاتِ صریحاً ایرانی در فهرست‌ها اولویت ۱ دارند؛ تبلیغات دیگر همان تبلیغ‌دهنده از روی بخش `More from this advertiser` و لینک‌های ذخیره‌شده اولویت ۲ دارند؛ صفحهٔ همان تبلیغ‌دهنده اولویت ۳ دارد. پیشنهادهای تصادفیِ هم‌دسته برای این اولویت استفاده نمی‌شوند. کشور هر تبلیغ همچنان مستقل از این نشانه‌ها در صفحهٔ خودش تأیید می‌شود.
 
 لینک‌های قبلاً ذخیره‌شده بدون دریافت دوبارهٔ HTML برای ساخت این گراف استفاده شدند. جدول `discovery_edges` رابطهٔ والد/فرزند و دلیل کشف را نگه می‌دارد. صف عمومی حذف نشده و فقط پس از اتمام نامزدهای مرتبط بررسی می‌شود. گزارش `last_slice_performance` تعداد صفحات بررسی‌شده، تبلیغات ایرانی جدید و زمان هر نوبت را برای سنجش بازده و برآورد زمان نگه می‌دارد. پوشش کاملِ گرافِ مرتبط به‌تنهایی تضمین نیست؛ تبلیغات جدا از این گراف ممکن است فقط از مسیرهای عمومی دیگر کشف شوند.
+
+## Yield plan (branch `crawler-yield`, `scripts/archive_yield.py`)
+
+Goal: find the ~56k Iran ads without opening ~750k pages from all countries, with the same
+request rate, no source API and no blocked paths.
+
+| Step | Public path | What it gives |
+|---|---|---|
+| 1 | `/countries/ir/snapshot/YYYY-MM` (2026-01 .. cutoff month) | exact Iran total per month and per niche, e.g. "16,687 ... targeting Iran during September 2026", "VPN 2,331". A 404 for the month before the first snapshot proves where Iran coverage starts. |
+| 2 | sitemap ids, dated offline | cuid v1 ids carry the creation time (`int(id[1:9], 36)` ms); in our data it equals first_seen (median 0 h, max 2 h earlier). Ids after the cutoff or before Iran coverage are skipped without a request; the rest are ordered by (site total − extracted) ÷ remaining ids of their month. |
+| 3 | `/channels/<username>/advertisers` for channels listed under "Where this ad ran" on Iran ads | advertisers outside the current graph who bought in the same (Persian) channels |
+| 4 | `/advertisers/<slug>/niches/<niche>` from advertiser pages | more of one advertiser's ads than its capped main page |
+
+Every queue row records `via` (strategy) and `month`; `report()["coverage"]` gives, per month,
+site total vs extracted and, per strategy, Iran ads per 100 requests.
+
+### Test before switching over (same pace, ~1 h each)
+1. Run one slice of 200 pages with this branch on a copy of `checkpoint.sqlite3`.
+2. Check `coverage.by_month` (are all snapshot totals stored? does the 404 month exist?).
+3. Check `coverage.by_strategy`: `channel_advertisers` / `advertiser_via_channel` /
+   `advertiser_niche` vs the plain sitemap (`original`). Keep a strategy only if its
+   Iran-per-100 beats the sitemap's.
+4. Check the `Yield plan` log line: `after_cutoff_by_id`, `before_iran_by_id` = pages saved.
+
+### Completeness
+Done when, for every month, extracted ≥ site total (small drift allowed because the site keeps
+counting until the cutoff), the sum of months matches the `/countries/ir` total, and the
+per-niche counts of each month match. An empty queue alone is not proof.
