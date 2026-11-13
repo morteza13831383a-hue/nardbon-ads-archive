@@ -1,17 +1,70 @@
 {
+  "external_collection": {
+    "last_stop_reason": "",
+    "schema_version": 1,
+    "generated_at": "2026-11-13T09:00:29.498921+00:00",
+    "cutoff": "2026-11-13T08:53:18.687804+00:00",
+    "source": "https://tgadsspy.com",
+    "source_api_used": false,
+    "iran_ads_extracted": 85,
+    "source_reported_iran_total": 56483,
+    "queue_status": {
+      "done": 14,
+      "gone": 1,
+      "iran": 85,
+      "pending": 390
+    },
+    "queue_kinds": {
+      "detail": 339,
+      "listing": 150,
+      "sitemap": 1
+    },
+    "discovered_queue_exhausted": false,
+    "complete_iran_archive_verified": false,
+    "limitations": [
+      "Sitemaps and public listings are discovery sources, not a guaranteed complete Iran export.",
+      "The source shows only top placement channels on each ad; those lists are not complete.",
+      "Cutoff applies to first-seen dates; other fields are observed at collection time.",
+      "Media files and host delivery are tracked separately from text extraction."
+    ],
+    "errors": [
+      {
+        "url": "https://tgadsspy.com/countries/ir/snapshot/2026-03",
+        "status": "gone",
+        "tries": 1,
+        "error": "HTTPError: HTTP Error 404: Not Found"
+      }
+    ],
+    "files": [
+      {
+        "name": "ads-00001.jsonl.gz",
+        "records": 85,
+        "bytes": 340660,
+        "sha256": "b1aaae5298dbc4069506ad6493bb521596830893b5f53042079a673b41abf2c5"
+      },
+      {
+        "name": "ads-00001.csv",
+        "records": 85,
+        "bytes": 2377050,
+        "sha256": "3aff768847b49955f676c20cce5cbbe4e3354efaec6343258e3465388176486f"
+      }
+    ]
+  },
+  "last_stop_reason": null,
   "schema_version": 1,
-  "generated_at": "2026-11-13T08:53:22.736232+00:00",
+  "generated_at": "2026-11-13T09:01:40.639618+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 0,
+  "iran_ads_extracted": 85,
   "source_reported_iran_total": 56483,
   "queue_status": {
     "done": 1,
+    "iran": 85,
     "pending": 75
   },
   "queue_kinds": {
-    "detail": 50,
+    "detail": 135,
     "listing": 25,
     "sitemap": 1
   },
@@ -31,5 +84,18 @@
       "error": "HTTPError: HTTP Error 403: Forbidden"
     }
   ],
-  "files": []
+  "files": [
+    {
+      "name": "ads-00001.jsonl.gz",
+      "records": 85,
+      "bytes": 340660,
+      "sha256": "b1aaae5298dbc4069506ad6493bb521596830893b5f53042079a673b41abf2c5"
+    },
+    {
+      "name": "ads-00001.csv",
+      "records": 85,
+      "bytes": 2377050,
+      "sha256": "3aff768847b49955f676c20cce5cbbe4e3354efaec6343258e3465388176486f"
+    }
+  ]
 }
