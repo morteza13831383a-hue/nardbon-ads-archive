@@ -84,6 +84,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--work-dir',type=Path,default=sync.ROOT/'archive-work')
     parser.add_argument('--upload',action='store_true',help='Also send data and queued media to the configured host')
+    parser.add_argument('--panel-only',action='store_true',help='Keep detailed CSV/gzip exports local until receiver permits their types')
     args=parser.parse_args()
     dbpath=args.work_dir/'checkpoint.sqlite3'
     if not dbpath.exists():
@@ -103,6 +104,9 @@ def main():
     try:
         sync.fetch_media(ads,stats)
         upload_panel(ads,state,run)
+        if args.panel_only:
+            print('Panel files uploaded; detailed CSV/gzip exports retained in repository/artifacts until receiver types are enabled',flush=True)
+            return
         # Extra detailed exports are additive; existing panel paths stay the same.
         receipt=args.work_dir/'export-receipts.json'
         uploaded=json.loads(receipt.read_text()) if receipt.exists() else {}

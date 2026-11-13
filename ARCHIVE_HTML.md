@@ -19,6 +19,7 @@ Workflow با نام **One-off Iran HTML archive** اضافه شده است؛ ز
 برای ادامه: Actions ← One-off Iran HTML archive ← Run workflow.
 
 - `import_only`: پیش‌فرض روشن؛ فقط ورود و ارسال فایل‌های قبلاً جمع‌آوری‌شده، بدون تماس با منبع. فقط پس از برطرف‌شدن دسترسی ۴۰۳ GitHub آن را خاموش کنید.
+- `upload_exports`: فعلاً خاموش؛ گیرندهٔ فعلی در تست واقعی CSV را با `400 type not allowed` رد کرد. تا اصلاح allowlist، فایل‌های پنل و عکس‌ها ارسال و جزئیات کامل در مخزن/artifact حفظ می‌شوند. برای ارسال CSV/gzip پس از اصلاح گیرنده روشن شود.
 - `max_pages`: سقف درخواست در این نوبت، پیش‌فرض ۱۵۰۰. زمان کرال نیز حداکثر ۹۰ دقیقه است؛ رسیدن به سقف، صف را تکمیل‌شده علامت نمی‌زند.
 - `resume_run_id`: خالی بماند تا آخرین checkpoint سالم شاخهٔ main بازیابی شود؛ یا شناسهٔ اجرای مشخص را وارد کنید.
 - `retry_failed`: فقط پس از رفع علت خطا فعال شود.
@@ -52,7 +53,8 @@ python -m venv .venv
 .venv/bin/pip install -r requirements.txt
 .venv/bin/python scripts/archive_html.py --max-pages 80
 .venv/bin/python scripts/archive_publish.py             # فقط ادغام محلی
-.venv/bin/python scripts/archive_publish.py --upload    # با Secrets در محیط
+.venv/bin/python scripts/archive_publish.py --upload --panel-only  # گیرندهٔ فعلی
+.venv/bin/python scripts/archive_publish.py --upload               # پس از اجازهٔ CSV/gzip
 ```
 
 برای ورود داده‌های محیط دیگر و ساخت خروجی بدون تماس با منبع:

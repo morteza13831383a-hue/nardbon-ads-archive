@@ -10,6 +10,10 @@ on:
         description: 'Only import and publish externally collected pages; GitHub source access returned 403'
         type: boolean
         default: true
+      upload_exports:
+        description: 'Upload CSV/gzip after nb-upload.php allows these types; otherwise retain them as artifacts'
+        type: boolean
+        default: false
       max_pages:
         description: 'HTML/sitemap page budget for this slice (no API calls)'
         default: '1500'
@@ -100,7 +104,12 @@ jobs:
           UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
           TIME_BUDGET_SEC: '900'
           MEDIA_PER_RUN: '100'
-        run: python scripts/archive_publish.py --upload
+          UPLOAD_EXPORTS: ${{ inputs.upload_exports }}
+        shell: bash
+        run: |
+          mode=()
+          if [[ "$UPLOAD_EXPORTS" != 'true' ]]; then mode=(--panel-only); fi
+          python scripts/archive_publish.py --upload "${mode[@]}"
       - name: Record coverage summary
         if: always()
         run: |
