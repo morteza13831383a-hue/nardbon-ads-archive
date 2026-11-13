@@ -57,11 +57,11 @@ TIME_BUDGET = int(os.environ.get("TIME_BUDGET_SEC", "600"))
 BACKFILL_ROWS = int(os.environ.get("BACKFILL_ROWS_PER_RUN", "600"))    # one reachable window per run
 BACKFILL_GAP = float(os.environ.get("BACKFILL_GAP_SEC", "5"))           # pause between backfill pages
 ADV_PER_RUN = int(os.environ.get("ADVERTISERS_PER_RUN", "15"))        # advertiser history sweep (heavy runs only)
-HEAVY_EVERY_MIN = int(os.environ.get("HEAVY_EVERY_MIN", "110"))        # images + advertiser sweep ~every 2 h; other runs stay under a minute
-ADV_GAP = float(os.environ.get("ADVERTISERS_GAP_SEC", "10"))
+HEAVY_EVERY_MIN = int(os.environ.get("HEAVY_EVERY_MIN", "170"))        # images, advertiser sweep, channel crawler ~every 3 h; other runs stay under a minute
+ADV_GAP = float(os.environ.get("ADVERTISERS_GAP_SEC", "4"))     # ~15 requests/min, far under the plan limit
 ADV_REVISIT_DAYS = 30
 MEDIA_PER_RUN = int(os.environ.get("MEDIA_PER_RUN", "100"))             # images per run, gently
-MEDIA_GAP = float(os.environ.get("MEDIA_GAP_SEC", "0.5"))
+MEDIA_GAP = float(os.environ.get("MEDIA_GAP_SEC", "0.2"))
 MEDIA_MAX_W = 900
 
 # Persian-only letters (پ چ ژ گ and Persian ک ی) — separates Persian from Arabic text
