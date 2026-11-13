@@ -297,6 +297,9 @@ def run_backfill(ads, state, stats):
     bf = state["backfill"]
     if bf["done"]:
         return 0
+    # when the API stops honouring `since` the cursor cannot move; then try once a day only
+    if (bf.get("stalled") or "") > iso(NOW - dt.timedelta(hours=24)):
+        return 0
     params = {"geo": "IR", "sort": "proven"}
     if bf["since"]:
         params["since"] = bf["since"]
@@ -309,9 +312,16 @@ def run_backfill(ads, state, stats):
     if max_fs:
         t = dt.datetime.strptime(max_fs[:19], "%Y-%m-%dT%H:%M:%S") - dt.timedelta(seconds=1)
         nxt = t.strftime("%Y-%m-%dT%H:%M:%SZ")
-        bf["done"] = exhausted or nxt == bf["since"]
-        bf["since"] = nxt
-    else:
+        if bf["since"] and nxt <= bf["since"]:
+            # rows older than our cursor came back: `since` was ignored. Never move backwards,
+            # never call this "done"; wait a day and try again.
+            bf["stalled"] = now_iso()
+            log(f"backfill: API ignored since={bf['since']} (newest row {max_fs}); paused for 24 h")
+        else:
+            bf.pop("stalled", None)
+            bf["done"] = bool(exhausted) and rows < BACKFILL_ROWS and not meta.get("totalApprox")
+            bf["since"] = nxt
+    elif not meta.get("totalApprox"):
         bf["done"] = True
     log(f"backfill: read {rows} rows, cursor {bf['since']}, done={bf['done']}, trust={bf.get('trust')}")
     return rows
