@@ -189,10 +189,34 @@ def export(db, work):
     return report
 
 
+# Rotation between queue types, so one big backlog (e.g. 1,240 advertiser pages) cannot starve
+# the others. Per cycle: Persian listing page, channel profile, Iranian advertiser page, profile.
+ROTATION = (
+    ("listing",    "kind='listing' AND url NOT LIKE '%/advertisers/%'"),
+    ("profile",    "kind='channel'"),
+    ("advertiser", "url LIKE '%/advertisers/%/channels'"),
+    ("profile",    "kind='channel'"),
+)
+
+
+def next_job(db, turn):
+    """Best pending job of this turn's type; if that type is empty, the next type; then any."""
+    for i in range(len(ROTATION)):
+        _, where = ROTATION[(turn + i) % len(ROTATION)]
+        job = db.execute(f"SELECT url,kind FROM queue WHERE status='pending' AND {where} "
+                         "ORDER BY priority, url LIMIT 1").fetchone()
+        if job:
+            return job
+    return db.execute("SELECT url,kind FROM queue WHERE status='pending' ORDER BY priority, url LIMIT 1").fetchone()
+
+
 def run(db, client, pages):
     client.initialize()
+    turn = int((db.execute("SELECT value FROM meta WHERE key='rotation_turn'").fetchone() or [0])[0])
     for _ in range(pages):
-        job = db.execute("SELECT url,kind FROM queue WHERE status='pending' ORDER BY priority, url LIMIT 1").fetchone()
+        job = next_job(db, turn)
+        turn += 1
+        db.execute("INSERT OR REPLACE INTO meta VALUES('rotation_turn', ?)", (str(turn % len(ROTATION)),))
         if not job:
             return
         url, kind = job

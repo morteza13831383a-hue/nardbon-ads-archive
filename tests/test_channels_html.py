@@ -104,3 +104,21 @@ class OwnerApprovedListing(unittest.TestCase):
         for blocked in ('/channels?lang=ru','/channels?q=shop','/channels?lang=fa&sort=x','/ads?geo=IR','/api/v1/ads'):
             self.assertFalse(r.allowed(c.BASE+blocked), blocked)
 
+
+class RotationTests(unittest.TestCase):
+    def test_big_advertiser_backlog_does_not_starve_listing_and_profiles(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(c, 'iran_advertisers', return_value={f'tg-a{i:03d}' for i in range(50)}):
+            db=c.connect(Path(tmp))
+            for i in range(50):
+                c.enqueue(db, f'/advertisers/tg-a{i:03d}/channels', 'listing', c.P_IRAN_ADV_PAGE)
+            c.enqueue(db, '/channels?lang=fa', 'listing', c.P_PERSIAN_LINK)
+            c.enqueue(db, '/channels/some_profile', priority=c.P_IRAN_PLACEMENT)
+            picked=[]
+            for turn in range(4):
+                url,kind=c.next_job(db, turn); picked.append(url)
+                db.execute("UPDATE queue SET status='done' WHERE url=?", (url,))
+            self.assertIn(c.BASE+'/channels?lang=fa', picked)
+            self.assertIn(c.BASE+'/channels/some_profile', picked)
+            self.assertTrue(any('/advertisers/' in u for u in picked))
+            db.close()
+
