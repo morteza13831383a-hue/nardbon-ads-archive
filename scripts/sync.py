@@ -692,6 +692,13 @@ def main():
         except Exception as e:
             log(f"channels crawler failed: {e}")      # never fails the run
             traceback.print_exc()
+    elif heavy:
+        # bio only: read the description of channels we already have (from tgadsspy) on their
+        # public t.me page. Finds no new channels; biggest channels first, refreshed monthly.
+        try:
+            channels.fill_descriptions(log, now_iso, time_left)
+        except Exception as e:
+            log(f"descriptions failed: {e}")      # never fails the run
     # channel pages collected from tgadsspy by the external crawler (no network here)
     try:
         channel_import.run(log, now_iso)
