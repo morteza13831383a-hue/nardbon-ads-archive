@@ -69,7 +69,10 @@ def enqueue(db, url, kind, priority, via=None):
     if origin(url) != origin(BASE) or '/api/' in urlsplit(url).path:
         return
     # `via` records which discovery strategy found the URL first (for yield measurement)
-    db.execute('INSERT INTO queue(url,kind,priority,via) VALUES(?,?,?,?) ON CONFLICT(url) DO UPDATE SET priority=MIN(priority,excluded.priority)', (url,kind,priority,via))
+    # a better (lower) priority also brings its strategy label, so tests credit the finder
+    db.execute('INSERT INTO queue(url,kind,priority,via) VALUES(?,?,?,?) ON CONFLICT(url) DO UPDATE SET '
+               'via=CASE WHEN excluded.priority<priority AND excluded.via IS NOT NULL THEN excluded.via ELSE via END, '
+               'priority=MIN(priority,excluded.priority)', (url,kind,priority,via))
 
 
 def compact(node):
@@ -193,7 +196,7 @@ def discover(db, doc, url):
         if origin(link) != origin(BASE):
             continue
         p = urlsplit(link)
-        extra = None if p.query else ay.classify_listing(urlsplit(url).path, p.path)
+        extra = None if p.query else ay.classify_listing(urlsplit(url).path, p.path, compact(n))
         if extra:
             enqueue(db, link, 'listing', extra[0], via=extra[1])
             continue
@@ -227,6 +230,9 @@ def discover_related(db,record,doc=None):
     """Follow the advertiser graph of verified Iran ads, not random niche suggestions."""
     parent=record['source_url']
     advertiser=(record.get('advertiser') or '').strip().casefold()
+    # history of this advertiser already came through the API sweep: nothing to add here
+    if advertiser.startswith('@') and 'tg-'+advertiser[1:] in ay.api_swept_advertisers():
+        return
     links=[]
     for link in record.get('details',{}).get('article_links',[]):
         text=(link.get('text') or '').strip().casefold()
