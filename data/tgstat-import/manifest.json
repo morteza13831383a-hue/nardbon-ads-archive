@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-11-13T21:33:30.841788+00:00",
+  "source": "https://ir.tgstat.com",
+  "records": {
+    "channel": 2,
+    "group": 2
+  },
+  "requests": 10,
+  "per_100_requests": {
+    "channel": 20.0,
+    "group": 20.0
+  },
+  "fields_present": {
+    "type": 4,
+    "username": 4,
+    "title": 4,
+    "description": 4,
+    "members": 2,
+    "category": 4,
+    "country": 4,
+    "language": 4,
+    "text_sample": 2,
+    "url": 4,
+    "collected_at": 4
+  },
+  "queue": {
+    "done": 8,
+    "pending": 451
+  },
+  "listings": [
+    {
+      "url": "https://ir.tgstat.com/adult",
+      "category": "adult",
+      "type": "channel",
+      "link_occurrences": 97,
+      "unique_handles": 97,
+      "public_next_links": 0,
+      "continuation": "login_gated_show_more"
+    },
+    {
+      "url": "https://ir.tgstat.com/",
+      "category": "all",
+      "type": "channel",
+      "link_occurrences": 86,
+      "unique_handles": 83,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/channels",
+      "category": "all",
+      "type": "channel",
+      "link_occurrences": 100,
+      "unique_handles": 100,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/apps",
+      "category": "apps",
+      "type": "channel",
+      "link_occurrences": 99,
+      "unique_handles": 99,
+      "public_next_links": 0,
+      "continuation": "login_gated_show_more"
+    }
+  ],
+  "files": [
+    {
+      "name": "tgstat-00.jsonl.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "tgstat-01.jsonl.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "tgstat-02.jsonl.gz",
+      "bytes": 519,
+      "sha256": "4fa06623659d42bfc7f9ae87c3d1c4b446931a270ac685f4d4728255645a3b10"
+    },
+    {
+      "name": "tgstat-03.jsonl.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "tgstat-04.jsonl.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "tgstat-05.jsonl.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "tgstat-06.jsonl.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "tgstat-07.jsonl.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "tgstat-08.jsonl.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "tgstat-09.jsonl.gz",
+      "bytes": 484,
+      "sha256": "ffd8d10558df45ac9095f7485bb4a97f3202b0ae832fa640714d34a3c02ba1d6"
+    },
+    {
+      "name": "tgstat-0a.jsonl.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "tgstat-0b.jsonl.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "tgstat-0c.jsonl.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "tgstat-0d.jsonl.gz",
+      "bytes": 1045,
+      "sha256": "cb519d46c324de7d50381518737ebea318d4bc1b6969226dcc0029ea739f7be0"
+    },
+    {
+      "name": "tgstat-0e.jsonl.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "name": "tgstat-0f.jsonl.gz",
+      "bytes": 1154,
+      "sha256": "93d9c9cc2d15cc95ea3e61e584d04255abd536cc171ac21370a3edadd335d80b"
+    }
+  ],
+  "complete": false,
+  "limitations": [
+    "TGStat Iran/Persian labels include Dari groups; region() uses title, description, text_sample.",
+    "Catalog Show more requires sign-in in live test; not accessed by this GET-only worker.",
+    "No full-directory coverage guarantee; public ranking/category snapshots may be capped."
+  ]
+}
