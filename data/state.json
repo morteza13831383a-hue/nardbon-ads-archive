@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-13T14:32:11Z",
+ "cursor": "2026-11-13T15:00:53Z",
  "backfill": {
   "since": "2026-06-07T10:59:55Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-13T13:15:00Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "06d9d8afc1bce103",
+  "tgads/data/2026-11.json": "724426ee54cd7cd1",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -21,13 +21,13 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "fa1b6b8d84e5cbe4",
-  "tgads/data/2026-08.json": "f33b546c9ae9b80e",
-  "tgads/data/2026-09.json": "d99ae0f6fc178ab3",
-  "tgads/data/2026-04.json": "1e664ff8b5ff3811",
-  "tgads/data/2026-05.json": "15cc382b96f1e073",
-  "tgads/data/2026-06.json": "8fb312ce3f116c58",
-  "tgads/data/2026-07.json": "b10a8f9c0f0191fe",
-  "tgads/data/2026-10.json": "2d401a271004c777"
+  "tgads/data/2026-08.json": "44f5a050b0291255",
+  "tgads/data/2026-09.json": "f048f79fa9a04358",
+  "tgads/data/2026-04.json": "c88655a0d1524e67",
+  "tgads/data/2026-05.json": "7f8cf0c873ef26fb",
+  "tgads/data/2026-06.json": "ce7c48686fc2cb78",
+  "tgads/data/2026-07.json": "b55461da0f8da9f9",
+  "tgads/data/2026-10.json": "4c06a5a8d6d7aee9"
  },
  "runs": [
   {
@@ -367,9 +367,21 @@
    "sent_media": 64,
    "sent_files": 9,
    "secs": 131
+  },
+  {
+   "at": "2026-11-13T16:00:53Z",
+   "ok": true,
+   "error": null,
+   "new": 40,
+   "updated": 64,
+   "media": 23,
+   "missed": 0,
+   "sent_media": 23,
+   "sent_files": 8,
+   "secs": 74
   }
  ],
- "last_upload_ok": "2026-11-13T15:34:21Z",
+ "last_upload_ok": "2026-11-13T16:02:07Z",
  "lang_seen": {
   "-": 142,
   "tr": 63,
@@ -378,7 +390,7 @@
   "ar": 211,
   "my": 47,
   "en": 491,
-  "fa": 1983,
+  "fa": 2097,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -427,11 +439,16 @@
    "tg-zarscope": "2026-11-13T15:32:22Z",
    "tg-takhtnetbot": "2026-11-13T15:32:32Z",
    "tg-wikiprop": "2026-11-13T15:32:42Z",
-   "tg-capitalxtend_farsi": "2026-11-13T15:32:53Z"
+   "tg-capitalxtend_farsi": "2026-11-13T15:32:53Z",
+   "tg-khanforexbot": "2026-11-13T16:00:54Z",
+   "tg-spokenenglish5_bot": "2026-11-13T16:01:04Z",
+   "tg-padinair": "2026-11-13T16:01:14Z",
+   "tg-maxnetstore_bot": "2026-11-13T16:01:24Z",
+   "tg-hussain_infobot": "2026-11-13T16:01:34Z"
   },
   "partial": {},
-  "ads_found": 96,
-  "known": 1082,
-  "waiting": 1082
+  "ads_found": 128,
+  "known": 1086,
+  "waiting": 1081
  }
 }
