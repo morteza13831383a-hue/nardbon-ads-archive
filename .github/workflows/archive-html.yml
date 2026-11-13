@@ -158,9 +158,5 @@ jobs:
           set -euo pipefail
           git config user.name 'nardbon-archive-bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data
-          if ! git diff --cached --quiet; then
-            git commit -m 'Import one-off Iran HTML archive slice'
-            git pull --rebase --autostash
-            git push
-          fi
+          # merges instead of failing when sync.yml pushed data first
+          python scripts/commit_data.py 'Import one-off Iran HTML archive slice'

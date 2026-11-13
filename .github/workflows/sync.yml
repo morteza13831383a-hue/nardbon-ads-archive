@@ -57,9 +57,5 @@ jobs:
         run: |
           git config user.name "nardbon-archive-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data
-          if ! git diff --cached --quiet; then
-            git commit -m "sync $(date -u +%Y-%m-%dT%H:%MZ)"
-            git pull --rebase --autostash || true
-            git push
-          fi
+          # merges instead of failing when archive-html.yml pushed data first
+          python scripts/commit_data.py "sync $(date -u +%Y-%m-%dT%H:%MZ)"
