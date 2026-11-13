@@ -99,7 +99,7 @@ th{color:var(--mute);font-weight:700;background:var(--bg)}
     <div class="count" id="count"></div>
     <div class="grid" id="grid"></div>
     <div class="pager hidden" id="pager" role="navigation" aria-label="صفحه‌ها"></div>
-    <button class="more hidden" id="older">بارگذاری ماه‌های قبل</button>
+    <button class="more hidden" id="older">بارگذاری ۳ ماه قبل‌تر</button>
   </section>
   <section id="sys" class="hidden">
     <div class="stats" id="stats"></div>
@@ -153,7 +153,10 @@ function apply(){
   view.sort(s === 'long' ? (a,b) => dur(b) - dur(a) : s === 'found' ? (a,b) => (b.found_at||'').localeCompare(a.found_at||'')
                          : (a,b) => (b.first_seen||'').localeCompare(a.first_seen||''));
   page = 1; render();
-  $('count').textContent = N(view.length) + ' تبلیغ' + (view.length > PAGE ? ' · ' + N(Math.ceil(view.length / PAGE)) + ' صفحه' : '') + (loaded < manifest.months.length ? ' (از ' + N(loaded) + ' ماه اخیر)' : '');
+  const all = manifest.months.reduce((n, m) => n + (m.n || 0), 0);
+  const partial = loaded < manifest.months.length;
+  $('count').textContent = N(view.length) + ' تبلیغ' + (view.length > PAGE ? ' · ' + N(Math.ceil(view.length / PAGE)) + ' صفحه' : '')
+    + (partial ? ` · ${N(loaded)} ماه اخیر از ${N(manifest.months.length)} ماه بارگذاری شده (کل آرشیو: ${N(all)} تبلیغ)` : ` · کل آرشیو: ${N(all)} تبلیغ`);
 }
 
 function card(a){
@@ -235,7 +238,9 @@ $('zoom').onclick = () => $('zoom').style.display = 'none';
 
 (async () => {
   try { renderStatus(await getJSON('status.json' + bust)); } catch(e){ $('htxt').textContent = 'وضعیت در دسترس نیست'; }
-  try { manifest = await getJSON('manifest.json' + bust); await loadMonths(3); }
+  try { manifest = await getJSON('manifest.json' + bust);
+        const all = manifest.months.reduce((n, m) => n + (m.n || 0), 0);
+        await loadMonths(all <= 15000 ? manifest.months.length : 3); }
   catch(e){ $('grid').innerHTML = '<div class="empty">هنوز داده‌ای ارسال نشده. بعد از اولین اجرای موفق اینجا پر می‌شه.</div>'; }
 })();
 </script>
