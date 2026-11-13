@@ -293,6 +293,11 @@ def next_job(db, turn):
 
 def run(db, client, pages):
     client.initialize()
+    if getattr(client, 'robots', None):
+        for (candidate,) in db.execute("SELECT url FROM queue WHERE kind='listing' AND status='pending'").fetchall():
+            if not client.robots.allowed(candidate):
+                db.execute("UPDATE queue SET status='robots_disallowed',error='robots.txt disallows' WHERE url=?", (candidate,))
+        db.commit()
     turn = int((db.execute("SELECT value FROM meta WHERE key='rotation_turn'").fetchone() or [0])[0])
     for _ in range(pages):
         job = next_job(db, turn)
