@@ -30,7 +30,7 @@ class TGStatTests(unittest.TestCase):
         with tempfile.TemporaryDirectory()as tmp:
             db=t.connect(Path(tmp));doc=Document('<h1>News</h1><a href="/ratings/chats/news">News</a><a href="/channel/@Example/stat">One</a><a href="/channel/@example/stat">same</a><a href="https://tgstat.ru/channel/@other">foreign</a><form method="POST" action="/news/items"></form>')
             t.listing(db,doc,t.BASE+'/news')
-            row=db.execute('SELECT unique_handles,continuation FROM listings').fetchone();self.assertEqual(row,(1,'login_gated_show_more'))
+            row=db.execute('SELECT unique_handles,continuation FROM listings').fetchone();self.assertEqual(row,(1,'form_show_more_not_followed'))
             self.assertEqual(db.execute("SELECT count(*)FROM queue WHERE kind='profile'").fetchone()[0],1);db.close()
     def test_resume_export_and_stable_buckets(self):
         with tempfile.TemporaryDirectory()as tmp:

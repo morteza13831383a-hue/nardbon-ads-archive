@@ -141,7 +141,7 @@ def listing(db,doc,url):
         elif p.netloc=='ir.tgstat.com' and 'page='in p.query and p.path==urlsplit(url).path:
             enqueue(db,candidate);next_pages+=1
     forms=[n for n in doc.root.nodes()if n.tag=='form' and n.attrs.get('method','').upper()=='POST' and n.attrs.get('action','').endswith('/items')]
-    continuation='login_gated_show_more' if forms else 'no_public_pagination_links'
+    continuation='form_show_more_not_followed' if forms else 'no_public_pagination_links'
     rank=RANK.fullmatch(urlsplit(url).path);category=rank[2] if rank else urlsplit(url).path.strip('/') or 'all'
     entity='group' if rank and rank[1]=='chats' else 'channel'
     db.execute('INSERT OR REPLACE INTO listings VALUES(?,?,?,?,?,?,?)',(url,category or 'all',entity,raw,len(seen),next_pages,continuation))
@@ -193,6 +193,8 @@ def export(db,work):
             if v is not None and v!='':fields[k]=fields.get(k,0)+1
     total=db.execute('SELECT COUNT(*)FROM requests').fetchone()[0]
     report={'schema_version':1,'updated_at':now(),'source':BASE,'records':types,'requests':total,'per_100_requests':{k:round(100*v/total,2)for k,v in types.items()}if total else{},'fields_present':fields,'queue':dict(db.execute('SELECT status,COUNT(*)FROM queue GROUP BY status')),'listings':[dict(zip(('url','category','type','link_occurrences','unique_handles','public_next_links','continuation'),v))for v in db.execute('SELECT * FROM listings ORDER BY category,entity_type')],'files':files,'complete':False,'limitations':['TGStat Iran/Persian labels include Dari groups; region() uses title, description, text_sample.','Catalog Show more requires sign-in in live test; not accessed by this GET-only worker.','No full-directory coverage guarantee; public ranking/category snapshots may be capped.']}
+    for item in report['listings']:
+        if item['continuation']=='login_gated_show_more': item['continuation']='form_show_more_not_followed'
     temp=out/'manifest.json.tmp';temp.write_text(json.dumps(report,ensure_ascii=False,indent=2));temp.replace(out/'manifest.json');return report
 
 
