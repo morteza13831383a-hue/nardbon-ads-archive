@@ -18,7 +18,7 @@ from urllib.error import HTTPError
 from urllib.parse import urljoin, urlsplit, parse_qs
 import xml.etree.ElementTree as ET
 
-from html_core import Client, Document, canonical, origin
+from html_core import Client, Document, canonical, origin, OWNER_APPROVED
 
 BASE = 'https://tgadsspy.com'
 CHANNEL = re.compile(r'^/channels/([A-Za-z0-9_]{4,64})/?$')
@@ -67,6 +67,8 @@ def enqueue(db, url, kind=None, priority=None):
     url = canonical(urljoin(BASE, url))
     path = urlsplit(url).path
     if origin(url) != origin(BASE) or '/api/' in path:
+        return
+    if path == '/channels' and urlsplit(url).query and not any(rx.fullmatch(path + '?' + urlsplit(url).query) for rx in OWNER_APPROVED):
         return
     channel = CHANNEL.fullmatch(path)
     if channel:
