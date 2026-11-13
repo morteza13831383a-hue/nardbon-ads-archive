@@ -55,7 +55,8 @@ MAX_DEPTH = 5000                             # safety cap; the API reports the r
 TIME_BUDGET = int(os.environ.get("TIME_BUDGET_SEC", "600"))
 BACKFILL_ROWS = int(os.environ.get("BACKFILL_ROWS_PER_RUN", "600"))    # one reachable window per run
 BACKFILL_GAP = float(os.environ.get("BACKFILL_GAP_SEC", "5"))           # pause between backfill pages
-ADV_PER_RUN = int(os.environ.get("ADVERTISERS_PER_RUN", "5"))         # advertiser history sweep
+ADV_PER_RUN = int(os.environ.get("ADVERTISERS_PER_RUN", "15"))        # advertiser history sweep (heavy runs only)
+HEAVY_EVERY_MIN = int(os.environ.get("HEAVY_EVERY_MIN", "110"))        # images + advertiser sweep ~every 2 h; other runs stay under a minute
 ADV_GAP = float(os.environ.get("ADVERTISERS_GAP_SEC", "10"))
 ADV_REVISIT_DAYS = 30
 MEDIA_PER_RUN = int(os.environ.get("MEDIA_PER_RUN", "100"))             # images per run, gently
@@ -642,11 +643,18 @@ def main():
     run = {"at": now_iso(), "ok": False, "error": None}
     errors = []
 
+    # Actions bills every run by the started minute, so the slow work happens about every
+    # 2 h and the rest of the runs only pick up new ads (under a minute each)
+    heavy = (state.get("heavy_last") or "") < iso(NOW - dt.timedelta(minutes=HEAVY_EVERY_MIN))
+    if heavy:
+        state["heavy_last"] = now_iso()
     blocked = state.get("api_blocked_until")
     if blocked and blocked > now_iso():
         log(f"API paused until {blocked} (rate limit) — skipping fetch this run")
     else:
         for step in (run_incremental, run_backfill, run_advertisers):
+            if step is not run_incremental and not heavy:
+                continue
             try:
                 step(ads, state, stats)
             except RateLimited as e:
@@ -684,11 +692,12 @@ def main():
         errors.append(f"missed: up to {stats['missed']} ads beyond the API plan's reach in this window")
     if API_INFO:
         state["api_info"] = API_INFO
-    try:
-        fetch_media(ads, stats)
-    except Exception as e:
-        errors.append(f"media: {e}")
-        traceback.print_exc()
+    if heavy:
+        try:
+            fetch_media(ads, stats)
+        except Exception as e:
+            errors.append(f"media: {e}")
+            traceback.print_exc()
 
     write_shards(ads)
     run["error"] = " | ".join(errors)[:500] or None      # so status.json already shows this run's problems

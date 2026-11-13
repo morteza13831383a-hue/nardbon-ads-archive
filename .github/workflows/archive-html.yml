@@ -1,9 +1,10 @@
 name: One-off Iran HTML archive
 
 on:
-  push:
-    branches: [main]
-    paths: ['data/html-archive-import/**']
+  # Was: every push of crawl parts (~26 runs/day, ~90 min/day). Parts now wait and are
+  # imported together every 3 h (cron-job.org dispatch, GitHub schedule as backup).
+  schedule:
+    - cron: "23 */3 * * *"
   workflow_dispatch:
     inputs:
       import_only:
