@@ -8,10 +8,10 @@ from html_core import Document
 
 class TGStatTests(unittest.TestCase):
     def test_profile_fields_and_recent_text(self):
-        body='''<meta property="og:description"content="کتابخانه افغانستان"><h1>کانال نمونه</h1><div><h5>Channel's geo and language</h5>Iran, Persian</div><div><h5>Category</h5><a>News</a></div><div><h2>12 345</h2><div>subscribers</div></div><div class="post-text">این پست درباره <b>تهران</b> است<br>متن جدید</div>'''
+        body='''<meta property="og:description"content="کتابخانه افغانستان"><h1>کانال نمونه</h1><p class="card-text">کتابخانه افغانستان - متن کامل</p><div><h5>Channel's geo and language</h5>Iran, Persian</div><div><h5>Category</h5><a>News</a></div><div><h2>12 345</h2><div>subscribers</div></div><div class="post-text">این پست درباره <b>تهران</b> است<br>متن جدید</div>'''
         v=t.extract(Document(body),t.BASE+'/channel/@Example')
         self.assertEqual((v['username'],v['members'],v['country'],v['language']),('example',12345,'Iran','Persian'))
-        self.assertEqual(v['description'],'کتابخانه افغانستان');self.assertIn('تهران',v['text_sample']);self.assertIsNone(v['avg_reach'])
+        self.assertEqual(v['description'],'کتابخانه افغانستان - متن کامل');self.assertIn('تهران',v['text_sample']);self.assertIsNone(v['avg_reach'])
         self.assertEqual(v['category'],'News')
     def test_group_and_unknown_fields_not_invented(self):
         v=t.extract(Document('<h1>درخواست کتاب افغانستان</h1><div><h5>Groups\'s geo and language</h5>Iran, Persian</div>'),t.BASE+'/chat/@Example')

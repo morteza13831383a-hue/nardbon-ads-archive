@@ -154,7 +154,7 @@ def extract(doc,url):
     title=next((text(n)for n in doc.root.nodes()if n.tag=='h1'),'')
     if not title:raise ValueError('Profile heading missing; possible sign-in/challenge page')
     metadata={n.attrs.get('property',n.attrs.get('name','')):n.attrs.get('content','')for n in doc.root.nodes()if n.tag=='meta'}
-    description=metadata.get('og:description')or metadata.get('description')or''
+    description=next((text(n)for n in doc.root.nodes()if n.tag=='p'and 'card-text'in classes(n)and text(n)),None)or metadata.get('og:description')or metadata.get('description')or''
     parents={id(c):n for n in doc.root.nodes()for c in n.children if hasattr(c,'tag')}
     country=language=category=None;metrics={};samples=[]
     for n in doc.root.nodes():
