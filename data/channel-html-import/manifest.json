@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-13T20:13:28.096419+00:00",
-  "updated_at": "2026-11-13T21:01:48.925822+00:00",
-  "channels": 243,
+  "updated_at": "2026-11-13T21:06:14.557420+00:00",
+  "channels": 390,
   "classifications": {
-    "persian_candidate": 227,
-    "unclassified": 16
+    "persian_candidate": 372,
+    "unclassified": 18
   },
   "queue": {
-    "done": 213,
-    "failed": 29,
-    "listing_saved": 61,
-    "pending": 21302,
+    "done": 235,
+    "failed": 32,
+    "listing_saved": 130,
+    "pending": 21304,
     "robots_disallowed": 22
   },
   "complete": false,
@@ -23,83 +23,83 @@
   "files": [
     {
       "name": "channels-00.jsonl.gz",
-      "bytes": 14862,
-      "sha256": "6c33845b5b9b7ce1d2490f05f98b11e395f96d5114080ba96b7862a820bc25b6"
+      "bytes": 20117,
+      "sha256": "68f63fa372624b7be1be462be7725794ffb7e75ddb48f9c49d96760a3ca14c8b"
     },
     {
       "name": "channels-01.jsonl.gz",
-      "bytes": 9587,
-      "sha256": "918132a39d9ab7eaa3bef39361fa5219e9703be04d2f5bd33e22fd13995285d7"
+      "bytes": 11484,
+      "sha256": "c5e65e91e5427aa1191bd5674c9d1771c3f7bce248d0ca3238f6e29850db439a"
     },
     {
       "name": "channels-02.jsonl.gz",
-      "bytes": 12820,
-      "sha256": "95f33f3f29aeb46e7f6cdbe164591c92d57da1f343ea84fc8d925842a073b7df"
+      "bytes": 14911,
+      "sha256": "bdb2e8dd1a1284b4856f061e2611a0aff3dde9cb665463012315fa2b45bef15e"
     },
     {
       "name": "channels-03.jsonl.gz",
-      "bytes": 8255,
-      "sha256": "4c1f73ca2dc0bd857ff9e2a382d5b2e71e057b925ac5c9605342b5e350d57481"
+      "bytes": 8872,
+      "sha256": "cb79fe7a0a0e84f6641324a0bd7aa03cdc385f50a81ecb3601de94bcecfceab3"
     },
     {
       "name": "channels-04.jsonl.gz",
-      "bytes": 7319,
-      "sha256": "47c87557d4990d21d39743872728e1a2f67fd093d8a5bfb0c058b607813dd577"
+      "bytes": 7953,
+      "sha256": "aa4611a7e263902086ff6a5fd04cdd3aaa4bb4433c8488fdd5b99de3f6e9eb2d"
     },
     {
       "name": "channels-05.jsonl.gz",
-      "bytes": 17880,
-      "sha256": "dd2965b75056ab3f12435ba3b640bd07504c7260e88903d0ae2950a70fa1078f"
+      "bytes": 20092,
+      "sha256": "26d596f2a85b547c0489f042f9713c137eac56cbec72e09dc7622360f5d1f06a"
     },
     {
       "name": "channels-06.jsonl.gz",
-      "bytes": 14370,
-      "sha256": "f577d29174ef3f44e95a504969a0b0b1e40e1c92f41725fa77bba26a44ec67d9"
+      "bytes": 15069,
+      "sha256": "cce5e20c8c45784c53ca6db71d9918899181321c808e89f5236390fa97fcc03d"
     },
     {
       "name": "channels-07.jsonl.gz",
-      "bytes": 10666,
-      "sha256": "fb9ce57f150ff82252b59645c73e4f571424e0f95d24fd1d13df36fa9e059ff4"
+      "bytes": 10804,
+      "sha256": "a2e54d61acdc494072825ca9c5d0b8721f6682c805981693cbc9aa39c2a921b4"
     },
     {
       "name": "channels-08.jsonl.gz",
-      "bytes": 14794,
-      "sha256": "e00557effecd1c408ead027dccf4803aa51eb40e582d16bedfa3c4f601012946"
+      "bytes": 16535,
+      "sha256": "ce52ae81eb75827b1da1b4d8985e6d534c66650aa2ca267081c02c0961638047"
     },
     {
       "name": "channels-09.jsonl.gz",
-      "bytes": 11134,
-      "sha256": "537e923a04f3e8788b412f299e6c6ceae08b44b5575e871a0e02b40ebd6e1f9e"
+      "bytes": 13297,
+      "sha256": "6a65a453281e0d1fc357e3876f8f42bcf5f9f4c307b57e71ef45e445873595b3"
     },
     {
       "name": "channels-0a.jsonl.gz",
-      "bytes": 13733,
-      "sha256": "573d5fbd938d48d7281b8e1ade053d71ffae9b95eb0e1bdd2d363a215a6b5fa3"
+      "bytes": 14263,
+      "sha256": "dcf486a8bd44dc55290b33bbd36e3748fbf112419a636d4d3c10aa92a269328e"
     },
     {
       "name": "channels-0b.jsonl.gz",
-      "bytes": 14947,
-      "sha256": "ffca9ab152dc23171885e0306c7fb3b936852fbaea5d43b2573f102c283d6f40"
+      "bytes": 17464,
+      "sha256": "9e450f0ea093ed16a331623187a6e7bb9d8d473b33157ad5b4e47859093bf627"
     },
     {
       "name": "channels-0c.jsonl.gz",
-      "bytes": 16747,
-      "sha256": "820e6017e8191ba232f22533d13e7f1ab1da469fc695be3985b4997f947ae3d0"
+      "bytes": 19749,
+      "sha256": "cd5f43ab9b31f9a5b7acabe9ede9ed786189914b345f8ee9571adf1c03ffb5c7"
     },
     {
       "name": "channels-0d.jsonl.gz",
-      "bytes": 21783,
-      "sha256": "43b259d861e0c06bbcc797e79c44a0ee882b9a763b09f026c49cc9b36d8579d2"
+      "bytes": 22771,
+      "sha256": "50277e7556d053284658b539afd58a0be336a70b85d4323a1af478f9e2926df3"
     },
     {
       "name": "channels-0e.jsonl.gz",
-      "bytes": 14226,
-      "sha256": "619b43d0bd4ff568abe004be14b06133dde7dc8989dd91664dce40afc3b81d27"
+      "bytes": 15892,
+      "sha256": "c9bbd66786fe418d9a829d430bc72cc6ca2c6305e00f3738e41d6de71ef136a0"
     },
     {
       "name": "channels-0f.jsonl.gz",
-      "bytes": 13013,
-      "sha256": "6cb1c72c0a726c9c4807e565d698efe19e8875f7b25f2495f7a61fb884b52170"
+      "bytes": 13835,
+      "sha256": "88cfa6cd065f7a41d75c5bf867dfa3b4598332ac83a1f742eefd741e220e708d"
     }
   ]
 }
