@@ -192,8 +192,15 @@ def extract_listing(doc, url):
                 headers = heads
                 continue
             cells = [n for n in row.nodes() if n.tag == 'td' or n.attrs.get('role') == 'cell']
-            if len(cells) != len(headers) or 'Channel' not in headers:
+            if not cells or len(cells) > len(headers) or 'Channel' not in headers:
                 continue
+            if len(cells) < len(headers):
+                # Next.js can stream trailing Lang/Cabinet cells after the initial row.
+                # Accept a contiguous prefix only; a template gap between cells could shift columns.
+                nodes = list(row.nodes())
+                last_cell = max(nodes.index(c) for c in cells)
+                if any(n.tag == 'template' for n in nodes[:last_cell]):
+                    continue
             fields = dict(zip(headers, cells))
             anchor = next((n for n in fields['Channel'].nodes() if n.tag == 'a' and CHANNEL.fullmatch(urlsplit(n.attrs.get('href', '')).path)), None)
             if anchor is None:

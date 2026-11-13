@@ -158,3 +158,10 @@ class RotationTests(unittest.TestCase):
             row=json.loads(db.execute('select payload from channels').fetchone()[0])
             self.assertEqual(row['classification'],'persian_candidate');self.assertEqual(row['description'],'bio');self.assertEqual(row['members'],999)
             db.close()
+
+    def test_streamed_trailing_columns_do_not_hide_listing_numbers(self):
+        html='''<div role="table"><div role="row"><span role="columnheader">Channel</span><span role="columnheader">Members</span><span role="columnheader">Avg. views</span><span role="columnheader">Lang</span></div><div role="row"><div role="cell"><a href="/channels/example">Example @example</a></div><span role="cell">1,234</span><span role="cell">56</span><template id="pending-language"></template></div></div>'''
+        rows=c.extract_listing(Document(html),c.BASE+'/channels?lang=fa')
+        self.assertEqual((rows[0]['members'],rows[0]['avg_views']),(1234,56))
+        broken=html.replace('<span role="cell">1,234</span>','<template id="pending-members"></template>')
+        self.assertEqual(c.extract_listing(Document(broken),c.BASE+'/channels?lang=fa'),[])
