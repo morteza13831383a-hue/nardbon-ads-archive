@@ -74,11 +74,13 @@ def import_html_buckets(chans, pl, log, now_iso):
                 c["dd"] = (r.get("collected_at") or now_iso())[:10]
             members = r.get("members") or metric(m.get("Members"))
             if members:
-                c["m"] = members
+                c["m"] = members = int(members)
                 c.setdefault("e", members >= 1000)
-            views = metric(m.get("Avg. views"))
+            views = r.get("avg_views") or metric(m.get("Avg. views"))
             if views:
-                c["v"] = views
+                c["v"] = int(views)
+            if r.get("category"):
+                c["c"] = r["category"]
             c["s"] = (r.get("collected_at") or now_iso())[:10]
             c["cl"] = r.get("classification")
             for adv in iran_advs:                       # Iranian advertisers linked from the channel page
