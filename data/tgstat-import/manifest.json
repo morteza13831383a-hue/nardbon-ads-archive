@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-13T21:33:30.841788+00:00",
+  "updated_at": "2026-11-13T21:43:48.283217+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
     "channel": 2,
     "group": 2
   },
-  "requests": 10,
+  "requests": 106,
   "per_100_requests": {
-    "channel": 20.0,
-    "group": 20.0
+    "channel": 1.89,
+    "group": 1.89
   },
   "fields_present": {
     "type": 4,
@@ -25,8 +25,8 @@
     "collected_at": 4
   },
   "queue": {
-    "done": 8,
-    "pending": 451
+    "done": 99,
+    "pending": 5267
   },
   "listings": [
     {
@@ -36,7 +36,16 @@
       "link_occurrences": 97,
       "unique_handles": 97,
       "public_next_links": 0,
-      "continuation": "login_gated_show_more"
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/adult",
+      "category": "adult",
+      "type": "group",
+      "link_occurrences": 66,
+      "unique_handles": 66,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
     },
     {
       "url": "https://ir.tgstat.com/",
@@ -57,13 +66,823 @@
       "continuation": "no_public_pagination_links"
     },
     {
+      "url": "https://ir.tgstat.com/ratings/chats",
+      "category": "all",
+      "type": "group",
+      "link_occurrences": 95,
+      "unique_handles": 95,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
       "url": "https://ir.tgstat.com/apps",
       "category": "apps",
       "type": "channel",
       "link_occurrences": 99,
       "unique_handles": 99,
       "public_next_links": 0,
-      "continuation": "login_gated_show_more"
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/apps",
+      "category": "apps",
+      "type": "group",
+      "link_occurrences": 40,
+      "unique_handles": 40,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/art",
+      "category": "art",
+      "type": "channel",
+      "link_occurrences": 102,
+      "unique_handles": 102,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/art",
+      "category": "art",
+      "type": "group",
+      "link_occurrences": 2,
+      "unique_handles": 2,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/babies",
+      "category": "babies",
+      "type": "channel",
+      "link_occurrences": 62,
+      "unique_handles": 62,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/babies",
+      "category": "babies",
+      "type": "group",
+      "link_occurrences": 5,
+      "unique_handles": 5,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/beauty",
+      "category": "beauty",
+      "type": "channel",
+      "link_occurrences": 93,
+      "unique_handles": 93,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/beauty",
+      "category": "beauty",
+      "type": "group",
+      "link_occurrences": 8,
+      "unique_handles": 8,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/blogs",
+      "category": "blogs",
+      "type": "channel",
+      "link_occurrences": 101,
+      "unique_handles": 101,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/blogs",
+      "category": "blogs",
+      "type": "group",
+      "link_occurrences": 19,
+      "unique_handles": 19,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/books",
+      "category": "books",
+      "type": "channel",
+      "link_occurrences": 93,
+      "unique_handles": 93,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/books",
+      "category": "books",
+      "type": "group",
+      "link_occurrences": 24,
+      "unique_handles": 24,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/business",
+      "category": "business",
+      "type": "channel",
+      "link_occurrences": 97,
+      "unique_handles": 97,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/business",
+      "category": "business",
+      "type": "group",
+      "link_occurrences": 45,
+      "unique_handles": 45,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/career",
+      "category": "career",
+      "type": "channel",
+      "link_occurrences": 101,
+      "unique_handles": 101,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/career",
+      "category": "career",
+      "type": "group",
+      "link_occurrences": 7,
+      "unique_handles": 7,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/construction",
+      "category": "construction",
+      "type": "channel",
+      "link_occurrences": 33,
+      "unique_handles": 33,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/construction",
+      "category": "construction",
+      "type": "group",
+      "link_occurrences": 5,
+      "unique_handles": 5,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/courses",
+      "category": "courses",
+      "type": "channel",
+      "link_occurrences": 39,
+      "unique_handles": 39,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/courses",
+      "category": "courses",
+      "type": "group",
+      "link_occurrences": 4,
+      "unique_handles": 4,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/crypto",
+      "category": "crypto",
+      "type": "channel",
+      "link_occurrences": 101,
+      "unique_handles": 101,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/crypto",
+      "category": "crypto",
+      "type": "group",
+      "link_occurrences": 98,
+      "unique_handles": 98,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/darknet",
+      "category": "darknet",
+      "type": "channel",
+      "link_occurrences": 69,
+      "unique_handles": 69,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/darknet",
+      "category": "darknet",
+      "type": "group",
+      "link_occurrences": 9,
+      "unique_handles": 9,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/design",
+      "category": "design",
+      "type": "channel",
+      "link_occurrences": 100,
+      "unique_handles": 100,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/design",
+      "category": "design",
+      "type": "group",
+      "link_occurrences": 14,
+      "unique_handles": 14,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/economics",
+      "category": "economics",
+      "type": "channel",
+      "link_occurrences": 102,
+      "unique_handles": 102,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/economics",
+      "category": "economics",
+      "type": "group",
+      "link_occurrences": 68,
+      "unique_handles": 68,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/education",
+      "category": "education",
+      "type": "channel",
+      "link_occurrences": 93,
+      "unique_handles": 93,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/education",
+      "category": "education",
+      "type": "group",
+      "link_occurrences": 98,
+      "unique_handles": 98,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/edutainment",
+      "category": "edutainment",
+      "type": "channel",
+      "link_occurrences": 97,
+      "unique_handles": 97,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/edutainment",
+      "category": "edutainment",
+      "type": "group",
+      "link_occurrences": 1,
+      "unique_handles": 1,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/entertainment",
+      "category": "entertainment",
+      "type": "channel",
+      "link_occurrences": 96,
+      "unique_handles": 96,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/entertainment",
+      "category": "entertainment",
+      "type": "group",
+      "link_occurrences": 14,
+      "unique_handles": 14,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/erotica",
+      "category": "erotica",
+      "type": "channel",
+      "link_occurrences": 87,
+      "unique_handles": 87,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/erotica",
+      "category": "erotica",
+      "type": "group",
+      "link_occurrences": 7,
+      "unique_handles": 7,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/esoterics",
+      "category": "esoterics",
+      "type": "channel",
+      "link_occurrences": 86,
+      "unique_handles": 86,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/esoterics",
+      "category": "esoterics",
+      "type": "group",
+      "link_occurrences": 4,
+      "unique_handles": 4,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/food",
+      "category": "food",
+      "type": "channel",
+      "link_occurrences": 75,
+      "unique_handles": 75,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/food",
+      "category": "food",
+      "type": "group",
+      "link_occurrences": 8,
+      "unique_handles": 8,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/gambling",
+      "category": "gambling",
+      "type": "channel",
+      "link_occurrences": 97,
+      "unique_handles": 97,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/gambling",
+      "category": "gambling",
+      "type": "group",
+      "link_occurrences": 18,
+      "unique_handles": 18,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/games",
+      "category": "games",
+      "type": "channel",
+      "link_occurrences": 101,
+      "unique_handles": 101,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/games",
+      "category": "games",
+      "type": "group",
+      "link_occurrences": 82,
+      "unique_handles": 82,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/handmade",
+      "category": "handmade",
+      "type": "channel",
+      "link_occurrences": 45,
+      "unique_handles": 45,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/handmade",
+      "category": "handmade",
+      "type": "group",
+      "link_occurrences": 0,
+      "unique_handles": 0,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/health",
+      "category": "health",
+      "type": "channel",
+      "link_occurrences": 102,
+      "unique_handles": 102,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/health",
+      "category": "health",
+      "type": "group",
+      "link_occurrences": 10,
+      "unique_handles": 10,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/instagram",
+      "category": "instagram",
+      "type": "channel",
+      "link_occurrences": 36,
+      "unique_handles": 36,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/instagram",
+      "category": "instagram",
+      "type": "group",
+      "link_occurrences": 4,
+      "unique_handles": 4,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/language",
+      "category": "language",
+      "type": "channel",
+      "link_occurrences": 102,
+      "unique_handles": 102,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/language",
+      "category": "language",
+      "type": "group",
+      "link_occurrences": 16,
+      "unique_handles": 16,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/law",
+      "category": "law",
+      "type": "channel",
+      "link_occurrences": 52,
+      "unique_handles": 52,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/law",
+      "category": "law",
+      "type": "group",
+      "link_occurrences": 9,
+      "unique_handles": 9,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/marketing",
+      "category": "marketing",
+      "type": "channel",
+      "link_occurrences": 101,
+      "unique_handles": 101,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/marketing",
+      "category": "marketing",
+      "type": "group",
+      "link_occurrences": 21,
+      "unique_handles": 21,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/medicine",
+      "category": "medicine",
+      "type": "channel",
+      "link_occurrences": 99,
+      "unique_handles": 99,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/medicine",
+      "category": "medicine",
+      "type": "group",
+      "link_occurrences": 21,
+      "unique_handles": 21,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/music",
+      "category": "music",
+      "type": "channel",
+      "link_occurrences": 101,
+      "unique_handles": 101,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/music",
+      "category": "music",
+      "type": "group",
+      "link_occurrences": 17,
+      "unique_handles": 17,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/nature",
+      "category": "nature",
+      "type": "channel",
+      "link_occurrences": 44,
+      "unique_handles": 44,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/nature",
+      "category": "nature",
+      "type": "group",
+      "link_occurrences": 6,
+      "unique_handles": 6,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/news",
+      "category": "news",
+      "type": "channel",
+      "link_occurrences": 101,
+      "unique_handles": 101,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/news",
+      "category": "news",
+      "type": "group",
+      "link_occurrences": 44,
+      "unique_handles": 44,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/other",
+      "category": "other",
+      "type": "channel",
+      "link_occurrences": 100,
+      "unique_handles": 100,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/other",
+      "category": "other",
+      "type": "group",
+      "link_occurrences": 97,
+      "unique_handles": 97,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/pics",
+      "category": "pics",
+      "type": "channel",
+      "link_occurrences": 99,
+      "unique_handles": 99,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/pics",
+      "category": "pics",
+      "type": "group",
+      "link_occurrences": 1,
+      "unique_handles": 1,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/politics",
+      "category": "politics",
+      "type": "channel",
+      "link_occurrences": 102,
+      "unique_handles": 102,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/politics",
+      "category": "politics",
+      "type": "group",
+      "link_occurrences": 43,
+      "unique_handles": 43,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/psychology",
+      "category": "psychology",
+      "type": "channel",
+      "link_occurrences": 98,
+      "unique_handles": 98,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/psychology",
+      "category": "psychology",
+      "type": "group",
+      "link_occurrences": 3,
+      "unique_handles": 3,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/religion",
+      "category": "religion",
+      "type": "channel",
+      "link_occurrences": 101,
+      "unique_handles": 101,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/religion",
+      "category": "religion",
+      "type": "group",
+      "link_occurrences": 44,
+      "unique_handles": 44,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/sales",
+      "category": "sales",
+      "type": "channel",
+      "link_occurrences": 102,
+      "unique_handles": 102,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/sales",
+      "category": "sales",
+      "type": "group",
+      "link_occurrences": 52,
+      "unique_handles": 52,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/shock",
+      "category": "shock",
+      "type": "channel",
+      "link_occurrences": 21,
+      "unique_handles": 21,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/shock",
+      "category": "shock",
+      "type": "group",
+      "link_occurrences": 3,
+      "unique_handles": 3,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/sport",
+      "category": "sport",
+      "type": "channel",
+      "link_occurrences": 101,
+      "unique_handles": 101,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/sport",
+      "category": "sport",
+      "type": "group",
+      "link_occurrences": 15,
+      "unique_handles": 15,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/tech",
+      "category": "tech",
+      "type": "channel",
+      "link_occurrences": 102,
+      "unique_handles": 102,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/tech",
+      "category": "tech",
+      "type": "group",
+      "link_occurrences": 45,
+      "unique_handles": 45,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/telegram",
+      "category": "telegram",
+      "type": "channel",
+      "link_occurrences": 99,
+      "unique_handles": 99,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/telegram",
+      "category": "telegram",
+      "type": "group",
+      "link_occurrences": 78,
+      "unique_handles": 78,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/transport",
+      "category": "transport",
+      "type": "channel",
+      "link_occurrences": 101,
+      "unique_handles": 101,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/transport",
+      "category": "transport",
+      "type": "group",
+      "link_occurrences": 8,
+      "unique_handles": 8,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/travels",
+      "category": "travels",
+      "type": "channel",
+      "link_occurrences": 86,
+      "unique_handles": 86,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/travels",
+      "category": "travels",
+      "type": "group",
+      "link_occurrences": 8,
+      "unique_handles": 8,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
+    },
+    {
+      "url": "https://ir.tgstat.com/video",
+      "category": "video",
+      "type": "channel",
+      "link_occurrences": 96,
+      "unique_handles": 96,
+      "public_next_links": 0,
+      "continuation": "form_show_more_not_followed"
+    },
+    {
+      "url": "https://ir.tgstat.com/ratings/chats/video",
+      "category": "video",
+      "type": "group",
+      "link_occurrences": 28,
+      "unique_handles": 28,
+      "public_next_links": 0,
+      "continuation": "no_public_pagination_links"
     }
   ],
   "files": [
