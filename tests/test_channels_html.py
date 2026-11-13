@@ -148,3 +148,13 @@ class RotationTests(unittest.TestCase):
             db.execute('insert or replace into channels values(?,?)',('example',json.dumps(old)))
             c.save_listing(db,rows)
             self.assertEqual(json.loads(db.execute('select payload from channels').fetchone()[0]),old);db.close()
+
+    def test_listing_strengthens_unclassified_profile_without_erasing_details(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db=c.connect(Path(tmp))
+            old={'username':'example','title':'Profile title','classification':'unclassified','members':999,'description':'bio'}
+            db.execute('insert into channels values(?,?)',('example',json.dumps(old)))
+            c.save_listing(db,[{'username':'example','source_url':c.BASE+'/channels?lang=fa'}])
+            row=json.loads(db.execute('select payload from channels').fetchone()[0])
+            self.assertEqual(row['classification'],'persian_candidate');self.assertEqual(row['description'],'bio');self.assertEqual(row['members'],999)
+            db.close()

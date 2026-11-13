@@ -218,6 +218,10 @@ def save_listing(db, rows):
         current = json.loads(old[0]) if old else {}
         # A summary never overwrites a fetched profile, explicit Iran evidence or a known value with null.
         if current and current.get('record_detail') != 'listing':
+            if current.get('classification') == 'unclassified':
+                current['classification'] = 'persian_candidate'
+                current['listing_source_url'] = row['source_url']
+                db.execute('UPDATE channels SET payload=? WHERE username=?', (json.dumps(current, ensure_ascii=False), row['username']))
             continue
         merged = dict(current)
         for key, value in row.items():
