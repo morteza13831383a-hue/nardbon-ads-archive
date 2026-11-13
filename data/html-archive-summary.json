@@ -3,25 +3,25 @@
   "external_collection": {
     "last_slice_performance": {
       "pages_attempted": 200,
-      "new_iran_ads": 170,
-      "seconds": 999.59
+      "new_iran_ads": 164,
+      "seconds": 1055.61
     },
     "external_collection": null,
     "last_stop_reason": "",
     "schema_version": 1,
-    "generated_at": "2026-11-13T17:01:36.354788+00:00",
+    "generated_at": "2026-11-13T17:19:32.266894+00:00",
     "cutoff": "2026-11-13T08:53:18.687804+00:00",
     "source": "https://tgadsspy.com",
     "source_api_used": false,
-    "iran_ads_extracted": 4856,
+    "iran_ads_extracted": 5020,
     "source_reported_iran_total": 56483,
     "queue_status": {
       "after_cutoff": 2,
       "done": 195,
       "gone": 1,
-      "iran": 4856,
-      "not_iran": 3954,
-      "pending": 744672
+      "iran": 5020,
+      "not_iran": 3990,
+      "pending": 744472
     },
     "queue_kinds": {
       "detail": 753047,
@@ -53,19 +53,19 @@
   },
   "last_stop_reason": null,
   "schema_version": 1,
-  "generated_at": "2026-11-13T17:06:42.786612+00:00",
+  "generated_at": "2026-11-13T17:20:09.074278+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 4856,
+  "iran_ads_extracted": 5020,
   "source_reported_iran_total": 56483,
   "queue_status": {
     "done": 1,
-    "iran": 4856,
+    "iran": 5020,
     "pending": 13155
   },
   "queue_kinds": {
-    "detail": 4882,
+    "detail": 5046,
     "listing": 13129,
     "sitemap": 1
   },
@@ -74,7 +74,7 @@
   "coverage": {
     "by_month": [],
     "site_sum_of_months": 0,
-    "extracted_total": 4856,
+    "extracted_total": 5020,
     "by_strategy": [
       {
         "via": "iran_listing",
@@ -84,8 +84,8 @@
       },
       {
         "via": "original",
-        "requests": 520,
-        "iran": 520,
+        "requests": 684,
+        "iran": 684,
         "iran_per_100": 100.0
       },
       {
@@ -491,87 +491,99 @@
     },
     {
       "name": "ads-00033.jsonl.gz",
-      "records": 133,
-      "bytes": 507719,
-      "sha256": "f355dfc2a9acb517e8aaba747e837b290e4f8d7db63117bda455511fd2e11afc"
+      "records": 134,
+      "bytes": 509961,
+      "sha256": "b148e060be0229353639bd5b3c61f2eb08ed8f04a9e5dde2fb087084d2a93df7"
     },
     {
       "name": "ads-00033.csv",
-      "records": 133,
-      "bytes": 3872618,
-      "sha256": "6ad4a0e4bb44e212c0cebc69ef018c4b8fc37a478c707cf1426f925970fc27b3"
+      "records": 134,
+      "bytes": 3888248,
+      "sha256": "fb209c4dad9b615b45df3953dde2dfc0e4af9f1cf9f8102824eb29a53f294d84"
     },
     {
       "name": "ads-00034.jsonl.gz",
-      "records": 127,
-      "bytes": 508190,
-      "sha256": "6018e4523847ae19246660e7ce9e33a75d09793c2b59b0bd71288d77d4bfcead"
+      "records": 129,
+      "bytes": 507376,
+      "sha256": "df2da23cc5f33abdbe4242bb10d1319382f758de8bdd44a7f77aad4ddfa96ef5"
     },
     {
       "name": "ads-00034.csv",
-      "records": 127,
-      "bytes": 3891694,
-      "sha256": "3dd73f4312fd8a53a6142065ef42f16c5684cc7ca5fae26a4ff5bbd93bea201e"
+      "records": 129,
+      "bytes": 3875406,
+      "sha256": "78975325009956f2a25cc19fcdc152053eecd95e734b9781f0a6630b5c251676"
     },
     {
       "name": "ads-00035.jsonl.gz",
-      "records": 138,
-      "bytes": 520292,
-      "sha256": "3a9d12ef122f72a7cbb7780f6ba7bd63d390a0aae6bbe8e09b8b1ba607fbec1b"
+      "records": 134,
+      "bytes": 534379,
+      "sha256": "66ec3f5fe17a6941a3815116de1fd6dd60ed208ecb60baaa5f095360ebd9daad"
     },
     {
       "name": "ads-00035.csv",
-      "records": 138,
-      "bytes": 3878485,
-      "sha256": "38cce47213054faaa8c96446c8331d1d52f92845f35b02948027ed33fd757848"
+      "records": 134,
+      "bytes": 3887578,
+      "sha256": "703426951f0d8d1db358b7bd02987fb1d425fd06f6e5da4eef656f5dc17bf290"
     },
     {
       "name": "ads-00036.jsonl.gz",
-      "records": 150,
-      "bytes": 480300,
-      "sha256": "c7b68e98d1e151eb76c27a3529fbb2a80350bb3c4d319b220a2f828276d35fdc"
+      "records": 144,
+      "bytes": 511651,
+      "sha256": "c5542984173148d076715b452bd8057df04e68912f07c352bb82038e7783e71f"
     },
     {
       "name": "ads-00036.csv",
-      "records": 150,
-      "bytes": 3863042,
-      "sha256": "eda4bea9f8edf1417a6ecc6b2bf64e13077859966061241c2007e2195d96ef38"
+      "records": 144,
+      "bytes": 3872203,
+      "sha256": "9a89ccf2b9aa0a9cc53d023360648aecc7d4702a6ff25085466a7c2dc1695f33"
     },
     {
       "name": "ads-00037.jsonl.gz",
-      "records": 157,
-      "bytes": 492351,
-      "sha256": "f513c6dd4d6f894e4f8ab4bcc75054295905f7408c7e5f443cfaa31f0444a688"
+      "records": 147,
+      "bytes": 494564,
+      "sha256": "986f9d0483716bcca59610afa403b5b5ebbc3fc93cf2da4fa90a259aaab1a49f"
     },
     {
       "name": "ads-00037.csv",
-      "records": 157,
-      "bytes": 3864242,
-      "sha256": "3bfbf8360fd295b5d78617c637816160dbff52367a0a7337761dfb7c99c7ae2a"
+      "records": 147,
+      "bytes": 3861936,
+      "sha256": "805a0e54bbfc25a5d26d7ef12b6809a2bee29d522e61663ad6a0e95354ac2e31"
     },
     {
       "name": "ads-00038.jsonl.gz",
-      "records": 156,
-      "bytes": 486810,
-      "sha256": "7c8ff4053b7710b5b2c1f6e922e59f7d470cce0b3e7d42196d22fbd834ea0a92"
+      "records": 157,
+      "bytes": 489285,
+      "sha256": "c7b8450f15e62e369ce4a148c3b0362a2b70b40bbcd227b334e9c93ac85f63b5"
     },
     {
       "name": "ads-00038.csv",
-      "records": 156,
-      "bytes": 3859144,
-      "sha256": "45594985b3bcf1c62dc62fc55132f8f0d44340f093f356744093aa1a5b240b7f"
+      "records": 157,
+      "bytes": 3853731,
+      "sha256": "c5bb6009b41d025299ca06cccf57063cde1283388ee59d08f7fd90f7a7cfe0b8"
     },
     {
       "name": "ads-00039.jsonl.gz",
-      "records": 3,
-      "bytes": 11180,
-      "sha256": "bf0ff8067106d8c41022dbe069992bfad789cf057979c69861649f8d2595b4e1"
+      "records": 152,
+      "bytes": 489445,
+      "sha256": "c50ed66cf1f28a12ac0e3ffecfd93449acd1ee2fe328333a27d00538a23afaca"
     },
     {
       "name": "ads-00039.csv",
-      "records": 3,
-      "bytes": 67130,
-      "sha256": "ee7673d2a9c396fdf45ba941bd5d575872d0d1fc54b4a420d03367156843fdf2"
+      "records": 152,
+      "bytes": 3849351,
+      "sha256": "e622a1307ec61b41a3f84c4f0dd4ec987bcb27071345027bbc6cf414f94881b7"
+    },
+    {
+      "name": "ads-00040.jsonl.gz",
+      "records": 31,
+      "bytes": 87508,
+      "sha256": "16181b0c6e6d7b92445b2d0398d6e8cb5a33de13388bf667aa45bf7540936100"
+    },
+    {
+      "name": "ads-00040.csv",
+      "records": 31,
+      "bytes": 660188,
+      "sha256": "a786d1d580d318f48fd6badf43cced4e93bc477b13f3d3ec66d0f5d7b327712f"
     }
   ]
 }
