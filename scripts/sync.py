@@ -52,8 +52,10 @@ UPLOAD_TOKEN = os.environ.get("UPLOAD_TOKEN", "").strip()
 PAGE = 100                                   # FREE plan cap per request
 MAX_DEPTH = 5000                             # safety cap; the API reports the real depth in meta.maxOffset
 TIME_BUDGET = int(os.environ.get("TIME_BUDGET_SEC", "600"))
-BACKFILL_ROWS = int(os.environ.get("BACKFILL_ROWS_PER_RUN", "1000"))   # ~24k/day, under 50k
-MEDIA_PER_RUN = int(os.environ.get("MEDIA_PER_RUN", "500"))
+BACKFILL_ROWS = int(os.environ.get("BACKFILL_ROWS_PER_RUN", "600"))    # one reachable window per run
+BACKFILL_GAP = float(os.environ.get("BACKFILL_GAP_SEC", "5"))           # pause between backfill pages
+MEDIA_PER_RUN = int(os.environ.get("MEDIA_PER_RUN", "100"))             # images per run, gently
+MEDIA_GAP = float(os.environ.get("MEDIA_GAP_SEC", "0.5"))
 MEDIA_MAX_W = 900
 
 # Persian-only letters (پ چ ژ گ and Persian ک ی) — separates Persian from Arabic text
@@ -232,11 +234,13 @@ def merge(ads, raw, source):
     return "new"
 
 
-def pull(ads, state, params, source, row_cap, stats, keep_all=False):
+def pull(ads, state, params, source, row_cap, stats, keep_all=False, gap=0.0):
     """Page through /ads with offset. Returns (rows_read, max_first_seen, exhausted)."""
     rows, max_fs, offset = 0, None, 0
     stats.pop("_meta", None)
     while offset < MAX_DEPTH and rows < row_cap and time_left() > 120:
+        if offset and gap:
+            time.sleep(gap)
         page = api_get("/ads", {**params, "limit": PAGE, "offset": offset})
         meta = page.get("meta") or {}
         if offset == 0:
@@ -288,20 +292,28 @@ def run_incremental(ads, state, stats):
 
 
 def run_backfill(ads, state, stats):
+    """Long-running ("proven") Iran ads, oldest first. sort=proven pages in ascending firstSeenAt,
+    so `since` works as a forward cursor; one reachable window per run."""
     bf = state["backfill"]
     if bf["done"]:
         return 0
-    # sort=proven is oldest-first by firstSeenAt, so `since` works as a forward cursor
-    params = {"geo": "IR", "sort": "proven", "days": 365}
+    params = {"geo": "IR", "sort": "proven"}
     if bf["since"]:
         params["since"] = bf["since"]
-    rows, max_fs, exhausted = pull(ads, state, params, "backfill", BACKFILL_ROWS, stats, keep_all=True)
+    rows, max_fs, exhausted = pull(ads, state, params, "backfill", BACKFILL_ROWS, stats,
+                                   keep_all=True, gap=BACKFILL_GAP)
+    meta = stats.pop("_meta", None) or {}
     bf["rows"] = bf.get("rows", 0) + rows
-    if exhausted or not max_fs or max_fs == bf["since"]:
-        bf["done"] = rows < PAGE or not max_fs or max_fs == bf["since"]
+    bf["total"] = meta.get("total", bf.get("total"))
+    bf["trust"] = meta.get("trustTier")
     if max_fs:
-        bf["since"] = max_fs
-    log(f"backfill: read {rows} rows, cursor {bf['since']}, done={bf['done']}")
+        t = dt.datetime.strptime(max_fs[:19], "%Y-%m-%dT%H:%M:%S") - dt.timedelta(seconds=1)
+        nxt = t.strftime("%Y-%m-%dT%H:%M:%SZ")
+        bf["done"] = exhausted or nxt == bf["since"]
+        bf["since"] = nxt
+    else:
+        bf["done"] = True
+    log(f"backfill: read {rows} rows, cursor {bf['since']}, done={bf['done']}, trust={bf.get('trust')}")
     return rows
 
 
@@ -326,6 +338,7 @@ def fetch_media(ads, stats):
             a["media_status"] = "video"       # keep the link; videos are not stored
             continue
         try:
+            time.sleep(MEDIA_GAP)
             r = requests.get(url, timeout=30)
             r.raise_for_status()
             if "video" in r.headers.get("Content-Type", ""):
@@ -466,7 +479,7 @@ def build_status(ads, state, shards):
         "totals": {
             "ads": len(ads),
             "with_image": sum(1 for a in ads.values() if a.get("media_file")),
-            "new_24h": sum(1 for a in ads.values() if (a.get("found_at") or "") >= today),
+            "new_24h": sum(1 for a in ads.values() if a.get("source") != "backfill" and (a.get("found_at") or "") >= today),
             "media_waiting": sum(1 for a in ads.values() if a["media_status"] in ("pending", "queued")),
             "not_sent": sum(1 for a in ads.values() if not a.get("sent_at")),
         },
