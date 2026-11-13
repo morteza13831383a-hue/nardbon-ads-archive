@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-13T15:31:37Z",
+ "cursor": "2026-11-13T16:30:39Z",
  "backfill": {
   "since": "2026-06-07T10:59:55Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-13T13:15:00Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "1144fd527d05dd91",
+  "tgads/data/2026-11.json": "ae74024a8d8284f7",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,14 +20,14 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "fa1b6b8d84e5cbe4",
-  "tgads/data/2026-08.json": "4a78f40b4a3fbbb0",
-  "tgads/data/2026-09.json": "2ec1cf88fda47c03",
+  "tgads/channels/channels.json": "6f5f114eb5353eef",
+  "tgads/data/2026-08.json": "53de2848b736b9a7",
+  "tgads/data/2026-09.json": "0d1b0d6fc019d82b",
   "tgads/data/2026-04.json": "c88655a0d1524e67",
   "tgads/data/2026-05.json": "c6cf363df78964d0",
-  "tgads/data/2026-06.json": "746c295f4246abbe",
-  "tgads/data/2026-07.json": "6ba73b26f4f3852b",
-  "tgads/data/2026-10.json": "2ba1738214383861"
+  "tgads/data/2026-06.json": "c5f84d207a6a2dd1",
+  "tgads/data/2026-07.json": "f4d24cf6f2fbf889",
+  "tgads/data/2026-10.json": "d86101937e61bc8c"
  },
  "runs": [
   {
@@ -391,9 +391,21 @@
    "sent_media": 44,
    "sent_files": 7,
    "secs": 112
+  },
+  {
+   "at": "2026-11-13T17:30:40Z",
+   "ok": true,
+   "error": null,
+   "new": 1,
+   "updated": 71,
+   "media": 96,
+   "missed": 0,
+   "sent_media": 96,
+   "sent_files": 7,
+   "secs": 314
   }
  ],
- "last_upload_ok": "2026-11-13T17:24:56Z",
+ "last_upload_ok": "2026-11-13T17:35:53Z",
  "lang_seen": {
   "-": 145,
   "tr": 63,
@@ -402,7 +414,7 @@
   "ar": 211,
   "my": 47,
   "en": 491,
-  "fa": 2236,
+  "fa": 2698,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -436,14 +448,14 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": "150",
-  "X-RateLimit-Remaining": "149",
+  "X-RateLimit-Limit": "300",
+  "X-RateLimit-Remaining": "299",
   "X-RateLimit-Reset": null
  },
  "channels_total": 2231,
  "api_blocked_until": "2026-11-13T01:20:54Z",
  "channels_idx": 13,
- "desc_last": "2026-11-13T12:56:16Z",
+ "desc_last": "2026-11-13T17:31:52Z",
  "html_archive_exported_at": "2026-11-13T08:53:25Z",
  "adv_sweep": {
   "done": {
@@ -461,12 +473,17 @@
    "tg-nilgamgroup": "2026-11-13T16:31:48Z",
    "tg-spokenenglish6_bot": "2026-11-13T16:31:58Z",
    "tg-tasvirjahani": "2026-11-13T16:32:09Z",
-   "tg-golden_academi_bot": "2026-11-13T16:32:19Z"
+   "tg-golden_academi_bot": "2026-11-13T16:32:19Z",
+   "tg-chatogerambot": "2026-11-13T17:30:51Z",
+   "tg-rizanhafeze": "2026-11-13T17:31:11Z",
+   "tg-filtersenterbot": "2026-11-13T17:31:31Z",
+   "tg-beautypooshak": "2026-11-13T17:31:41Z",
+   "tg-englishmediaa_bot": "2026-11-13T17:31:52Z"
   },
   "partial": {},
   "ads_found": 184,
-  "known": 1091,
-  "waiting": 1081,
+  "known": 1105,
+  "waiting": 1090,
   "seeds": 0
  }
 }
