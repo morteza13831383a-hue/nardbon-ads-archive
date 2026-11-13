@@ -1,28 +1,30 @@
 {
- "cursor": "2026-11-13T11:30:44Z",
+ "cursor": "2026-11-13T11:55:45Z",
  "backfill": {
-  "since": null,
+  "since": "2026-06-07T10:59:55Z",
   "done": false,
-  "rows": 0
+  "rows": 600,
+  "total": 9966,
+  "trust": "tarpit"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "e1b4bc288ce6cd22",
+  "tgads/data/2026-11.json": "d8534b72769a1916",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/index.html": "4f5ea210278fae3b",
+  "tgads/index.html": "562cfaf859fe249d",
   "tgads/channels.json": "e760515bda3816c4",
   "tgads/channels/index.html": "56d1299149d22c94",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "08d7652831143833",
+  "tgads/channels/channels.json": "fa1b6b8d84e5cbe4",
   "tgads/data/2026-08.json": "de83c3d4aa02cb15",
   "tgads/data/2026-09.json": "db96cdbddd956e86",
-  "tgads/data/2026-04.json": "bbf3bebf83fcd2cb",
-  "tgads/data/2026-05.json": "4e1d9d881038fbf6",
-  "tgads/data/2026-06.json": "8f83ef593f886a15",
+  "tgads/data/2026-04.json": "db622e8662a22db0",
+  "tgads/data/2026-05.json": "003530915294966f",
+  "tgads/data/2026-06.json": "98128435273f2a8b",
   "tgads/data/2026-07.json": "4d4f3ca1f9e29f63",
   "tgads/data/2026-10.json": "ea1bf18b25034eed"
  },
@@ -268,18 +270,30 @@
    "sent_media": 151,
    "sent_files": 3,
    "secs": 166
+  },
+  {
+   "at": "2026-11-13T12:55:45Z",
+   "ok": true,
+   "error": null,
+   "new": 476,
+   "updated": 131,
+   "media": 97,
+   "missed": 0,
+   "sent_media": 97,
+   "sent_files": 6,
+   "secs": 316
   }
  ],
- "last_upload_ok": "2026-11-13T12:33:29Z",
+ "last_upload_ok": "2026-11-13T13:01:00Z",
  "lang_seen": {
   "-": 135,
   "tr": 63,
   "he": 39,
   "ru": 732,
-  "ar": 199,
+  "ar": 206,
   "my": 47,
-  "en": 487,
-  "fa": 981,
+  "en": 491,
+  "fa": 1579,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -320,6 +334,6 @@
  "channels_total": 2231,
  "api_blocked_until": "2026-11-13T01:20:54Z",
  "channels_idx": 13,
- "desc_last": "2026-11-13T08:38:18Z",
+ "desc_last": "2026-11-13T12:56:16Z",
  "html_archive_exported_at": "2026-11-13T08:53:25Z"
 }
