@@ -192,6 +192,11 @@ def extract_listing(doc, url):
                 headers = heads
                 continue
             cells = [n for n in row.nodes() if n.tag == 'td' or n.attrs.get('role') == 'cell']
+            # The mobile table's channel link has no role=cell, unlike its numeric columns.
+            nodes = list(row.nodes())
+            leading = next((n for n in nodes if n.tag == 'a' and CHANNEL.fullmatch(urlsplit(n.attrs.get('href', '')).path)), None)
+            if headers and headers[0] == 'Channel' and cells and leading is not None and nodes.index(leading) < nodes.index(cells[0]):
+                cells.insert(0, leading)
             if not cells or len(cells) > len(headers) or 'Channel' not in headers:
                 continue
             if len(cells) < len(headers):

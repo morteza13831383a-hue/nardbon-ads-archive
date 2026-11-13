@@ -165,3 +165,8 @@ class RotationTests(unittest.TestCase):
         self.assertEqual((rows[0]['members'],rows[0]['avg_views']),(1234,56))
         broken=html.replace('<span role="cell">1,234</span>','<template id="pending-members"></template>')
         self.assertEqual(c.extract_listing(Document(broken),c.BASE+'/channels?lang=fa'),[])
+
+    def test_mobile_listing_has_an_unlabelled_channel_cell(self):
+        html='''<div role="table"><div role="row"><span role="columnheader">Channel</span><span role="columnheader">Members</span><span role="columnheader">Avg. views</span></div><div role="row"><div><a href="/channels/example">Example @example</a></div><span role="cell">123</span><span role="cell">45</span></div></div>'''
+        rows=c.extract_listing(Document(html),c.BASE+'/channels?lang=fa')
+        self.assertEqual((rows[0]['username'],rows[0]['members'],rows[0]['avg_views']),('example',123,45))
