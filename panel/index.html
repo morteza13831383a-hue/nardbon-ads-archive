@@ -240,7 +240,7 @@ $('zoom').onclick = () => $('zoom').style.display = 'none';
   try { renderStatus(await getJSON('status.json' + bust)); } catch(e){ $('htxt').textContent = 'وضعیت در دسترس نیست'; }
   try { manifest = await getJSON('manifest.json' + bust);
         const all = manifest.months.reduce((n, m) => n + (m.n || 0), 0);
-        await loadMonths(all <= 15000 ? manifest.months.length : 3); }
+        await loadMonths(all <= 8000 ? manifest.months.length : 3); }
   catch(e){ $('grid').innerHTML = '<div class="empty">هنوز داده‌ای ارسال نشده. بعد از اولین اجرای موفق اینجا پر می‌شه.</div>'; }
 })();
 </script>
