@@ -27,6 +27,7 @@ import re
 import channels
 
 IMPORT_DIR = channels.ROOT / "data" / "channel-import"
+HTML_DIR = channels.ROOT / "data" / "channel-html-import"     # buckets from scripts/channels_html.py
 PLACEMENTS_F = channels.ROOT / "data" / "placements.json"
 USERNAME = re.compile(r"^[A-Za-z][A-Za-z0-9_]{3,31}$")
 
@@ -37,13 +38,68 @@ def load_placements():
     return {"done_parts": [], "rows": {}}       # rows: "advertiser|channel" -> {...}
 
 
+def metric(text):
+    """'5,972' -> 5972, '12.3K' -> 12300, '1.2M' -> 1200000, '—' -> None."""
+    t = str(text or "").replace(",", "").replace("\u00a0", "").strip()
+    m = re.fullmatch(r"([\d.]+)\s*([KkMm]?)", t)
+    return int(float(m[1]) * {"": 1, "k": 1_000, "m": 1_000_000}[m[2].lower()]) if m else None
+
+
+def import_html_buckets(chans, pl, log, now_iso):
+    """channels_html.py rewrites 16 hash buckets as it grows; re-read a bucket when its digest
+    changes. Only Persian / Iran-evidence channels go into the catalog."""
+    import hashlib
+    seen = pl.setdefault("html_buckets", {})
+    n = 0
+    for path in sorted(glob.glob(str(HTML_DIR / "channels-*.jsonl.gz"))):
+        name = path.rsplit("/", 1)[-1]
+        raw = open(path, "rb").read()
+        digest = hashlib.sha256(raw).hexdigest()
+        if seen.get(name) == digest:
+            continue
+        for line in gzip.decompress(raw).decode("utf-8").splitlines():
+            if not line.strip():
+                continue
+            r = json.loads(line)
+            u = r.get("username") or ""
+            iran_advs = r.get("iran_advertisers") or []
+            if not USERNAME.match(u) or (r.get("classification") == "unclassified" and not iran_advs):
+                continue
+            m = r.get("metrics") or {}
+            c = chans.get(u) or {"u": u, "k": [], "sr": "tgadsspy"}
+            if r.get("title"):
+                c["t"] = r["title"]
+            if r.get("description"):
+                c["d"] = str(r["description"])[:400]
+                c["dd"] = (r.get("collected_at") or now_iso())[:10]
+            members = r.get("members") or metric(m.get("Members"))
+            if members:
+                c["m"] = members
+                c.setdefault("e", members >= 1000)
+            views = metric(m.get("Avg. views"))
+            if views:
+                c["v"] = views
+            c["s"] = (r.get("collected_at") or now_iso())[:10]
+            c["cl"] = r.get("classification")
+            for adv in iran_advs:                       # Iranian advertisers linked from the channel page
+                key = f"{adv}|{u}"
+                pl["rows"].setdefault(key, {"a": adv, "c": u, "n": 0})
+            chans[u] = c
+            n += 1
+        seen[name] = digest
+    if n:
+        log(f"channel import: {n} channel profiles from channels_html buckets")
+    return n
+
+
 def run(log, now_iso):
     parts = sorted(glob.glob(str(IMPORT_DIR / "*.jsonl.gz")))
     pl = load_placements()
     todo = [p for p in parts if p.rsplit("/", 1)[-1] not in pl["done_parts"]]
-    if not todo:
-        return 0
     chans = channels.load()
+    n_html = import_html_buckets(chans, pl, log, now_iso)
+    if not todo and not n_html:
+        return 0
     n_ch = n_pl = bad = 0
     for path in todo:
         with gzip.open(path, "rt", encoding="utf-8") as fh:

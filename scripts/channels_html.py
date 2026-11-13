@@ -23,6 +23,25 @@ from html_core import Client, Document, canonical, origin
 BASE = 'https://tgadsspy.com'
 CHANNEL = re.compile(r'^/channels/([A-Za-z0-9_]{4,64})/?$')
 PERSIAN = re.compile('[پچژگکیی]')
+ADV_CHANNELS = re.compile(r'^/advertisers/([a-z0-9_-]{3,80})/channels/?$')
+ADVERTISER = re.compile(r'^/advertisers/([a-z0-9_-]{3,80})/?$')
+IRAN_ADVERTISERS_F = Path(__file__).resolve().parents[1] / 'data' / 'iran_advertisers.txt'
+
+# Lower = sooner. Iranian evidence first, broad snowball and sitemap last.
+P_IRAN_ADV_PAGE = 0      # /advertisers/<Iranian advertiser>/channels
+P_IRAN_PLACEMENT = 0     # channel listed on such a page, or shown under an Iranian ad
+P_PERSIAN_LINK = 1       # channel link whose visible text is Persian
+P_FROM_PERSIAN = 2       # any channel linked from a Persian / Iran-bought channel page
+P_LISTING = 3
+P_OTHER = 5              # channel linked from a non-Persian page
+P_SITEMAP = 8
+
+
+def iran_advertisers():
+    try:
+        return {l.strip() for l in IRAN_ADVERTISERS_F.read_text('utf-8').splitlines() if l.strip()}
+    except OSError:
+        return set()
 
 
 def now():
@@ -37,11 +56,14 @@ def connect(work):
     CREATE TABLE IF NOT EXISTS channels(username TEXT PRIMARY KEY COLLATE NOCASE, payload TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY, value TEXT);
     ''')
+    if 'priority' not in {r[1] for r in db.execute('PRAGMA table_info(queue)')}:
+        db.execute('ALTER TABLE queue ADD COLUMN priority INTEGER NOT NULL DEFAULT 4')
+        db.execute('CREATE INDEX IF NOT EXISTS queue_order ON queue(status, priority, url)')
     db.execute('INSERT OR IGNORE INTO meta VALUES(?,?)', ('started_at', now()))
     return db
 
 
-def enqueue(db, url, kind=None):
+def enqueue(db, url, kind=None, priority=None):
     url = canonical(urljoin(BASE, url))
     path = urlsplit(url).path
     if origin(url) != origin(BASE) or '/api/' in path:
@@ -55,15 +77,24 @@ def enqueue(db, url, kind=None):
         elif ((path.rstrip('/') == '/channels' and parse_qs(urlsplit(url).query).get('lang') == ['fa'])
               or path.startswith('/countries/ir/channels')):
             kind = 'listing'
+        elif ADV_CHANNELS.fullmatch(path) and ADV_CHANNELS.fullmatch(path)[1] in iran_advertisers():
+            kind = 'listing'
         else:
             return
-    db.execute('INSERT OR IGNORE INTO queue(url,kind) VALUES(?,?)', (url, kind))
+    if priority is None:
+        priority = {'listing': P_LISTING, 'channel': P_OTHER, 'sitemap': P_SITEMAP}.get(kind, P_OTHER)
+    # a URL found again with stronger Iranian evidence moves forward in the queue
+    db.execute('INSERT INTO queue(url,kind,priority) VALUES(?,?,?) '
+               'ON CONFLICT(url) DO UPDATE SET priority=MIN(priority, excluded.priority)', (url, kind, priority))
 
 
 def seed(db, archive):
-    enqueue(db, '/channels?lang=fa', 'listing')
+    # /channels?lang=fa is disallowed by robots.txt (Disallow: /channels?*), so it is not seeded.
     enqueue(db, '/countries/ir/channels', 'listing')
     enqueue(db, '/sitemap.xml', 'sitemap')
+    # where Iranian advertisers bought: the strongest public signal for Iranian channels
+    for slug in iran_advertisers():
+        enqueue(db, f'/advertisers/{slug}/channels', 'listing', P_IRAN_ADV_PAGE)
     if archive:
         src = sqlite3.connect(f'file:{archive}?mode=ro', uri=True)
         try:
@@ -74,7 +105,7 @@ def seed(db, archive):
             for (payload,) in src.execute('SELECT payload FROM records'):
                 value = json.loads(payload)
                 for link in value.get('details', {}).get('placements_shown', []):
-                    enqueue(db, link['url'])
+                    enqueue(db, link['url'], priority=P_IRAN_PLACEMENT)   # shown under a verified Iran ad
         finally:
             src.close()
     db.commit()
@@ -116,7 +147,13 @@ def extract(doc, url):
             metrics[label] = segments[segments.index(label) + 1]
     languages = [parse_qs(urlsplit(n.attrs['href']).query).get('lang', [None])[0]
                  for n in doc.root.nodes() if n.tag == 'a' and urlsplit(n.attrs.get('href', '')).path == '/channels']
+    iran = iran_advertisers()
+    iran_on_page = sorted({ADVERTISER.fullmatch(urlsplit(urljoin(BASE, n.attrs['href'])).path)[1]
+                           for n in doc.root.nodes() if n.tag == 'a' and 'href' in n.attrs
+                           and ADVERTISER.fullmatch(urlsplit(urljoin(BASE, n.attrs['href'])).path)
+                           and ADVERTISER.fullmatch(urlsplit(urljoin(BASE, n.attrs['href'])).path)[1] in iran})
     return {'username': match[1].lower(), 'source_url': url, 'title': title,
+            'iran_advertisers': iran_on_page,
             'description': meta.get('og:description', meta.get('description', '')),
             'classification': 'iran_confirmed' if explicit else 'persian_candidate' if 'fa' in languages or PERSIAN.search(title + ' ' + meta.get('description','')) else 'unclassified',
             'iran_evidence': explicit, 'source_language_tags': sorted({x for x in languages if x}),
@@ -153,7 +190,7 @@ def export(db, work):
 def run(db, client, pages):
     client.initialize()
     for _ in range(pages):
-        job = db.execute("SELECT url,kind FROM queue WHERE status='pending' ORDER BY CASE WHEN url LIKE '%lang=fa%' THEN 0 WHEN kind='channel' THEN 1 WHEN kind='listing' THEN 2 ELSE 3 END,url LIMIT 1").fetchone()
+        job = db.execute("SELECT url,kind FROM queue WHERE status='pending' ORDER BY priority, url LIMIT 1").fetchone()
         if not job:
             return
         url, kind = job
@@ -167,11 +204,23 @@ def run(db, client, pages):
                         enqueue(db, node.text or '', 'sitemap' if index else None)
             else:
                 doc = Document(body)
+                page_priority = P_OTHER
                 if kind == 'channel':
                     value = extract(doc, url)
                     db.execute('INSERT OR REPLACE INTO channels VALUES(?,?)', (value['username'], json.dumps(value, ensure_ascii=False)))
-                for link in doc.links():
-                    enqueue(db, link)
+                    if value['classification'] != 'unclassified' or value.get('iran_advertisers'):
+                        page_priority = P_FROM_PERSIAN
+                elif ADV_CHANNELS.fullmatch(urlsplit(url).path):
+                    page_priority = P_IRAN_PLACEMENT          # this page lists where an Iranian advertiser bought
+                elif kind == 'listing':
+                    page_priority = P_LISTING
+                for n in doc.root.nodes():
+                    if n.tag != 'a' or 'href' not in n.attrs:
+                        continue
+                    link = urljoin(url, n.attrs['href'])
+                    persian_text = bool(PERSIAN.search(n.text() or ''))
+                    pr = min(page_priority, P_PERSIAN_LINK) if persian_text else page_priority
+                    enqueue(db, link, priority=pr)
             db.execute("UPDATE queue SET status='done',error=NULL WHERE url=?", (url,))
         except HTTPError as exc:
             if exc.code in (401,403,429):

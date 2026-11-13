@@ -65,3 +65,32 @@ class ChannelsTests(unittest.TestCase):
             self.assertEqual(len(json.loads(manifest)['files']),16)
             with patch('archive_collect.gh',side_effect=AssertionError('unchanged data uploaded')): c.publish(db,work,'owner/repo')
             db.close()
+
+
+class IranPriorityTests(unittest.TestCase):
+    def test_iranian_evidence_is_fetched_first(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(c, 'iran_advertisers', return_value={'tg-shop_ir'}):
+            db=c.connect(Path(tmp))
+            c.enqueue(db,'/channels/random_latin')                          # broad snowball: late
+            c.enqueue(db,'/advertisers/tg-shop_ir/channels')                # Iranian advertiser page: first
+            c.enqueue(db,'/advertisers/tg-unknown/channels')                # not Iranian: ignored
+            order=[u for (u,) in db.execute("select url from queue order by priority,url")]
+            self.assertEqual(order[0], c.BASE+'/advertisers/tg-shop_ir/channels')
+            self.assertNotIn(c.BASE+'/advertisers/tg-unknown/channels', order)
+            db.close()
+
+    def test_children_get_priority_from_page_evidence(self):
+        with tempfile.TemporaryDirectory() as tmp, patch.object(c, 'iran_advertisers', return_value={'tg-shop_ir'}):
+            db=c.connect(Path(tmp))
+            page=c.BASE+'/advertisers/tg-shop_ir/channels'
+            c.enqueue(db,page)
+            html='<a href="/channels/bought_here">Some Name</a><a href="/channels/farsi_name">کانال فارسی</a>'
+            c.run(db,Fake({page:html}),1)
+            pr=dict(db.execute("select url,priority from queue where kind='channel'"))
+            self.assertEqual(pr[c.BASE+'/channels/bought_here'], c.P_IRAN_PLACEMENT)
+            self.assertEqual(pr[c.BASE+'/channels/farsi_name'], c.P_IRAN_PLACEMENT)
+            # a channel found again with stronger evidence moves forward, never back
+            c.enqueue(db,'/channels/bought_here',priority=c.P_OTHER)
+            self.assertEqual(db.execute("select priority from queue where url=?",(c.BASE+'/channels/bought_here',)).fetchone()[0], c.P_IRAN_PLACEMENT)
+            db.close()
+
