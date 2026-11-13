@@ -72,6 +72,25 @@ def ensure_schema(db):
     db.commit()
 
 
+def seed_known(db, ads_dir='data/ads'):
+    """A fresh checkpoint (new machine) must not re-fetch ads already in the archive:
+    mark every id from data/ads/*.json as done. Runs once per checkpoint."""
+    import glob
+    if db.execute("SELECT 1 FROM meta WHERE key='known_seeded_v1'").fetchone():
+        return 0
+    n = 0
+    for f in glob.glob(f'{ads_dir}/*.json'):
+        for a in json.load(open(f, encoding='utf-8')):
+            if CUID.fullmatch(a.get('id') or ''):
+                db.execute("INSERT INTO queue(url,kind,priority,status,via) VALUES(?, 'detail', 99, 'known', 'archive') "
+                           "ON CONFLICT(url) DO UPDATE SET status=CASE WHEN status='pending' THEN 'known' ELSE status END",
+                           (f'{BASE}/ads/{a["id"]}',))
+                n += 1
+    db.execute("INSERT INTO meta VALUES('known_seeded_v1', datetime('now'))")
+    db.commit()
+    return n
+
+
 def months_between(start, end):
     y, m = start.year, start.month
     while (y, m) <= (end.year, end.month):

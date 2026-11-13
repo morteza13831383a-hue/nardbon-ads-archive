@@ -53,6 +53,7 @@ def connect(directory, cutoff=None):
         enqueue(db, BASE+'/countries/ir/advertisers', 'listing', 2)
         enqueue(db, BASE+'/sitemap.xml', 'sitemap', 10)
         db.commit()
+    ay.seed_known(db, ROOT / 'data' / 'ads')
     if not db.execute("SELECT 1 FROM meta WHERE key='yield_seeded_v1'").fetchone():
         cutoff_value = db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
         ay.seed_snapshots(db, cutoff_value, enqueue)
