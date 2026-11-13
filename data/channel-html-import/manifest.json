@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-13T20:13:28.096419+00:00",
-  "updated_at": "2026-11-13T20:29:09.778137+00:00",
-  "channels": 78,
+  "updated_at": "2026-11-13T20:52:33.072095+00:00",
+  "channels": 83,
   "classifications": {
-    "unclassified": 9,
-    "persian_candidate": 69
+    "persian_candidate": 72,
+    "unclassified": 11
   },
   "queue": {
-    "done": 78,
-    "failed": 1,
-    "pending": 16548
+    "done": 170,
+    "failed": 23,
+    "pending": 21163
   },
   "complete": false,
   "limitations": [
@@ -21,8 +21,8 @@
   "files": [
     {
       "name": "channels-00.jsonl.gz",
-      "bytes": 10978,
-      "sha256": "854bae983a238b677918b0a39f7baa154f5a095a3fb19ca3bbfb357754bf7abd"
+      "bytes": 13011,
+      "sha256": "601e1c63035266fdb0392d405490320be01cb4ba779431b992dbad30f7771ac9"
     },
     {
       "name": "channels-01.jsonl.gz",
@@ -51,8 +51,8 @@
     },
     {
       "name": "channels-06.jsonl.gz",
-      "bytes": 10017,
-      "sha256": "79be8a6c6bdbf807ef45b99a01f18961a46d81eaca6807032f789d1e2919d7c5"
+      "bytes": 11597,
+      "sha256": "dea41c34d75cf1e26c348860441717ff46d2d67c6bb31109f1141af29e6f1f31"
     },
     {
       "name": "channels-07.jsonl.gz",
@@ -61,8 +61,8 @@
     },
     {
       "name": "channels-08.jsonl.gz",
-      "bytes": 9960,
-      "sha256": "cc95e3098b6a9c5dc22067699e8b595e339dcfb5770fce1a532f58f537059f88"
+      "bytes": 11215,
+      "sha256": "f44b3885f3a5130e94eeba70e8fb73f5b0441183117d30194b958c23bd01d1de"
     },
     {
       "name": "channels-09.jsonl.gz",
@@ -76,13 +76,13 @@
     },
     {
       "name": "channels-0b.jsonl.gz",
-      "bytes": 10706,
-      "sha256": "d09d0289299bed54182cfec6ce0313460125f9c5fa452342c464019b73a754ae"
+      "bytes": 11972,
+      "sha256": "fe151a1cdf1bb9ca7234c94f1d9935faf395134427f7436f86a733525ad81fc6"
     },
     {
       "name": "channels-0c.jsonl.gz",
-      "bytes": 10729,
-      "sha256": "ca210914ad37427dda772eba5c6c7d62c940c67dcb5b3940c746549ffb314712"
+      "bytes": 12232,
+      "sha256": "78b1a8f98ab9cc13972c86618d5fc7cd2ba5152c5bb47d3231da5174ed2b535f"
     },
     {
       "name": "channels-0d.jsonl.gz",
