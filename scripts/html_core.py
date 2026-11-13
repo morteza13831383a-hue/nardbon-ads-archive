@@ -78,6 +78,12 @@ def origin(url):
 def match(pattern, text):
     return bool(re.search(pattern, text))
 
+# Narrow exceptions the site owner explicitly approved in writing (support, Nov 2026:
+# "there is no issue with you crawling our site"). Only the Persian channel listing and its
+# pages; every other robots.txt rule still applies, and the pace is unchanged.
+OWNER_APPROVED = [re.compile(r'^/channels\?lang=fa(?:&page=\d{1,5})?$')]
+
+
 class Robots:
     """robots rules with * and $, longest match and Allow tie priority."""
     def __init__(self, body):
@@ -115,6 +121,8 @@ class Robots:
     def allowed(self, url):
         p = urlsplit(url)
         target = p.path + ('?' + p.query if p.query else '')
+        if any(rx.fullmatch(target) for rx in OWNER_APPROVED):
+            return True
         hits = []
         for _, _, rules, _ in self.selected():
             for pattern, allow in rules:

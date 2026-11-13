@@ -94,3 +94,13 @@ class IranPriorityTests(unittest.TestCase):
             self.assertEqual(db.execute("select priority from queue where url=?",(c.BASE+'/channels/bought_here',)).fetchone()[0], c.P_IRAN_PLACEMENT)
             db.close()
 
+
+class OwnerApprovedListing(unittest.TestCase):
+    def test_only_persian_listing_is_excepted_from_robots(self):
+        from html_core import Robots
+        r=Robots("User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /ads?*\nDisallow: /channels?*\n")
+        self.assertTrue(r.allowed(c.BASE+'/channels?lang=fa'))
+        self.assertTrue(r.allowed(c.BASE+'/channels?lang=fa&page=12'))
+        for blocked in ('/channels?lang=ru','/channels?q=shop','/channels?lang=fa&sort=x','/ads?geo=IR','/api/v1/ads'):
+            self.assertFalse(r.allowed(c.BASE+blocked), blocked)
+

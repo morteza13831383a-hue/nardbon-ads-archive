@@ -89,7 +89,9 @@ def enqueue(db, url, kind=None, priority=None):
 
 
 def seed(db, archive):
-    # /channels?lang=fa is disallowed by robots.txt (Disallow: /channels?*), so it is not seeded.
+    # Persian channel listing: robots.txt disallows /channels?*, but the owner approved crawling;
+    # html_core.OWNER_APPROVED allows exactly /channels?lang=fa and its &page=N pages.
+    enqueue(db, '/channels?lang=fa', 'listing', P_PERSIAN_LINK)
     enqueue(db, '/countries/ir/channels', 'listing')
     enqueue(db, '/sitemap.xml', 'sitemap')
     # where Iranian advertisers bought: the strongest public signal for Iranian channels
