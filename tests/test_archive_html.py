@@ -114,6 +114,15 @@ class Tests(unittest.TestCase):
         self.assertTrue(robots.allowed(URL))
         self.assertFalse(robots.allowed(a.BASE+'/api/v1/ads'))
         self.assertEqual(robots.delay,4)
+    def test_only_one_source_worker_per_checkpoint(self):
+        with tempfile.TemporaryDirectory() as directory:
+            first=a.source_lock(Path(directory))
+            try:
+                with self.assertRaises(RuntimeError):a.source_lock(Path(directory))
+            finally:
+                first.close()
+            second=a.source_lock(Path(directory))
+            second.close()
     def test_transport_does_not_retry_rate_limit(self):
         from urllib.error import HTTPError
         from unittest.mock import Mock

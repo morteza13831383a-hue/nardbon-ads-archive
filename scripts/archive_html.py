@@ -2,6 +2,7 @@
 """One-off Iran ad backfill from public HTML and sitemaps, never source APIs."""
 import argparse
 import csv
+import fcntl
 from datetime import datetime, timezone
 import gzip
 import hashlib
@@ -390,6 +391,17 @@ def export(db,directory,part_bytes=4_000_000):
     return info
 
 
+def source_lock(directory):
+    directory.mkdir(parents=True,exist_ok=True)
+    handle=(directory/'source.lock').open('a')
+    try:
+        fcntl.flock(handle,fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        handle.close()
+        raise RuntimeError('Another source collector is already running for this checkpoint')
+    return handle
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--work-dir',type=Path,default=ROOT/'archive-work')
@@ -404,6 +416,7 @@ def main():
     if min(args.max_pages,args.max_seconds)<1 or args.delay<1:
         parser.error('Positive budgets and at least one second request delay required')
     logging.basicConfig(level=logging.INFO,format='%(asctime)s %(levelname)s %(message)s')
+    lock=source_lock(args.work_dir)
     db=connect(args.work_dir,args.cutoff)
     try:
         if args.import_dir:
@@ -426,6 +439,7 @@ def main():
             raise SystemExit(2)
     finally:
         db.close()
+        lock.close()
 
 if __name__=='__main__':
     main()
