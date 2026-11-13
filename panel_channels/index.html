@@ -97,8 +97,10 @@ th{color:var(--mute);font-weight:700;background:var(--bg)}
         <option value="v">بیشترین بازدید پست</option>
         <option value="r">بهترین نسبت بازدید به عضو</option>
         <option value="m">بیشترین عضو</option>
+        <option value="p">پرکارترین (پست در روز)</option>
       </select>
       <label class="chk"><input type="checkbox" id="celig" checked> فقط قابل هدف‌گیری در تلگرام ادز</label>
+      <label class="chk"><input type="checkbox" id="cact"> فقط فعال (پست در ۳۰ روز اخیر)</label>
     </div>
     <div class="count" id="ccount"></div>
     <div class="chlist" id="clist"></div>
@@ -113,6 +115,7 @@ th{color:var(--mute);font-weight:700;background:var(--bg)}
 <script>
 const fmt = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {timeZone:'Asia/Tehran', year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'});
 const T = s => s ? fmt.format(new Date(s)).replace('،', ' ·').replace(',', ' ·') : '—';
+const D = s => s ? new Intl.DateTimeFormat('fa-IR-u-ca-persian', {month:'long', day:'numeric'}).format(new Date(s)) : '—';
 const N = n => (n ?? 0).toLocaleString('fa-IR');
 const ago = s => { if(!s) return '—'; const m = (Date.now() - new Date(s)) / 6e4;
   return m < 1 ? 'همین الان' : m < 60 ? N(Math.round(m)) + ' دقیقه پیش' : m < 1440 ? N(Math.round(m/60)) + ' ساعت پیش' : N(Math.round(m/1440)) + ' روز پیش'; };
@@ -147,9 +150,11 @@ function capply(){
   if(!chans) return;
   const words = fa($('cq').value).split(/\s+/).filter(Boolean), min = +$('cmin').value, el = $('celig').checked;
   const rate = c => (c.m || 0) >= 1000 ? (c.v || 0) / c.m : 0;   // tiny channels make the ratio meaningless
-  cview = chans.filter(c => (c.m || 0) >= min && (!el || c.e) && words.every(w => c.h.includes(w)));
+  const act = $('cact').checked, since = new Date(Date.now() - 30 * 864e5).toISOString().slice(0, 10);
+  cview = chans.filter(c => (c.m || 0) >= min && (!el || c.e) && (!act || (c.lp || '') >= since) && words.every(w => c.h.includes(w)));
   const s = $('csort').value;
-  cview.sort(s === 'm' ? (a,b) => (b.m||0) - (a.m||0) : s === 'r' ? (a,b) => rate(b) - rate(a) : (a,b) => (b.v||0) - (a.v||0));
+  cview.sort(s === 'm' ? (a,b) => (b.m||0) - (a.m||0) : s === 'r' ? (a,b) => rate(b) - rate(a)
+           : s === 'p' ? (a,b) => (b.pd||0) - (a.pd||0) : (a,b) => (b.v||0) - (a.v||0));
   cpage = 1; crender();
   $('ccount').textContent = `${N(cview.length)} کانال از ${N(chans.length)}` + (cview.length > CPAGE ? ' · ' + N(Math.ceil(cview.length / CPAGE)) + ' صفحه' : '');
 }
@@ -160,7 +165,7 @@ function ccard(c){
     <div class="un">@${esc(c.u)}</div>
     ${c.d ? `<div class="desc" dir="auto">${esc(c.d)}</div>` : ''}
     <div class="nums"><div><b>${N(c.m)}</b><span>عضو</span></div><div><b>${N(c.v)}</b><span>بازدید هر پست</span></div><div><b>${r == null ? '—' : N(r) + '٪'}</b><span>بازدید به عضو</span></div></div>
-    <div class="chips">${c.e ? '<span class="chip ok">قابل هدف‌گیری در ادز</span>' : ''}${c.c ? `<span class="chip">${esc(c.c)}</span>` : ''}${(c.k || []).slice(0, 4).map(k => `<span class="chip">${esc(k)}</span>`).join('')}</div>
+    <div class="chips">${c.e ? '<span class="chip ok">قابل هدف‌گیری در ادز</span>' : ''}${c.pd != null ? `<span class="chip">${N(c.pd)} پست در روز</span>` : ''}${c.lp ? `<span class="chip">آخرین پست ${D(c.lp)}</span>` : ''}${c.c ? `<span class="chip">${esc(c.c)}</span>` : ''}${(c.k || []).slice(0, 4).map(k => `<span class="chip">${esc(k)}</span>`).join('')}</div>
   </div>`;
 }
 function crender(){
@@ -183,8 +188,9 @@ function renderStatus(s){
     [N(s.idx) + ' / ' + N(s.queries), 'پیشرفت دور فعلی (' + N(pct) + '٪)'],
     [ago(last), 'آخرین برداشت<br>' + T(last)],
     [s.full_pass ? ago(s.full_pass) : 'هنوز نه', 'آخرین دور کامل'],
+    [N(s.crawler_found), 'کانال جدید از خزنده t.me'], [N(s.crawler_waiting), 'کانال در صف خزنده'],
   ].map(([b,sp]) => `<div class="stat"><b>${b}</b><span>${sp}</span></div>`).join('');
-  $('sysnote').textContent = `هر ${N(s.every_hours)} ساعت یک کلمه کلیدی جستجو می‌شه تا ریسک محدودیت API کم بمونه. کلمه‌ها در فایل data/channel_keywords.txt مخزن هستن.`;
+  $('sysnote').textContent = 'خزنده کانال‌ها حدود هر ۲ ساعت چند ده کانال را از صفحه‌های عمومی t.me می‌خواند، کانال‌های فارسی را نگه می‌دارد و کانال‌هایی را که در پست‌هایشان نام برده شده به صف اضافه می‌کند. هر کانال ماهی یک بار به‌روز می‌شود.';
 }
 
 document.querySelectorAll('header nav button').forEach(b => b.onclick = () => {
@@ -192,7 +198,7 @@ document.querySelectorAll('header nav button').forEach(b => b.onclick = () => {
   ['ch', 'sys'].forEach(t => $(t).classList.toggle('hidden', b.dataset.tab !== t));
 });
 let ctmr; $('cq').oninput = () => { clearTimeout(ctmr); ctmr = setTimeout(capply, 200); };
-['cmin', 'csort', 'celig'].forEach(id => $(id).onchange = capply);
+['cmin', 'csort', 'celig', 'cact'].forEach(id => $(id).onchange = capply);
 $('cpager').onclick = e => { const b = e.target.closest('button[data-p]'); if(!b || b.disabled) return;
   cpage = +b.dataset.p; crender(); window.scrollTo(0, 0); };
 

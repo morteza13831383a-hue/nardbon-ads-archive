@@ -30,6 +30,7 @@ import requests
 from PIL import Image
 
 import channels
+import tme_crawler
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
@@ -624,6 +625,8 @@ def upload(ads, state, run):
             "last_slice": state.get("channels_last"), "full_pass": state.get("channels_at"),
             "blocked_until": max(state.get("channels_blocked_until") or "", state.get("api_blocked_until") or "") or None,
             "every_hours": channels.EVERY_H,
+            "crawler_waiting": len(tme_crawler.load_queue()["pending"]),
+            "crawler_found": sum(1 for c in channels.load().values() if c.get("sr") == "tme"),
         }
         for name, obj, root in (("manifest.json", manifest, REMOTE_ROOT), ("status.json", status, REMOTE_ROOT),
                                 ("status.json", ch_status, CH_ROOT)):
@@ -680,14 +683,14 @@ def main():
         except Exception as e:
             errors.append(f"channels: {e}")
             traceback.print_exc()
-    # channel descriptions from public t.me pages (no API key involved); every 4 h so
-    # ordinary runs stay under a minute and the monthly Actions budget holds
-    if (state.get("desc_last") or "") < iso(NOW - dt.timedelta(hours=4)):
-        state["desc_last"] = now_iso()
+    # Persian channel crawler on public t.me pages (no API key, no account); heavy runs only.
+    # It also refreshes descriptions, so the separate description step is no longer needed.
+    if heavy:
         try:
-            channels.fill_descriptions(log, now_iso, time_left)
+            state["channels_total"] = tme_crawler.step(log, now_iso, time_left)
         except Exception as e:
-            log(f"descriptions failed: {e}")      # never fails the run
+            log(f"channels crawler failed: {e}")      # never fails the run
+            traceback.print_exc()
     if stats.get("missed"):
         errors.append(f"missed: up to {stats['missed']} ads beyond the API plan's reach in this window")
     if API_INFO:
