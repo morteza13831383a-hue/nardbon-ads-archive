@@ -94,6 +94,38 @@ def merge_channels(upstream, mine):
                        "rows": [[c.get(k) for k in fields] for c in ordered]}, ensure_ascii=False, separators=(",", ":"))
 
 
+def normalize_shards():
+    """After a merge, make sure every ad id lives in exactly one shard: the month of its
+    first_seen. Two sides may have filed the same ad under different months."""
+    import glob
+    import os
+    ads = {}
+    for f in sorted(glob.glob("data/ads/*.json")):
+        with open(f, encoding="utf-8") as fh:
+            text = fh.read()
+        if "<<<<<<<" in text:
+            continue
+        for a in json.loads(text or "[]"):
+            cur = ads.get(a["id"])
+            ads[a["id"]] = a if cur is None else json.loads(merge_ads(json.dumps([cur]), json.dumps([a])))[0]
+    months = {}
+    for a in ads.values():
+        months.setdefault((a.get("first_seen") or a.get("found_at") or "0000-00")[:7], []).append(a)
+    wanted = set()
+    for m, items in months.items():
+        path = f"data/ads/{m}.json"
+        wanted.add(path)
+        text = merge_ads("[]", json.dumps(items))
+        if not os.path.exists(path) or open(path, encoding="utf-8").read() != text:
+            with open(path, "w", encoding="utf-8") as fh:
+                fh.write(text)
+        git("add", path)
+    for f in glob.glob("data/ads/*.json"):
+        if f not in wanted:
+            git("rm", "-q", "--cached", f, check=False)
+            os.remove(f)
+
+
 def resolve():
     files = git("diff", "--name-only", "--diff-filter=U", capture=True).split()
     for path in files:
@@ -110,6 +142,8 @@ def resolve():
             fh.write(text)
         git("add", path)
         print(f"merged {path}")
+    if any(p.startswith("data/ads/") for p in files):
+        normalize_shards()
     return files
 
 
