@@ -1,28 +1,28 @@
 {
   "last_slice_performance": {
     "pages_attempted": 200,
-    "new_iran_ads": 164,
-    "seconds": 1007.83
+    "new_iran_ads": 166,
+    "seconds": 2616.31
   },
   "external_collection": null,
   "last_stop_reason": "",
   "schema_version": 1,
-  "generated_at": "2026-11-13T15:26:45.752340+00:00",
+  "generated_at": "2026-11-13T16:10:41.557978+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 4169,
+  "iran_ads_extracted": 4335,
   "source_reported_iran_total": 56483,
   "queue_status": {
     "after_cutoff": 2,
     "done": 195,
     "gone": 1,
-    "iran": 4169,
-    "not_iran": 3842,
-    "pending": 745468
+    "iran": 4335,
+    "not_iran": 3875,
+    "pending": 745270
   },
   "queue_kinds": {
-    "detail": 753044,
+    "detail": 753045,
     "listing": 588,
     "sitemap": 45
   },
@@ -35,6 +35,12 @@
     "Media files and host delivery are tracked separately from text extraction."
   ],
   "errors": [
+    {
+      "url": "https://tgadsspy.com/ads/cmszcz66m01bzn4013jfo7b03",
+      "status": "pending",
+      "tries": 1,
+      "error": "IncompleteRead: IncompleteRead(49152 bytes read)"
+    },
     {
       "url": "https://tgadsspy.com/countries/ir/snapshot/2026-03",
       "status": "gone",
