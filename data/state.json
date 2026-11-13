@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-13T17:00:57Z",
+ "cursor": "2026-11-13T17:33:59Z",
  "backfill": {
   "since": "2026-06-07T10:59:55Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-13T13:15:00Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "6a7ccaeefb73615a",
+  "tgads/data/2026-11.json": "9d93b10c8007c841",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -21,13 +21,13 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "6f5f114eb5353eef",
-  "tgads/data/2026-08.json": "ce5180ca9496b121",
-  "tgads/data/2026-09.json": "af07fef0a3978230",
-  "tgads/data/2026-04.json": "8d8cb0c43ec22aa6",
-  "tgads/data/2026-05.json": "dab1ae0935db2b51",
-  "tgads/data/2026-06.json": "b2e91e0df5d2ed4d",
-  "tgads/data/2026-07.json": "3df0e90548b06163",
-  "tgads/data/2026-10.json": "a8af076b922e01ce"
+  "tgads/data/2026-08.json": "f2a47f94a6523b33",
+  "tgads/data/2026-09.json": "fbc3921bdb28d042",
+  "tgads/data/2026-04.json": "b0b830207bd2d97e",
+  "tgads/data/2026-05.json": "27fb4e33e5f6b8f6",
+  "tgads/data/2026-06.json": "a6a908b31ab507a7",
+  "tgads/data/2026-07.json": "5fde5622defe4b00",
+  "tgads/data/2026-10.json": "a944f4418f3dd535"
  },
  "runs": [
   {
@@ -415,18 +415,30 @@
    "sent_media": 19,
    "sent_files": 7,
    "secs": 190
+  },
+  {
+   "at": "2026-11-13T18:33:59Z",
+   "ok": true,
+   "error": null,
+   "new": 141,
+   "updated": 90,
+   "media": 99,
+   "missed": 0,
+   "sent_media": 99,
+   "sent_files": 6,
+   "secs": 241
   }
  ],
- "last_upload_ok": "2026-11-13T18:31:10Z",
+ "last_upload_ok": "2026-11-13T18:37:59Z",
  "lang_seen": {
-  "-": 145,
+  "-": 151,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 211,
   "my": 47,
   "en": 491,
-  "fa": 3097,
+  "fa": 3326,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -495,11 +507,16 @@
    "tg-aifreeroprompt": "2026-11-13T18:01:08Z",
    "tg-speakuptftbot": "2026-11-13T18:01:19Z",
    "tg-academy_goldsilver": "2026-11-13T18:01:29Z",
-   "tg-cheragh": "2026-11-13T18:02:19Z"
+   "tg-cheragh": "2026-11-13T18:02:19Z",
+   "tg-tolidi_shixon": "2026-11-13T18:34:00Z",
+   "tg-caseplus": "2026-11-13T18:34:11Z",
+   "tg-ai_in_practice": "2026-11-13T18:34:21Z",
+   "tg-kayaforexx": "2026-11-13T18:34:31Z",
+   "tg-bolgano": "2026-11-13T18:34:41Z"
   },
   "partial": {},
-  "ads_found": 483,
-  "known": 1109,
+  "ads_found": 616,
+  "known": 1114,
   "waiting": 1089,
   "seeds": 0
  }
