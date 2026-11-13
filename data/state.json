@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-13T18:00:47Z",
+ "cursor": "2026-11-13T18:33:07Z",
  "backfill": {
   "since": "2026-06-07T10:59:55Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-13T13:15:00Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "263eaca8724eabc2",
+  "tgads/data/2026-11.json": "81fe594abeba6187",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -21,13 +21,13 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "6f5f114eb5353eef",
-  "tgads/data/2026-08.json": "38dfc2a81b3cf050",
-  "tgads/data/2026-09.json": "365f23165c939a8d",
-  "tgads/data/2026-04.json": "6ceef4106ec0a359",
-  "tgads/data/2026-05.json": "3bc0f7e178f162ff",
-  "tgads/data/2026-06.json": "3373dd2f4600ac96",
-  "tgads/data/2026-07.json": "f6fdce12adf6a0d5",
-  "tgads/data/2026-10.json": "24ce8e9f6bdc342a"
+  "tgads/data/2026-08.json": "72d1a4e62fa3526a",
+  "tgads/data/2026-09.json": "f6c6bbe95d2359e3",
+  "tgads/data/2026-04.json": "1f114f1cffe3eab6",
+  "tgads/data/2026-05.json": "6ef459e5e6a26ed1",
+  "tgads/data/2026-06.json": "5dd79fb589eb7319",
+  "tgads/data/2026-07.json": "3f993cef0d26ffff",
+  "tgads/data/2026-10.json": "83bea184016e8624"
  },
  "runs": [
   {
@@ -439,18 +439,30 @@
    "sent_media": 44,
    "sent_files": 8,
    "secs": 115
+  },
+  {
+   "at": "2026-11-13T19:33:07Z",
+   "ok": true,
+   "error": null,
+   "new": 427,
+   "updated": 123,
+   "media": 99,
+   "missed": 0,
+   "sent_media": 99,
+   "sent_files": 8,
+   "secs": 219
   }
  ],
- "last_upload_ok": "2026-11-13T19:32:43Z",
+ "last_upload_ok": "2026-11-13T19:36:45Z",
  "lang_seen": {
-  "-": 152,
+  "-": 154,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 211,
   "my": 47,
   "en": 491,
-  "fa": 3391,
+  "fa": 3946,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -529,12 +541,17 @@
    "tg-signal_crypto_forex_mohtasham": "2026-11-13T19:00:57Z",
    "tg-topchinetbot": "2026-11-13T19:01:08Z",
    "tg-irani_card": "2026-11-13T19:01:18Z",
-   "tg-exchange_mozafari": "2026-11-13T19:01:28Z"
+   "tg-exchange_mozafari": "2026-11-13T19:01:28Z",
+   "tg-nparan": "2026-11-13T19:33:19Z",
+   "tg-vpn_sabz": "2026-11-13T19:33:29Z",
+   "tg-chatazadibot": "2026-11-13T19:34:00Z",
+   "tg-tarkanstore2": "2026-11-13T19:34:10Z",
+   "tg-lisansbepezeshky": "2026-11-13T19:34:20Z"
   },
   "partial": {},
-  "ads_found": 639,
-  "known": 1171,
-  "waiting": 1141,
+  "ads_found": 1061,
+  "known": 1233,
+  "waiting": 1198,
   "seeds": 0
  }
 }
