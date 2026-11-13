@@ -198,14 +198,37 @@ def expand_from_record(db, record, enqueue):
             enqueue(db, f'{BASE}/channels/{m[1]}/advertisers', 'listing', 6, via='channel_advertisers')
 
 
-def classify_listing(source_path, link_path):
-    """Extra listing paths worth following, with priority and strategy label, or None."""
+PERSIAN = re.compile('[\u0600-\u06FF]')
+_SWEPT = None
+
+
+def api_swept_advertisers():
+    """Advertisers whose whole Iran history the API sweep in sync.py already collected
+    (data/state.json -> adv_sweep.done). The HTML crawler should look for NEW advertisers."""
+    global _SWEPT
+    if _SWEPT is None:
+        try:
+            import pathlib
+            state = json.loads((pathlib.Path(__file__).resolve().parents[1] / 'data' / 'state.json').read_text('utf-8'))
+            _SWEPT = set((state.get('adv_sweep') or {}).get('done') or {})
+        except Exception:
+            _SWEPT = set()
+    return _SWEPT
+
+
+def classify_listing(source_path, link_path, link_text=''):
+    """Extra listing paths worth following, with priority and strategy label, or None.
+    Depth-first: an advertiser found on a channel page is visited before more channel pages."""
+    m = re.fullmatch(r'/advertisers/([a-z0-9_-]+)', link_path)
+    if m and m[1] in api_swept_advertisers():
+        return 40, 'advertiser_api_covered'        # history already pulled through the API
     if CHANNEL_ADVERTISERS.fullmatch(link_path):
         return 6, 'channel_advertisers'
     if ADVERTISER_NICHE.fullmatch(link_path) and source_path.startswith('/advertisers/'):
         return 5, 'advertiser_niche'
-    if re.fullmatch(r'/advertisers/[a-z0-9_-]+', link_path) and CHANNEL_ADVERTISERS.fullmatch(source_path):
-        return 7, 'advertiser_via_channel'
+    if m and CHANNEL_ADVERTISERS.fullmatch(source_path):
+        # Persian name -> very likely an Iranian advertiser: before any further channel page
+        return (4, 'advertiser_via_channel') if PERSIAN.search(link_text or '') else (7, 'advertiser_via_channel')
     return None
 
 
