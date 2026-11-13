@@ -32,8 +32,8 @@ PAGE = 100
 PERSIAN = re.compile("[پچژگکی]")
 # compact rows keep the file small for the browser
 FIELDS = ["u", "t", "m", "v", "c", "e", "k", "s", "d", "dd"]   # username, title, members, avg views, category, sponsor-eligible, keywords, last snapshot, description, description date
-DESC_PER_RUN = int(os.environ.get("CHANNELS_DESC_PER_RUN", "40"))   # public t.me pages read per run
-DESC_GAP = float(os.environ.get("CHANNELS_DESC_GAP_SEC", "2"))
+DESC_PER_RUN = int(os.environ.get("CHANNELS_DESC_PER_RUN", "60"))   # public t.me pages read per run
+DESC_GAP = float(os.environ.get("CHANNELS_DESC_GAP_SEC", "1.5"))
 DESC_MAX_AGE_DAYS = 30
 OG_DESC = re.compile(r'<meta property="og:description" content="([^"]*)"')
 
