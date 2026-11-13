@@ -1,21 +1,25 @@
 {
-  "last_slice_performance": null,
+  "last_slice_performance": {
+    "pages_attempted": 200,
+    "new_iran_ads": 156,
+    "seconds": 1017.42
+  },
   "external_collection": null,
   "last_stop_reason": "",
   "schema_version": 1,
-  "generated_at": "2026-11-13T14:35:19.935403+00:00",
+  "generated_at": "2026-11-13T15:09:37.667473+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 3849,
+  "iran_ads_extracted": 4005,
   "source_reported_iran_total": 56483,
   "queue_status": {
     "after_cutoff": 2,
     "done": 195,
     "gone": 1,
-    "iran": 3849,
-    "not_iran": 3762,
-    "pending": 745867
+    "iran": 4005,
+    "not_iran": 3806,
+    "pending": 745667
   },
   "queue_kinds": {
     "detail": 753043,
