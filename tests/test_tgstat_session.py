@@ -1,0 +1,123 @@
+import contextlib,gzip,io,json,logging,sqlite3,sys,tempfile,unittest
+from email.message import Message
+from pathlib import Path
+from unittest.mock import patch
+from urllib.error import HTTPError
+from urllib.parse import parse_qs
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
+import tgstat_collect as t
+from tgstat_session import Session,endpoint_allowed,account_problem
+
+SENTINEL='DUMMY_SESSION_0123456789abcdef'
+CSRF='DUMMY_CSRF_FOR_TEST_ONLY_b3db4b28'
+ROTATED='DUMMY_ROTATED_COOKIE_FOR_TEST_ONLY_a9da'
+def cookie_json(domain='.tgstat.com'):
+    return json.dumps([{'domain':domain,'name':'tgstat_sirk','value':SENTINEL,'path':'/','secure':True,'session':True,'hostOnly':False}])
+def session():
+    with patch.dict('os.environ',{'TGSTAT_COOKIE':cookie_json()}):return Session.from_environment()
+class Response:
+    status=200
+    def __init__(self,body,kind='text/html',rotated=False):
+        self.body=body.encode();self.headers=Message();self.headers['Content-Type']=kind
+        if rotated:self.headers['Set-Cookie']='tgstat_sirk='+ROTATED+'; Domain=.tgstat.com; Path=/; Secure'
+    def info(self):return self.headers
+    def read(self,*args):return self.body
+    def __enter__(self):return self
+    def __exit__(self,*args):pass
+
+class SessionTests(unittest.TestCase):
+    def tearDown(self):t._SECRET_FILTER=None
+    def test_cookie_is_environment_only_and_domain_validated(self):
+        with patch.dict('os.environ',{'TGSTAT_COOKIE':''}):
+            with self.assertRaisesRegex(ValueError,'not configured'):Session.from_environment()
+        with patch.dict('os.environ',{'TGSTAT_COOKIE':cookie_json('.tgadsspy.com')}):
+            with self.assertRaises(ValueError)as error:Session.from_environment()
+            self.assertNotIn(SENTINEL,str(error.exception))
+        for url,method in [('https://tgadsspy.com/channel/@example','GET'),('https://tgstat.com.evil.test/news/items','POST'),(t.BASE+'/news','GET'),(t.BASE+'/my/settings','POST'),(t.BASE+'/channel/@example/stat','GET'),(t.BASE+'/news/items','GET')]:
+            self.assertFalse(endpoint_allowed(url,method))
+    def test_cookie_only_reaches_approved_requests(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            db=t.connect(Path(tmp));t.enqueue(db,'/channel/@example');db.execute("INSERT INTO categories VALUES('news','News')");db.commit()
+            c=t.Client(db,session=session());c.rules=[t.Robots('User-agent: *\nAllow: /')]
+            c.session.csrf=CSRF;c.session.csrf_param='_tgstat_csrk'
+            sent=[]
+            def opened(req,**kwargs):
+                sent.append((req.full_url,req.get_method(),req.get_header('Cookie'),req.data))
+                return Response('<h1>Public profile</h1>')if req.get_method()=='GET'else Response(json.dumps({'status':'ok','html':'','hasMore':False,'nextPage':1,'nextOffset':0}),'application/json')
+            with patch.object(t,'reserve'),patch.object(c.opener,'open',side_effect=opened),patch.object(c.session_opener,'open',side_effect=opened):
+                c.get(t.BASE+'/robots.txt',robots=True);c.get(t.BASE+'/news');c.get(t.BASE+'/channel/@example');c.post_catalog('news','chat',0,0)
+                with self.assertRaises(ValueError):c.get('https://tgadsspy.com/channel/@example')
+            self.assertIsNone(sent[0][2]);self.assertIsNone(sent[1][2]);self.assertIn(SENTINEL,sent[2][2]);self.assertIn(SENTINEL,sent[3][2])
+            self.assertEqual(parse_qs(sent[3][3].decode())['peer_type'],['chat']);db.close()
+    def test_redirect_cannot_forward_session_to_another_host(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            db=t.connect(Path(tmp));t.enqueue(db,'/channel/@example');db.commit();c=t.Client(db,session=session());c.rules=[t.Robots('User-agent: *\nAllow: /')]
+            with patch.object(t,'reserve'),patch.object(c.session_opener,'open',side_effect=HTTPError(t.BASE,302,'redirect',{'Location':'https://tgadsspy.com/'},None))as opened:
+                with self.assertRaises(t.AccessStop):c.get(t.BASE+'/channel/@example')
+                self.assertEqual(opened.call_count,1)
+            db.close()
+    def test_logout_warning_and_http_limits_stop_without_retry(self):
+        for body in ('<p>Sign in to access this page</p>','<h1>Profile</h1><a data-src="/login">Sign In</a>','<div class="alert alert-warning">Your account has been limited</div>'):
+            with tempfile.TemporaryDirectory()as tmp:
+                db=t.connect(Path(tmp));t.enqueue(db,'/channel/@example');db.commit();c=t.Client(db,session=session());c.rules=[t.Robots('User-agent: *\nAllow: /')]
+                with patch.object(t,'reserve'),patch.object(c.session_opener,'open',return_value=Response(body)):
+                    with self.assertRaises(t.AccessStop):c.get(t.BASE+'/channel/@example')
+                db.close()
+        for status in(401,403,429):
+            with tempfile.TemporaryDirectory()as tmp:
+                db=t.connect(Path(tmp));t.enqueue(db,'/channel/@example');db.commit();c=t.Client(db,session=session());c.rules=[t.Robots('User-agent: *\nAllow: /')]
+                with patch.object(t,'reserve'),patch.object(c.session_opener,'open',side_effect=HTTPError(t.BASE,status,'denied',{},None))as opened:
+                    with self.assertRaises(t.AccessStop):c.get(t.BASE+'/channel/@example')
+                    self.assertEqual(opened.call_count,1)
+                db.close()
+    def test_cookie_csrf_and_rotated_cookie_never_reach_exports_or_logs(self):
+        body=f'<meta name="csrf-token"content="{CSRF}"><meta name="csrf-param"content="_tgstat_csrk"><h1>Title {SENTINEL}</h1><p class="card-text">Bio {SENTINEL} {CSRF} {ROTATED}</p><div class="post-text">Post {SENTINEL}</div>'
+        with tempfile.TemporaryDirectory()as tmp:
+            work=Path(tmp);db=t.connect(work);db.execute("DELETE FROM queue");t.enqueue(db,'/channel/@example');db.commit();c=t.Client(db,session=session());c.rules=[t.Robots('User-agent: *\nAllow: /')]
+            capture=io.StringIO();handler=logging.StreamHandler(capture);logging.getLogger().addHandler(handler);old_level=logging.getLogger().level;logging.getLogger().setLevel(logging.DEBUG)
+            try:
+                with contextlib.redirect_stdout(capture),contextlib.redirect_stderr(capture),patch('http.cookiejar.debug',True),patch.object(t,'reserve'),patch.object(c.session_opener,'open',return_value=Response(body,rotated=True)):
+                    t.run(db,c,1)
+                    db.execute("INSERT INTO categories VALUES('news','News')");t.seed_catalog_pages(db)
+                    payload=json.dumps({'status':'ok','html':f'<a href="/channel/@{SENTINEL}">Reflected</a>','hasMore':False,'nextPage':1,'nextOffset':0})
+                    with patch.object(c.session_opener,'open',return_value=Response(payload,'application/json')):t.run_catalog_page(db,c)
+                    t.enqueue(db,'/channel/@'+SENTINEL)
+                    t.export(db,work)
+            finally:logging.getLogger().removeHandler(handler);logging.getLogger().setLevel(old_level)
+            dump='\n'.join(db.iterdump());db.close()
+            artifacts=[capture.getvalue(),dump]
+            for path in(work/'exports').iterdir():
+                artifacts.append(gzip.decompress(path.read_bytes()).decode()if path.suffix=='.gz'else path.read_text())
+            for value in artifacts:
+                for secret in(SENTINEL,CSRF,ROTATED,cookie_json()):self.assertNotIn(secret,value)
+            self.assertIn('[redacted]',dump)
+    def test_server_cursors_resume_and_depth_end_is_recorded(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            db=t.connect(Path(tmp));db.execute("INSERT INTO categories VALUES('news','News')");t.seed_catalog_pages(db)
+            # Keep one entity type for this pagination test.
+            db.execute("DELETE FROM catalog_pages WHERE peer_type='chat'");db.commit()
+            class Fake:
+                def __init__(self):self.calls=[]
+                def post_catalog(self,cat,peer,page,offset):
+                    self.calls.append((page,offset));name='example'if page==0 else'second'
+                    return json.dumps({'status':'ok','html':f'<a href="/channel/@{name}/stat">Channel</a>','hasMore':page==0,'nextPage':7,'nextOffset':123})
+            c=Fake();self.assertTrue(t.run_catalog_page(db,c));self.assertTrue(t.run_catalog_page(db,c));self.assertEqual(c.calls,[(0,0),(7,123)])
+            coverage=t.catalog_coverage(db)[0];self.assertTrue(coverage['end_reached']);self.assertEqual(coverage['unique_handles'],2);self.assertEqual(coverage['pages_fetched'],2)
+            self.assertFalse(t.run_catalog_page(db,c));db.close()
+    def test_error_envelope_and_cyclic_cursor_pause(self):
+        with self.assertRaises(t.AccessStop):t.catalog_payload(json.dumps({'status':'error','error':SENTINEL}))
+        with tempfile.TemporaryDirectory()as tmp:
+            db=t.connect(Path(tmp));db.execute("INSERT INTO categories VALUES('news','News')");t.seed_catalog_pages(db)
+            class Fake:
+                def post_catalog(self,*args):return json.dumps({'status':'ok','html':'','hasMore':True,'nextPage':0,'nextOffset':0})
+            with self.assertRaises(t.AccessStop):t.run_catalog_page(db,Fake())
+            self.assertEqual(db.execute("SELECT count(*)FROM catalog_pages WHERE status='done'").fetchone()[0],0);db.close()
+
+    def test_private_handle_page_can_continue_without_inventing_usernames(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            db=t.connect(Path(tmp));db.execute("INSERT INTO categories VALUES('news','News')");t.seed_catalog_pages(db);db.execute("DELETE FROM catalog_pages WHERE peer_type='channel'");db.commit()
+            class Fake:
+                def post_catalog(self,*args):return json.dumps({'status':'ok','html':'<a href="/chat/private-id/stat">Private group</a>','hasMore':True,'nextPage':1,'nextOffset':100})
+            self.assertTrue(t.run_catalog_page(db,Fake()))
+            self.assertEqual(db.execute("SELECT count(*)FROM queue WHERE kind='profile'").fetchone()[0],0)
+            c=t.catalog_coverage(db)[0];self.assertEqual(c['rows_per_page'],[1]);self.assertFalse(c['end_reached']);self.assertEqual(c['pending'],1);db.close()

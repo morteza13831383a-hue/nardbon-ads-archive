@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-off public Iran TGStat catalog collector. GET-only; no API or login."""
+"""One-off public Iran TGStat catalog collector. public HTML and optional environment-only session Show more."""
 import argparse
 from datetime import datetime, timezone
 import fcntl
@@ -12,7 +12,7 @@ import re
 import sqlite3
 import time
 from urllib.error import HTTPError, URLError
-from urllib.parse import urljoin, urlsplit, urlunsplit, unquote
+from urllib.parse import urljoin, urlsplit, urlunsplit, unquote, urlencode
 from urllib.request import Request, build_opener, HTTPCookieProcessor, HTTPRedirectHandler
 
 from html_core import Document, Robots
@@ -25,6 +25,16 @@ LINK_PROFILE=re.compile(r'^/(channel|chat)/@([A-Za-z][A-Za-z0-9_]{3,31})(?:/stat
 RANK=re.compile(r'^/ratings/(channels|chats)(?:/([a-z-]+))?/?$')
 BLOCKED=re.compile(r'/(?:stat|quotes|share)(?:/|$)')
 UA='IranAdsCollector/1.0'
+CATALOG_ITEMS=re.compile(r'^/([a-z-]+)/items$')
+_SECRET_FILTER=None
+
+def safe_json(value):
+    raw=json.dumps(value,ensure_ascii=False)
+    return _SECRET_FILTER.clean(raw)if _SECRET_FILTER else raw
+
+def safe_error(exc):
+    value=type(exc).__name__+': '+str(exc)
+    return _SECRET_FILTER.clean(value)if _SECRET_FILTER else value
 
 
 def now(): return datetime.now(timezone.utc).isoformat()
@@ -50,37 +60,82 @@ class NoRedirect(HTTPRedirectHandler):
 
 
 class Client:
-    def __init__(self,db):
-        self.db=db;self.rules=[];self.delay=4
+    def __init__(self,db,session=None):
+        global _SECRET_FILTER
+        self.db=db;self.rules=[];self.delay=4;self.session=session
+        if session:_SECRET_FILTER=session.filter
         self.opener=build_opener(NoRedirect(),HTTPCookieProcessor(CookieJar()))
-    def get(self,url,robots=False):
+        # Session cookies are never installed in the anonymous opener's cookie jar.
+        self.session_opener=build_opener(NoRedirect())
+    def get(self,url,robots=False):return self.request(url,robots=robots)
+    def known_profile(self,url):
+        m=PROFILE.fullmatch(urlsplit(url).path)
+        if not m:return False
+        key=BASE+'/'+m[1]+'/@'+m[2].lower()
+        return bool(self.db.execute("SELECT 1 FROM queue WHERE url=? AND kind='profile'",(key,)).fetchone()or self.db.execute('SELECT 1 FROM records WHERE username=?',(m[2].lower(),)).fetchone())
+    def request(self,url,robots=False,data=None):
+        from tgstat_session import endpoint_allowed,account_problem
+        method='POST'if data is not None else'GET'
         for _ in range(6):
+            if _SECRET_FILTER and _SECRET_FILTER.clean(url)!=url:raise AccessStop('Credential reflection in a URL; source paused')
+            authenticated=bool(self.session and not robots and endpoint_allowed(url,method))
             if robots:
-                if url not in (BASE+'/robots.txt','https://tgstat.com/robots.txt'): raise ValueError('Unexpected robots redirect')
-            elif not scoped(url) or not self.rules or not all(r.allowed(url) for r in self.rules):
-                raise ValueError('Out of scope or robots-disallowed URL')
+                if url not in(BASE+'/robots.txt','https://tgstat.com/robots.txt'):raise ValueError('Unexpected robots redirect')
+            elif method=='POST':
+                match=CATALOG_ITEMS.fullmatch(urlsplit(url).path)
+                if not authenticated or not match or not self.db.execute('SELECT 1 FROM categories WHERE slug=?',(match[1],)).fetchone():raise ValueError('Unapproved catalog request')
+                if urlsplit(url).netloc!='ir.tgstat.com' or not self.rules or not all(r.allowed(url)for r in self.rules)or BLOCKED.search(urlsplit(url).path):raise ValueError('Catalog request is out of scope or robots-disallowed')
+            elif not scoped(url)or not self.rules or not all(r.allowed(url)for r in self.rules):raise ValueError('Out of scope or robots-disallowed URL')
+            if authenticated and method=='GET'and not self.known_profile(url):raise ValueError('Profile has no Iran-list provenance')
             reserve('https://tgstat.com',self.delay)
-            attempt=self.db.execute('INSERT INTO requests(url,status,at) VALUES(?,?,?)',(url,0,now())).lastrowid;self.db.commit()
-            try:
-                response=self.opener.open(Request(url,headers={'User-Agent':UA,'Accept':'text/html,text/plain'}),timeout=30)
+            headers={'User-Agent':UA,'Accept':'text/html,application/json'if method=='POST'else'text/html,text/plain'}
+            if method=='POST':headers.update({'Content-Type':'application/x-www-form-urlencoded','X-Requested-With':'XMLHttpRequest','Referer':BASE+'/'+match[1]})
+            request=Request(url,data=data,headers=headers)
+            if authenticated:
+                try:self.session.attach(request)
+                except ValueError:raise AccessStop('TGStat session cookies are unavailable or expired')from None
+            attempt=self.db.execute('INSERT INTO requests(url,status,at)VALUES(?,?,?)',(url,0,now())).lastrowid;self.db.commit()
+            try:response=(self.session_opener if authenticated else self.opener).open(request,timeout=30)
             except HTTPError as exc:
-                self.db.execute('UPDATE requests SET status=? WHERE id=?',(exc.code,attempt));self.db.commit()
-                if exc.code in (401,403,429): raise AccessStop(f'HTTP {exc.code}: source paused') from exc
-                if exc.code in (301,302,303,307,308):
-                    url=canonical(urljoin(url,exc.headers['Location']));continue
-                if robots and exc.code in (404,410): return ''
+                self.db.execute('UPDATE requests SET status=?WHERE id=?',(exc.code,attempt));self.db.commit()
+                if exc.code in(401,403,429):raise AccessStop(f'HTTP {exc.code}: source paused')from None
+                if exc.code in(301,302,303,307,308):
+                    target=canonical(urljoin(url,exc.headers.get('Location','')))
+                    if authenticated and(method=='POST'or not endpoint_allowed(target,'GET')or not self.known_profile(target)):raise AccessStop('Unexpected authenticated redirect; source paused')from None
+                    url=target;continue
+                if robots and exc.code in(404,410):return ''
+                if authenticated:
+                    try:problem=account_problem(Document(exc.read(100000).decode('utf-8','replace')),fragment=True)
+                    except Exception:problem=None
+                    if problem:raise AccessStop(problem)from None
                 raise
             with response:
-                self.db.execute('UPDATE requests SET status=? WHERE id=?',(response.status,attempt));self.db.commit()
-                kind=response.headers.get('Content-Type','').lower()
-                if not robots and not any(t in kind for t in ('text/html','application/xhtml+xml')): raise ValueError('Non-HTML response rejected')
-                data=response.read(10_000_001)
-                if len(data)>10_000_000: raise ValueError('Page over 10 MB')
-                return data.decode(response.headers.get_content_charset() or 'utf-8',errors='replace')
+                self.db.execute('UPDATE requests SET status=?WHERE id=?',(response.status,attempt));self.db.commit()
+                content_type=response.headers.get('Content-Type','').lower()
+                if not robots and not any(t in content_type for t in('text/html','application/xhtml+xml','application/json')if method=='POST'or t!='application/json'):raise ValueError('Unexpected response content type')
+                raw=response.read(10_000_001)
+                if len(raw)>10_000_000:raise ValueError('Page over 10 MB')
+                body=raw.decode(response.headers.get_content_charset()or'utf-8',errors='replace')
+                if authenticated:
+                    doc=Document(body);self.session.receive(response,request,doc)
+                    problem=account_problem(doc,fragment=method=='POST')
+                    if problem:raise AccessStop(problem)
+                    if method=='POST'and not('application/json'in content_type or body.lstrip().startswith('{')):raise AccessStop('Catalog returned an unexpected page; session check required')
+                return body
         raise ValueError('Redirect limit exceeded')
     def initialize(self):
-        for u in ('https://tgstat.com/robots.txt',BASE+'/robots.txt'):
+        for u in('https://tgstat.com/robots.txt',BASE+'/robots.txt'):
             r=Robots(self.get(u,robots=True));self.rules.append(r);self.delay=max(self.delay,r.delay)
+    def post_catalog(self,category,peer_type,page,offset):
+        if not self.session:raise AccessStop('TGSTAT_COOKIE is required for Show more')
+        if not self.session.csrf or not self.session.csrf_param:
+            candidates=self.db.execute("SELECT url FROM queue WHERE kind='profile'ORDER BY status='done' DESC,url LIMIT 1").fetchone()
+            if not candidates:raise AccessStop('No approved Iran profile is available for session validation')
+            self.get(candidates[0])
+        if not self.session.csrf or self.session.csrf_param!='_tgstat_csrk':raise AccessStop('Session CSRF token could not be verified')
+        if peer_type not in('channel','chat')or page<0 or offset<0:raise ValueError('Invalid catalog cursor')
+        fields={'peer_type':peer_type,'page':str(page),'offset':str(offset),'sort_channel':'members','sort_chat':'members',self.session.csrf_param:self.session.csrf}
+        return self.request(BASE+'/'+category+'/items',data=urlencode(fields).encode())
 
 
 def connect(work):
@@ -93,8 +148,11 @@ def connect(work):
     CREATE TABLE IF NOT EXISTS categories(slug TEXT PRIMARY KEY,title TEXT);
     CREATE TABLE IF NOT EXISTS listings(url TEXT PRIMARY KEY,category TEXT,entity_type TEXT,rows INTEGER,unique_handles INTEGER,public_next INTEGER,continuation TEXT);
     CREATE TABLE IF NOT EXISTS requests(id INTEGER PRIMARY KEY,url TEXT,status INTEGER,at TEXT);
+    CREATE TABLE IF NOT EXISTS catalog_pages(category TEXT,peer_type TEXT,page INTEGER,offset INTEGER,status TEXT DEFAULT 'pending',rows INTEGER,has_more INTEGER,next_page INTEGER,next_offset INTEGER,error TEXT,fingerprint TEXT,PRIMARY KEY(category,peer_type,page,offset));
+    CREATE TABLE IF NOT EXISTS catalog_seen(category TEXT,peer_type TEXT,username TEXT,PRIMARY KEY(category,peer_type,username));
     CREATE INDEX IF NOT EXISTS queue_order ON queue(status,kind,entity_type,url);
     ''')
+    if 'fingerprint'not in{v[1]for v in db.execute('PRAGMA table_info(catalog_pages)')}:db.execute('ALTER TABLE catalog_pages ADD COLUMN fingerprint TEXT')
     db.execute('INSERT OR IGNORE INTO meta VALUES(?,?)',('started_at',now()))
     for u in ('/', '/ratings/channels', '/ratings/chats'): enqueue(db,u,'listing')
     db.commit();return db
@@ -102,6 +160,7 @@ def connect(work):
 
 def enqueue(db,url,kind=None,category=None):
     url=canonical(url);p=urlsplit(url)
+    if _SECRET_FILTER and _SECRET_FILTER.clean(url)!=url:return
     # /stat links may identify a profile, but statistics URLs themselves are never requested.
     profile=LINK_PROFILE.fullmatch(p.path)
     if profile and p.netloc=='ir.tgstat.com' and p.scheme=='https':
@@ -180,10 +239,75 @@ def extract(doc,url):
             'text_sample':'\n'.join(samples)[:1000],'url':url,'collected_at':now()}
 
 
+def seed_catalog_pages(db):
+    for(category,)in db.execute('SELECT slug FROM categories').fetchall():
+        if BLOCKED.search('/'+category+'/items'):continue
+        for peer in('channel','chat'):
+            db.execute('INSERT OR IGNORE INTO catalog_pages(category,peer_type,page,offset)VALUES(?,?,0,0)',(category,peer))
+    db.commit()
+
+
+def catalog_payload(body):
+    try:value=json.loads(body)
+    except(ValueError,TypeError):raise AccessStop('Catalog response is not the expected pagination envelope')from None
+    if not isinstance(value,dict)or value.get('status')!='ok':raise AccessStop('Catalog reported an error; session/account review required')
+    if any(value.get(k)for k in('warning','accountWarning','limited','isLimited','blocked')):raise AccessStop('Account warning or limit detected')
+    if not isinstance(value.get('html'),str)or type(value.get('hasMore'))not in(bool,int)or value['hasMore']not in(True,False,0,1):raise AccessStop('Malformed catalog response; source paused')
+    def cursor(k):
+        v=value.get(k)
+        if type(v)is int and v>=0:return v
+        if isinstance(v,str)and re.fullmatch(r'\d{1,12}',v):return int(v)
+        raise AccessStop('Catalog cursor is missing or invalid; source paused')
+    return value['html'],bool(value['hasMore']),cursor('nextPage'),cursor('nextOffset')
+
+
+def run_catalog_page(db,client):
+    job=db.execute("SELECT category,peer_type,page,offset FROM catalog_pages WHERE status='pending'ORDER BY page,offset,category,peer_type LIMIT 1").fetchone()
+    if not job:return False
+    category,peer,page,offset=job
+    try:
+        body=client.post_catalog(category,peer,page,offset)
+        html,more,next_page,next_offset=catalog_payload(body)
+        from tgstat_session import account_problem
+        doc=Document(html);problem=account_problem(doc,fragment=True)
+        if problem:raise AccessStop(problem)
+        if more and(next_page,next_offset)==(page,offset):raise AccessStop('Catalog cursor repeated; source paused')
+        if more and db.execute('SELECT 1 FROM catalog_pages WHERE category=?AND peer_type=?AND page=?AND offset=?',(category,peer,next_page,next_offset)).fetchone():raise AccessStop('Catalog cursor cycle detected; source paused')
+        fingerprint=hashlib.sha256((_SECRET_FILTER.clean(text(doc.root))if _SECRET_FILTER else text(doc.root)).encode()).hexdigest()
+        if more and db.execute("SELECT 1 FROM catalog_pages WHERE category=?AND peer_type=?AND status='done'AND fingerprint=?",(category,peer,fingerprint)).fetchone():raise AccessStop('Catalog page content repeated; source paused')
+        if more and not html.strip():raise AccessStop('Catalog returned an empty continuation; source paused')
+        handles=set();rows=0
+        for n in doc.root.nodes():
+            if n.tag!='a'or 'href'not in n.attrs:continue
+            u=canonical(n.attrs['href']);p=urlsplit(u);m=LINK_PROFILE.fullmatch(p.path)
+            if _SECRET_FILTER and _SECRET_FILTER.clean(u)!=u:continue
+            if p.netloc=='ir.tgstat.com'and re.fullmatch('/'+peer+r'/[^/]+(?:/stat)?/?',p.path):rows+=1
+            if p.netloc=='ir.tgstat.com'and m and m[1]==peer:
+                handles.add(m[2].lower());enqueue(db,u,category=category)
+        old=db.execute('SELECT COUNT(*)FROM catalog_seen WHERE category=?AND peer_type=?',(category,peer)).fetchone()[0]
+        db.executemany('INSERT OR IGNORE INTO catalog_seen VALUES(?,?,?)',[(category,peer,u)for u in handles])
+        current=db.execute('SELECT COUNT(*)FROM catalog_seen WHERE category=?AND peer_type=?',(category,peer)).fetchone()[0]
+        db.execute("UPDATE catalog_pages SET status='done',rows=?,has_more=?,next_page=?,next_offset=?,error=NULL,fingerprint=? WHERE category=?AND peer_type=?AND page=?AND offset=?",(rows,int(more),next_page,next_offset,fingerprint,*job))
+        if more:db.execute('INSERT INTO catalog_pages(category,peer_type,page,offset)VALUES(?,?,?,?)',(category,peer,next_page,next_offset))
+        db.commit();return True
+    except AccessStop:
+        db.rollback();raise
+    except(HTTPError,ValueError,URLError,TimeoutError,ConnectionError)as exc:
+        db.rollback();db.execute("UPDATE catalog_pages SET status='failed',error=?WHERE category=?AND peer_type=?AND page=?AND offset=?",(safe_error(exc),*job));db.commit();return True
+
+
+def catalog_coverage(db):
+    result=[]
+    for category,peer in db.execute('SELECT DISTINCT category,peer_type FROM catalog_pages ORDER BY category,peer_type').fetchall():
+        pages=db.execute('SELECT page,offset,status,rows,has_more,next_page,next_offset FROM catalog_pages WHERE category=?AND peer_type=?ORDER BY page,offset',(category,peer)).fetchall()
+        result.append({'category':category,'type':'group'if peer=='chat'else'channel','pages_fetched':sum(v[2]=='done'for v in pages),'rows_per_page':[v[3]for v in pages if v[2]=='done'],'unique_handles':db.execute('SELECT COUNT(*)FROM catalog_seen WHERE category=?AND peer_type=?',(category,peer)).fetchone()[0],'end_reached':any(v[2]=='done'and v[4]==0 for v in pages),'pending':sum(v[2]=='pending'for v in pages),'failed':sum(v[2]=='failed'for v in pages)})
+    return result
+
+
 def export(db,work):
     out=work/'exports';out.mkdir(exist_ok=True);files=[]
     for i in range(16):
-        rows=[p for u,p in db.execute('SELECT username,payload FROM records ORDER BY username')if int(hashlib.sha256(u.encode()).hexdigest()[0],16)==i]
+        rows=[_SECRET_FILTER.clean(p)if _SECRET_FILTER else p for u,p in db.execute('SELECT username,payload FROM records ORDER BY username')if int(hashlib.sha256(u.encode()).hexdigest()[0],16)==i]
         raw=gzip.compress(('\n'.join(rows)+('\n'if rows else'')).encode(),mtime=0);name=f'tgstat-{i:02x}.jsonl.gz';temp=out/(name+'.tmp');temp.write_bytes(raw);temp.replace(out/name)
         files.append({'name':name,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()})
     types={}
@@ -193,14 +317,14 @@ def export(db,work):
         for k,v in row.items():
             if v is not None and v!='':fields[k]=fields.get(k,0)+1
     total=db.execute('SELECT COUNT(*)FROM requests').fetchone()[0]
-    report={'schema_version':1,'updated_at':now(),'source':BASE,'records':types,'requests':total,'per_100_requests':{k:round(100*v/total,2)for k,v in types.items()}if total else{},'fields_present':fields,'queue':dict(db.execute('SELECT status,COUNT(*)FROM queue GROUP BY status')),'listings':[dict(zip(('url','category','type','link_occurrences','unique_handles','public_next_links','continuation'),v))for v in db.execute('SELECT * FROM listings ORDER BY category,entity_type')],'files':files,'complete':False,'limitations':['TGStat Iran/Persian labels include Dari groups; region() uses title, description, text_sample.','Catalog Show more requires sign-in in live test; not accessed by this GET-only worker.','No full-directory coverage guarantee; public ranking/category snapshots may be capped.']}
+    report={'schema_version':1,'updated_at':now(),'source':BASE,'records':types,'requests':total,'per_100_requests':{k:round(100*v/total,2)for k,v in types.items()}if total else{},'fields_present':fields,'queue':dict(db.execute('SELECT status,COUNT(*)FROM queue GROUP BY status')),'listings':[dict(zip(('url','category','type','link_occurrences','unique_handles','public_next_links','continuation'),v))for v in db.execute('SELECT * FROM listings ORDER BY category,entity_type')],'files':files,'catalog_coverage':catalog_coverage(db),'stop_reason':(db.execute("SELECT value FROM meta WHERE key='stop_reason'").fetchone()or[None])[0],'complete':False,'limitations':['TGStat Iran/Persian labels include Dari groups; region() uses title, description, text_sample.','Public mode does not follow Show more; --session uses the environment session for the approved form only.','No full-directory coverage guarantee; public ranking/category snapshots may be capped.']}
     for item in report['listings']:
         if item['continuation']=='login_gated_show_more': item['continuation']='form_show_more_not_followed'
-    temp=out/'manifest.json.tmp';temp.write_text(json.dumps(report,ensure_ascii=False,indent=2));temp.replace(out/'manifest.json');return report
+    temp=out/'manifest.json.tmp';temp.write_text(safe_json(report));temp.replace(out/'manifest.json');return json.loads(safe_json(report))
 
 
 def publish(db,work,repo):
-    from archive_collect import gh
+    from tgstat_session import delivery_gh as gh
     import base64,subprocess
     out=work/'exports';manifest=json.loads((out/'manifest.json').read_text());entries=[];saved=[]
     for item in manifest['files']:
@@ -218,11 +342,14 @@ def publish(db,work,repo):
     db.executemany('INSERT OR REPLACE INTO meta VALUES(?,?)',saved);db.commit();print('Published TGStat: '+commit['sha'],flush=True)
 
 
-def run(db,client,pages,inventory=False):
+def run(db,client,pages,inventory=False,authenticated=False):
     turn=int((db.execute("SELECT value FROM meta WHERE key='turn'").fetchone()or['0'])[0])
     for _ in range(pages):
         kinds=[('listing',None),('profile','channel'),('listing',None),('profile','group')]
         if inventory:kinds=[('listing',None)]
+        if authenticated and(inventory or turn%2==0):
+            if run_catalog_page(db,client):
+                turn+=1;db.execute("INSERT OR REPLACE INTO meta VALUES('turn',?)",(str(turn%4),));db.commit();continue
         job=None
         for i in range(len(kinds)):
             kind,entity=kinds[(turn+i)%len(kinds)]
@@ -237,29 +364,37 @@ def run(db,client,pages,inventory=False):
             if kind=='listing':listing(db,doc,url)
             else:
                 value=extract(doc,url)
-                if value:db.execute('INSERT OR IGNORE INTO records VALUES(?,?)',(value['username'],json.dumps(value,ensure_ascii=False)))
+                if value:
+                    old=db.execute('SELECT payload FROM records WHERE username=?',(value['username'],)).fetchone()
+                    if old:
+                        previous=json.loads(old[0]);previous.update({k:v for k,v in value.items()if v is not None and v!=''});value=previous
+                    db.execute('INSERT OR REPLACE INTO records VALUES(?,?)',(value['username'],safe_json(value)))
             db.execute("UPDATE queue SET status='done',error=NULL WHERE url=?",(url,))
         except AccessStop:
             db.rollback();raise
         except (HTTPError,ValueError,URLError,TimeoutError,ConnectionError)as exc:
-            db.execute("UPDATE queue SET status='failed',error=?WHERE url=?",(str(exc),url))
+            db.execute("UPDATE queue SET status='failed',error=?WHERE url=?",(safe_error(exc),url))
         turn+=1;db.execute("INSERT OR REPLACE INTO meta VALUES('turn',?)",(str(turn%4),));db.commit()
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--work-dir',type=Path,required=True);p.add_argument('--repo');p.add_argument('--pages-per-slice',type=int,default=25);p.add_argument('--max-slices',type=int,default=1);p.add_argument('--inventory',action='store_true',help='Only public listing inventory; no profile fetching')
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--session',action='store_true',help='Use TGSTAT_COOKIE from environment for approved profiles and Show more only');p.add_argument('--work-dir',type=Path,required=True);p.add_argument('--repo');p.add_argument('--pages-per-slice',type=int,default=25);p.add_argument('--max-slices',type=int,default=1);p.add_argument('--inventory',action='store_true',help='Only public listing inventory; no profile fetching')
     a=p.parse_args()
     if a.pages_per_slice<1 or a.max_slices<0:p.error('Invalid budgets')
+    from tgstat_session import Session
+    session=Session.from_environment()if a.session else None
     a.work_dir.mkdir(parents=True,exist_ok=True)
     with(a.work_dir/'worker.lock').open('a+')as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);db=connect(a.work_dir)
         try:
-            client=Client(db);client.initialize();i=0
+            client=Client(db,session=session);client.initialize();i=0
+            if session:seed_catalog_pages(db)
             while a.max_slices==0 or i<a.max_slices:
-                run(db,client,a.pages_per_slice,a.inventory);report=export(db,a.work_dir);print(json.dumps({'slice':i+1,'records':report['records'],'requests':report['requests'],'per_100_requests':report['per_100_requests'],'queue':report['queue']},ensure_ascii=False),flush=True)
+                if session:seed_catalog_pages(db)
+                run(db,client,a.pages_per_slice,a.inventory,authenticated=a.session);report=export(db,a.work_dir);print(json.dumps({'slice':i+1,'records':report['records'],'requests':report['requests'],'per_100_requests':report['per_100_requests'],'queue':report['queue']},ensure_ascii=False),flush=True)
                 if a.repo:publish(db,a.work_dir,a.repo)
                 i+=1
-                if not db.execute("SELECT 1 FROM queue WHERE status='pending'"+('AND kind=\'listing\''if a.inventory else'')+'LIMIT 1').fetchone():break
+                if not db.execute("SELECT 1 FROM queue WHERE status='pending'"+('AND kind=\'listing\''if a.inventory else'')+'LIMIT 1').fetchone()and not(a.session and db.execute("SELECT 1 FROM catalog_pages WHERE status='pending'LIMIT 1").fetchone()):break
         except AccessStop as exc:
             db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",(str(exc),));db.commit();raise
         finally:db.rollback();export(db,a.work_dir);db.close()
