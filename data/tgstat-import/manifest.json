@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-14T13:05:38.434985+00:00",
+  "updated_at": "2026-11-14T13:08:21.608625+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "channel": 119,
-    "group": 120
+    "channel": 125,
+    "group": 126
   },
-  "requests": 627,
+  "requests": 657,
   "per_100_requests": {
-    "channel": 18.98,
-    "group": 19.14
+    "channel": 19.03,
+    "group": 19.18
   },
   "fields_present": {
-    "type": 239,
-    "username": 239,
-    "title": 239,
-    "description": 216,
-    "members": 119,
-    "category": 239,
-    "country": 239,
-    "language": 239,
-    "text_sample": 119,
-    "url": 239,
-    "collected_at": 239
+    "type": 251,
+    "username": 251,
+    "title": 251,
+    "description": 227,
+    "members": 125,
+    "category": 251,
+    "country": 251,
+    "language": 251,
+    "text_sample": 125,
+    "url": 251,
+    "collected_at": 251
   },
   "queue": {
-    "done": 334,
+    "done": 346,
     "failed": 129,
-    "pending": 5627
+    "pending": 5628
   },
   "listings": [
     {
@@ -894,23 +894,23 @@
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 10058,
-      "sha256": "2f66e97d61dbf2e84c88060d594af7016de0694a9f88d4cc727cc8c43565198c"
+      "bytes": 10630,
+      "sha256": "40d87895f3a317199d7eaadcbe5e1fbb59d38428334b8b532bccc2a3fb445a70"
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 6044,
-      "sha256": "9be9160cbfd564f783ed4dfbae78a5e15cb7d7a628911431f3387cf472f46caf"
+      "bytes": 6245,
+      "sha256": "c181d4840d2b7c68baafe154c45c4e0c79ddf06d7b742b746d94e395f578a29e"
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 8822,
-      "sha256": "6e99e1fc7389a06b227ccde885d5e17a75c8d2650ce3575cbac59a57217b3642"
+      "bytes": 9732,
+      "sha256": "03d733598c546e8c25dcc056a50a76656f3bed8eecb931d36b937cb9b0f85e30"
     },
     {
       "name": "tgstat-04.jsonl.gz",
-      "bytes": 7183,
-      "sha256": "e7db986b8c75e20e58199c27e66fdb181c9791135163f1dfc6af11b7f8ede9e8"
+      "bytes": 7411,
+      "sha256": "ac76808055fd482d91713df4e929b1b8d4ae9855bb3f3615dccb904e315f8d4b"
     },
     {
       "name": "tgstat-05.jsonl.gz",
@@ -919,18 +919,18 @@
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 7147,
-      "sha256": "447131cd2cca1a6e1f8e4ef85ed64220d5c9837b1f52ecd764ccc65bd3688a02"
+      "bytes": 8073,
+      "sha256": "b3081941f5fe4098f46032330386bb5666f9df625ab65e5e933eb5f298cb73e0"
     },
     {
       "name": "tgstat-07.jsonl.gz",
-      "bytes": 7346,
-      "sha256": "e3729a84aff3b611a518a18cc375e7a08ff9a6e22a14da14a698db25a5dd6fad"
+      "bytes": 7530,
+      "sha256": "cac3bbe13419dd8a35ce8a27966b1f724944e4cea1e7be00b89c0de4ac11272a"
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 5723,
-      "sha256": "2a03e8b6cd2c61d2f38b3bbd92111c80a979c1f30254a71bfc3376021ebdaffb"
+      "bytes": 6585,
+      "sha256": "42c627c13976837e26fdcdb0869d1e8c18e0c04e1eb9f48fec99bb3565f93fae"
     },
     {
       "name": "tgstat-09.jsonl.gz",
@@ -944,8 +944,8 @@
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 4265,
-      "sha256": "ebf18ee4daca9409b0669c9cb9d4c5c479aec48463354c96401661b57de64abe"
+      "bytes": 4892,
+      "sha256": "2fb7fe6f6e667444062f62ae98ceb0049cb94fa37722540f826a42df3e7cdb0a"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
@@ -954,13 +954,13 @@
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 5281,
-      "sha256": "4470147035b2995c37a1ab11772b9f30d78993e0ba167a608e58dfc8a7535b45"
+      "bytes": 6180,
+      "sha256": "8413ca65d156b610c309386ff836758292ea64063223688d775aeb9a2a892d0f"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
-      "bytes": 6268,
-      "sha256": "65da936e68c48fbe41fe2d8e4acaa5a72f3466e8243744747a6a2e9e6fe209e6"
+      "bytes": 6369,
+      "sha256": "d90fcf7c755e70c324b32fc90ac33640b5f997c1da80ff550db09976f3ef23dc"
     },
     {
       "name": "tgstat-0f.jsonl.gz",
@@ -1328,9 +1328,11 @@
     {
       "category": "economics",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        60
+      ],
+      "unique_handles": 58,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1338,9 +1340,11 @@
     {
       "category": "education",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 93,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1348,9 +1352,11 @@
     {
       "category": "education",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 100,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1358,9 +1364,11 @@
     {
       "category": "edutainment",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 97,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1368,9 +1376,11 @@
     {
       "category": "edutainment",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        1
+      ],
+      "unique_handles": 1,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1378,9 +1388,11 @@
     {
       "category": "entertainment",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 97,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1388,9 +1400,11 @@
     {
       "category": "entertainment",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        13
+      ],
+      "unique_handles": 12,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1398,9 +1412,11 @@
     {
       "category": "erotica",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        95
+      ],
+      "unique_handles": 87,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1408,9 +1424,11 @@
     {
       "category": "erotica",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        7
+      ],
+      "unique_handles": 7,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1418,9 +1436,11 @@
     {
       "category": "esoterics",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        89
+      ],
+      "unique_handles": 86,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1428,9 +1448,11 @@
     {
       "category": "esoterics",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        4
+      ],
+      "unique_handles": 4,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1438,9 +1460,11 @@
     {
       "category": "food",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        81
+      ],
+      "unique_handles": 75,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1448,9 +1472,11 @@
     {
       "category": "food",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        8
+      ],
+      "unique_handles": 8,
       "end_reached": false,
       "pending": 1,
       "failed": 0
