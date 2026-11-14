@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-14T13:16:55.482650+00:00",
+  "updated_at": "2026-11-14T13:19:52.689930+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "channel": 144,
-    "group": 145
+    "channel": 150,
+    "group": 151
   },
-  "requests": 751,
+  "requests": 783,
   "per_100_requests": {
-    "channel": 19.17,
-    "group": 19.31
+    "channel": 19.16,
+    "group": 19.28
   },
   "fields_present": {
-    "type": 289,
-    "username": 289,
-    "title": 289,
-    "description": 262,
-    "members": 144,
-    "category": 289,
-    "country": 289,
-    "language": 289,
-    "text_sample": 144,
-    "url": 289,
-    "collected_at": 289
+    "type": 301,
+    "username": 301,
+    "title": 301,
+    "description": 273,
+    "members": 150,
+    "category": 301,
+    "country": 301,
+    "language": 301,
+    "text_sample": 150,
+    "url": 301,
+    "collected_at": 301
   },
   "queue": {
-    "done": 384,
+    "done": 396,
     "failed": 129,
-    "pending": 5601
+    "pending": 5595
   },
   "listings": [
     {
@@ -889,23 +889,23 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 10862,
-      "sha256": "cf2a0208d64072fd6e34dba66b3a310190a25d05bb72bd7208cecadabde6d798"
+      "bytes": 11416,
+      "sha256": "aa8926afb90a54d294a79facc2561f490952f56b9084715ba289155c21e719b3"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 12173,
-      "sha256": "1302a81ff7535c4215abbb81f34523943081d251b88b88b1b43b3ae8018c04f5"
+      "bytes": 14006,
+      "sha256": "68ce728fbf55131b03c54ccad9eded3ec61b931700b750d1e712ddd7ce336428"
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 6757,
-      "sha256": "1ed5a776d7e3ea6161bd3e287f6ee17d2a60320acb789ebc8ba1c8a196b9e291"
+      "bytes": 6988,
+      "sha256": "8c6d24a8e4858a174bc2b8ce47877bc050027db31bbeb00b38680466c736f585"
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 9943,
-      "sha256": "3ea293e9cd58535c7eb4c7c8c4e9ddadd7fe74fc39caa56e74cd9201f622177e"
+      "bytes": 10769,
+      "sha256": "6d0a2ec715354e1f62b835c34971ec9b89119cc27db8abb71f013f38890a3cfc"
     },
     {
       "name": "tgstat-04.jsonl.gz",
@@ -914,13 +914,13 @@
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 12309,
-      "sha256": "8c6d517a6a71d7f1ddc671b999e51017d322104a3757447d18742c25ef9f0727"
+      "bytes": 12456,
+      "sha256": "f6703237559a087a9c29c55bbac85c49dc1c4ba23919640e4ac09bf94c63fed5"
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 10752,
-      "sha256": "263483d964d2d7557b8b577bcd0a4a502b935e43d71e58dc8f79749f342d4d8b"
+      "bytes": 10926,
+      "sha256": "527f004f3384a7a7bbff2dcd3cd60a9c9cfbc7cdd04b7ae70928f2781f885b47"
     },
     {
       "name": "tgstat-07.jsonl.gz",
@@ -934,8 +934,8 @@
     },
     {
       "name": "tgstat-09.jsonl.gz",
-      "bytes": 9264,
-      "sha256": "faa3c3045f3dd2174e44d715cb42919eb22609bde00358de5101873f6b7f74d0"
+      "bytes": 9561,
+      "sha256": "45691a28cba7d69bd5a97207d7af588d2a237b1eaa46a51c7671e96edc2fe53c"
     },
     {
       "name": "tgstat-0a.jsonl.gz",
@@ -944,8 +944,8 @@
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 5614,
-      "sha256": "aaae479b57285305b0661d82c49d717aaf4de87027ecedefad8e604681394acb"
+      "bytes": 6509,
+      "sha256": "5f11d55ac5751b8d6764fd71478f7d7e77791dbf15fdc3e6d1a42758d2dbe484"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
@@ -954,8 +954,8 @@
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 8589,
-      "sha256": "0b92df0dfe7dc5f20d83a11f622123b0cfd0af56782fbb280797a64104c61678"
+      "bytes": 9354,
+      "sha256": "cf977e9db964875df37ea22fbb552e0c3da6e91ccf928953a84d407bdb18f24a"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
@@ -1928,9 +1928,11 @@
     {
       "category": "shock",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        3
+      ],
+      "unique_handles": 3,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1938,9 +1940,11 @@
     {
       "category": "sport",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 101,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1948,9 +1952,11 @@
     {
       "category": "sport",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        17
+      ],
+      "unique_handles": 15,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1958,9 +1964,11 @@
     {
       "category": "tech",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 102,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1968,9 +1976,11 @@
     {
       "category": "tech",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        45
+      ],
+      "unique_handles": 42,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1978,9 +1988,11 @@
     {
       "category": "telegram",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 99,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1988,9 +2000,11 @@
     {
       "category": "telegram",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 78,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1998,9 +2012,11 @@
     {
       "category": "transport",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 101,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -2008,9 +2024,11 @@
     {
       "category": "transport",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        8
+      ],
+      "unique_handles": 8,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -2018,9 +2036,11 @@
     {
       "category": "travels",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        86
+      ],
+      "unique_handles": 86,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -2028,9 +2048,11 @@
     {
       "category": "travels",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        8
+      ],
+      "unique_handles": 7,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -2038,9 +2060,11 @@
     {
       "category": "video",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 96,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -2048,9 +2072,11 @@
     {
       "category": "video",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        22
+      ],
+      "unique_handles": 20,
       "end_reached": false,
       "pending": 1,
       "failed": 0
