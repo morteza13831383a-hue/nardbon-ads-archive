@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-13T20:13:28.096419+00:00",
-  "updated_at": "2026-11-14T16:54:54.490239+00:00",
+  "updated_at": "2026-11-14T16:55:48.212710+00:00",
   "channels": 7551,
   "classifications": {
     "persian_candidate": 6997,
@@ -15,7 +15,7 @@
     "robots_disallowed": 22
   },
   "complete": false,
-  "request_count": 39,
+  "request_count": 41,
   "slices": [
     {
       "filters": "{\"category\": \"adult\", \"sort\": \"ads\"}",
@@ -50,6 +50,14 @@
       "error": null
     },
     {
+      "filters": "{\"category\": \"parenting\"}",
+      "status": "done",
+      "next_page": 2,
+      "pages": 1,
+      "new_records": 0,
+      "error": null
+    },
+    {
       "filters": "{\"category\": \"health\", \"order\": \"asc\"}",
       "status": "ignored",
       "next_page": 2,
@@ -64,6 +72,14 @@
       "pages": 1,
       "new_records": 0,
       "error": "Server omitted: maxMembers"
+    },
+    {
+      "filters": "{\"sponsored\": \"eligible\"}",
+      "status": "ignored",
+      "next_page": 2,
+      "pages": 1,
+      "new_records": 0,
+      "error": "Server omitted: sponsored"
     },
     {
       "filters": "{\"category\": \"adult\"}",
@@ -155,14 +171,6 @@
     },
     {
       "filters": "{\"category\": \"adult,crypto\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"adult,dating\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -1546,14 +1554,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"casino,entertainment\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"casino,fashion\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
@@ -1650,14 +1650,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"casino,jobs\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"casino,news\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
@@ -1683,14 +1675,6 @@
     },
     {
       "filters": "{\"category\": \"casino,parenting\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"casino,parenting\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -1963,14 +1947,6 @@
     },
     {
       "filters": "{\"category\": \"crypto,gaming\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"crypto,gaming\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -2354,14 +2330,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"education,parenting\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"education,parenting\"}",
       "status": "pending",
       "next_page": 1,
@@ -2682,14 +2650,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"fashion,podcasts\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"fashion,real-estate\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
@@ -2811,14 +2771,6 @@
     },
     {
       "filters": "{\"category\": \"finance,business\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"finance,business\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -3106,23 +3058,7 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"gambling,adult\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"gambling,adult\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,adult\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -3162,47 +3098,7 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"gambling,betting\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,betting\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"gambling,business\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,business\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,business\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,casino\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -3258,22 +3154,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"gambling,dating\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,dating\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"gambling,education\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
@@ -3282,23 +3162,7 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"gambling,education\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"gambling,education\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,entertainment\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -3330,30 +3194,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"gambling,fashion\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,fashion\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,finance\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"gambling,finance\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
@@ -3362,23 +3202,7 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"gambling,finance\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"gambling,gaming\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,gaming\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -3410,14 +3234,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"gambling,health\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"gambling,jobs\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
@@ -3434,23 +3250,7 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"gambling,news\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"gambling,news\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,news\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -3474,23 +3274,7 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"gambling,parenting\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"gambling,podcasts\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,podcasts\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -3522,14 +3306,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"gambling,real-estate\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"gambling,religion\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
@@ -3546,22 +3322,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"gambling,religion\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,retail\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"gambling,retail\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
@@ -3570,47 +3330,7 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"gambling,retail\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,tech\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,tech\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"gambling,tech\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,trading\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"gambling,trading\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -3694,14 +3414,6 @@
       "status": "pending",
       "next_page": 2,
       "pages": 1,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"health,adult\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
       "new_records": 0,
       "error": null
     },
@@ -3906,14 +3618,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"health,real-estate\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"health,real-estate\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
@@ -4011,14 +3715,6 @@
     },
     {
       "filters": "{\"category\": \"jobs,adult\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"jobs,auto\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -4163,14 +3859,6 @@
     },
     {
       "filters": "{\"category\": \"jobs,gaming\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"jobs,news\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -4562,14 +4250,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"news,jobs\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"news,parenting\"}",
       "status": "pending",
       "next_page": 1,
@@ -4587,14 +4267,6 @@
     },
     {
       "filters": "{\"category\": \"news,real-estate\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"news,religion\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -4627,14 +4299,6 @@
     },
     {
       "filters": "{\"category\": \"parenting\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"parenting\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -4731,14 +4395,6 @@
     },
     {
       "filters": "{\"category\": \"parenting,entertainment\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"parenting,entertainment\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -5051,14 +4707,6 @@
     },
     {
       "filters": "{\"category\": \"podcasts,education\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"podcasts,fashion\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -5403,14 +5051,6 @@
     },
     {
       "filters": "{\"category\": \"religion,dating\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"religion,dating\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -5802,14 +5442,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"retail,fashion\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"retail,fashion\"}",
       "status": "pending",
       "next_page": 1,
@@ -6163,14 +5795,6 @@
     },
     {
       "filters": "{\"category\": \"trading,entertainment\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"trading,entertainment\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -6802,14 +6426,6 @@
       "error": null
     },
     {
-      "filters": "{\"sponsored\": \"eligible\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{}",
       "status": "pending",
       "next_page": 2,
@@ -6848,6 +6464,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=adult%2Ccasino"
+    },
+    {
+      "filters": "{\"category\": \"adult,dating\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=adult%2Cdating&sort=ads"
     },
     {
       "filters": "{\"category\": \"adult,education\", \"sort\": \"new\"}",
@@ -7826,6 +7450,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=casino%2Centertainment&sort=new"
     },
     {
+      "filters": "{\"category\": \"casino,entertainment\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=casino%2Centertainment"
+    },
+    {
       "filters": "{\"category\": \"casino,fashion\", \"sort\": \"ads\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -7864,6 +7496,22 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=casino%2Chealth&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"casino,jobs\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=casino%2Cjobs"
+    },
+    {
+      "filters": "{\"category\": \"casino,parenting\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=casino%2Cparenting&sort=new"
     },
     {
       "filters": "{\"category\": \"casino,parenting\"}",
@@ -8072,6 +7720,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=crypto%2Cgambling"
+    },
+    {
+      "filters": "{\"category\": \"crypto,gaming\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=crypto%2Cgaming"
     },
     {
       "filters": "{\"category\": \"crypto,health\", \"sort\": \"new\"}",
@@ -8378,6 +8034,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=education%2Cparenting&sort=ads"
     },
     {
+      "filters": "{\"category\": \"education,parenting\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=education%2Cparenting&sort=new"
+    },
+    {
       "filters": "{\"category\": \"education,podcasts\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -8674,6 +8338,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=fashion%2Cpodcasts&sort=ads"
     },
     {
+      "filters": "{\"category\": \"fashion,podcasts\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=fashion%2Cpodcasts&sort=new"
+    },
+    {
       "filters": "{\"category\": \"fashion,podcasts\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -8808,6 +8480,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=finance%2Cbusiness&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"finance,business\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=finance%2Cbusiness"
     },
     {
       "filters": "{\"category\": \"finance,crypto\", \"sort\": \"ads\"}",
@@ -9010,12 +8690,252 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=finance%2Ctravel"
     },
     {
+      "filters": "{\"category\": \"gambling,adult\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cadult&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"gambling,adult\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cadult"
+    },
+    {
+      "filters": "{\"category\": \"gambling,betting\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cbetting&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"gambling,betting\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cbetting"
+    },
+    {
+      "filters": "{\"category\": \"gambling,business\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cbusiness&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"gambling,business\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cbusiness"
+    },
+    {
+      "filters": "{\"category\": \"gambling,casino\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Ccasino&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"gambling,dating\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cdating&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"gambling,dating\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cdating"
+    },
+    {
+      "filters": "{\"category\": \"gambling,education\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Ceducation&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"gambling,entertainment\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Centertainment&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"gambling,fashion\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cfashion&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"gambling,fashion\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cfashion"
+    },
+    {
+      "filters": "{\"category\": \"gambling,finance\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cfinance&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"gambling,finance\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cfinance"
+    },
+    {
+      "filters": "{\"category\": \"gambling,gaming\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cgaming&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"gambling,health\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Chealth"
+    },
+    {
       "filters": "{\"category\": \"gambling,jobs\", \"sort\": \"ads\"}",
       "status": "robots_disallowed",
       "next_page": 1,
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cjobs&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"gambling,news\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cnews&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"gambling,news\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cnews"
+    },
+    {
+      "filters": "{\"category\": \"gambling,parenting\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cparenting"
+    },
+    {
+      "filters": "{\"category\": \"gambling,podcasts\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cpodcasts&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"gambling,real-estate\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Creal-estate"
+    },
+    {
+      "filters": "{\"category\": \"gambling,religion\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Creligion"
+    },
+    {
+      "filters": "{\"category\": \"gambling,retail\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cretail&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"gambling,retail\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Cretail"
+    },
+    {
+      "filters": "{\"category\": \"gambling,tech\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Ctech&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"gambling,tech\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Ctech&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"gambling,trading\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Ctrading&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"gambling,trading\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=gambling%2Ctrading&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"health,adult\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=health%2Cadult&sort=ads"
     },
     {
       "filters": "{\"category\": \"health,betting\", \"sort\": \"ads\"}",
@@ -9218,6 +9138,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=health%2Cpodcasts"
     },
     {
+      "filters": "{\"category\": \"health,real-estate\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=health%2Creal-estate&sort=ads"
+    },
+    {
       "filters": "{\"category\": \"health,real-estate\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -9296,6 +9224,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=jobs%2Cadult"
+    },
+    {
+      "filters": "{\"category\": \"jobs,auto\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=jobs%2Cauto&sort=ads"
     },
     {
       "filters": "{\"category\": \"jobs,auto\", \"sort\": \"new\"}",
@@ -9456,6 +9392,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=jobs%2Chealth"
+    },
+    {
+      "filters": "{\"category\": \"jobs,news\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=jobs%2Cnews&sort=ads"
     },
     {
       "filters": "{\"category\": \"jobs,parenting\", \"sort\": \"new\"}",
@@ -9650,6 +9594,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=news%2Chealth"
     },
     {
+      "filters": "{\"category\": \"news,jobs\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=news%2Cjobs&sort=new"
+    },
+    {
       "filters": "{\"category\": \"news,jobs\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -9704,6 +9656,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=news%2Creal-estate"
+    },
+    {
+      "filters": "{\"category\": \"news,religion\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=news%2Creligion&sort=ads"
     },
     {
       "filters": "{\"category\": \"news,religion\", \"sort\": \"new\"}",
@@ -9904,6 +9864,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=parenting%2Centertainment&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"parenting,entertainment\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=parenting%2Centertainment"
     },
     {
       "filters": "{\"category\": \"parenting,fashion\", \"sort\": \"ads\"}",
@@ -10170,6 +10138,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=podcasts%2Centertainment"
     },
     {
+      "filters": "{\"category\": \"podcasts,fashion\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=podcasts%2Cfashion&sort=ads"
+    },
+    {
       "filters": "{\"category\": \"podcasts,fashion\", \"sort\": \"new\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -10360,6 +10336,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Ccrypto&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"religion,dating\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Cdating"
     },
     {
       "filters": "{\"category\": \"religion,education\", \"sort\": \"ads\"}",
@@ -10610,6 +10594,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=retail%2Cfashion&sort=ads"
     },
     {
+      "filters": "{\"category\": \"retail,fashion\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=retail%2Cfashion&sort=new"
+    },
+    {
       "filters": "{\"category\": \"retail,finance\", \"sort\": \"new\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -10824,6 +10816,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=trading%2Centertainment&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"trading,entertainment\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=trading%2Centertainment"
     },
     {
       "filters": "{\"category\": \"trading,finance\"}",
@@ -22274,8 +22274,8 @@
   "files": [
     {
       "name": "channels-00.jsonl.gz",
-      "bytes": 364104,
-      "sha256": "54ef88595fccd8fc4c4ca62f0b99192bea1a6de1f41b05ab5c8fb08f2cc72ba6"
+      "bytes": 364110,
+      "sha256": "8daee31b5620e0771c2af02211923681dc366ea2e1c2c32f79180b08757edd89"
     },
     {
       "name": "channels-01.jsonl.gz",
@@ -22284,8 +22284,8 @@
     },
     {
       "name": "channels-02.jsonl.gz",
-      "bytes": 332250,
-      "sha256": "743bcabda6169d0f938768d41884b4b83b84c211f881eee4fde66ee0376fb880"
+      "bytes": 332247,
+      "sha256": "3b75e88890432e3f0614c030d5db0fde791590fed7e404a88dd60fe0870e66dc"
     },
     {
       "name": "channels-03.jsonl.gz",
@@ -22304,8 +22304,8 @@
     },
     {
       "name": "channels-06.jsonl.gz",
-      "bytes": 348325,
-      "sha256": "9853c19e592c9b7982d00191120cfa7bcd1b5d1b0f9f1c4c4c270b0bf934f907"
+      "bytes": 348328,
+      "sha256": "625960fcbdc02779b89ce9bdd274adc5dff888de457b46e9e7e36f720039f5d4"
     },
     {
       "name": "channels-07.jsonl.gz",
@@ -22314,18 +22314,18 @@
     },
     {
       "name": "channels-08.jsonl.gz",
-      "bytes": 326131,
-      "sha256": "a96b438f47844dad87520560571971ec592c24f016cc7ff395acd1b95b38b60e"
+      "bytes": 326129,
+      "sha256": "e89198f848644c59a503080842e1064d69338ec25d5156565707a13e421597f8"
     },
     {
       "name": "channels-09.jsonl.gz",
-      "bytes": 314983,
-      "sha256": "b1d8636200d1a3d36353f580e00afff45458e6a087536c1f51f6f109b582d067"
+      "bytes": 314968,
+      "sha256": "4d14f6f36cff236ef0c764343b4d192ae32e2a39a89c8a8a2270538caf5da57a"
     },
     {
       "name": "channels-0a.jsonl.gz",
-      "bytes": 343133,
-      "sha256": "f5b39cf09ab5323dfe2b7686d876d4ed68b70cf4fbd94abd98086292c18475c4"
+      "bytes": 343121,
+      "sha256": "bf8b116b72a7ddc2ecee5c44be4a2303a7327ace2edf0c57c65f0453da246437"
     },
     {
       "name": "channels-0b.jsonl.gz",
@@ -22334,23 +22334,23 @@
     },
     {
       "name": "channels-0c.jsonl.gz",
-      "bytes": 337680,
-      "sha256": "e88bd9f84cdc6dd91b27a07f4ab180f38843fad082626adf9a456b21d00a59b4"
+      "bytes": 337679,
+      "sha256": "f585e8a90f6cbaa07c8c1cd05429e0a5bc9fd5f167e899b50733dc80ddac0390"
     },
     {
       "name": "channels-0d.jsonl.gz",
       "bytes": 314420,
-      "sha256": "fbaaa613950529217781838ba17e471e5de731af53afc5a5677cc890bd9bf5a5"
+      "sha256": "bc8fd755f73c6022dcb6885b412fdea20c361b498c797a67508579e5efbffe37"
     },
     {
       "name": "channels-0e.jsonl.gz",
-      "bytes": 317693,
-      "sha256": "34004d2ea926892906e6fa712d27f5e23feac79856103b72e83bf2c44233c678"
+      "bytes": 317701,
+      "sha256": "d3aef0878061989daf8f0b2178bb5c160a9bbf33533b41ee24bcd5e4302fb33e"
     },
     {
       "name": "channels-0f.jsonl.gz",
-      "bytes": 309115,
-      "sha256": "4305cc7343249004741a4fcffbf959c7b7ed21644ac88590ac1caf3bd27332ca"
+      "bytes": 309101,
+      "sha256": "e936f3d3fe2a566104a5d20bdeaa890cbbce1031b5503f933d71e630da12a340"
     }
   ]
 }
