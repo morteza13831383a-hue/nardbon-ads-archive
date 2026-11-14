@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-13T20:13:28.096419+00:00",
-  "updated_at": "2026-11-14T16:50:09.833422+00:00",
-  "channels": 7420,
+  "updated_at": "2026-11-14T16:50:46.270874+00:00",
+  "channels": 7440,
   "classifications": {
-    "persian_candidate": 6866,
+    "persian_candidate": 6886,
     "unclassified": 554
   },
   "queue": {
     "done": 4702,
     "failed": 269,
-    "listing_saved": 2629,
-    "pending": 28606,
+    "listing_saved": 2631,
+    "pending": 28604,
     "robots_disallowed": 22
   },
   "complete": false,
-  "request_count": 30,
+  "request_count": 31,
   "slices": [
     {
       "filters": "{\"category\": \"adult\", \"sort\": \"ads\"}",
@@ -291,14 +291,6 @@
     },
     {
       "filters": "{\"category\": \"adult,jobs\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"adult,news\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -619,14 +611,6 @@
     },
     {
       "filters": "{\"category\": \"auto,gambling\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"auto,gambling\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -1011,14 +995,6 @@
     },
     {
       "filters": "{\"category\": \"betting,finance\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"betting,finance\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -2098,14 +2074,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"casino,travel\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"crypto\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
@@ -3146,14 +3114,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"health,gambling\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"health,gambling\"}",
       "status": "pending",
       "next_page": 1,
@@ -3283,14 +3243,6 @@
     },
     {
       "filters": "{\"category\": \"health,tech\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"health,tech\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -3834,14 +3786,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"news,business\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"news,casino\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
@@ -4091,14 +4035,6 @@
     },
     {
       "filters": "{\"category\": \"news,tech\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"news,trading\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -4580,9 +4516,9 @@
     {
       "filters": "{\"category\": \"religion\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
+      "next_page": 2,
+      "pages": 1,
+      "new_records": 20,
       "error": null
     },
     {
@@ -4595,6 +4531,446 @@
     },
     {
       "filters": "{\"category\": \"religion\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,adult\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,adult\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,adult\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,auto\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,auto\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,auto\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,betting\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,betting\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,business\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,business\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,business\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,casino\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,crypto\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,crypto\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,dating\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,dating\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,dating\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,education\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,education\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,entertainment\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,entertainment\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,entertainment\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,fashion\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,fashion\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,fashion\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,finance\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,finance\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,gambling\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,gambling\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,gambling\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,gaming\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,health\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,health\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,health\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,jobs\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,jobs\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,jobs\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,news\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,news\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,parenting\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,podcasts\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,podcasts\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,real-estate\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,real-estate\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,real-estate\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,retail\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,retail\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,retail\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,tech\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,tech\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,trading\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,trading\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,trading\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,travel\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"religion,travel\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -5098,14 +5474,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"trading,adult\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"trading,adult\"}",
       "status": "pending",
       "next_page": 1,
@@ -5259,14 +5627,6 @@
     },
     {
       "filters": "{\"category\": \"trading,finance\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"trading,gambling\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -6090,6 +6450,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=adult%2Cjobs&sort=new"
     },
     {
+      "filters": "{\"category\": \"adult,news\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=adult%2Cnews&sort=ads"
+    },
+    {
       "filters": "{\"category\": \"adult,news\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -6248,6 +6616,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=auto%2Cfinance&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"auto,gambling\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=auto%2Cgambling&sort=new"
     },
     {
       "filters": "{\"category\": \"auto,gaming\", \"sort\": \"new\"}",
@@ -6416,6 +6792,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=betting%2Cfinance&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"betting,finance\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=betting%2Cfinance"
     },
     {
       "filters": "{\"category\": \"betting,gaming\", \"sort\": \"new\"}",
@@ -6792,6 +7176,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=casino%2Ctravel&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"casino,travel\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=casino%2Ctravel"
     },
     {
       "filters": "{\"category\": \"crypto,adult\", \"sort\": \"ads\"}",
@@ -7346,6 +7738,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=health%2Cgambling&sort=ads"
     },
     {
+      "filters": "{\"category\": \"health,gambling\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=health%2Cgambling&sort=new"
+    },
+    {
       "filters": "{\"category\": \"health,gaming\", \"sort\": \"ads\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -7416,6 +7816,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=health%2Cretail"
+    },
+    {
+      "filters": "{\"category\": \"health,tech\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=health%2Ctech&sort=new"
     },
     {
       "filters": "{\"category\": \"health,tech\"}",
@@ -7626,6 +8034,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=news%2Cbusiness&sort=ads"
     },
     {
+      "filters": "{\"category\": \"news,business\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=news%2Cbusiness"
+    },
+    {
       "filters": "{\"category\": \"news,casino\", \"sort\": \"ads\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -7776,6 +8192,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=news%2Ctech&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"news,trading\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=news%2Ctrading&sort=ads"
     },
     {
       "filters": "{\"category\": \"news,trading\", \"sort\": \"new\"}",
@@ -7970,6 +8394,118 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=podcasts%2Ctrading&sort=ads"
     },
     {
+      "filters": "{\"category\": \"religion,betting\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Cbetting&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"religion,casino\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Ccasino&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"religion,casino\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Ccasino"
+    },
+    {
+      "filters": "{\"category\": \"religion,crypto\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Ccrypto&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"religion,education\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Ceducation&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"religion,finance\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Cfinance"
+    },
+    {
+      "filters": "{\"category\": \"religion,gaming\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Cgaming&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"religion,gaming\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Cgaming"
+    },
+    {
+      "filters": "{\"category\": \"religion,news\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Cnews&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"religion,parenting\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Cparenting&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"religion,parenting\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Cparenting"
+    },
+    {
+      "filters": "{\"category\": \"religion,podcasts\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Cpodcasts&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"religion,tech\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Ctech"
+    },
+    {
+      "filters": "{\"category\": \"religion,travel\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=religion%2Ctravel&sort=ads"
+    },
+    {
       "filters": "{\"category\": \"retail,auto\", \"sort\": \"new\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -8106,6 +8642,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=retail%2Creligion"
     },
     {
+      "filters": "{\"category\": \"trading,adult\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=trading%2Cadult&sort=new"
+    },
+    {
       "filters": "{\"category\": \"trading,auto\", \"sort\": \"ads\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -8192,6 +8736,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=trading%2Cfinance"
+    },
+    {
+      "filters": "{\"category\": \"trading,gambling\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=trading%2Cgambling&sort=ads"
     },
     {
       "filters": "{\"category\": \"trading,gaming\", \"sort\": \"ads\"}",
@@ -14938,6 +15490,558 @@
       "error": "Unsupported parameter order"
     },
     {
+      "filters": "{\"category\": \"religion,adult\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,adult\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,adult\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,auto\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,auto\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,auto\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,betting\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,betting\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,betting\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,business\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,business\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,business\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,casino\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,casino\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,casino\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,crypto\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,crypto\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,crypto\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,dating\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,dating\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,dating\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,education\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,education\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,education\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,entertainment\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,entertainment\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,entertainment\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,fashion\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,fashion\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,fashion\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,finance\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,finance\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,finance\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,gambling\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,gambling\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,gambling\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,gaming\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,gaming\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,gaming\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,health\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,health\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,health\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,jobs\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,jobs\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,jobs\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,news\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,news\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,news\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,parenting\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,parenting\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,parenting\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,podcasts\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,podcasts\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,podcasts\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,real-estate\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,real-estate\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,real-estate\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,retail\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,retail\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,retail\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,tech\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,tech\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,tech\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,trading\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,trading\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,trading\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,travel\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,travel\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"religion,travel\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
       "filters": "{\"category\": \"retail\", \"order\": \"asc\", \"sort\": \"ads\"}",
       "status": "unsupported",
       "next_page": 1,
@@ -16754,43 +17858,43 @@
   "files": [
     {
       "name": "channels-00.jsonl.gz",
-      "bytes": 363385,
-      "sha256": "ba045a7ee443a2f67a0a49cebbe1fd5d2818e1998884c26e7459122961cb9830"
+      "bytes": 363494,
+      "sha256": "ad92ad4189e971c9f7666deaee2a7451224f1180fee3e9b4cc3b33f7c4e55ad5"
     },
     {
       "name": "channels-01.jsonl.gz",
-      "bytes": 331904,
-      "sha256": "07c7337c9374512e73592218991d9229c18830f072f6d73fd35773109a94fcac"
+      "bytes": 332111,
+      "sha256": "ff92ff7b89c2944a959904c9abb1e101a1e4b7dc6fd6259feb1e58771c38b58b"
     },
     {
       "name": "channels-02.jsonl.gz",
-      "bytes": 331828,
-      "sha256": "c28fa20d39fe24f179ced90d6cb49a1b5f083f6e03bad84e934e01b95f8ad254"
+      "bytes": 331908,
+      "sha256": "98a2b8b783394f5d0cf6e4032e7b2e0942cf52c357f316d05900e1726a60e2e9"
     },
     {
       "name": "channels-03.jsonl.gz",
-      "bytes": 316128,
-      "sha256": "21b70548a476994e24cb72e4d1d6ec6dbdcddf71d282b3a8e722bc141934e5ac"
+      "bytes": 316266,
+      "sha256": "814bf195a84e3674d33ff9d7ac74a40d9a954aa05abc085aad01ffd8b2d4a7ae"
     },
     {
       "name": "channels-04.jsonl.gz",
-      "bytes": 324051,
-      "sha256": "140d957f8bf83f29130e2fa8768d2dc2193ee2e0b949f5f3ff32244caf03bcaf"
+      "bytes": 324391,
+      "sha256": "c2ca199b90f8f083d4cf36712bad16eb1f26a757f3a954c253b8d92df55e4c4a"
     },
     {
       "name": "channels-05.jsonl.gz",
-      "bytes": 301916,
-      "sha256": "312754e1db8433ee82f1ee9ca4d06671c3bd7f7f374184929ef5cf59170b1888"
+      "bytes": 302018,
+      "sha256": "1fa54ff274ccb7051b5cff64e5d21f6aaaa443a9b31a7c276f55bab01436e76e"
     },
     {
       "name": "channels-06.jsonl.gz",
-      "bytes": 347228,
-      "sha256": "3df5cf7b12a835289e939960225685f16e848b71905d7ac88e00ba461554e62b"
+      "bytes": 347399,
+      "sha256": "ee95dd9255aad3f447ed6d95b1fb8f9aecdfa5f044f9da6ebcb3a85d541a8ae3"
     },
     {
       "name": "channels-07.jsonl.gz",
-      "bytes": 321210,
-      "sha256": "7f4fff6518a96ed2c409d2b58db85eb0d5e230c5c87cef85f49f91460bba5943"
+      "bytes": 321303,
+      "sha256": "ce66b570ff186a7a42211906be4314dce50e69a24860b2ef791b226ffc5be91e"
     },
     {
       "name": "channels-08.jsonl.gz",
@@ -16804,18 +17908,18 @@
     },
     {
       "name": "channels-0a.jsonl.gz",
-      "bytes": 342296,
-      "sha256": "f28493cdf47cccfb7e076b850adecd88759b8958fa9969c03dae81d8f66be581"
+      "bytes": 342532,
+      "sha256": "afbb434e1b754ba98c742e6b6175748abc6510fc3ed8fdf738185b7ed5967de0"
     },
     {
       "name": "channels-0b.jsonl.gz",
-      "bytes": 355666,
-      "sha256": "705ffc04fdfaf7780937f1ba77d57a4544a7313ad2e9ca4c6f4a32fd89513aad"
+      "bytes": 355784,
+      "sha256": "3bab017254600347d16dee0f251ca625f8a90e3835fcae07b8056c93967302dd"
     },
     {
       "name": "channels-0c.jsonl.gz",
-      "bytes": 336534,
-      "sha256": "7007003edc2624b64b11d49f2768407c2fc8ea0b91a817644c78e2c2b85df451"
+      "bytes": 336716,
+      "sha256": "6a6fc88401741214476447746bf66be3a2956c97444289ce491896396fbf4c78"
     },
     {
       "name": "channels-0d.jsonl.gz",
@@ -16824,8 +17928,8 @@
     },
     {
       "name": "channels-0e.jsonl.gz",
-      "bytes": 316809,
-      "sha256": "9795ed116749a2ae6e9042f1fb0a10eef86092fb3c1855a9ca8f42413cf0ed46"
+      "bytes": 317040,
+      "sha256": "cb2d877332a8d72afbba5949a1916ab44a38edb36e072dc56105e043fc8e013e"
     },
     {
       "name": "channels-0f.jsonl.gz",
