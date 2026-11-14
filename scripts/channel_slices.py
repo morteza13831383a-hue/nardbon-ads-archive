@@ -129,6 +129,8 @@ def step(core,db,client):
             db.rollback()
             if exc.code not in(403,429)and exc.code<500:db.execute("UPDATE spy_slices SET status='failed',error=?WHERE key=?",(str(exc.code),key));db.commit()
         except(Challenge,URLError,TimeoutError,ConnectionError,HTTPException):db.rollback()
+        except ValueError as exc:
+            db.rollback();db.execute("UPDATE spy_slices SET status=?,error=?WHERE key=?",('robots_disallowed'if str(exc).startswith('robots.txt disallows:')else'failed',str(exc),key));db.commit()
         return True
     # Phase 2: every known Iranian advertiser's placement list, even if no longer in active ads.
     for slug in core.iran_advertisers():core.enqueue(db,core.BASE+'/advertisers/'+slug+'/channels','listing',0)
