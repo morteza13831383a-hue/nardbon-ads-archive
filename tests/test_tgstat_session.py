@@ -28,7 +28,7 @@ class Response:
 class SessionTests(unittest.TestCase):
     def tearDown(self):t._SECRET_FILTER=None
     def test_cookie_is_environment_only_and_domain_validated(self):
-        with patch.dict('os.environ',{'TGSTAT_COOKIE':''}):
+        with patch.dict('os.environ',{'TGSTAT_COOKIE':'','TGSTAT_COOKIE_FILE':''}):
             with self.assertRaisesRegex(ValueError,'not configured'):Session.from_environment()
         with patch.dict('os.environ',{'TGSTAT_COOKIE':cookie_json('.tgadsspy.com')}):
             with self.assertRaises(ValueError)as error:Session.from_environment()
@@ -121,3 +121,23 @@ class SessionTests(unittest.TestCase):
             self.assertTrue(t.run_catalog_page(db,Fake()))
             self.assertEqual(db.execute("SELECT count(*)FROM queue WHERE kind='profile'").fetchone()[0],0)
             c=t.catalog_coverage(db)[0];self.assertEqual(c['rows_per_page'],[1]);self.assertFalse(c['end_reached']);self.assertEqual(c['pending'],1);db.close()
+
+
+    def test_private_secret_file_is_supported_and_insecure_mode_is_rejected(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            path=Path(tmp)/'cookie.json';path.write_text(cookie_json());path.chmod(0o600)
+            with patch.dict('os.environ',{'TGSTAT_COOKIE':'','TGSTAT_COOKIE_FILE':str(path)}):
+                self.assertEqual(len(list(Session.from_environment().jar)),1)
+                path.chmod(0o644)
+                with self.assertRaises(ValueError)as caught:Session.from_environment()
+                self.assertNotIn(SENTINEL,str(caught.exception))
+
+    def test_unexpected_authenticated_failure_does_not_expose_secret(self):
+        with tempfile.TemporaryDirectory()as tmp:
+            args=['tgstat_collect.py','--session','--work-dir',tmp,'--max-slices','1']
+            with patch.dict('os.environ',{'TGSTAT_COOKIE':cookie_json(),'TGSTAT_COOKIE_FILE':''}),patch.object(sys,'argv',args),patch.object(t.Client,'initialize',side_effect=RuntimeError(SENTINEL)):
+                with self.assertRaises(RuntimeError)as caught:t.main()
+                self.assertNotIn(SENTINEL,str(caught.exception))
+            for path in(Path(tmp)/'exports').iterdir():
+                value=gzip.decompress(path.read_bytes()).decode()if path.suffix=='.gz'else path.read_text()
+                self.assertNotIn(SENTINEL,value)

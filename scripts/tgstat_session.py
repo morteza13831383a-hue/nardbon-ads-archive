@@ -3,6 +3,8 @@ import json
 import http.cookiejar
 import os
 import re
+import stat
+from pathlib import Path
 from http.cookiejar import Cookie, CookieJar
 from urllib.parse import urlsplit, unquote
 
@@ -34,6 +36,17 @@ class Session:
     @classmethod
     def from_environment(cls):
         raw=os.environ.get('TGSTAT_COOKIE','').strip()
+        if not raw and os.environ.get('TGSTAT_COOKIE_FILE'):
+            try:
+                path=Path(os.environ['TGSTAT_COOKIE_FILE']).absolute()
+                if path.resolve().is_relative_to(Path(__file__).resolve().parents[1]):raise ValueError()
+                fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW)
+                with os.fdopen(fd,'r',encoding='utf-8')as handle:
+                    info=os.fstat(handle.fileno())
+                    if not stat.S_ISREG(info.st_mode)or info.st_uid!=os.getuid()or info.st_mode&0o077:raise ValueError()
+                    raw=handle.read(131073)
+                    if len(raw)>131072:raise ValueError()
+            except(OSError,ValueError,UnicodeError):raise ValueError('TGSTAT_COOKIE_FILE must be an owner-only regular file outside the repository')from None
         if not raw:raise ValueError('TGSTAT_COOKIE is not configured in the environment')
         result=cls();result.filter.add(raw)
         try:
@@ -97,7 +110,7 @@ def delivery_gh(repo,path,payload=None):
             file=tempfile.NamedTemporaryFile(mode='w',encoding='utf-8',suffix='.json',delete=False)
             json.dump(payload,file,ensure_ascii=False);file.close()
             command+=['--method','PATCH'if path.startswith('git/refs/')else'POST','--input',file.name]
-        environment={k:v for k,v in os.environ.items()if k!='TGSTAT_COOKIE'}
+        environment={k:v for k,v in os.environ.items()if k not in('TGSTAT_COOKIE','TGSTAT_COOKIE_FILE')}
         result=subprocess.run(command,capture_output=True,text=True,check=True,env=environment)
         return json.loads(result.stdout)
     finally:

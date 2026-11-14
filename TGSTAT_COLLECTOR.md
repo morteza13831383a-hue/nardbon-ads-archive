@@ -18,7 +18,7 @@ The existing sync imports digest changes into the panel. Source checkpoints/logs
 
 ## Optional account session for approved Show more
 
-Configure `TGSTAT_COOKIE` in the execution environment's secret settings using a Cookie-Editor JSON export. Do not paste it into chat, commands, files, GitHub content, or reports. The program reads it only from the environment; there is no cookie command-line argument or file fallback.
+Configure `TGSTAT_COOKIE` in the execution environment's secret settings using a Cookie-Editor JSON export. Do not paste it into chat, commands, files, GitHub content, or reports. The program reads it only from the environment; there is no cookie-value command-line argument. An explicitly configured private file is also supported as described below.
 
 ```sh
 python scripts/tgstat_collect.py --session --work-dir /persistent/tgstat-work \
@@ -35,3 +35,8 @@ The first approved profile GET validates the session and obtains its CSRF token 
 Cursor state and per-category/type coverage persist in SQLite. `catalog_coverage` in the manifest reports fetched pages, observed profile-link rows per page, distinct eligible usernames, pending/failed states, and whether `hasMore=false` was reached. Private groups without public usernames count as visible rows but are not assigned invented usernames. Repeated cursors/content or invalid responses pause rather than declare completeness.
 
 HTTP 401/403/429, logged-out pages, account warning/limit notices, unsafe authenticated redirects and session-validation errors stop collection immediately. The affected cursor remains pending. The stop reason contains no response excerpts or credentials. A stopped session is not automatically retried. After revalidating/replacing the environment secret, explicitly restart the worker and review the saved stop reason.
+
+
+### Private-file session option
+
+Alternatively, store the Cookie-Editor JSON in an owner-only regular file outside the repository (directory mode 700, file mode 600), and set `TGSTAT_COOKIE_FILE` to its path before invoking `--session`. The file must belong to the worker user; symlinks and group/world permissions are rejected. TGSTAT_COOKIE takes precedence if both are set. No file contents are copied into checkpoint exports, logs, reports, or delivery subprocess environments. The private file itself must remain outside backup/artifact/repository paths. This option was added at the account owner's explicit request.

@@ -261,8 +261,11 @@ def catalog_payload(body):
     return value['html'],bool(value['hasMore']),cursor('nextPage'),cursor('nextOffset')
 
 
-def run_catalog_page(db,client):
-    job=db.execute("SELECT category,peer_type,page,offset FROM catalog_pages WHERE status='pending'ORDER BY page,offset,category,peer_type LIMIT 1").fetchone()
+def run_catalog_page(db,client,category=None):
+    sql="SELECT category,peer_type,page,offset FROM catalog_pages WHERE status='pending'"
+    args=[]
+    if category is not None:sql+='AND category=?';args.append(category)
+    job=db.execute(sql+' ORDER BY page,offset,category,peer_type LIMIT 1',args).fetchone()
     if not job:return False
     category,peer,page,offset=job
     try:
@@ -397,6 +400,12 @@ def main():
                 if not db.execute("SELECT 1 FROM queue WHERE status='pending'"+('AND kind=\'listing\''if a.inventory else'')+'LIMIT 1').fetchone()and not(a.session and db.execute("SELECT 1 FROM catalog_pages WHERE status='pending'LIMIT 1").fetchone()):break
         except AccessStop as exc:
             db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",(str(exc),));db.commit();raise
+        except Exception as exc:
+            if session:
+                reason='Authenticated collection paused due to '+type(exc).__name__
+                db.rollback();db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",(reason,));db.commit()
+                raise RuntimeError(reason)from None
+            raise
         finally:db.rollback();export(db,a.work_dir);db.close()
 
 if __name__=='__main__':main()
