@@ -19,7 +19,11 @@ def reserve(base, delay):
         handle.seek(0)
         value = handle.read().strip()
         previous = float(value) if value else 0
-        time.sleep(max(0, previous + max(4, delay) + random.uniform(0, 2) - time.monotonic()))
+        current = time.monotonic()
+        # The checkpoint directory can survive a VM/kernel restart; monotonic clocks cannot.
+        if previous > current:
+            previous = 0
+        time.sleep(max(0, previous + max(4, delay) + random.uniform(0, 2) - current))
         handle.seek(0)
         handle.truncate()
         handle.write(str(time.monotonic()))
