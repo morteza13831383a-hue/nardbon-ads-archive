@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-13T22:17:07.301152+00:00",
+  "updated_at": "2026-11-14T13:00:05.566100+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "channel": 95,
-    "group": 95
+    "channel": 107,
+    "group": 107
   },
-  "requests": 487,
+  "requests": 565,
   "per_100_requests": {
-    "channel": 19.51,
-    "group": 19.51
+    "channel": 18.94,
+    "group": 18.94
   },
   "fields_present": {
-    "type": 190,
-    "username": 190,
-    "title": 190,
-    "description": 172,
-    "members": 95,
-    "category": 190,
-    "country": 190,
-    "language": 190,
-    "text_sample": 95,
-    "url": 190,
-    "collected_at": 190
+    "type": 214,
+    "username": 214,
+    "title": 214,
+    "description": 193,
+    "members": 107,
+    "category": 214,
+    "country": 214,
+    "language": 214,
+    "text_sample": 107,
+    "url": 214,
+    "collected_at": 214
   },
   "queue": {
-    "done": 285,
-    "failed": 104,
-    "pending": 4977
+    "done": 309,
+    "failed": 129,
+    "pending": 5635
   },
   "listings": [
     {
@@ -889,73 +889,73 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 6315,
-      "sha256": "6183cbb5f48f66312658d9c8eb9dfaeae1b531121abeff21e44b3516adae8585"
+      "bytes": 7108,
+      "sha256": "9bc8a57cc111ceef671b40c3d1167637caad4c11c4491512de1e61d42c1ba612"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 7348,
-      "sha256": "1d347d9ff1606c149daa44c78524f9652522733bb78c444586af26079c213be2"
+      "bytes": 8208,
+      "sha256": "2cc1db49a095b95e3120b5f95575492fda334c182bf18e70495e8edbe11c5903"
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 5870,
-      "sha256": "f680a4c534c93bfe3ad85644e86b6cb99b910640aaf8852e9c84c4a2dc2268db"
+      "bytes": 6044,
+      "sha256": "9be9160cbfd564f783ed4dfbae78a5e15cb7d7a628911431f3387cf472f46caf"
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 2553,
-      "sha256": "99df8a1f60a261d5ac350edad7633fba13a7b0e4ca8e2db4507b5a889ce7f9a8"
+      "bytes": 6393,
+      "sha256": "aed97509135a6180714cf10d3f156f047c330c83a112ee0cdfe8801c7396185c"
     },
     {
       "name": "tgstat-04.jsonl.gz",
-      "bytes": 6583,
-      "sha256": "9ee40cd20d4fc800de5874b409f9191e833495ea01dc670b2aad17840538a1e9"
+      "bytes": 6960,
+      "sha256": "5b0e3e5447a7875b9932e7a38c54891bbfffc1eeb001a8134ea7c278198baabf"
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 10135,
-      "sha256": "197da1c5608810e4f038744c48cc328479171602607fd15df574d1ac2840139c"
+      "bytes": 10210,
+      "sha256": "a5f1d9d4be46b7c8848bbefe38434ff7e9f676224f6b4a1454386f26849d6f88"
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 5242,
-      "sha256": "55cab9b0165db7915e21109ec77d72b6376bb5b5be784ca20c53172d9375aa52"
+      "bytes": 6135,
+      "sha256": "ed13701999ea37581de09a3f58719c441beebf9e1472f4eaa54955b0fa3c2723"
     },
     {
       "name": "tgstat-07.jsonl.gz",
-      "bytes": 6688,
-      "sha256": "2a5dcdca905969abe73a293abbb3d8b5f55a0b75309abe68c3d60c09f24aea70"
+      "bytes": 7346,
+      "sha256": "e3729a84aff3b611a518a18cc375e7a08ff9a6e22a14da14a698db25a5dd6fad"
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 4599,
-      "sha256": "1dfb0317e7f7a67a0c4e6494cef5e0da609397c0ee6904e0114f4d28a0aa4e69"
+      "bytes": 5399,
+      "sha256": "cfd612868e57e13341591762678c1b7ec231944c1e444ff7f79969098f675c5a"
     },
     {
       "name": "tgstat-09.jsonl.gz",
-      "bytes": 8851,
-      "sha256": "76c144abf470f1f1b4d5b8497ef652631d170ed3106c188d71f56f9e03707e22"
+      "bytes": 9264,
+      "sha256": "faa3c3045f3dd2174e44d715cb42919eb22609bde00358de5101873f6b7f74d0"
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 4659,
-      "sha256": "6f32b7a22f9f89dcc1fc2cdaf3447474def9b1e750310153e56f64089462fae8"
+      "bytes": 5661,
+      "sha256": "ecd49f9a5109260f7d1ceb830b87cc2bd5a2b3ca46ab6e74873e1a303bf7124a"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 3424,
-      "sha256": "54bbae8f91700b7aadd56014ec04e9ed64d06e80a92dd4fc1695471469c247bc"
+      "bytes": 4265,
+      "sha256": "ebf18ee4daca9409b0669c9cb9d4c5c479aec48463354c96401661b57de64abe"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 5697,
-      "sha256": "d8a430f83009df94dad330f7a97019471aaa0a394255743c20cca8106b2e0f03"
+      "bytes": 5780,
+      "sha256": "7c9a8f44b18520fc7145ad1451fc9f9e582bc421915d361799c65eb1b3bdd2a1"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 4439,
-      "sha256": "3f9efa8931a589cc7d611322ec07ecf3d75aa92978f64984e496f8b7f755205b"
+      "bytes": 5281,
+      "sha256": "4470147035b2995c37a1ab11772b9f30d78993e0ba167a608e58dfc8a7535b45"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
@@ -964,14 +964,953 @@
     },
     {
       "name": "tgstat-0f.jsonl.gz",
-      "bytes": 9020,
-      "sha256": "531221292ec96f9eca50985f8933005fecddbe5eb49adc67900f2765348750d1"
+      "bytes": 9176,
+      "sha256": "ee006f347b76e8403f644c6c588ff77d0714b7f8379410af2bd9e70c8926db1a"
     }
   ],
+  "catalog_coverage": [
+    {
+      "category": "adult",
+      "type": "channel",
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 97,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "adult",
+      "type": "group",
+      "pages_fetched": 1,
+      "rows_per_page": [
+        71
+      ],
+      "unique_handles": 60,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "apps",
+      "type": "channel",
+      "pages_fetched": 8,
+      "rows_per_page": [
+        102,
+        102,
+        102,
+        102,
+        102,
+        102,
+        102,
+        102
+      ],
+      "unique_handles": 807,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "apps",
+      "type": "group",
+      "pages_fetched": 2,
+      "rows_per_page": [
+        37,
+        0
+      ],
+      "unique_handles": 37,
+      "end_reached": true,
+      "pending": 0,
+      "failed": 0
+    },
+    {
+      "category": "art",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "art",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "babies",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "babies",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "beauty",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "beauty",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "blogs",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "blogs",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "books",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "books",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "business",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "business",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "career",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "career",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "construction",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "construction",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "courses",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "courses",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "crypto",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "crypto",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "darknet",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "darknet",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "design",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "design",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "economics",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "economics",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "education",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "education",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "edutainment",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "edutainment",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "entertainment",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "entertainment",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "erotica",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "erotica",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "esoterics",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "esoterics",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "food",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "food",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "gambling",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "gambling",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "games",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "games",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "handmade",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "handmade",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "health",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "health",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "instagram",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "instagram",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "language",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "language",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "law",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "law",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "marketing",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "marketing",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "medicine",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "medicine",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "music",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "music",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "nature",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "nature",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "news",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "news",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "other",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "other",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "pics",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "pics",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "politics",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "politics",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "psychology",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "psychology",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "religion",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "religion",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "sales",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "sales",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "shock",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "shock",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "sport",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "sport",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "tech",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "tech",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "telegram",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "telegram",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "transport",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "transport",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "travels",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "travels",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "video",
+      "type": "channel",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    },
+    {
+      "category": "video",
+      "type": "group",
+      "pages_fetched": 0,
+      "rows_per_page": [],
+      "unique_handles": 0,
+      "end_reached": false,
+      "pending": 1,
+      "failed": 0
+    }
+  ],
+  "stop_reason": null,
   "complete": false,
   "limitations": [
     "TGStat Iran/Persian labels include Dari groups; region() uses title, description, text_sample.",
-    "Catalog Show more requires sign-in in live test; not accessed by this GET-only worker.",
+    "Public mode does not follow Show more; --session uses the environment session for the approved form only.",
     "No full-directory coverage guarantee; public ranking/category snapshots may be capped."
   ]
 }
