@@ -226,6 +226,30 @@ class SnapshotRevisit(unittest.TestCase):
 
 
 class ChannelPageSeeds(unittest.TestCase):
+    def test_live_export_refresh_seeds_new_links_without_reopening_completed_ads(self):
+        import archive_yield as ay
+        with tempfile.TemporaryDirectory()as tmp:
+            d=Path(tmp)/'exports';d.mkdir();db=a.connect(Path(tmp),CUTOFF)
+            ids=['c'+'a'*24,'c'+'b'*24]
+            for limit in(1,2):
+                with gzip.open(d/'channels.jsonl.gz','wt',encoding='utf-8')as f:
+                    f.write(json.dumps({'classification':'persian_candidate','links':[{'url':a.BASE+'/ads/'+v}for v in ids[:limit]]})+'\n')
+                ay.seed_from_channel_pages(db,a.enqueue,d)
+                if limit==1:db.execute("UPDATE queue SET status='not_iran'WHERE url=?",(a.BASE+'/ads/'+ids[0],));db.commit()
+            self.assertEqual(db.execute('SELECT status FROM queue WHERE url=?',(a.BASE+'/ads/'+ids[0],)).fetchone()[0],'not_iran')
+            self.assertEqual(db.execute('SELECT priority,via,status FROM queue WHERE url=?',(a.BASE+'/ads/'+ids[1],)).fetchone(),(1,'persian_channel_page','pending'))
+            db.close()
+
+    def test_ad_runner_seeds_at_each_slice_boundary(self):
+        import archive_collect as runner
+        from types import SimpleNamespace
+        with tempfile.TemporaryDirectory()as tmp:
+            db=a.connect(Path(tmp),CUTOFF)
+            argv=['archive_collect','--work-dir',tmp,'--repo','owner/repo','--max-slices','2','--channel-import-dir',tmp]
+            with patch.object(sys,'argv',argv),patch.object(runner.archive,'connect',return_value=db),patch.object(runner,'publish'),patch.object(runner.subprocess,'run',return_value=SimpleNamespace(returncode=0)),patch.object(runner.archive_yield,'seed_from_channel_pages')as seed:
+                runner.main()
+            self.assertEqual(seed.call_count,4)
+
     def test_ads_linked_on_persian_channel_pages_are_queued_first(self):
         import archive_yield as ay
         with tempfile.TemporaryDirectory() as tmp:

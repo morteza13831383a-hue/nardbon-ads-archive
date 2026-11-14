@@ -17,6 +17,7 @@ import tempfile
 import time
 
 import archive_html as archive
+import archive_yield
 
 
 def gh(repo,path,payload=None):
@@ -96,6 +97,7 @@ def main():
     parser.add_argument('--repo',required=True,help='Authorized owner/repository; gh must already be authenticated')
     parser.add_argument('--pages-per-slice',type=int,default=1000)
     parser.add_argument('--max-slices',type=int,default=1,help='Zero continues the same fixed-cutoff job until its discovered queue is exhausted or access fails')
+    parser.add_argument('--channel-import-dir',type=Path,action='append',default=[],help='Additional live channel export directories; read at each slice boundary')
     parser.add_argument('--seed-dir',type=Path,default=archive.ROOT/'data/html-archive-import')
     args=parser.parse_args()
     if args.pages_per_slice<1 or args.max_slices<0:
@@ -106,11 +108,19 @@ def main():
         publish(db,args.work_dir,args.repo,args.seed_dir)
         index=0
         while args.max_slices==0 or index<args.max_slices:
+            archive_yield.seed_from_channel_pages(db,archive.enqueue)
+            for directory in args.channel_import_dir:
+                archive_yield.seed_from_channel_pages(db,archive.enqueue,directory)
             result=subprocess.run([sys.executable,str(Path(__file__).with_name('archive_html.py')),
                                    '--work-dir',str(args.work_dir),'--max-pages',str(args.pages_per_slice),'--max-seconds','5400'])
             publish(db,args.work_dir,args.repo,args.seed_dir)
             index+=1
             info=archive.report(db)
+            strategy=next((v for v in archive_yield.coverage_report(db)['by_strategy']if v['via']=='persian_channel_page'),None)
+            yield_report={'slice':index,'at':datetime.now(timezone.utc).isoformat(),'strategy':strategy}
+            print('Channel-page yield: '+json.dumps(yield_report),flush=True)
+            target=args.work_dir/'persian-channel-yield.json'
+            tmp=target.with_suffix('.tmp');tmp.write_text(json.dumps(yield_report,indent=2));tmp.replace(target)
             print(json.dumps({'slice':index,'iran_ads':info['iran_ads_extracted'],'queue':info['queue_status']},ensure_ascii=False),flush=True)
             if result.returncode:
                 raise SystemExit(result.returncode)

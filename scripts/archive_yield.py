@@ -100,7 +100,11 @@ def seed_from_channel_pages(db, enqueue, html_dir=None):
     import pathlib
     html_dir = html_dir or pathlib.Path(__file__).resolve().parents[1] / 'data' / 'channel-html-import'
     n = 0
-    for f in sorted(glob.glob(str(pathlib.Path(html_dir) / 'channels-*.jsonl.gz'))):
+    files = sorted(glob.glob(str(pathlib.Path(html_dir) / 'channels-*.jsonl.gz')))
+    local_export = pathlib.Path(html_dir) / 'channels.jsonl.gz'
+    if local_export.is_file():
+        files.append(str(local_export))
+    for f in files:
         with gzip.open(f, 'rt', encoding='utf-8') as fh:
             for line in fh:
                 if not line.strip():
