@@ -101,7 +101,9 @@ class OwnerApprovedListing(unittest.TestCase):
         r=Robots("User-agent: *\nAllow: /\nDisallow: /api/\nDisallow: /ads?*\nDisallow: /channels?*\n")
         self.assertTrue(r.allowed(c.BASE+'/channels?lang=fa'))
         self.assertTrue(r.allowed(c.BASE+'/channels?lang=fa&page=12'))
-        for blocked in ('/channels?lang=ru','/channels?q=shop','/channels?lang=fa&sort=x','/ads?geo=IR','/api/v1/ads'):
+        self.assertTrue(r.allowed(c.BASE+'/channels?lang=fa&category=news&page=3'))
+        self.assertTrue(r.allowed(c.BASE+'/channels?lang=fa&order=asc&minMembers=1000&maxMembers=5000'))
+        for blocked in ('/channels?lang=ru','/channels?q=shop','/channels?lang=fa&q=shop','/channels?lang=fa&page=<x>','/ads?geo=IR','/api/v1/ads'):
             self.assertFalse(r.allowed(c.BASE+blocked), blocked)
 
 

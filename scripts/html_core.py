@@ -80,8 +80,9 @@ def match(pattern, text):
 
 # Narrow exceptions the site owner explicitly approved in writing (support, Nov 2026:
 # "there is no issue with you crawling our site"). Only the Persian channel listing and its
-# pages; every other robots.txt rule still applies, and the pace is unchanged.
-OWNER_APPROVED = [re.compile(r'^/channels\?lang=fa(?:&page=\d{1,5})?$')]
+# pages, including its list filters (category, sort/order, member range, sponsored), so the
+# listing can be read in slices. Every other robots.txt rule still applies.
+OWNER_APPROVED = [re.compile(r'^/channels\?lang=fa(?:&(?:page|category|niche|sort|order|minMembers|maxMembers|sponsored)=[A-Za-z0-9_.-]{1,40})*$')]
 
 
 class Robots:
