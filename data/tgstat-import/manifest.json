@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-14T13:08:21.608625+00:00",
+  "updated_at": "2026-11-14T13:11:19.834555+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "channel": 125,
-    "group": 126
+    "channel": 132,
+    "group": 132
   },
-  "requests": 657,
+  "requests": 691,
   "per_100_requests": {
-    "channel": 19.03,
-    "group": 19.18
+    "channel": 19.1,
+    "group": 19.1
   },
   "fields_present": {
-    "type": 251,
-    "username": 251,
-    "title": 251,
-    "description": 227,
-    "members": 125,
-    "category": 251,
-    "country": 251,
-    "language": 251,
-    "text_sample": 125,
-    "url": 251,
-    "collected_at": 251
+    "type": 264,
+    "username": 264,
+    "title": 264,
+    "description": 240,
+    "members": 132,
+    "category": 264,
+    "country": 264,
+    "language": 264,
+    "text_sample": 132,
+    "url": 264,
+    "collected_at": 264
   },
   "queue": {
-    "done": 346,
+    "done": 359,
     "failed": 129,
-    "pending": 5628
+    "pending": 5616
   },
   "listings": [
     {
@@ -889,18 +889,18 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 7867,
-      "sha256": "df027fabcf79884e46bb9e1166a19983061bd8b285330a8ca4f2c5582bbc3873"
+      "bytes": 8660,
+      "sha256": "372c314cc86ad6241d7fd42024b00f6176abcb4fc5056d2fe70c9f44c92382c2"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 10630,
-      "sha256": "40d87895f3a317199d7eaadcbe5e1fbb59d38428334b8b532bccc2a3fb445a70"
+      "bytes": 11406,
+      "sha256": "b58f2253c7d4b82341153b17ea8cb9af9ee5be0824153bd2b5080f529371bb16"
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 6245,
-      "sha256": "c181d4840d2b7c68baafe154c45c4e0c79ddf06d7b742b746d94e395f578a29e"
+      "bytes": 6757,
+      "sha256": "1ed5a776d7e3ea6161bd3e287f6ee17d2a60320acb789ebc8ba1c8a196b9e291"
     },
     {
       "name": "tgstat-03.jsonl.gz",
@@ -909,18 +909,18 @@
     },
     {
       "name": "tgstat-04.jsonl.gz",
-      "bytes": 7411,
-      "sha256": "ac76808055fd482d91713df4e929b1b8d4ae9855bb3f3615dccb904e315f8d4b"
+      "bytes": 8045,
+      "sha256": "5854fa6832500f109a8ef915527b475e74ad41382b3bb6c30a4e8f1f0639de47"
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 11023,
-      "sha256": "4f063b69616b078b8cdefccdeeda9ddd8490aa52818ae022a34ad868938b7f58"
+      "bytes": 11417,
+      "sha256": "cdf3f690f1923a6f15340a2ae7158e723225637d5d26bdf00f4abb9ea625904d"
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 8073,
-      "sha256": "b3081941f5fe4098f46032330386bb5666f9df625ab65e5e933eb5f298cb73e0"
+      "bytes": 9069,
+      "sha256": "4f1a6519701a128bb836dda909b3eec1a1a71b159352ed6f46510a5a157a0d91"
     },
     {
       "name": "tgstat-07.jsonl.gz",
@@ -929,8 +929,8 @@
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 6585,
-      "sha256": "42c627c13976837e26fdcdb0869d1e8c18e0c04e1eb9f48fec99bb3565f93fae"
+      "bytes": 7225,
+      "sha256": "476a5011079ad9cda7df3930b3c42343e37dae4cd442658f6863b3152d3de921"
     },
     {
       "name": "tgstat-09.jsonl.gz",
@@ -944,8 +944,8 @@
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 4892,
-      "sha256": "2fb7fe6f6e667444062f62ae98ceb0049cb94fa37722540f826a42df3e7cdb0a"
+      "bytes": 5009,
+      "sha256": "ea8440170c29560b8b6fc89dba07b63186aa66afa48117cf62f0bd3b7fff21a9"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
@@ -954,8 +954,8 @@
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 6180,
-      "sha256": "8413ca65d156b610c309386ff836758292ea64063223688d775aeb9a2a892d0f"
+      "bytes": 6864,
+      "sha256": "ce29a9a0b7e01f56b2f0a9386c735954cf4d06e28ff0d6fa9862137556b34ab2"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
@@ -964,8 +964,8 @@
     },
     {
       "name": "tgstat-0f.jsonl.gz",
-      "bytes": 10071,
-      "sha256": "4e88d9157169c2b462399028810892cbc56ceda9937c678115ae4e12d4a4d6ec"
+      "bytes": 10737,
+      "sha256": "b6b0a2499e47fa3b4349dc60691968f2b366d32196c19936ad4f271b774dbc9c"
     }
   ],
   "catalog_coverage": [
@@ -1484,9 +1484,11 @@
     {
       "category": "gambling",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 97,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1494,9 +1496,11 @@
     {
       "category": "gambling",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        19
+      ],
+      "unique_handles": 18,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1504,9 +1508,11 @@
     {
       "category": "games",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 101,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1514,9 +1520,11 @@
     {
       "category": "games",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        72
+      ],
+      "unique_handles": 70,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1524,9 +1532,11 @@
     {
       "category": "handmade",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        45
+      ],
+      "unique_handles": 45,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1534,19 +1544,23 @@
     {
       "category": "handmade",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
+      "pages_fetched": 1,
+      "rows_per_page": [
+        0
+      ],
       "unique_handles": 0,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "health",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 102,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1554,9 +1568,11 @@
     {
       "category": "health",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        10
+      ],
+      "unique_handles": 10,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1564,9 +1580,11 @@
     {
       "category": "instagram",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        37
+      ],
+      "unique_handles": 36,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1574,9 +1592,11 @@
     {
       "category": "instagram",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        4
+      ],
+      "unique_handles": 4,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1584,9 +1604,11 @@
     {
       "category": "language",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 102,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1594,9 +1616,11 @@
     {
       "category": "language",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        16
+      ],
+      "unique_handles": 16,
       "end_reached": false,
       "pending": 1,
       "failed": 0
