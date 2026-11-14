@@ -27,7 +27,7 @@ def consider(core,db,row):
       (row['username'].lower(),url,members,int(eligible),int(cabinet),'eligible'if eligible else'cabinet'if cabinet else'size'))
 
 def next_job(db):
-    return db.execute("SELECT username,url FROM priority_profiles WHERE status='pending'ORDER BY eligible DESC,cabinet DESC,members DESC,username LIMIT 1").fetchone()
+    return db.execute("SELECT username,url FROM priority_profiles WHERE status='pending'ORDER BY eligible DESC,members DESC,cabinet DESC,username LIMIT 1").fetchone()
 
 def step(core,db,client):
     from html_core import Document

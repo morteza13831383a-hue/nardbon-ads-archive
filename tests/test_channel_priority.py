@@ -17,8 +17,7 @@ class PriorityTests(unittest.TestCase):
             db=spy.connect(Path(tmp));slices.ensure(spy,db)
             rows=[{'username':u,'classification':'persian_candidate','members':n,'sponsored_eligible':e,'cabinet_type':c,'record_detail':'listing'}for u,n,e,c in [('large',1000000,None,None),('eligible',100,True,None),('cabinet',200,None,'EUR'),('small',100,None,None)]]
             slices.persist(spy,db,rows);self.assertEqual(priority.next_job(db)[0],'eligible')
-            db.execute("update priority_profiles set status='done'where username='eligible'");self.assertEqual(priority.next_job(db)[0],'cabinet')
-            db.execute("update priority_profiles set status='done'where username='cabinet'");self.assertEqual(priority.next_job(db)[0],'large')
+            db.execute("update priority_profiles set status='done'where username='eligible'");self.assertEqual(priority.next_job(db)[0],'large')
             self.assertIsNone(db.execute("select 1 from priority_profiles where username='small'").fetchone())
             full={'username':'large','classification':'persian_candidate','record_detail':'profile','profile_fetched_at':spy.now(),'meta':{},'links':[],'source_url':'profile','members':1000000}
             slices.persist(spy,db,[full]);slices.persist(spy,db,[rows[0]])
