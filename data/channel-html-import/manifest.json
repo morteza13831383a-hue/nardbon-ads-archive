@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-13T20:13:28.096419+00:00",
-  "updated_at": "2026-11-14T16:47:58.042465+00:00",
-  "channels": 7385,
+  "updated_at": "2026-11-14T16:48:40.313585+00:00",
+  "channels": 7400,
   "classifications": {
-    "persian_candidate": 6831,
+    "persian_candidate": 6846,
     "unclassified": 554
   },
   "queue": {
     "done": 4702,
     "failed": 269,
-    "listing_saved": 2606,
-    "pending": 28629,
+    "listing_saved": 2629,
+    "pending": 28606,
     "robots_disallowed": 22
   },
   "complete": false,
-  "request_count": 25,
+  "request_count": 27,
   "slices": [
     {
       "filters": "{\"category\": \"adult\", \"sort\": \"ads\"}",
@@ -243,14 +243,6 @@
     },
     {
       "filters": "{\"category\": \"adult,finance\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"adult,gambling\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -962,14 +954,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"betting,casino\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"betting,casino\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
@@ -1107,14 +1091,6 @@
     },
     {
       "filters": "{\"category\": \"betting,health\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"betting,health\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -1355,14 +1331,6 @@
     },
     {
       "filters": "{\"category\": \"business,auto\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"business,betting\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -1722,14 +1690,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"business,trading\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"business,travel\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
@@ -1756,9 +1716,9 @@
     {
       "filters": "{\"category\": \"casino\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
+      "next_page": 2,
+      "pages": 1,
+      "new_records": 14,
       "error": null
     },
     {
@@ -1858,14 +1818,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"casino,crypto\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"casino,dating\", \"sort\": \"ads\"}",
       "status": "pending",
       "next_page": 1,
@@ -1899,14 +1851,6 @@
     },
     {
       "filters": "{\"category\": \"casino,entertainment\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"casino,entertainment\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -2228,6 +2172,510 @@
     {
       "filters": "{\"category\": \"crypto\"}",
       "status": "pending",
+      "next_page": 2,
+      "pages": 1,
+      "new_records": 1,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,adult\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,adult\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,adult\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,auto\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,auto\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,auto\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,betting\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,betting\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,betting\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,business\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,business\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,business\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,casino\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,casino\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,dating\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,dating\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,dating\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,education\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,education\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,education\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,entertainment\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,entertainment\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,entertainment\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,fashion\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,fashion\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,fashion\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,finance\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,finance\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,gambling\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,gambling\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,gambling\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,gaming\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,gaming\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,gaming\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,health\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,health\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,health\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,jobs\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,jobs\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,news\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,news\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,parenting\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,parenting\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,parenting\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,podcasts\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,podcasts\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,podcasts\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,real-estate\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,real-estate\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,real-estate\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,religion\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,religion\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,religion\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,retail\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,retail\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,retail\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,tech\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,tech\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,tech\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,trading\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,travel\", \"sort\": \"ads\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,travel\", \"sort\": \"new\"}",
+      "status": "pending",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": null
+    },
+    {
+      "filters": "{\"category\": \"crypto,travel\"}",
+      "status": "pending",
       "next_page": 1,
       "pages": 0,
       "new_records": 0,
@@ -2355,14 +2803,6 @@
     },
     {
       "filters": "{\"category\": \"fashion,auto\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"fashion,auto\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -2571,14 +3011,6 @@
     },
     {
       "filters": "{\"category\": \"fashion,real-estate\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"fashion,real-estate\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -2843,22 +3275,6 @@
     },
     {
       "filters": "{\"category\": \"health,business\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"health,casino\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"health,casino\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -3419,14 +3835,6 @@
     },
     {
       "filters": "{\"category\": \"jobs,gaming\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"jobs,gaming\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -4266,23 +4674,7 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"podcasts,gambling\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"podcasts,gaming\", \"sort\": \"ads\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"podcasts,gaming\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -4419,14 +4811,6 @@
     },
     {
       "filters": "{\"category\": \"podcasts,retail\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"podcasts,tech\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -5115,14 +5499,6 @@
     },
     {
       "filters": "{\"category\": \"trading,casino\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
-      "filters": "{\"category\": \"trading,crypto\", \"sort\": \"new\"}",
       "status": "pending",
       "next_page": 1,
       "pages": 0,
@@ -5842,14 +6218,6 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"travel,real-estate\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 1,
-      "pages": 0,
-      "new_records": 0,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"travel,real-estate\"}",
       "status": "pending",
       "next_page": 1,
@@ -6072,6 +6440,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=adult%2Cfinance&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"adult,gambling\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=adult%2Cgambling&sort=ads"
     },
     {
       "filters": "{\"category\": \"adult,gaming\"}",
@@ -6346,6 +6722,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=betting%2Cadult&sort=ads"
     },
     {
+      "filters": "{\"category\": \"betting,casino\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=betting%2Ccasino&sort=ads"
+    },
+    {
       "filters": "{\"category\": \"betting,crypto\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -6426,6 +6810,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=betting%2Chealth&sort=new"
     },
     {
+      "filters": "{\"category\": \"betting,health\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=betting%2Chealth"
+    },
+    {
       "filters": "{\"category\": \"betting,parenting\", \"sort\": \"new\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -6496,6 +6888,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=business%2Cbetting&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"business,betting\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=business%2Cbetting&sort=new"
     },
     {
       "filters": "{\"category\": \"business,betting\"}",
@@ -6602,6 +7002,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=business%2Ctech&sort=new"
     },
     {
+      "filters": "{\"category\": \"business,trading\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=business%2Ctrading"
+    },
+    {
       "filters": "{\"category\": \"casino,auto\", \"sort\": \"ads\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -6634,6 +7042,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=casino%2Ccrypto&sort=ads"
     },
     {
+      "filters": "{\"category\": \"casino,crypto\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=casino%2Ccrypto"
+    },
+    {
       "filters": "{\"category\": \"casino,dating\", \"sort\": \"new\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -6648,6 +7064,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=casino%2Cdating"
+    },
+    {
+      "filters": "{\"category\": \"casino,entertainment\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=casino%2Centertainment&sort=new"
     },
     {
       "filters": "{\"category\": \"casino,gambling\", \"sort\": \"ads\"}",
@@ -6720,6 +7144,62 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=casino%2Ctravel&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"crypto,casino\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=crypto%2Ccasino"
+    },
+    {
+      "filters": "{\"category\": \"crypto,finance\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=crypto%2Cfinance"
+    },
+    {
+      "filters": "{\"category\": \"crypto,jobs\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=crypto%2Cjobs"
+    },
+    {
+      "filters": "{\"category\": \"crypto,news\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=crypto%2Cnews&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"crypto,trading\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=crypto%2Ctrading&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"crypto,trading\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=crypto%2Ctrading"
+    },
+    {
+      "filters": "{\"category\": \"fashion,auto\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=fashion%2Cauto&sort=new"
     },
     {
       "filters": "{\"category\": \"fashion,auto\"}",
@@ -6898,6 +7378,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=fashion%2Creal-estate&sort=new"
     },
     {
+      "filters": "{\"category\": \"fashion,real-estate\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=fashion%2Creal-estate"
+    },
+    {
       "filters": "{\"category\": \"fashion,religion\", \"sort\": \"new\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -6944,6 +7432,22 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=health%2Cbetting&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"health,casino\", \"sort\": \"ads\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=health%2Ccasino&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"health,casino\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=health%2Ccasino&sort=new"
     },
     {
       "filters": "{\"category\": \"health,casino\"}",
@@ -7152,6 +7656,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=jobs%2Cgambling&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"jobs,gaming\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=jobs%2Cgaming"
     },
     {
       "filters": "{\"category\": \"jobs,health\"}",
@@ -7466,6 +7978,22 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=podcasts%2Cfinance"
     },
     {
+      "filters": "{\"category\": \"podcasts,gambling\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=podcasts%2Cgambling"
+    },
+    {
+      "filters": "{\"category\": \"podcasts,gaming\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=podcasts%2Cgaming&sort=new"
+    },
+    {
       "filters": "{\"category\": \"podcasts,news\", \"sort\": \"ads\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -7512,6 +8040,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=podcasts%2Ctech&sort=ads"
+    },
+    {
+      "filters": "{\"category\": \"podcasts,tech\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=podcasts%2Ctech&sort=new"
     },
     {
       "filters": "{\"category\": \"podcasts,tech\"}",
@@ -7682,6 +8218,14 @@
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=trading%2Ccrypto&sort=ads"
     },
     {
+      "filters": "{\"category\": \"trading,crypto\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=trading%2Ccrypto&sort=new"
+    },
+    {
       "filters": "{\"category\": \"trading,dating\", \"sort\": \"new\"}",
       "status": "robots_disallowed",
       "next_page": 1,
@@ -7848,6 +8392,14 @@
       "pages": 0,
       "new_records": 0,
       "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=travel%2Cnews&sort=new"
+    },
+    {
+      "filters": "{\"category\": \"travel,real-estate\", \"sort\": \"new\"}",
+      "status": "robots_disallowed",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "robots.txt disallows: https://tgadsspy.com/channels?lang=fa&category=travel%2Creal-estate&sort=new"
     },
     {
       "filters": "{\"category\": \"travel,religion\", \"sort\": \"ads\"}",
@@ -10771,6 +11323,558 @@
     },
     {
       "filters": "{\"category\": \"crypto\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,adult\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,adult\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,adult\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,auto\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,auto\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,auto\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,betting\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,betting\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,betting\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,business\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,business\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,business\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,casino\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,casino\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,casino\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,dating\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,dating\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,dating\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,education\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,education\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,education\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,entertainment\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,entertainment\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,entertainment\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,fashion\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,fashion\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,fashion\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,finance\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,finance\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,finance\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,gambling\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,gambling\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,gambling\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,gaming\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,gaming\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,gaming\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,health\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,health\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,health\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,jobs\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,jobs\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,jobs\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,news\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,news\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,news\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,parenting\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,parenting\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,parenting\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,podcasts\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,podcasts\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,podcasts\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,real-estate\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,real-estate\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,real-estate\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,religion\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,religion\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,religion\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,retail\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,retail\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,retail\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,tech\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,tech\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,tech\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,trading\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,trading\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,trading\", \"order\": \"asc\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,travel\", \"order\": \"asc\", \"sort\": \"ads\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,travel\", \"order\": \"asc\", \"sort\": \"new\"}",
+      "status": "unsupported",
+      "next_page": 1,
+      "pages": 0,
+      "new_records": 0,
+      "error": "Unsupported parameter order"
+    },
+    {
+      "filters": "{\"category\": \"crypto,travel\", \"order\": \"asc\"}",
       "status": "unsupported",
       "next_page": 1,
       "pages": 0,
@@ -15650,68 +16754,68 @@
   "files": [
     {
       "name": "channels-00.jsonl.gz",
-      "bytes": 363156,
-      "sha256": "ef03b73983c4900ccf984ff21469c21db1312c56bbea68f393ffb77f6486f978"
+      "bytes": 363394,
+      "sha256": "40eff701af61d6c67c777e96a1d0aecd925921f7498087d79d0aa2489e40e616"
     },
     {
       "name": "channels-01.jsonl.gz",
-      "bytes": 331671,
-      "sha256": "f37b99415bec915c56ef689b6e6a9ed84d49c5555e161d273a73075c6122ab65"
+      "bytes": 331764,
+      "sha256": "44f46294cc7eaa20bf100fd8e795223c222f5234d963a9aaa09bfcdeb3112607"
     },
     {
       "name": "channels-02.jsonl.gz",
-      "bytes": 331372,
-      "sha256": "b1965ebc8047b47991671445657aaebffafc53a8f3470b14f9dda557c353db91"
+      "bytes": 331572,
+      "sha256": "75751ccfed50083d7963ff5d299872fec1f7c482e912d0843b4d0f21c7f7a7c1"
     },
     {
       "name": "channels-03.jsonl.gz",
-      "bytes": 315890,
-      "sha256": "47323088672815cf4bca47c8b15a5c5aa77e6c2734cf401b74fc472128c1e9d2"
+      "bytes": 316043,
+      "sha256": "c8eb0fb7a7a7e61c907a1d005de57bd9d80585b975420a567131b0ef8277a39d"
     },
     {
       "name": "channels-04.jsonl.gz",
-      "bytes": 323979,
-      "sha256": "267a5954005f119bfa9f2f2a8d32d515e0b7e8331b828777dbe6a12d50527530"
+      "bytes": 323988,
+      "sha256": "7c57d23c637f7396270383a1bb6fbe03462afbf54689d5e217c951b980871f94"
     },
     {
       "name": "channels-05.jsonl.gz",
-      "bytes": 301627,
-      "sha256": "f050ddbe7e1b598f90a2aef38d1ddb4a9972298f16a08720bef7c2c30457d8b6"
+      "bytes": 301729,
+      "sha256": "2aa85851a605904b4483f89fb73ceada58ae0ceb3ff1464b31d150a89a1482b4"
     },
     {
       "name": "channels-06.jsonl.gz",
-      "bytes": 347001,
-      "sha256": "885bfbfacbd687d41559f260ec73ea94ffdf6353addf7c6a0add0e19751bb484"
+      "bytes": 347101,
+      "sha256": "04cb98b1004ad2344f25d534e76b397cc423201ab2b5eac95a61017e6d53aee1"
     },
     {
       "name": "channels-07.jsonl.gz",
-      "bytes": 321131,
-      "sha256": "bf51ec2736dd4c1bd8aa85406a410d6443dc18c39efbd00679b8359aa6520d87"
+      "bytes": 321135,
+      "sha256": "31b370576b8e593140eb0f068338172585407163430746098dff733c2232fb6b"
     },
     {
       "name": "channels-08.jsonl.gz",
-      "bytes": 325138,
-      "sha256": "0e33e7266a1fd095aecb9c377eacaff0c2e838cbd2ab993c58d9087564ec3d7c"
+      "bytes": 325192,
+      "sha256": "2eca5d2971a637d5ea89813706d9a6e6c561d7ec4bfd0538426c6f859dfab4b3"
     },
     {
       "name": "channels-09.jsonl.gz",
-      "bytes": 314609,
-      "sha256": "e3a5962c288fd6bf71a69f19649f5fe7b808ae7405aaf07739f5f92e073a9739"
+      "bytes": 314687,
+      "sha256": "cc728471942a9b45c2c1256db795a6ef82ae09ded9ab52c65c5c77c290b7ca63"
     },
     {
       "name": "channels-0a.jsonl.gz",
-      "bytes": 342088,
-      "sha256": "d943337cb909e8d6f001734d59e9ee7083a2b28186f1f3e83828c8e9b8e4b373"
+      "bytes": 342201,
+      "sha256": "b313cb6af4f2fbc46d6774d8fafa967acbd3bfeeecf051ee94f241f165e0c898"
     },
     {
       "name": "channels-0b.jsonl.gz",
-      "bytes": 355562,
-      "sha256": "5eb879263d69f1ba4a07b443d258ca40c0853d3ff29d6a341775b6ee4c02fd70"
+      "bytes": 355611,
+      "sha256": "26df040fb1da1a6cd4983db4d69f32401c7d7a75ae15da537501e906e82b87fd"
     },
     {
       "name": "channels-0c.jsonl.gz",
-      "bytes": 336446,
-      "sha256": "adc7b92a388056083aef2de97823e0c7009a7914c5e78badf979d0081e9fa073"
+      "bytes": 336511,
+      "sha256": "d702ee022dfb2ef733369c5e04976bd63adf0fcf5fb77d765035fb76bb3cc7d4"
     },
     {
       "name": "channels-0d.jsonl.gz",
@@ -15720,13 +16824,13 @@
     },
     {
       "name": "channels-0e.jsonl.gz",
-      "bytes": 316507,
-      "sha256": "e00bdcc874c0262dff262dcaeb0afb97eec962793d33b4384975181e87043d23"
+      "bytes": 316731,
+      "sha256": "b228a53d460eb6374b705c9954c9c150e19526d6a7fc3a0ae74dd0fecfb83988"
     },
     {
       "name": "channels-0f.jsonl.gz",
-      "bytes": 308145,
-      "sha256": "101e80d1df46e80f0458ab36929200356cd4b1fc1cecad43195edffeb0e00f54"
+      "bytes": 308152,
+      "sha256": "b005d9dcf9cf9fdb70f013c7a7098b955db72c6adbbdd67dab70051ca9546a6d"
     }
   ]
 }
