@@ -2,9 +2,10 @@ name: One-off Iran HTML archive
 
 on:
   # Was: every push of crawl parts (~26 runs/day, ~90 min/day). Parts now wait and are
-  # imported together every 3 h (cron-job.org dispatch, GitHub schedule as backup).
+  # imported together every 6 h: dispatched by sync.yml (hourly, cron-job.org), with
+  # GitHub's own schedule only as a backup.
   schedule:
-    - cron: "23 */3 * * *"
+    - cron: "53 */12 * * *"
   workflow_dispatch:
     inputs:
       import_only:
