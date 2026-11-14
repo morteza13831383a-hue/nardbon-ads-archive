@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-14T13:31:29.915648+00:00",
+  "updated_at": "2026-11-14T13:34:43.465127+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "channel": 174,
-    "group": 176
+    "channel": 181,
+    "group": 182
   },
-  "requests": 909,
+  "requests": 944,
   "per_100_requests": {
-    "channel": 19.14,
-    "group": 19.36
+    "channel": 19.17,
+    "group": 19.28
   },
   "fields_present": {
-    "type": 350,
-    "username": 350,
-    "title": 350,
-    "description": 314,
-    "members": 174,
-    "category": 350,
-    "country": 350,
-    "language": 350,
-    "text_sample": 174,
-    "url": 350,
-    "collected_at": 350
+    "type": 363,
+    "username": 363,
+    "title": 363,
+    "description": 325,
+    "members": 181,
+    "category": 363,
+    "country": 363,
+    "language": 363,
+    "text_sample": 181,
+    "url": 363,
+    "collected_at": 363
   },
   "queue": {
-    "done": 445,
+    "done": 458,
     "failed": 130,
-    "pending": 6916
+    "pending": 7205
   },
   "listings": [
     {
@@ -889,8 +889,8 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 12549,
-      "sha256": "e57bbf7309da72f149e0ab0d38b448d64a31f7257f460f9c2b1a880ed015742f"
+      "bytes": 13223,
+      "sha256": "1d9b076d94c2ee8eaa7cdcded4d94c3cf8498f602d593af11fbda06287200858"
     },
     {
       "name": "tgstat-01.jsonl.gz",
@@ -899,8 +899,8 @@
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 8461,
-      "sha256": "d0b3dd15a60038a3d097b5bad6e6a016538315b53f6739d9a0eb963c57c5a9fd"
+      "bytes": 9323,
+      "sha256": "ec5ab4b7faa5591ab5eb26d1ef985477662fbd700e5997e8ec1cfc53ae353a47"
     },
     {
       "name": "tgstat-03.jsonl.gz",
@@ -909,8 +909,8 @@
     },
     {
       "name": "tgstat-04.jsonl.gz",
-      "bytes": 8926,
-      "sha256": "a70d187d4ccbb8db7df0b84dfd07a34b6efe35fdb03757fcf3e8233b6fcf9b8d"
+      "bytes": 9781,
+      "sha256": "b0039ee83df306e8ec4279bbfa7b85677f0d162ac59e1a46db99919c47c73756"
     },
     {
       "name": "tgstat-05.jsonl.gz",
@@ -929,8 +929,8 @@
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 8060,
-      "sha256": "881c53dc617429c4ae1fe7cc0d14a37ffe5470a2c73f5f188b6b5f1eac32b72c"
+      "bytes": 9476,
+      "sha256": "ad4bfdf6772c3c2331484946677aa612bf7406cc8c5ed0e7fb4d08447f88b407"
     },
     {
       "name": "tgstat-09.jsonl.gz",
@@ -939,13 +939,13 @@
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 8734,
-      "sha256": "bea21eac16c62487d746ce38b8f246d11ba4d73cb316793fec6cea753e8f6baf"
+      "bytes": 9563,
+      "sha256": "297dc665a3092f112dabd6fd0db2f1e12e3643ebc10e843a3d27fa7495777838"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 8708,
-      "sha256": "99f35fb56288dd860f05c4fead0544206c87e333859e53f60aff0acd12f593af"
+      "bytes": 9389,
+      "sha256": "63d45223b07e60d29797050973aeae0ac177b2180b488fa558cea6e9291ca080"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
@@ -954,13 +954,13 @@
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 9537,
-      "sha256": "e3fc420a8c9dfdeb447f45dbd155a14e1e04a18bcde7fa2b9cd987ef4dec58ef"
+      "bytes": 9706,
+      "sha256": "230945e42a3addf9fc27560a3d3d7cb0f4cc15a3325e389dbeab4f7509b4fa24"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
-      "bytes": 8923,
-      "sha256": "1a629c07393c6164e4f3464b78832ce024786ef3c22676aa0658a96dd0e30bcb"
+      "bytes": 9056,
+      "sha256": "f1f0080bd3809fb902861d4e5bcf1b13c46e8956805e1172a16ef734775e92e2"
     },
     {
       "name": "tgstat-0f.jsonl.gz",
@@ -1666,47 +1666,51 @@
     {
       "category": "language",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        16
+        16,
+        0
       ],
       "unique_handles": 16,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "law",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        54
+        54,
+        0
       ],
       "unique_handles": 52,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "law",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        8
+        8,
+        0
       ],
       "unique_handles": 8,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "marketing",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        102
+        102,
+        5
       ],
-      "unique_handles": 101,
+      "unique_handles": 106,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1714,23 +1718,25 @@
     {
       "category": "marketing",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        21
+        21,
+        0
       ],
       "unique_handles": 21,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "medicine",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 99,
+      "unique_handles": 201,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1738,23 +1744,25 @@
     {
       "category": "medicine",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        21
+        21,
+        0
       ],
       "unique_handles": 20,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "music",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 101,
+      "unique_handles": 202,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1762,47 +1770,51 @@
     {
       "category": "music",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        19
+        19,
+        0
       ],
       "unique_handles": 17,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "nature",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        47
+        47,
+        0
       ],
       "unique_handles": 44,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "nature",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        6
+        6,
+        0
       ],
       "unique_handles": 6,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "news",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 101,
+      "unique_handles": 202,
       "end_reached": false,
       "pending": 1,
       "failed": 0
