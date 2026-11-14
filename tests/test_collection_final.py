@@ -10,6 +10,16 @@ from html_core import Document
 from tgstat_session import Session
 
 class FinalCollectionTests(unittest.TestCase):
+    def test_robots_disallowed_slice_does_not_crash_or_retry_forever(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db=spy.connect(Path(tmp));slices.ensure(spy,db)
+            class Denied:
+                def get(self,url):raise ValueError('robots.txt disallows: '+url)
+            self.assertTrue(slices.step(spy,db,Denied()))
+            self.assertEqual(db.execute("select count(*) from spy_slices where status='robots_disallowed'").fetchone()[0],1)
+            self.assertEqual(db.execute('select count(*) from requests').fetchone()[0],0)
+            db.close()
+
     def test_tgstat_list_rows_save_members_without_profile(self):
         body='<div class="peer-item-box"><a href="/channel/@Example"><div class="font-16">کانال نمونه</div><div class="line-clamp-2">شرح افغانستان</div><div><b>12 345</b> subscribers</div></a></div><div class="peer-item-box"><a href="/chat/private-key"><div class="font-16">گروه</div><b>77</b> participants</a></div>'
         rows=listing.parse_rows(Document(body),'news','channel')
