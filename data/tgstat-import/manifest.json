@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-14T13:03:08.897852+00:00",
+  "updated_at": "2026-11-14T13:05:38.434985+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "channel": 113,
-    "group": 113
+    "channel": 119,
+    "group": 120
   },
-  "requests": 599,
+  "requests": 627,
   "per_100_requests": {
-    "channel": 18.86,
-    "group": 18.86
+    "channel": 18.98,
+    "group": 19.14
   },
   "fields_present": {
-    "type": 226,
-    "username": 226,
-    "title": 226,
-    "description": 205,
-    "members": 113,
-    "category": 226,
-    "country": 226,
-    "language": 226,
-    "text_sample": 113,
-    "url": 226,
-    "collected_at": 226
+    "type": 239,
+    "username": 239,
+    "title": 239,
+    "description": 216,
+    "members": 119,
+    "category": 239,
+    "country": 239,
+    "language": 239,
+    "text_sample": 119,
+    "url": 239,
+    "collected_at": 239
   },
   "queue": {
-    "done": 321,
+    "done": 334,
     "failed": 129,
-    "pending": 5623
+    "pending": 5627
   },
   "listings": [
     {
@@ -889,13 +889,13 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 7108,
-      "sha256": "9bc8a57cc111ceef671b40c3d1167637caad4c11c4491512de1e61d42c1ba612"
+      "bytes": 7867,
+      "sha256": "df027fabcf79884e46bb9e1166a19983061bd8b285330a8ca4f2c5582bbc3873"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 9832,
-      "sha256": "8adbca6d0a1b62a67dc5c0eff1f3a93f322c525dea28aeecd42d73329ba086b0"
+      "bytes": 10058,
+      "sha256": "2f66e97d61dbf2e84c88060d594af7016de0694a9f88d4cc727cc8c43565198c"
     },
     {
       "name": "tgstat-02.jsonl.gz",
@@ -904,8 +904,8 @@
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 7812,
-      "sha256": "2a1f7377c70ea55dd3e696d15e99ffcb6c9ae44bbbd38464731f4ebe55d149b7"
+      "bytes": 8822,
+      "sha256": "6e99e1fc7389a06b227ccde885d5e17a75c8d2650ce3575cbac59a57217b3642"
     },
     {
       "name": "tgstat-04.jsonl.gz",
@@ -919,8 +919,8 @@
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 6285,
-      "sha256": "fb016852a0f297285c6ee8126241952adaa30dbffe72b6bf903929bb8dbf1714"
+      "bytes": 7147,
+      "sha256": "447131cd2cca1a6e1f8e4ef85ed64220d5c9837b1f52ecd764ccc65bd3688a02"
     },
     {
       "name": "tgstat-07.jsonl.gz",
@@ -929,8 +929,8 @@
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 5668,
-      "sha256": "3ddbf4b7e3cf85e007b42f433499d9f669f6a67161ebcee68b9f73560b1099a9"
+      "bytes": 5723,
+      "sha256": "2a03e8b6cd2c61d2f38b3bbd92111c80a979c1f30254a71bfc3376021ebdaffb"
     },
     {
       "name": "tgstat-09.jsonl.gz",
@@ -939,8 +939,8 @@
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 5661,
-      "sha256": "ecd49f9a5109260f7d1ceb830b87cc2bd5a2b3ca46ab6e74873e1a303bf7124a"
+      "bytes": 6977,
+      "sha256": "a17a4de13ce8f83a1803a4fdd8ad223ecfc72eb2bf8211ac76bea618888f6550"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
@@ -949,8 +949,8 @@
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 5882,
-      "sha256": "697c5c25c38115cd2b6b66b683348b610905e3d2c0130b750c17552e1535a29d"
+      "bytes": 6692,
+      "sha256": "0b0c73d72877e1ab18a67e9123ac515e55618d745bbc26dd1392a04f2274e08c"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
@@ -959,13 +959,13 @@
     },
     {
       "name": "tgstat-0e.jsonl.gz",
-      "bytes": 6064,
-      "sha256": "99c2f77eda76173c6a209c13f9a812aa954567673aabbdb07ebdac7e67c61db6"
+      "bytes": 6268,
+      "sha256": "65da936e68c48fbe41fe2d8e4acaa5a72f3466e8243744747a6a2e9e6fe209e6"
     },
     {
       "name": "tgstat-0f.jsonl.gz",
-      "bytes": 9176,
-      "sha256": "ee006f347b76e8403f644c6c588ff77d0714b7f8379410af2bd9e70c8926db1a"
+      "bytes": 10071,
+      "sha256": "4e88d9157169c2b462399028810892cbc56ceda9937c678115ae4e12d4a4d6ec"
     }
   ],
   "catalog_coverage": [
@@ -1184,9 +1184,11 @@
     {
       "category": "career",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        7
+      ],
+      "unique_handles": 7,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1194,9 +1196,11 @@
     {
       "category": "construction",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        33
+      ],
+      "unique_handles": 33,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1204,9 +1208,11 @@
     {
       "category": "construction",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        5
+      ],
+      "unique_handles": 4,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1214,9 +1220,11 @@
     {
       "category": "courses",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        41
+      ],
+      "unique_handles": 39,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1224,9 +1232,11 @@
     {
       "category": "courses",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        4
+      ],
+      "unique_handles": 4,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1234,9 +1244,11 @@
     {
       "category": "crypto",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 101,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1244,9 +1256,11 @@
     {
       "category": "crypto",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 98,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1254,9 +1268,11 @@
     {
       "category": "darknet",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        69
+      ],
+      "unique_handles": 69,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1264,9 +1280,11 @@
     {
       "category": "darknet",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        12
+      ],
+      "unique_handles": 9,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1274,9 +1292,11 @@
     {
       "category": "design",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 100,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1284,9 +1304,11 @@
     {
       "category": "design",
       "type": "group",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        15
+      ],
+      "unique_handles": 14,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1294,9 +1316,11 @@
     {
       "category": "economics",
       "type": "channel",
-      "pages_fetched": 0,
-      "rows_per_page": [],
-      "unique_handles": 0,
+      "pages_fetched": 1,
+      "rows_per_page": [
+        102
+      ],
+      "unique_handles": 102,
       "end_reached": false,
       "pending": 1,
       "failed": 0
