@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-14T13:22:32.792209+00:00",
+  "updated_at": "2026-11-14T13:25:48.219706+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "channel": 157,
-    "group": 157
+    "channel": 162,
+    "group": 163
   },
-  "requests": 813,
+  "requests": 845,
   "per_100_requests": {
-    "channel": 19.31,
-    "group": 19.31
+    "channel": 19.17,
+    "group": 19.29
   },
   "fields_present": {
-    "type": 314,
-    "username": 314,
-    "title": 314,
-    "description": 283,
-    "members": 157,
-    "category": 314,
-    "country": 314,
-    "language": 314,
-    "text_sample": 157,
-    "url": 314,
-    "collected_at": 314
+    "type": 325,
+    "username": 325,
+    "title": 325,
+    "description": 293,
+    "members": 162,
+    "category": 325,
+    "country": 325,
+    "language": 325,
+    "text_sample": 162,
+    "url": 325,
+    "collected_at": 325
   },
   "queue": {
-    "done": 409,
-    "failed": 129,
-    "pending": 6019
+    "done": 420,
+    "failed": 130,
+    "pending": 6259
   },
   "listings": [
     {
@@ -889,8 +889,8 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 11416,
-      "sha256": "aa8926afb90a54d294a79facc2561f490952f56b9084715ba289155c21e719b3"
+      "bytes": 12261,
+      "sha256": "22d490b6bd3e4be5a5e01d768a0ce34ea9a98cc61dd3aa1d7c92d5d032ff9c27"
     },
     {
       "name": "tgstat-01.jsonl.gz",
@@ -899,8 +899,8 @@
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 8315,
-      "sha256": "02853f1f7e7329084abc666c242f5c19b9c32a313a856cccd69eebf8fdabc8c9"
+      "bytes": 8461,
+      "sha256": "d0b3dd15a60038a3d097b5bad6e6a016538315b53f6739d9a0eb963c57c5a9fd"
     },
     {
       "name": "tgstat-03.jsonl.gz",
@@ -924,8 +924,8 @@
     },
     {
       "name": "tgstat-07.jsonl.gz",
-      "bytes": 8447,
-      "sha256": "21d6c40d284e7d454a6239e190a237584c271ad56cb0055fff0515a4f309af60"
+      "bytes": 8717,
+      "sha256": "bdaa48e3889935299c05ab7d2494df01dfb99f63fbaa70555f00ea495bc9e851"
     },
     {
       "name": "tgstat-08.jsonl.gz",
@@ -934,23 +934,23 @@
     },
     {
       "name": "tgstat-09.jsonl.gz",
-      "bytes": 9561,
-      "sha256": "45691a28cba7d69bd5a97207d7af588d2a237b1eaa46a51c7671e96edc2fe53c"
+      "bytes": 10569,
+      "sha256": "6fe4869e6ef69ab5b63c555c39642094dd74879df31199beaac3f81777acfa4c"
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 7146,
-      "sha256": "03df5de3d4e6e7e67dbbb3afed2e9c4ee76c8530ea86265dcc1327c80b924b1d"
+      "bytes": 7209,
+      "sha256": "4051cc0ab25c49df8674d6c11758b194cb0b4eab6ba1dcc28cc1e33776eaf14f"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 7857,
-      "sha256": "0b4db031390ad2b091d6b3dee66b9cdb85a02f5373b011c790e935b01aed29f5"
+      "bytes": 8640,
+      "sha256": "cb6799f5090ffee09d9ffea14de0f7a01c23fc1ddb82a3749897b501fc238475"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 9395,
-      "sha256": "2b98de8b2ad44eecd72ad3217c02ca4c3575afcf281a6c7be3470096d21619e4"
+      "bytes": 10195,
+      "sha256": "b8aff79065b09f1c7b9e1e5e18ad7e1eb458c83c81ac8914d868cde5b75eff6b"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
@@ -959,13 +959,13 @@
     },
     {
       "name": "tgstat-0e.jsonl.gz",
-      "bytes": 7261,
-      "sha256": "c70088dd3ef7dd72c29126c1f9ec0b54930d9bd24936f13451fa7756a9f41a80"
+      "bytes": 8030,
+      "sha256": "3818cf552079daf1f5b06c4be0209604e5bc2f9507b73729847620693d0bfaea"
     },
     {
       "name": "tgstat-0f.jsonl.gz",
-      "bytes": 10737,
-      "sha256": "b6b0a2499e47fa3b4349dc60691968f2b366d32196c19936ad4f271b774dbc9c"
+      "bytes": 10975,
+      "sha256": "4e5e1f459881ad4f53b9dd319aae1ac763e838d7d5121110ba43eaf7df415d88"
     }
   ],
   "catalog_coverage": [
@@ -1160,11 +1160,12 @@
     {
       "category": "business",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 97,
+      "unique_handles": 198,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1172,23 +1173,25 @@
     {
       "category": "business",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        46
+        46,
+        0
       ],
       "unique_handles": 43,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "career",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        102
+        102,
+        44
       ],
-      "unique_handles": 101,
+      "unique_handles": 145,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1196,71 +1199,77 @@
     {
       "category": "career",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        7
+        7,
+        0
       ],
       "unique_handles": 7,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "construction",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        33
+        33,
+        0
       ],
       "unique_handles": 33,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "construction",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        5
+        5,
+        0
       ],
       "unique_handles": 4,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "courses",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        41
+        41,
+        0
       ],
       "unique_handles": 39,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "courses",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        4
+        4,
+        0
       ],
       "unique_handles": 4,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "crypto",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 101,
+      "unique_handles": 202,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1268,11 +1277,12 @@
     {
       "category": "crypto",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        102
+        102,
+        8
       ],
-      "unique_handles": 98,
+      "unique_handles": 104,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1280,37 +1290,40 @@
     {
       "category": "darknet",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        69
+        69,
+        0
       ],
       "unique_handles": 69,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "darknet",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        12
+        12,
+        0
       ],
       "unique_handles": 9,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "design",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        102
+        102,
+        0
       ],
       "unique_handles": 100,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
