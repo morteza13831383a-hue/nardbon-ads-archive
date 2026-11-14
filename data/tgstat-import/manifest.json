@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-14T13:28:42.822404+00:00",
+  "updated_at": "2026-11-14T13:31:29.915648+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "channel": 168,
-    "group": 170
+    "channel": 174,
+    "group": 176
   },
-  "requests": 878,
+  "requests": 909,
   "per_100_requests": {
-    "channel": 19.13,
+    "channel": 19.14,
     "group": 19.36
   },
   "fields_present": {
-    "type": 338,
-    "username": 338,
-    "title": 338,
-    "description": 304,
-    "members": 168,
-    "category": 338,
-    "country": 338,
-    "language": 338,
-    "text_sample": 168,
-    "url": 338,
-    "collected_at": 338
+    "type": 350,
+    "username": 350,
+    "title": 350,
+    "description": 314,
+    "members": 174,
+    "category": 350,
+    "country": 350,
+    "language": 350,
+    "text_sample": 174,
+    "url": 350,
+    "collected_at": 350
   },
   "queue": {
-    "done": 433,
+    "done": 445,
     "failed": 130,
-    "pending": 6597
+    "pending": 6916
   },
   "listings": [
     {
@@ -894,8 +894,8 @@
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 14615,
-      "sha256": "adcecd46c36201441e6f347bc981d73ddffd48c2bb4dc60f649e3e5190c8eb45"
+      "bytes": 15401,
+      "sha256": "09973a636c0052ba566f157220988caf95f2d3c94a5c64119bf0c83f8573b252"
     },
     {
       "name": "tgstat-02.jsonl.gz",
@@ -909,13 +909,13 @@
     },
     {
       "name": "tgstat-04.jsonl.gz",
-      "bytes": 8045,
-      "sha256": "5854fa6832500f109a8ef915527b475e74ad41382b3bb6c30a4e8f1f0639de47"
+      "bytes": 8926,
+      "sha256": "a70d187d4ccbb8db7df0b84dfd07a34b6efe35fdb03757fcf3e8233b6fcf9b8d"
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 12456,
-      "sha256": "f6703237559a087a9c29c55bbac85c49dc1c4ba23919640e4ac09bf94c63fed5"
+      "bytes": 13321,
+      "sha256": "821a5add05e2f20a7e6a4eb3a0b5697a9e03b14273bb2c10e6833743c8ae85f5"
     },
     {
       "name": "tgstat-06.jsonl.gz",
@@ -924,8 +924,8 @@
     },
     {
       "name": "tgstat-07.jsonl.gz",
-      "bytes": 8717,
-      "sha256": "bdaa48e3889935299c05ab7d2494df01dfb99f63fbaa70555f00ea495bc9e851"
+      "bytes": 9335,
+      "sha256": "a00815eb1ee4c54909baf70992e74d76d84e6bb0dbe4fbd25964a82762651140"
     },
     {
       "name": "tgstat-08.jsonl.gz",
@@ -934,8 +934,8 @@
     },
     {
       "name": "tgstat-09.jsonl.gz",
-      "bytes": 10944,
-      "sha256": "4733b0f9c6ac576ed6867d338f69f6a8c1329674be079d0d41f4015a035cec31"
+      "bytes": 10984,
+      "sha256": "19a564516cd4a753cdd8a8e9f9e62806a750a06c33e5a01a1e98893b6fe6b03a"
     },
     {
       "name": "tgstat-0a.jsonl.gz",
@@ -949,18 +949,18 @@
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 11153,
-      "sha256": "f6ba173a4faa5cdd5f0ab7d853e6753768c5e8ce380912f4ef8aaacfa1785e5c"
+      "bytes": 11950,
+      "sha256": "d943f24ade0d21927ff5e4d97d82170b4d22c73fdf90e40ce72d4818c16b47ac"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 9399,
-      "sha256": "7669aba68c0e420dbf05939b4f1f05306df70ca0f97432359d9cf56a82340735"
+      "bytes": 9537,
+      "sha256": "e3fc420a8c9dfdeb447f45dbd155a14e1e04a18bcde7fa2b9cd987ef4dec58ef"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
-      "bytes": 8030,
-      "sha256": "3818cf552079daf1f5b06c4be0209604e5bc2f9507b73729847620693d0bfaea"
+      "bytes": 8923,
+      "sha256": "1a629c07393c6164e4f3464b78832ce024786ef3c22676aa0658a96dd0e30bcb"
     },
     {
       "name": "tgstat-0f.jsonl.gz",
@@ -1485,47 +1485,51 @@
     {
       "category": "esoterics",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        4
+        4,
+        0
       ],
       "unique_handles": 4,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "food",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        81
+        81,
+        0
       ],
       "unique_handles": 75,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "food",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        8
+        8,
+        0
       ],
       "unique_handles": 8,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "gambling",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 97,
+      "unique_handles": 197,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1533,23 +1537,25 @@
     {
       "category": "gambling",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        19
+        19,
+        0
       ],
       "unique_handles": 18,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "games",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 101,
+      "unique_handles": 199,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1557,25 +1563,27 @@
     {
       "category": "games",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        72
+        72,
+        0
       ],
       "unique_handles": 70,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "handmade",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        45
+        45,
+        0
       ],
       "unique_handles": 45,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
@@ -1593,11 +1601,12 @@
     {
       "category": "health",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        102
+        102,
+        36
       ],
-      "unique_handles": 102,
+      "unique_handles": 136,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1605,47 +1614,51 @@
     {
       "category": "health",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        10
+        10,
+        0
       ],
       "unique_handles": 10,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "instagram",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        37
+        37,
+        0
       ],
       "unique_handles": 36,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "instagram",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        4
+        4,
+        0
       ],
       "unique_handles": 4,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "language",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 102,
+      "unique_handles": 202,
       "end_reached": false,
       "pending": 1,
       "failed": 0
