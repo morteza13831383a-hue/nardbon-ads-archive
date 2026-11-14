@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-14T13:25:48.219706+00:00",
+  "updated_at": "2026-11-14T13:28:42.822404+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "channel": 162,
-    "group": 163
+    "channel": 168,
+    "group": 170
   },
-  "requests": 845,
+  "requests": 878,
   "per_100_requests": {
-    "channel": 19.17,
-    "group": 19.29
+    "channel": 19.13,
+    "group": 19.36
   },
   "fields_present": {
-    "type": 325,
-    "username": 325,
-    "title": 325,
-    "description": 293,
-    "members": 162,
-    "category": 325,
-    "country": 325,
-    "language": 325,
-    "text_sample": 162,
-    "url": 325,
-    "collected_at": 325
+    "type": 338,
+    "username": 338,
+    "title": 338,
+    "description": 304,
+    "members": 168,
+    "category": 338,
+    "country": 338,
+    "language": 338,
+    "text_sample": 168,
+    "url": 338,
+    "collected_at": 338
   },
   "queue": {
-    "done": 420,
+    "done": 433,
     "failed": 130,
-    "pending": 6259
+    "pending": 6597
   },
   "listings": [
     {
@@ -889,13 +889,13 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 12261,
-      "sha256": "22d490b6bd3e4be5a5e01d768a0ce34ea9a98cc61dd3aa1d7c92d5d032ff9c27"
+      "bytes": 12549,
+      "sha256": "e57bbf7309da72f149e0ab0d38b448d64a31f7257f460f9c2b1a880ed015742f"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 14568,
-      "sha256": "527035b6f51cfe5b1a62110caa390ff902f9176a5d4c4d1d8be1f79b2b8efbc0"
+      "bytes": 14615,
+      "sha256": "adcecd46c36201441e6f347bc981d73ddffd48c2bb4dc60f649e3e5190c8eb45"
     },
     {
       "name": "tgstat-02.jsonl.gz",
@@ -904,8 +904,8 @@
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 10769,
-      "sha256": "6d0a2ec715354e1f62b835c34971ec9b89119cc27db8abb71f013f38890a3cfc"
+      "bytes": 11043,
+      "sha256": "06c50bf97a5d36641289f1677bda6453feade5f51b350a1dd146e7a2cfc129ae"
     },
     {
       "name": "tgstat-04.jsonl.gz",
@@ -919,8 +919,8 @@
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 10926,
-      "sha256": "527f004f3384a7a7bbff2dcd3cd60a9c9cfbc7cdd04b7ae70928f2781f885b47"
+      "bytes": 11081,
+      "sha256": "ad6f1be4f550fb26911235375202fb81d5c1a3144c1be13caf9927630320bdcb"
     },
     {
       "name": "tgstat-07.jsonl.gz",
@@ -929,28 +929,28 @@
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 7354,
-      "sha256": "7ca2cdfe419e8ee012c596736815898985350179435bc9ba665f5884a44170a4"
+      "bytes": 8060,
+      "sha256": "881c53dc617429c4ae1fe7cc0d14a37ffe5470a2c73f5f188b6b5f1eac32b72c"
     },
     {
       "name": "tgstat-09.jsonl.gz",
-      "bytes": 10569,
-      "sha256": "6fe4869e6ef69ab5b63c555c39642094dd74879df31199beaac3f81777acfa4c"
+      "bytes": 10944,
+      "sha256": "4733b0f9c6ac576ed6867d338f69f6a8c1329674be079d0d41f4015a035cec31"
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 7209,
-      "sha256": "4051cc0ab25c49df8674d6c11758b194cb0b4eab6ba1dcc28cc1e33776eaf14f"
+      "bytes": 8734,
+      "sha256": "bea21eac16c62487d746ce38b8f246d11ba4d73cb316793fec6cea753e8f6baf"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 8640,
-      "sha256": "cb6799f5090ffee09d9ffea14de0f7a01c23fc1ddb82a3749897b501fc238475"
+      "bytes": 8708,
+      "sha256": "99f35fb56288dd860f05c4fead0544206c87e333859e53f60aff0acd12f593af"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 10195,
-      "sha256": "b8aff79065b09f1c7b9e1e5e18ad7e1eb458c83c81ac8914d868cde5b75eff6b"
+      "bytes": 11153,
+      "sha256": "f6ba173a4faa5cdd5f0ab7d853e6753768c5e8ce380912f4ef8aaacfa1785e5c"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
@@ -964,8 +964,8 @@
     },
     {
       "name": "tgstat-0f.jsonl.gz",
-      "bytes": 10975,
-      "sha256": "4e5e1f459881ad4f53b9dd319aae1ac763e838d7d5121110ba43eaf7df415d88"
+      "bytes": 11026,
+      "sha256": "580c7da06c5eaac7e7d24c6fd54bb4b7748f68693fbb83e44ac6633c71f3d243"
     }
   ],
   "catalog_coverage": [
@@ -1329,23 +1329,25 @@
     {
       "category": "design",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        15
+        15,
+        0
       ],
       "unique_handles": 14,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "economics",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 102,
+      "unique_handles": 201,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1353,23 +1355,25 @@
     {
       "category": "economics",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        60
+        60,
+        0
       ],
       "unique_handles": 58,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "education",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 93,
+      "unique_handles": 190,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1377,11 +1381,12 @@
     {
       "category": "education",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        102
+        102,
+        33
       ],
-      "unique_handles": 100,
+      "unique_handles": 132,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1389,11 +1394,12 @@
     {
       "category": "edutainment",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        102
+        102,
+        26
       ],
-      "unique_handles": 97,
+      "unique_handles": 123,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1401,23 +1407,25 @@
     {
       "category": "edutainment",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        1
+        1,
+        0
       ],
       "unique_handles": 1,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "entertainment",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 97,
+      "unique_handles": 194,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1425,49 +1433,53 @@
     {
       "category": "entertainment",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        13
+        13,
+        0
       ],
       "unique_handles": 12,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "erotica",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        95
+        95,
+        0
       ],
       "unique_handles": 87,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "erotica",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        7
+        7,
+        0
       ],
       "unique_handles": 7,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "esoterics",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        89
+        89,
+        0
       ],
       "unique_handles": 86,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
