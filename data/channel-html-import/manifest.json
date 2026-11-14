@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-13T20:13:28.096419+00:00",
-  "updated_at": "2026-11-14T17:22:41.602275+00:00",
-  "channels": 7960,
+  "updated_at": "2026-11-14T17:29:07.478573+00:00",
+  "channels": 8269,
   "classifications": {
-    "persian_candidate": 7406,
+    "persian_candidate": 7715,
     "unclassified": 554
   },
   "queue": {
     "done": 4702,
     "failed": 269,
-    "listing_saved": 2818,
-    "pending": 28417,
+    "listing_saved": 2908,
+    "pending": 28327,
     "robots_disallowed": 22
   },
   "complete": false,
-  "request_count": 100,
+  "request_count": 125,
   "slices": [
     {
       "filters": "{\"category\": \"adult\", \"sort\": \"ads\"}",
@@ -156,9 +156,9 @@
     {
       "filters": "{\"category\": \"auto\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 17,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 27,
       "error": null
     },
     {
@@ -196,17 +196,17 @@
     {
       "filters": "{\"category\": \"betting\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 1,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 19,
       "error": null
     },
     {
       "filters": "{\"category\": \"casino\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 14,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 24,
       "error": null
     },
     {
@@ -220,8 +220,8 @@
     {
       "filters": "{\"category\": \"casino\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
+      "next_page": 3,
+      "pages": 2,
       "new_records": 0,
       "error": null
     },
@@ -236,9 +236,9 @@
     {
       "filters": "{\"category\": \"crypto\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 1,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 2,
       "error": null
     },
     {
@@ -260,17 +260,17 @@
     {
       "filters": "{\"category\": \"dating\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 19,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 37,
       "error": null
     },
     {
       "filters": "{\"category\": \"education\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 6,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 8,
       "error": null
     },
     {
@@ -316,9 +316,9 @@
     {
       "filters": "{\"category\": \"fashion\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 18,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 38,
       "error": null
     },
     {
@@ -332,48 +332,48 @@
     {
       "filters": "{\"category\": \"finance\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
+      "next_page": 3,
+      "pages": 2,
       "new_records": 0,
       "error": null
     },
     {
       "filters": "{\"category\": \"finance\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 20,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 40,
       "error": null
     },
     {
       "filters": "{\"category\": \"finance\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 14,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 31,
       "error": null
     },
     {
       "filters": "{\"category\": \"gambling\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 3,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 13,
       "error": null
     },
     {
       "filters": "{\"category\": \"gambling\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 20,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 40,
       "error": null
     },
     {
       "filters": "{\"category\": \"gambling\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
+      "next_page": 3,
+      "pages": 2,
       "new_records": 0,
       "error": null
     },
@@ -388,17 +388,17 @@
     {
       "filters": "{\"category\": \"gaming\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 20,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 40,
       "error": null
     },
     {
       "filters": "{\"category\": \"gaming\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 18,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 38,
       "error": null
     },
     {
@@ -452,9 +452,9 @@
     {
       "filters": "{\"category\": \"news\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 20,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 40,
       "error": null
     },
     {
@@ -500,33 +500,33 @@
     {
       "filters": "{\"category\": \"real-estate\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 20,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 40,
       "error": null
     },
     {
       "filters": "{\"category\": \"real-estate\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 3,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 16,
       "error": null
     },
     {
       "filters": "{\"category\": \"religion\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 20,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 40,
       "error": null
     },
     {
       "filters": "{\"category\": \"religion\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 20,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 40,
       "error": null
     },
     {
@@ -580,9 +580,9 @@
     {
       "filters": "{\"category\": \"tech\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 1,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 4,
       "error": null
     },
     {
@@ -604,17 +604,17 @@
     {
       "filters": "{\"category\": \"trading\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 4,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 5,
       "error": null
     },
     {
       "filters": "{\"category\": \"travel\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 20,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 37,
       "error": null
     },
     {
@@ -644,9 +644,9 @@
     {
       "filters": "{\"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 2,
-      "pages": 1,
-      "new_records": 20,
+      "next_page": 3,
+      "pages": 2,
+      "new_records": 29,
       "error": null
     },
     {
@@ -27794,83 +27794,83 @@
   "files": [
     {
       "name": "channels-00.jsonl.gz",
-      "bytes": 365834,
-      "sha256": "c20a50facf75ae61a940ba9b36b7d28a3deef0a3ea838da663407517ec7e10c4"
+      "bytes": 366711,
+      "sha256": "8e5419b8a331e2f738a145d74ea3e820cb997df304ebe9bd069b89de184584d6"
     },
     {
       "name": "channels-01.jsonl.gz",
-      "bytes": 334089,
-      "sha256": "24fa76e8db667301541c8006f24d0ffe1b6b70a7b9399a7c59b52b542e5dbbe9"
+      "bytes": 336299,
+      "sha256": "7835947d680a66673d1fd76151aff6d022ae2fa851df295f65f33dc0e642ccd3"
     },
     {
       "name": "channels-02.jsonl.gz",
-      "bytes": 333972,
-      "sha256": "65c4c39bda7e71d9e7f655e4ca80cc59d2a4373b20725e9cff77b9928688efd9"
+      "bytes": 336007,
+      "sha256": "aa509f06209c173d19afe6da0dc715e57c5ff0c4cfaea9ab2716faa720db3266"
     },
     {
       "name": "channels-03.jsonl.gz",
-      "bytes": 318889,
-      "sha256": "87f786130f4162a3d94aa58f0d8776fd143d7a81f3ef2dbd2a0e36c1f592a6f6"
+      "bytes": 320392,
+      "sha256": "5895188c33474428508b6c3cd2365833746649e63145e3872aa2d32191647897"
     },
     {
       "name": "channels-04.jsonl.gz",
-      "bytes": 327034,
-      "sha256": "c24dbaa251ff037c55a3736bcd104d4fbdf5e17ad54dd4d5123760d54792369c"
+      "bytes": 328810,
+      "sha256": "77edcc3ffb11e596212cc31ea5031a51dec900d10b776d761a60bbe535b0e842"
     },
     {
       "name": "channels-05.jsonl.gz",
-      "bytes": 304443,
-      "sha256": "549ea5e85f35a1a3fd0662d38c52a9ce58b2a20d3a36153b0844a11dccc408b0"
+      "bytes": 306117,
+      "sha256": "edf5f7a0e65de64ab4e292a829f6278ccd43f08eb8857fe99e1c141cce4a7811"
     },
     {
       "name": "channels-06.jsonl.gz",
-      "bytes": 350653,
-      "sha256": "8cd41c8b6a8ecdf65579f1c83d35cdda3121897958a43b9a0d7823936e8b3181"
+      "bytes": 352593,
+      "sha256": "99da1d816f4eb6080a5db0ffd8c2a77d26c35150be91a7b71a014603070a3d41"
     },
     {
       "name": "channels-07.jsonl.gz",
-      "bytes": 324270,
-      "sha256": "5defa89b911ca7c02434baa1d574f5d4a401bf44a3b4b5dcf88190b64da1ed87"
+      "bytes": 325816,
+      "sha256": "2f4933508178b6ca1bbc0fa2f73951d0d17968069c5f3914cbbd4b722cebc085"
     },
     {
       "name": "channels-08.jsonl.gz",
-      "bytes": 328402,
-      "sha256": "9c51d9fb6392157651e42d96d2dbaee047b03a2cae5e91bb65671c2af67a9b3b"
+      "bytes": 330166,
+      "sha256": "65462bf1317e6d907dcb959bce13e947cbede834dfdf19500dd93695c7a0720e"
     },
     {
       "name": "channels-09.jsonl.gz",
-      "bytes": 317497,
-      "sha256": "2f28c8a71591ea7ab3fc90746d2fe273b1df5b1a014121b146ce38ef7c4142f1"
+      "bytes": 318831,
+      "sha256": "0f6629f066909c5eae79470d9597e49007b8a14e441048a014bf3d725ea39ab9"
     },
     {
       "name": "channels-0a.jsonl.gz",
-      "bytes": 345417,
-      "sha256": "5eebf6a0298ef74d93edb4d0b9cb7e8acaeeaff8c506ba5c4901af97f2bc02dc"
+      "bytes": 347244,
+      "sha256": "c7a6abb106991c9862c87e7a79f4d88d7a53d218df0df3a74f757a1c544d415e"
     },
     {
       "name": "channels-0b.jsonl.gz",
-      "bytes": 358442,
-      "sha256": "d5ff944acd0fe29f204b286e38bf9df8f29eba9295bed9fd740c76ebe25121de"
+      "bytes": 360270,
+      "sha256": "c47c7634cb15557d97d775d12fc88791fe83aab681afb6856cfe8350d0d696d9"
     },
     {
       "name": "channels-0c.jsonl.gz",
-      "bytes": 339537,
-      "sha256": "f61f654e7e7fbd1139b30b5df7664cca8e9f5e651c77380e1044e8e2d73e42db"
+      "bytes": 340572,
+      "sha256": "72bdcb1facbb91cc8e179092479403da4347138c6865d42eedd5ad0b63589872"
     },
     {
       "name": "channels-0d.jsonl.gz",
-      "bytes": 316818,
-      "sha256": "5845456123998fd47efa203daf9f79a65f92923fa7d436ed698fb9e17f6ae52d"
+      "bytes": 318731,
+      "sha256": "b460ecf146fc1707aa08b2a6949914662d8d6233bb8695c4950f79c4a4a03603"
     },
     {
       "name": "channels-0e.jsonl.gz",
-      "bytes": 320003,
-      "sha256": "eaa3f44e6db9113db3b2d33bd3dab91703c2b7d2c6392513693dd1da049ed3c3"
+      "bytes": 321817,
+      "sha256": "01103cb19e1a209f02519e5b1098df4330a9a99c58e93369e47e64d12a090fbe"
     },
     {
       "name": "channels-0f.jsonl.gz",
-      "bytes": 312171,
-      "sha256": "7870a1262f490723133a63efd38a7effd4a55f229ab22d7e0f0b9638dc78d923"
+      "bytes": 313606,
+      "sha256": "b8aff4049860dc8a9c651876ecb6eec18ac7d664841f2c34aa6a9fd8c8af88e3"
     }
   ]
 }
