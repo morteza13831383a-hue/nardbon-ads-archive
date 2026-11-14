@@ -11,6 +11,7 @@ def ensure(core,db):
     CREATE TABLE IF NOT EXISTS spy_slice_pages(key TEXT,page INTEGER,fingerprint TEXT,rows INTEGER,new_records INTEGER,PRIMARY KEY(key,page));
     CREATE TABLE IF NOT EXISTS requests(id INTEGER PRIMARY KEY,url TEXT,status INTEGER,at TEXT);
     CREATE TABLE IF NOT EXISTS spy_controls(name TEXT PRIMARY KEY,verdict TEXT,evidence TEXT);''')
+    if 'via'not in {r[1]for r in db.execute('PRAGMA table_info(requests)')}:db.execute("ALTER TABLE requests ADD COLUMN via TEXT DEFAULT 'channel_collection'")
     for sort in('members','ads','new'):
         for order in('desc','asc'):add(db,{'sort':sort,'order':order})
     for lo,hi in RANGES:
@@ -19,6 +20,7 @@ def ensure(core,db):
         add(db,f)
     for name,value in(('niche','vpn'),('sponsored','eligible')):add(db,{name:value})
     add(db,{'minMembers':'1000000000'})
+    __import__('channel_priority').ensure(core,db)
     db.commit()
 
 
@@ -61,8 +63,12 @@ def persist(core,db,rows):
         previous=db.execute('SELECT payload FROM channels WHERE username=?',(row['username'],)).fetchone()
         if not previous:new+=1;value=row
         else:
-            value=json.loads(previous[0]);value.update({k:v for k,v in row.items()if v is not None and v not in('',[])and k not in('description','text_sample')})
+            value=json.loads(previous[0]);updates={k:v for k,v in row.items()if v is not None and v not in('',[])and k not in('description','text_sample')}
+            if __import__('channel_priority').has_profile(value)and row.get('record_detail')=='listing':
+                for key in ('record_detail','source_url','channel_url','classification'):updates.pop(key,None)
+            value.update(updates)
         db.execute('INSERT OR REPLACE INTO channels VALUES(?,?)',(row['username'],json.dumps(value,ensure_ascii=False)))
+        if db.execute("SELECT 1 FROM sqlite_master WHERE name='priority_profiles'").fetchone():__import__('channel_priority').consider(core,db,value)
         db.execute("UPDATE queue SET status='listing_saved'WHERE url=?AND kind='channel'AND status!='done'",(core.BASE+'/channels/'+row['username'],))
     return new
 
@@ -106,9 +112,9 @@ def inspect_result(core,db,job,doc):
 
 
 class CountOpener:
-    def __init__(self,db,opener,core):self.db=db;self.opener=opener;self.core=core
+    def __init__(self,db,opener,core):self.db=db;self.opener=opener;self.core=core;self.via='channel_collection'
     def open(self,request,**kwargs):
-        i=self.db.execute('INSERT INTO requests(url,status,at)VALUES(?,0,?)',(request.full_url,self.core.now())).lastrowid;self.db.commit()
+        i=self.db.execute('INSERT INTO requests(url,status,at,via)VALUES(?,0,?,?)',(request.full_url,self.core.now(),self.via)).lastrowid;self.db.commit()
         try:r=self.opener.open(request,**kwargs)
         except self.core.HTTPError as exc:
             self.db.execute('UPDATE requests SET status=?WHERE id=?',(exc.code,i));self.db.commit();raise
@@ -119,6 +125,11 @@ def step(core,db,client):
     from source_budget import Challenge,HostBlocked
     from urllib.error import URLError
     from http.client import HTTPException
+    priority=__import__('channel_priority')
+    turns=int((db.execute("SELECT value FROM meta WHERE key='priority_profile_turn'").fetchone()or['0'])[0])
+    db.execute("INSERT OR REPLACE INTO meta VALUES('priority_profile_turn',?)",(str(turns+1),));db.commit()
+    # One enrichment slot per five jobs prevents profile starvation while lists advance.
+    if turns%5==4 and priority.next_job(db):return priority.step(core,db,client)
     # Phase 1: all effective HTML listing slices, respecting their saved cursors.
     job=db.execute("SELECT key,filters,page FROM spy_slices WHERE status='pending'ORDER BY pages,CASE WHEN filters='{}'THEN 0 ELSE 1 END,key LIMIT 1").fetchone()
     if job:
@@ -132,6 +143,7 @@ def step(core,db,client):
         except ValueError as exc:
             db.rollback();db.execute("UPDATE spy_slices SET status=?,error=?WHERE key=?",('robots_disallowed'if str(exc).startswith('robots.txt disallows:')else'failed',str(exc),key));db.commit()
         return True
+    if priority.next_job(db):return priority.step(core,db,client)
     # Phase 2: every known Iranian advertiser's placement list, even if no longer in active ads.
     for slug in core.iran_advertisers():core.enqueue(db,core.BASE+'/advertisers/'+slug+'/channels','listing',0)
     db.commit()

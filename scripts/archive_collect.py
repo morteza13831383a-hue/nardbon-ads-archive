@@ -118,6 +118,7 @@ def main():
             info=archive.report(db)
             strategy=next((v for v in archive_yield.coverage_report(db)['by_strategy']if v['via']=='persian_channel_page'),None)
             yield_report={'slice':index,'at':datetime.now(timezone.utc).isoformat(),'strategy':strategy}
+            yield_report['related_strategies']=[v for v in archive_yield.coverage_report(db)['by_strategy']if v['via'].startswith('persian_channel_')]
             print('Channel-page yield: '+json.dumps(yield_report),flush=True)
             target=args.work_dir/'persian-channel-yield.json'
             tmp=target.with_suffix('.tmp');tmp.write_text(json.dumps(yield_report,indent=2));tmp.replace(target)

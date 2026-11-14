@@ -525,6 +525,7 @@ def main():
         if not args.export_only:
             seed_related(db)
             client=Client(BASE,args.delay)
+            client.opener=ay.RequestLedger(db,client.opener)
             client.initialize()
             crawl(db,client,args.max_pages,args.max_seconds,[v.strip() for v in args.only_via.split(',') if v.strip()] if args.only_via else None)
         info=export(db,args.work_dir)

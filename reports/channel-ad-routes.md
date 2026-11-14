@@ -1,0 +1,9 @@
+# Channel ad route investigation
+
+Checked 2026-11-14 using public HTML at the existing shared source pace.
+
+Among 183 saved Persian profiles containing ad links, no full ad-list or ads-pagination link was found. A live check of `/channels/alihuntrade` showed exactly 20 ad links and only an “All advertisers in this channel” link. Its only “Show more” button expands the footer product family, not ad history. `/channels/alihuntrade/ads` is permitted by robots.txt but returns HTTP 404. No full-list route has been confirmed, so none is queued and its yield is **not available**, rather than zero. Existing advertiser discovery remains available.
+
+Profile enrichment now prioritizes explicit sponsored eligibility, then a known EUR/TON/Gram cabinet, then descending member count. Cabinet evidence is stored separately from explicit eligibility; omitted fields remain unknown. Channels with at least 20,000 members or either ad signal become candidates. One profile job runs per five channel jobs while listing slices remain; all jobs share the existing host budget. Full profiles already saved are skipped. The remaining candidates run after listing slices, before broad graph discovery.
+
+Ads discovered by these profiles use `persian_channel_priority_profile`; each ad still requires its own Iran verification and the existing fixed historical cutoff. Requests are logged without headers or credentials. `scripts/channel_ad_yield.py` reports both verified Iran ads per 100 ad requests and per 100 combined profile-plus-ad requests, including failed/retried requests. Known and previously fetched records do not inflate the request denominator. Shared ad IDs keep their existing attribution, so this measures incremental yield conservatively.

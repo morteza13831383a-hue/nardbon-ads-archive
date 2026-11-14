@@ -164,6 +164,7 @@ def extract(doc, url):
             'classification': 'iran_confirmed' if explicit else 'persian_candidate' if 'fa' in languages or PERSIAN.search(title + ' ' + meta.get('description','')) else 'unclassified',
             'iran_evidence': explicit, 'source_language_tags': sorted({x for x in languages if x}),
             'members': next((e.get('interactionStatistic', {}).get('userInteractionCount') for e in entities if isinstance(e.get('interactionStatistic'), dict)), None),
+            'record_detail':'profile','profile_fetched_at':now(),
             'metrics': metrics, 'collected_at': now(), 'jsonld': structured,
             'meta': meta, 'text_segments': segments,
             'links': [{'url': urljoin(BASE, n.attrs['href']), 'text': n.text().strip()}
@@ -176,6 +177,15 @@ def listing_number(text):
     text = text.replace(',', '').replace('٬', '').replace('\u00a0', '').strip()
     m = re.fullmatch(r'(\d+(?:\.\d+)?)\s*([KkMm]?)', text)
     return int(float(m[1]) * {'': 1, 'k': 1000, 'm': 1000000}[m[2].lower()]) if m else None
+
+
+def listing_eligibility(fields):
+    for label in ('Sponsored eligible','Ad eligibility','Sponsored'):
+        if label in fields:
+            value=fields[label].text().strip().lower()
+            if value in ('yes','eligible','enabled','true'):return True
+            if value in ('no','ineligible','disabled','false'):return False
+    return None
 
 
 def extract_listing(doc, url):
@@ -215,15 +225,21 @@ def extract_listing(doc, url):
                 continue
             username = CHANNEL.fullmatch(urlsplit(anchor.attrs['href']).path)[1].lower()
             title = re.sub(r'\s*@' + re.escape(username) + r'\s*$', '', anchor.text().strip(), flags=re.I).strip()
-            if not title or username in result:
+            if not title:
                 continue
+            previous=result.get(username,{})
             metrics = {key: fields[key].text().strip() for key in ('Members', 'Avg. views') if key in fields}
             result[username] = {'username': username, 'title': title, 'source_url': url,
                 'channel_url': BASE + '/channels/' + username, 'classification': 'persian_candidate',
                 'members': listing_number(metrics.get('Members', '')), 'avg_views': listing_number(metrics.get('Avg. views', '')),
+                'cabinet_type': fields['Cabinet type'].text().strip()if 'Cabinet type'in fields else None,
+                'sponsored_eligible': listing_eligibility(fields),
                 'metrics': metrics, 'category': fields['Category'].text().strip() if 'Category' in fields else None,
                 'source_language_tags': ['fa'], 'iran_advertisers': [], 'iran_evidence': [],
                 'collected_at': now(), 'record_detail': 'listing'}
+            if previous:
+                for key,value in previous.items():
+                    if value is not None:result[username][key]=value
     return list(result.values())
 
 

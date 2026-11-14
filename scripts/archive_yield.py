@@ -115,7 +115,7 @@ def seed_from_channel_pages(db, enqueue, html_dir=None):
                 for link in r.get('links') or []:
                     m = re.search(r'/ads/(c[a-z0-9]{24})(?:$|[/?#])', link.get('url') or '')
                     if m:
-                        enqueue(db, f'{BASE}/ads/{m[1]}', 'detail', 1, via='persian_channel_page')
+                        enqueue(db, f'{BASE}/ads/{m[1]}', 'detail', 1, via='persian_channel_priority_profile'if r.get('ad_discovery_via')=='persian_channel_priority_profile'else'persian_channel_page')
                         n += 1
     db.commit()
     return n
@@ -292,3 +292,20 @@ def coverage_report(db):
             'extracted_total': sum(found.values()),
             'by_strategy': strategies,
             'skipped_by_id_time': db.execute("SELECT COUNT(*) FROM queue WHERE status='skipped_time'").fetchone()[0]}
+
+
+class RequestLedger:
+    """Count actual requests by discovery strategy, without copying headers or credentials."""
+    def __init__(self,db,opener):
+        self.db=db;self.opener=opener
+        db.execute('CREATE TABLE IF NOT EXISTS source_requests(id INTEGER PRIMARY KEY,url TEXT,via TEXT,status INTEGER,at TEXT)');db.commit()
+    def open(self,request,**kwargs):
+        from urllib.error import HTTPError
+        from datetime import datetime,timezone
+        row=self.db.execute('SELECT via FROM queue WHERE url=?',(request.full_url,)).fetchone()
+        via=(row[0]if row else None)or'overhead'
+        key=self.db.execute('INSERT INTO source_requests(url,via,status,at)VALUES(?,?,0,?)',(request.full_url,via,datetime.now(timezone.utc).isoformat())).lastrowid;self.db.commit()
+        try:response=self.opener.open(request,**kwargs)
+        except HTTPError as exc:
+            self.db.execute('UPDATE source_requests SET status=?WHERE id=?',(exc.code,key));self.db.commit();raise
+        self.db.execute('UPDATE source_requests SET status=?WHERE id=?',(response.status,key));self.db.commit();return response
