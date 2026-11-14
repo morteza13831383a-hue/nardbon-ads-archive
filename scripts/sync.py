@@ -626,6 +626,7 @@ def upload(ads, state, run):
             "last_slice": state.get("channels_last"), "full_pass": state.get("channels_at"),
             "blocked_until": max(state.get("channels_blocked_until") or "", state.get("api_blocked_until") or "") or None,
             "every_hours": channels.EVERY_H,
+            "coverage": channel_import.coverage(channels.load()),
             "crawler_waiting": len(tme_crawler.load_queue()["pending"]),
             "crawler_found": sum(1 for c in channels.load().values() if c.get("sr") == "tme"),
         }

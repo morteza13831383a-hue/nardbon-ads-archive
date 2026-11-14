@@ -198,7 +198,11 @@ function renderStatus(s){
     [N(s.idx) + ' / ' + N(s.queries), 'پیشرفت دور فعلی (' + N(pct) + '٪)'],
     [ago(last), 'آخرین برداشت<br>' + T(last)],
     [s.full_pass ? ago(s.full_pass) : 'هنوز نه', 'آخرین دور کامل'],
-    [N(s.crawler_found), 'کانال جدید از خزنده t.me'], [N(s.crawler_waiting), 'کانال در صف خزنده'],
+    ...['all', '1000plus'].map(k => { const c = (s.coverage || {})[k] || {};
+      return [c.estimated_coverage_pct != null ? N(c.estimated_coverage_pct) + '٪' : '—',
+        (k === 'all' ? 'پوشش تخمینی همه کانال‌ها' : 'پوشش تخمینی کانال‌های بالای ۱٬۰۰۰ عضو')
+        + `<br>TGStat ${N(c.tgstat)} · tgadsspy ${N(c.tgadsspy)} · مشترک ${N(c.both)}`
+        + (c.estimated_total ? `<br>کل تخمینی ${N(c.estimated_total)}` : '<br>هنوز همپوشانی کافی نیست')]; }),
   ].map(([b,sp]) => `<div class="stat"><b>${b}</b><span>${sp}</span></div>`).join('');
   $('sysnote').textContent = 'خزنده کانال‌ها حدود هر ۲ ساعت چند ده کانال را از صفحه‌های عمومی t.me می‌خواند، کانال‌های فارسی را نگه می‌دارد و کانال‌هایی را که در پست‌هایشان نام برده شده به صف اضافه می‌کند. هر کانال ماهی یک بار به‌روز می‌شود.';
 }

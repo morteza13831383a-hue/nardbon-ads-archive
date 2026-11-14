@@ -168,6 +168,24 @@ def import_tgstat(chans, pl, log, now_iso):
     return n
 
 
+def coverage(chans):
+    """Lincoln-Petersen estimate from two independent sources (TGStat and tgadsspy):
+    N ~= n1 * n2 / m, where m is the number of channels both found. Reported overall and for
+    channels with 1,000+ subscribers (where Telegram Ads can run). An estimate, not a census."""
+    out = {}
+    for label, keep in (("all", lambda c: True), ("1000plus", lambda c: (c.get("m") or 0) >= 1000)):
+        pool = [c for c in chans.values() if (c.get("kd") or "channel") == "channel" and keep(c)]
+        a = {c["u"].lower() for c in pool if c.get("ts")}                                   # TGStat
+        b = {c["u"].lower() for c in pool if c.get("cl") or c.get("sr") == "tgadsspy" or c.get("s") and not c.get("ts") and c.get("sr") != "tme"}
+        m = len(a & b)
+        est = round(len(a) * len(b) / m) if m >= 20 else None
+        union = len(a | b)
+        out[label] = {"tgstat": len(a), "tgadsspy": len(b), "both": m, "union": union,
+                      "estimated_total": est,
+                      "estimated_coverage_pct": round(100 * union / est, 1) if est else None}
+    return out
+
+
 def run(log, now_iso):
     parts = sorted(glob.glob(str(IMPORT_DIR / "*.jsonl.gz")))
     pl = load_placements()
