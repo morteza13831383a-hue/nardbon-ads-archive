@@ -1,21 +1,21 @@
 {
   "schema_version": 1,
   "started_at": "2026-11-13T20:13:28.096419+00:00",
-  "updated_at": "2026-11-14T20:21:22.630469+00:00",
-  "channels": 15755,
+  "updated_at": "2026-11-14T20:24:40.526010+00:00",
+  "channels": 15914,
   "classifications": {
-    "persian_candidate": 15201,
+    "persian_candidate": 15360,
     "unclassified": 554
   },
   "queue": {
-    "done": 4837,
+    "done": 4842,
     "failed": 269,
-    "listing_saved": 4333,
-    "pending": 26767,
+    "listing_saved": 4351,
+    "pending": 26744,
     "robots_disallowed": 22
   },
   "complete": false,
-  "request_count": 1077,
+  "request_count": 1102,
   "slices": [
     {
       "filters": "{\"category\": \"adult\", \"sort\": \"ads\"}",
@@ -186,6 +186,14 @@
       "error": null
     },
     {
+      "filters": "{\"category\": \"fashion\", \"sort\": \"new\"}",
+      "status": "done",
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 195,
+      "error": null
+    },
+    {
       "filters": "{\"category\": \"fashion\"}",
       "status": "done",
       "next_page": 20,
@@ -340,16 +348,16 @@
     {
       "filters": "{\"category\": \"betting\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 237,
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 240,
       "error": null
     },
     {
       "filters": "{\"category\": \"crypto\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
+      "next_page": 20,
+      "pages": 19,
       "new_records": 0,
       "error": null
     },
@@ -378,27 +386,19 @@
       "error": null
     },
     {
-      "filters": "{\"category\": \"fashion\", \"sort\": \"new\"}",
-      "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 195,
-      "error": null
-    },
-    {
       "filters": "{\"category\": \"finance\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
+      "next_page": 20,
+      "pages": 19,
       "new_records": 0,
       "error": null
     },
     {
       "filters": "{\"category\": \"finance\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 317,
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 330,
       "error": null
     },
     {
@@ -412,49 +412,49 @@
     {
       "filters": "{\"category\": \"gambling\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 308,
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 327,
       "error": null
     },
     {
       "filters": "{\"category\": \"gambling\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 343,
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 362,
       "error": null
     },
     {
       "filters": "{\"category\": \"gambling\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
+      "next_page": 20,
+      "pages": 19,
       "new_records": 0,
       "error": null
     },
     {
       "filters": "{\"category\": \"gaming\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
+      "next_page": 20,
+      "pages": 19,
       "new_records": 0,
       "error": null
     },
     {
       "filters": "{\"category\": \"gaming\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 254,
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 263,
       "error": null
     },
     {
       "filters": "{\"category\": \"gaming\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 238,
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 239,
       "error": null
     },
     {
@@ -484,16 +484,16 @@
     {
       "filters": "{\"category\": \"jobs\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 349,
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 368,
       "error": null
     },
     {
       "filters": "{\"category\": \"jobs\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
+      "next_page": 20,
+      "pages": 19,
       "new_records": 1,
       "error": null
     },
@@ -516,8 +516,8 @@
     {
       "filters": "{\"category\": \"news\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
+      "next_page": 20,
+      "pages": 19,
       "new_records": 1,
       "error": null
     },
@@ -532,17 +532,17 @@
     {
       "filters": "{\"category\": \"real-estate\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 352,
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 370,
       "error": null
     },
     {
       "filters": "{\"category\": \"real-estate\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 305,
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 324,
       "error": null
     },
     {
@@ -556,9 +556,9 @@
     {
       "filters": "{\"category\": \"religion\", \"sort\": \"new\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 317,
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 321,
       "error": null
     },
     {
@@ -588,8 +588,8 @@
     {
       "filters": "{\"category\": \"tech\", \"sort\": \"ads\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
+      "next_page": 20,
+      "pages": 19,
       "new_records": 0,
       "error": null
     },
@@ -604,9 +604,9 @@
     {
       "filters": "{\"category\": \"tech\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 285,
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 303,
       "error": null
     },
     {
@@ -628,9 +628,9 @@
     {
       "filters": "{\"category\": \"trading\"}",
       "status": "pending",
-      "next_page": 19,
-      "pages": 18,
-      "new_records": 77,
+      "next_page": 20,
+      "pages": 19,
+      "new_records": 94,
       "error": null
     },
     {
@@ -27794,83 +27794,83 @@
   "files": [
     {
       "name": "channels-00.jsonl.gz",
-      "bytes": 423709,
-      "sha256": "f666e7ffec4c34e13e7961aa1db971d0e930c45a65d5bc44003adf4694547dce"
+      "bytes": 432951,
+      "sha256": "d04fd7086c48951de14d9edae1ed9b76ca14c0c658d5de38bfadeae84b9d0be3"
     },
     {
       "name": "channels-01.jsonl.gz",
-      "bytes": 410721,
-      "sha256": "c5a7b4d7056281a13a507ddecd0879c269c046ff54f00ec307b88ab12cc01cd1"
+      "bytes": 411556,
+      "sha256": "0d4ab0a010b57edf16a126dc48ca492f6e15f35050cab4311f0f23db062f38a2"
     },
     {
       "name": "channels-02.jsonl.gz",
-      "bytes": 420982,
-      "sha256": "ab446b736ddd2cc78af40ad1bf0144e70971935fbb6f1e7df0de8d58925c96df"
+      "bytes": 421434,
+      "sha256": "3d823d3b572176232f981d26033de0cef128aee21485f8adacb86921bfd0b9c0"
     },
     {
       "name": "channels-03.jsonl.gz",
-      "bytes": 404693,
-      "sha256": "94b0fd2bb81fb0dfdf65c2742810154c597daba4bf262fbafadcb7dc14ef3ab4"
+      "bytes": 405589,
+      "sha256": "b50ed884ba55aeba97fd52019f6cdbb96d35d5e5ae43205a4bad53f3faeb4b0d"
     },
     {
       "name": "channels-04.jsonl.gz",
-      "bytes": 390320,
-      "sha256": "9dd02fc07769fdf32fe6932847aec40694082c041f4c529f65f4f01d1dd246f2"
+      "bytes": 390982,
+      "sha256": "049b546801cad6dd2ab715033af32a1636f6acd41855ec58e1d837e4d3cb9477"
     },
     {
       "name": "channels-05.jsonl.gz",
-      "bytes": 373036,
-      "sha256": "85fe0f2eab55b92229b214c6a015135210dbdf3a08e5e986619d19231e21d210"
+      "bytes": 375504,
+      "sha256": "c6cbfcbf452e5f0ea9384826d599685326f7c1677a2999f5bb0496e8b5347d34"
     },
     {
       "name": "channels-06.jsonl.gz",
-      "bytes": 423347,
-      "sha256": "c3a2df5d73de6ef44da8668da1ff8ff345ffc8af1447c7270c51dd4e056bb1f6"
+      "bytes": 428972,
+      "sha256": "e4365686af6f6e03591f2c3fcbfc61838329ac0107e08aa2b93ea0187a288b6e"
     },
     {
       "name": "channels-07.jsonl.gz",
-      "bytes": 399369,
-      "sha256": "bf78fd49f31ac55911927ffae7b45881fda0fe59eef4da309584db339a8a69ac"
+      "bytes": 401754,
+      "sha256": "2911dc0a74f941d62c30272e1b055aabe4986f220a845ee4dad43ca17c219ad2"
     },
     {
       "name": "channels-08.jsonl.gz",
-      "bytes": 418725,
-      "sha256": "48977b67b043db3a87376eb39656f16b53f2d08b21642765c46b8b5c241843ee"
+      "bytes": 419367,
+      "sha256": "60d714df932b0ba45a7da1af52e190e2d3e6cdd87c3f8050d114b29c28ed43fa"
     },
     {
       "name": "channels-09.jsonl.gz",
-      "bytes": 397473,
-      "sha256": "d7252898cfc76087ce2928f73edfd1699a40b12b364b0ba51504e46d35153c71"
+      "bytes": 398129,
+      "sha256": "3131e26e8c929d9fbfe0c53d397b054d0513c9433970e96f6eca584d23d414a3"
     },
     {
       "name": "channels-0a.jsonl.gz",
-      "bytes": 455566,
-      "sha256": "42c452771c8618d6682c062d8e22431f4e8f3d799ea0fa6598352ae8baf9a283"
+      "bytes": 456589,
+      "sha256": "ac8196e27a3753bbb4f11ddd0d44e14c9a039bdf1b6b0b0ec278bcd82158fcb2"
     },
     {
       "name": "channels-0b.jsonl.gz",
-      "bytes": 426062,
-      "sha256": "39b35718ce91174a9b7f4dfa0b281c9e4886eef65df3bb245707186ecf6fcbad"
+      "bytes": 426753,
+      "sha256": "ba428de10ceff0e4e279dbdb0590dfe153957ed22f5754f77baa974ab12abf2f"
     },
     {
       "name": "channels-0c.jsonl.gz",
-      "bytes": 408359,
-      "sha256": "b7138418a35bc9e017365d165972c9aaefadab919a518bbe919b2664c092bb9e"
+      "bytes": 409751,
+      "sha256": "d8c399f92df966d5d9767b7aa51c7e3242a7c7117e551fa42b300b4929d0a54a"
     },
     {
       "name": "channels-0d.jsonl.gz",
-      "bytes": 393401,
-      "sha256": "26de05153f1c45637d4cb826fc0498745fac003740f859360fa8326d2424d678"
+      "bytes": 397304,
+      "sha256": "6c42510286228f501029b06650319e5d806b17610d8b2abee0323368b48f7f90"
     },
     {
       "name": "channels-0e.jsonl.gz",
-      "bytes": 398023,
-      "sha256": "4acf384cdfffc35f8bee90a8fdf99bb9c889028cdd7669f958a719595ef6855c"
+      "bytes": 399414,
+      "sha256": "b550b897d6ac321392fd0d3c03ca02f2066875c9f5005a400dc052d47a77d764"
     },
     {
       "name": "channels-0f.jsonl.gz",
-      "bytes": 400202,
-      "sha256": "f9ed8771676859a158175bba4cab5597b48fb279dc00f417c6a89d4ba4074892"
+      "bytes": 401242,
+      "sha256": "0a451468e72bfc9a1c7e64611a1f1aade1a55df83aa0c84d04f471362d83dbe7"
     }
   ]
 }
