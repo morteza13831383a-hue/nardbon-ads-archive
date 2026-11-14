@@ -95,8 +95,10 @@ class Client:
                 try:self.session.attach(request)
                 except ValueError:raise AccessStop('TGStat session cookies are unavailable or expired')from None
             attempt=self.db.execute('INSERT INTO requests(url,status,at)VALUES(?,?,?)',(url,0,now())).lastrowid;self.db.commit()
+            from source_budget import report as budget_report
             try:response=(self.session_opener if authenticated else self.opener).open(request,timeout=30)
             except HTTPError as exc:
+                if exc.code not in(301,302,303,307,308):budget_report('https://tgstat.com',exc.code)
                 self.db.execute('UPDATE requests SET status=?WHERE id=?',(exc.code,attempt));self.db.commit()
                 if exc.code in(401,403,429):raise AccessStop(f'HTTP {exc.code}: source paused')from None
                 if exc.code in(301,302,303,307,308):
@@ -109,6 +111,9 @@ class Client:
                     except Exception:problem=None
                     if problem:raise AccessStop(problem)from None
                 raise
+            except(OSError,TimeoutError):
+                budget_report('https://tgstat.com',0);raise
+            budget_report('https://tgstat.com',response.status)
             with response:
                 self.db.execute('UPDATE requests SET status=?WHERE id=?',(response.status,attempt));self.db.commit()
                 content_type=response.headers.get('Content-Type','').lower()
