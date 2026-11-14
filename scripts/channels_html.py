@@ -4,6 +4,7 @@
 Unverified Persian candidates are kept separately from explicitly Iran-tagged channels.
 """
 import argparse
+import sys
 import base64
 from datetime import datetime, timezone
 import fcntl
@@ -264,6 +265,8 @@ def export(db, work):
     report = {'schema_version': 1, 'started_at': db.execute("SELECT value FROM meta WHERE key='started_at'").fetchone()[0],
               'updated_at': now(), 'channels': sum(classes.values()), 'classifications': classes,
               'queue': counts, 'complete': False,
+              'request_count':db.execute('SELECT COUNT(*)FROM requests').fetchone()[0]if db.execute("SELECT 1 FROM sqlite_master WHERE name='requests'").fetchone()else None,
+              'slices':__import__('channel_slices').coverage(db)if db.execute("SELECT 1 FROM sqlite_master WHERE name='spy_slices'").fetchone()else [],
               'limitations': ['Only discoverable public pages are included; queue exhaustion does not prove full coverage.',
                              'Persian language and Iran ad placement do not prove a channel is Iranian.',
                              'Channel statistics are current at fetch time; this is not historical reconstruction.'],
@@ -402,6 +405,7 @@ def publish(db, work, repo):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--final-plan',action='store_true',help='Listing slices first, advertiser placements second, unsaved Persian graph last')
     p.add_argument('--work-dir', type=Path, required=True)
     p.add_argument('--ads-checkpoint', type=Path)
     p.add_argument('--repo', help='Optional authorized GitHub repository for durable raw exports')
@@ -415,18 +419,40 @@ def main():
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         db = connect(a.work_dir)
         try:
-            seed(db, a.ads_checkpoint)
-            client = Client(BASE, delay=4)
+            if a.final_plan:__import__('channel_slices').ensure(sys.modules[__name__],db)
+            else:seed(db,a.ads_checkpoint)
+            client = Client(BASE, delay=0 if a.final_plan else 4,resilient=a.final_plan)
+            if a.final_plan:
+                from source_budget import Challenge
+                from urllib.error import URLError
+                from http.client import HTTPException
+                client.opener=__import__('channel_slices').CountOpener(db,client.opener,sys.modules[__name__])
+                while True:
+                    try:client.initialize();break
+                    except __import__('source_budget').HostBlocked:raise
+                    except HTTPError as exc:
+                        if exc.code not in(403,429)and exc.code<500:raise
+                    except(Challenge,URLError,TimeoutError,HTTPException):pass
             i = 0
             while a.max_slices == 0 or i < a.max_slices:
-                run(db, client, a.pages_per_slice)
+                active=True
+                if a.final_plan:
+                    for _ in range(a.pages_per_slice):
+                        active=__import__('channel_slices').step(sys.modules[__name__],db,client)
+                        if not active:break
+                else:run(db,client,a.pages_per_slice)
                 print(json.dumps(export(db, a.work_dir), ensure_ascii=False), flush=True)
                 if a.repo:
                     publish(db, a.work_dir, a.repo)
                 i += 1
+                if a.final_plan:
+                    if not active:break
+                    continue
                 if not db.execute("SELECT 1 FROM queue WHERE status='pending' LIMIT 1").fetchone():
                     break
                 seed(db, a.ads_checkpoint)
+        except __import__('source_budget').HostBlocked as exc:
+            db.rollback();db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",(str(exc),));db.commit();raise
         finally:
             db.rollback()
             export(db, a.work_dir)

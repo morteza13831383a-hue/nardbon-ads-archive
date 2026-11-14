@@ -4,11 +4,12 @@ import http.cookiejar
 import os
 import re
 import stat
+import base64,secrets
 from pathlib import Path
 from http.cookiejar import Cookie, CookieJar
 from urllib.parse import urlsplit, unquote
 
-PROFILE_PATH=re.compile(r'^/(channel|chat)/@[A-Za-z][A-Za-z0-9_]{3,31}/?$')
+PROFILE_PATH=re.compile(r'^/(channel|chat)/(?:@[A-Za-z][A-Za-z0-9_]{3,31}|[A-Za-z0-9_-]{3,128})/?$')
 ITEMS_PATH=re.compile(r'^/([a-z-]+)/items$')
 
 class SecretFilter:
@@ -65,6 +66,14 @@ class Session:
         except (ValueError,TypeError,KeyError,AttributeError,OverflowError):
             raise ValueError('TGSTAT_COOKIE must be a valid Cookie-Editor JSON export restricted to tgstat.com') from None
         return result
+    def csrf_from_cookie(self):
+        cookie=next((c for c in self.jar if c.name=='_tgstat_csrk'and not c.is_expired()),None)
+        if cookie is None:return False
+        match=re.search(r'i:1;s:(\d+):"([^"\r\n]+)";',unquote(cookie.value))
+        if not match or int(match[1])!=len(match[2].encode()):return False
+        token=match[2].encode();mask=secrets.token_bytes(len(token))
+        self.csrf=base64.urlsafe_b64encode(mask+bytes(a^b for a,b in zip(mask,token))).decode().rstrip('=')
+        self.csrf_param='_tgstat_csrk';self.filter.add(match[2]);self.filter.add(self.csrf);return True
     def attach(self,request):
         http.cookiejar.debug=False
         if not endpoint_allowed(request.full_url,request.get_method()):raise ValueError('Session endpoint is not permitted')
@@ -93,10 +102,11 @@ def account_problem(doc,fragment=False):
             path=urlsplit(n.attrs.get('data-src',n.attrs.get('href',''))).path
             if path in('/login','/signin','/sign-in'):return 'Session is logged out'
         if n.tag=='form'and any(word in (n.attrs.get('id','')+' '+n.attrs.get('action','')).lower()for word in('login','signin')):return 'Session is logged out'
-    if fragment or not any(n.tag=='h1'for n in doc.root.nodes()):notices.append(doc.root.text())
+    has_cards=any('peer-item-box'in n.attrs.get('class','').split()for n in doc.root.nodes())
+    if (fragment or not any(n.tag=='h1'for n in doc.root.nodes()))and not has_cards:notices.append(doc.root.text())
     words=' '.join(notices).lower()
     if any(v in words for v in('sign in to access','please log in','login required','session expired','authorization required','войдите','авторизац','وارد حساب','ورود به حساب')):return 'Session is logged out'
-    if any(v in words for v in('account is limited','account has been limited','account is restricted','account has been restricted','account warning','account is blocked','account has been blocked','limit exceeded','too many requests','rate limit','доступ ограничен','превышен лимит','حساب شما محدود','حساب شما مسدود','captcha')):return 'Account warning or limit detected'
+    if any(v in words for v in('account is limited','account has been limited','account is restricted','account has been restricted','account warning','account is blocked','account has been blocked','limit exceeded','too many requests','rate limit','доступ ограничен','превышен лимит','حساب شما محدود','حساب شما مسدود')):return 'Account warning or limit detected'
     return None
 
 

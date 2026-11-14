@@ -20,6 +20,7 @@ This module upserts them, by username / (advertiser, channel), into
 Re-importing the same parts never creates duplicates. Runs on every sync; no network.
 """
 import glob
+from pathlib import Path
 import gzip
 import json
 import re
@@ -76,7 +77,7 @@ def import_html_buckets(chans, pl, log, now_iso):
     n = 0
     for path in sorted(glob.glob(str(HTML_DIR / "channels-*.jsonl.gz"))):
         name = path.rsplit("/", 1)[-1]
-        raw = open(path, "rb").read()
+        raw = Path(path).read_bytes()
         digest = hashlib.sha256(raw).hexdigest()
         if seen.get(name) == digest:
             continue
@@ -125,9 +126,12 @@ def import_tgstat(chans, pl, log, now_iso):
     import hashlib
     seen = pl.setdefault("tgstat_files", {})
     n = 0
+    entities_f=channels.ROOT/'data'/'tgstat-entities.json'
+    entities=json.loads(entities_f.read_text('utf-8'))if entities_f.exists()else{}
+    entities_changed=False
     for path in sorted(glob.glob(str(TGSTAT_DIR / "*.jsonl.gz"))):
         name = path.rsplit("/", 1)[-1]
-        raw = open(path, "rb").read()
+        raw = Path(path).read_bytes()
         digest = hashlib.sha256(raw).hexdigest()
         if seen.get(name) == digest:
             continue
@@ -136,8 +140,15 @@ def import_tgstat(chans, pl, log, now_iso):
                 continue
             r = json.loads(line)
             u = (r.get("username") or "").lstrip("@")
-            if not USERNAME.match(u) or r.get("type") not in ("channel", "group"):
+            if r.get('type')not in('channel','group'):continue
+            if not USERNAME.match(u):
+                if r.get('source_id'):
+                    key=r['type']+':'+str(r['source_id'])
+                    r['region']=region(' '.join(str(r.get(k)or'')for k in('title','description','text_sample')))
+                    entities[key]=r;entities_changed=True;n+=1
                 continue
+            private_key=r['type']+':'+str(r.get('source_id',''))
+            if private_key in entities:entities.pop(private_key);entities_changed=True
             c = chans.get(u) or {"u": u, "k": [], "sr": "tgstat"}
             c["kd"] = r["type"]
             for src, dst in (("title", "t"), ("category", "c"), ("country", "co"), ("language", "lg")):
@@ -163,6 +174,7 @@ def import_tgstat(chans, pl, log, now_iso):
             chans[u] = c
             n += 1
         seen[name] = digest
+    if entities_changed:entities_f.write_text(json.dumps(entities,ensure_ascii=False,separators=(',',':')),'utf-8')
     if n:
         log(f"channel import: {n} TGStat channels/groups")
     return n

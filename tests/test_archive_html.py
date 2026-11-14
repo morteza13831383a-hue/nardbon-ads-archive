@@ -226,3 +226,16 @@ class SnapshotRevisit(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main()
+
+
+# Synthetic HTTP outcomes must never change a running collector's host budget.
+def setUpModule():
+    global _isolated_budget_dir,_isolated_budget_env
+    import os,tempfile
+    from unittest.mock import patch
+    _isolated_budget_dir=tempfile.TemporaryDirectory()
+    _isolated_budget_env=patch.dict(os.environ,{'CRAWL_BUDGET_DIR':_isolated_budget_dir.name})
+    _isolated_budget_env.start()
+
+def tearDownModule():
+    _isolated_budget_env.stop();_isolated_budget_dir.cleanup()

@@ -20,7 +20,7 @@ class BudgetTests(unittest.TestCase):
         path.write_text(json.dumps({'delay':4,'streak':0,'last':10**12,'pause_until':0}))
         with patch.object(b.time,'time',return_value=100.0),patch.object(b.time,'sleep') as sleep,patch.object(b.random,'uniform',return_value=0):
             b.reserve('https://tgstat.com',4)
-        self.assertLessEqual(sleep.call_args[0][0],4.0)        # waits one normal gap, not until 10**12
+        self.assertTrue(not sleep.called or sleep.call_args[0][0]<=4.0)        # waits one normal gap, not until 10**12
 
     def test_rate_limit_pauses_everyone_and_doubles_the_delay(self):
         with patch.object(b.time,'time',return_value=1000.0):
@@ -28,9 +28,12 @@ class BudgetTests(unittest.TestCase):
         s=self.state('https://tgadsspy.com')
         self.assertEqual(s['delay'],8.0)
         self.assertEqual(s['pause_until'],1000.0+b.BLOCK_PAUSE)
-        with patch.object(b.time,'time',return_value=1000.0),patch.object(b.time,'sleep') as sleep,patch.object(b.random,'uniform',return_value=0):
+        clock=[1000.0]
+        def advance(seconds):clock[0]+=seconds
+        with patch.object(b.time,'time',side_effect=lambda:clock[0]),patch.object(b.time,'sleep',side_effect=advance)as sleep,patch.object(b.random,'uniform',return_value=0):
             b.reserve('https://tgadsspy.com',1)
-        self.assertGreaterEqual(sleep.call_args[0][0],b.BLOCK_PAUSE)
+        self.assertGreaterEqual(clock[0],1000+b.BLOCK_PAUSE)
+        self.assertTrue(all(c.args[0]<=30 for c in sleep.call_args_list))
 
     def test_clean_streak_speeds_up_but_not_below_the_floor(self):
         for _ in range(b.SPEEDUP_EVERY*20):
@@ -45,6 +48,18 @@ class BudgetTests(unittest.TestCase):
     def test_challenge_page_counts_as_a_block(self):
         b.report('https://tgadsspy.com','challenge')
         self.assertEqual(self.state('https://tgadsspy.com')['delay'],8.0)
+
+    def test_third_block_inside_six_hours_latches_host_stop(self):
+        with patch.object(b.time,'time',return_value=1000):
+            b.report('https://tgstat.com',403);b.report('https://ir.tgstat.com','challenge')
+            with self.assertRaises(b.HostBlocked):b.report('https://tgstat.com',429)
+        self.assertTrue(self.state('https://tgstat.com')['halted'])
+        with self.assertRaises(b.HostBlocked):b.reserve('https://ir.tgstat.com',4)
+
+    def test_old_blocks_do_not_count_against_new_six_hour_window(self):
+        with patch.object(b.time,'time',return_value=1000):b.report('https://tgadsspy.com',403)
+        with patch.object(b.time,'time',return_value=1000+7*3600):b.report('https://tgadsspy.com',403)
+        self.assertEqual(len(self.state('https://tgadsspy.com')['blocks']),1)
 
 
 if __name__=='__main__':

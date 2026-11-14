@@ -8,6 +8,7 @@ import re
 import time
 from source_budget import reserve, report
 from html.parser import HTMLParser
+from http.client import HTTPException
 from urllib.parse import urljoin, urlsplit, urlunsplit
 from urllib.request import Request, build_opener, HTTPRedirectHandler
 from urllib.error import HTTPError
@@ -139,7 +140,8 @@ class NoRedirect(HTTPRedirectHandler):
         return None
 
 class Client:
-    def __init__(self, base, delay=3):
+    def __init__(self, base, delay=3, resilient=False):
+        self.resilient = resilient
         self.base = base
         self.delay = max(1, delay)
         self.last = 0
@@ -174,19 +176,26 @@ class Client:
                                 except Exception:
                                     pass
                             report(self.base, 'challenge' if 'Just a moment' in body else e.code)
+                        if e.code in (301,302,303,307,308):report(self.base,e.code)
                         raise
                     except (OSError, TimeoutError):
                         report(self.base, 0)               # network error or timeout: short pause
                         raise
-                    report(self.base, response.status)
                     with response as r:
                         content_type = r.headers.get('Content-Type', '')
                         if not robots and not any(x in content_type for x in ('text/html', 'application/xhtml+xml', 'application/xml', 'text/xml')):
                             raise ValueError('Not an HTML page: ' + content_type)
-                        raw = r.read(20_000_001)
+                        try:raw = r.read(20_000_001)
+                        except (OSError,TimeoutError,HTTPException):
+                            report(self.base,0);raise
                         if len(raw) > 20_000_000:
                             raise ValueError('Page exceeds 20 MB')
-                        return raw.decode(r.headers.get_content_charset() or 'utf-8', errors='replace')
+                        body=raw.decode(r.headers.get_content_charset() or 'utf-8', errors='replace')
+                        if self.resilient:
+                            from source_budget import is_challenge,Challenge
+                            if is_challenge(body):report(self.base,'challenge');raise Challenge('Cloudflare challenge; waiting for shared pause')
+                        report(self.base,response.status)
+                        return body
                 except HTTPError as e:
                     if e.code in (301, 302, 303, 307, 308):
                         url = canonical(urljoin(url, e.headers['Location']))

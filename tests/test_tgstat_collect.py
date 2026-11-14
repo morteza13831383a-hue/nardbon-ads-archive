@@ -54,3 +54,16 @@ class TGStatTests(unittest.TestCase):
             with patch.object(t,'reserve'),patch.object(c.opener,'open',side_effect=TimeoutError('timed out')):
                 with self.assertRaises(TimeoutError):c.get(t.BASE+'/channel/@example')
             self.assertEqual(db.execute('SELECT status FROM requests').fetchall(),[(0,)]);db.close()
+
+
+# Synthetic HTTP outcomes must never change a running collector's host budget.
+def setUpModule():
+    global _isolated_budget_dir,_isolated_budget_env
+    import os,tempfile
+    from unittest.mock import patch
+    _isolated_budget_dir=tempfile.TemporaryDirectory()
+    _isolated_budget_env=patch.dict(os.environ,{'CRAWL_BUDGET_DIR':_isolated_budget_dir.name})
+    _isolated_budget_env.start()
+
+def tearDownModule():
+    _isolated_budget_env.stop();_isolated_budget_dir.cleanup()

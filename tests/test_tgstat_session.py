@@ -26,7 +26,10 @@ class Response:
     def __exit__(self,*args):pass
 
 class SessionTests(unittest.TestCase):
-    def tearDown(self):t._SECRET_FILTER=None
+    def setUp(self):
+        self.budget=tempfile.TemporaryDirectory();self.budget_env=patch.dict('os.environ',{'CRAWL_BUDGET_DIR':self.budget.name});self.budget_env.start()
+    def tearDown(self):
+        t._SECRET_FILTER=None;self.budget_env.stop();self.budget.cleanup()
     def test_cookie_is_environment_only_and_domain_validated(self):
         with patch.dict('os.environ',{'TGSTAT_COOKIE':'','TGSTAT_COOKIE_FILE':''}):
             with self.assertRaisesRegex(ValueError,'not configured'):Session.from_environment()
@@ -67,7 +70,7 @@ class SessionTests(unittest.TestCase):
             with tempfile.TemporaryDirectory()as tmp:
                 db=t.connect(Path(tmp));t.enqueue(db,'/channel/@example');db.commit();c=t.Client(db,session=session());c.rules=[t.Robots('User-agent: *\nAllow: /')]
                 with patch.object(t,'reserve'),patch.object(c.session_opener,'open',side_effect=HTTPError(t.BASE,status,'denied',{},None))as opened:
-                    with self.assertRaises(t.AccessStop):c.get(t.BASE+'/channel/@example')
+                    with self.assertRaises((t.AccessStop,__import__('source_budget').HostBlocked)):c.get(t.BASE+'/channel/@example')
                     self.assertEqual(opened.call_count,1)
                 db.close()
     def test_cookie_csrf_and_rotated_cookie_never_reach_exports_or_logs(self):
@@ -141,3 +144,16 @@ class SessionTests(unittest.TestCase):
             for path in(Path(tmp)/'exports').iterdir():
                 value=gzip.decompress(path.read_bytes()).decode()if path.suffix=='.gz'else path.read_text()
                 self.assertNotIn(SENTINEL,value)
+
+
+# Synthetic HTTP outcomes must never change a running collector's host budget.
+def setUpModule():
+    global _isolated_budget_dir,_isolated_budget_env
+    import os,tempfile
+    from unittest.mock import patch
+    _isolated_budget_dir=tempfile.TemporaryDirectory()
+    _isolated_budget_env=patch.dict(os.environ,{'CRAWL_BUDGET_DIR':_isolated_budget_dir.name})
+    _isolated_budget_env.start()
+
+def tearDownModule():
+    _isolated_budget_env.stop();_isolated_budget_dir.cleanup()
