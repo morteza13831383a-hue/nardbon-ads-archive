@@ -59,6 +59,6 @@ class PriorityTests(unittest.TestCase):
             a.execute("update queue set status='iran'where url=?",(url,));ay.RequestLedger(a,None)
             for status in(500,200):a.execute("insert into source_requests(url,via,status,at)values(?,?,?,'2026-11-14T00:00:00Z')",(url,priority.VIA,status))
             ads.enqueue(a,spy.BASE+'/ads/'+('c'+'b'*24),'detail',1,via=priority.VIA);a.execute("update queue set status='known'where url!=?and via=?",(url,priority.VIA));a.commit()
-            for _ in range(2):c.execute("insert into requests(url,status,at,via)values('profile',200,'now',?)",(priority.VIA,))
+            for _ in range(2):c.execute("insert into requests(url,status,at,via)values('profile',200,'2026-11-13T23:00:00Z',?)",(priority.VIA,))
             c.commit();a.close();c.close();r=snapshot(ad_work/'checkpoint.sqlite3',ch_work/'channels.sqlite3')
-            self.assertEqual(r['ad_requests'],2);self.assertEqual(r['verified_iran_ads'],1);self.assertEqual(r['iran_per_100_ad_requests'],50);self.assertEqual(r['iran_per_100_profile_plus_ad_requests'],25)
+            self.assertEqual(r['measurement_started_at'],'2026-11-13T23:00:00Z');self.assertEqual(r['ad_requests'],2);self.assertEqual(r['verified_iran_ads'],1);self.assertEqual(r['iran_per_100_ad_requests'],50);self.assertEqual(r['iran_per_100_profile_plus_ad_requests'],25)
