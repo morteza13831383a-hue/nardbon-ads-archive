@@ -1,30 +1,30 @@
 {
   "last_slice_performance": {
     "pages_attempted": 100,
-    "new_iran_ads": 12,
-    "seconds": 1670.41
+    "new_iran_ads": 22,
+    "seconds": 1689.67
   },
   "external_collection": null,
   "last_stop_reason": "",
   "schema_version": 1,
-  "generated_at": "2026-11-14T21:42:05.199560+00:00",
+  "generated_at": "2026-11-14T22:10:48.660334+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 8402,
+  "iran_ads_extracted": 8424,
   "source_reported_iran_total": 56483,
   "queue_status": {
     "after_cutoff": 25,
-    "done": 2148,
-    "gone": 6,
-    "iran": 8402,
+    "done": 2223,
+    "gone": 7,
+    "iran": 8424,
     "known": 1631,
-    "not_iran": 4219,
-    "pending": 761305
+    "not_iran": 4221,
+    "pending": 761479
   },
   "queue_kinds": {
     "detail": 753793,
-    "listing": 23898,
+    "listing": 24172,
     "sitemap": 45
   },
   "discovered_queue_exhausted": false,
@@ -41,36 +41,36 @@
       {
         "month": "2026-05",
         "site_iran_total": 2315,
-        "extracted": 468,
-        "missing": 1847,
-        "coverage_pct": 20.2
+        "extracted": 470,
+        "missing": 1845,
+        "coverage_pct": 20.3
       },
       {
         "month": "2026-06",
         "site_iran_total": 7107,
-        "extracted": 1077,
-        "missing": 6030,
+        "extracted": 1082,
+        "missing": 6025,
         "coverage_pct": 15.2
       },
       {
         "month": "2026-07",
         "site_iran_total": 8355,
-        "extracted": 980,
-        "missing": 7375,
-        "coverage_pct": 11.7
+        "extracted": 988,
+        "missing": 7367,
+        "coverage_pct": 11.8
       },
       {
         "month": "2026-08",
         "site_iran_total": 10472,
-        "extracted": 1286,
-        "missing": 9186,
+        "extracted": 1289,
+        "missing": 9183,
         "coverage_pct": 12.3
       },
       {
         "month": "2026-09",
         "site_iran_total": 16687,
-        "extracted": 2240,
-        "missing": 14447,
+        "extracted": 2243,
+        "missing": 14444,
         "coverage_pct": 13.4
       },
       {
@@ -83,13 +83,13 @@
       {
         "month": "2026-11",
         "site_iran_total": 3310,
-        "extracted": 708,
-        "missing": 2602,
+        "extracted": 709,
+        "missing": 2601,
         "coverage_pct": 21.4
       }
     ],
     "site_sum_of_months": 56596,
-    "extracted_total": 8402,
+    "extracted_total": 8424,
     "by_strategy": [
       {
         "via": "iran_listing",
@@ -117,9 +117,9 @@
       },
       {
         "via": "persian_channel_priority_profile",
-        "requests": 149,
-        "iran": 128,
-        "iran_per_100": 85.91
+        "requests": 175,
+        "iran": 150,
+        "iran_per_100": 85.71
       },
       {
         "via": "advertiser_via_channel>ad",
@@ -147,7 +147,7 @@
       },
       {
         "via": "same_advertiser",
-        "requests": 252,
+        "requests": 250,
         "iran": 0,
         "iran_per_100": 0.0
       },
@@ -159,7 +159,7 @@
       },
       {
         "via": "channel_advertisers",
-        "requests": 627,
+        "requests": 693,
         "iran": 0,
         "iran_per_100": 0.0
       },
@@ -171,13 +171,13 @@
       },
       {
         "via": "advertiser_via_channel",
-        "requests": 54,
+        "requests": 56,
         "iran": 0,
         "iran_per_100": 0.0
       },
       {
         "via": "advertiser_niche",
-        "requests": 612,
+        "requests": 618,
         "iran": 0,
         "iran_per_100": 0.0
       },
@@ -189,7 +189,7 @@
       },
       {
         "via": "original",
-        "requests": 229,
+        "requests": 231,
         "iran": 0,
         "iran_per_100": 0.0
       }
@@ -217,6 +217,12 @@
     },
     {
       "url": "https://tgadsspy.com/channels/akhbarelahzei1/advertisers",
+      "status": "gone",
+      "tries": 1,
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://tgadsspy.com/channels/alfavpnservice/advertisers",
       "status": "gone",
       "tries": 1,
       "error": "HTTPError: HTTP Error 404: Not Found"
