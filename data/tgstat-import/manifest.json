@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-14T13:19:52.689930+00:00",
+  "updated_at": "2026-11-14T13:22:32.792209+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "channel": 150,
-    "group": 151
+    "channel": 157,
+    "group": 157
   },
-  "requests": 783,
+  "requests": 813,
   "per_100_requests": {
-    "channel": 19.16,
-    "group": 19.28
+    "channel": 19.31,
+    "group": 19.31
   },
   "fields_present": {
-    "type": 301,
-    "username": 301,
-    "title": 301,
-    "description": 273,
-    "members": 150,
-    "category": 301,
-    "country": 301,
-    "language": 301,
-    "text_sample": 150,
-    "url": 301,
-    "collected_at": 301
+    "type": 314,
+    "username": 314,
+    "title": 314,
+    "description": 283,
+    "members": 157,
+    "category": 314,
+    "country": 314,
+    "language": 314,
+    "text_sample": 157,
+    "url": 314,
+    "collected_at": 314
   },
   "queue": {
-    "done": 396,
+    "done": 409,
     "failed": 129,
-    "pending": 5595
+    "pending": 6019
   },
   "listings": [
     {
@@ -894,13 +894,13 @@
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 14006,
-      "sha256": "68ce728fbf55131b03c54ccad9eded3ec61b931700b750d1e712ddd7ce336428"
+      "bytes": 14568,
+      "sha256": "527035b6f51cfe5b1a62110caa390ff902f9176a5d4c4d1d8be1f79b2b8efbc0"
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 6988,
-      "sha256": "8c6d24a8e4858a174bc2b8ce47877bc050027db31bbeb00b38680466c736f585"
+      "bytes": 8315,
+      "sha256": "02853f1f7e7329084abc666c242f5c19b9c32a313a856cccd69eebf8fdabc8c9"
     },
     {
       "name": "tgstat-03.jsonl.gz",
@@ -929,8 +929,8 @@
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 7225,
-      "sha256": "476a5011079ad9cda7df3930b3c42343e37dae4cd442658f6863b3152d3de921"
+      "bytes": 7354,
+      "sha256": "7ca2cdfe419e8ee012c596736815898985350179435bc9ba665f5884a44170a4"
     },
     {
       "name": "tgstat-09.jsonl.gz",
@@ -944,18 +944,18 @@
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 6509,
-      "sha256": "5f11d55ac5751b8d6764fd71478f7d7e77791dbf15fdc3e6d1a42758d2dbe484"
+      "bytes": 7857,
+      "sha256": "0b4db031390ad2b091d6b3dee66b9cdb85a02f5373b011c790e935b01aed29f5"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 7544,
-      "sha256": "756026f72ab7f17a8888cedcfef9d24e1a7180c72e1094fa12843e97a76a5b19"
+      "bytes": 9395,
+      "sha256": "2b98de8b2ad44eecd72ad3217c02ca4c3575afcf281a6c7be3470096d21619e4"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 9354,
-      "sha256": "cf977e9db964875df37ea22fbb552e0c3da6e91ccf928953a84d407bdb18f24a"
+      "bytes": 9399,
+      "sha256": "7669aba68c0e420dbf05939b4f1f05306df70ca0f97432359d9cf56a82340735"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
@@ -972,11 +972,12 @@
     {
       "category": "adult",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 97,
+      "unique_handles": 191,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -984,13 +985,14 @@
     {
       "category": "adult",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        71
+        71,
+        0
       ],
       "unique_handles": 60,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
@@ -1028,11 +1030,12 @@
     {
       "category": "art",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        102
+        102,
+        56
       ],
-      "unique_handles": 102,
+      "unique_handles": 158,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1040,47 +1043,51 @@
     {
       "category": "art",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        3
+        3,
+        0
       ],
       "unique_handles": 2,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "babies",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        64
+        64,
+        0
       ],
       "unique_handles": 62,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "babies",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        4
+        4,
+        0
       ],
       "unique_handles": 4,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "beauty",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 93,
+      "unique_handles": 184,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1088,23 +1095,25 @@
     {
       "category": "beauty",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        7
+        7,
+        0
       ],
       "unique_handles": 6,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "blogs",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 101,
+      "unique_handles": 202,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1112,23 +1121,25 @@
     {
       "category": "blogs",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        18
+        18,
+        0
       ],
       "unique_handles": 18,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "books",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 93,
+      "unique_handles": 188,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1136,13 +1147,14 @@
     {
       "category": "books",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        28
+        28,
+        0
       ],
       "unique_handles": 23,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
