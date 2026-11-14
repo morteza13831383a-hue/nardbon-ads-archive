@@ -225,6 +225,22 @@ class SnapshotRevisit(unittest.TestCase):
             self.assertEqual(ay.requeue_missing_snapshots(db),0)
 
 
+class ChannelPageSeeds(unittest.TestCase):
+    def test_ads_linked_on_persian_channel_pages_are_queued_first(self):
+        import archive_yield as ay
+        with tempfile.TemporaryDirectory() as tmp:
+            d=Path(tmp)/'imp'; d.mkdir()
+            ad='c'+'a'*24; other='c'+'b'*24
+            rows=[{'username':'fa_chan','classification':'persian_candidate','links':[{'url':a.BASE+'/ads/'+ad}]},
+                  {'username':'en_chan','classification':'unclassified','links':[{'url':a.BASE+'/ads/'+other}]}]
+            with gzip.open(d/'channels-00.jsonl.gz','wt',encoding='utf-8') as f:
+                for r in rows: f.write(json.dumps(r)+'\n')
+            db=a.connect(Path(tmp),CUTOFF)
+            self.assertEqual(ay.seed_from_channel_pages(db,a.enqueue,d),1)
+            self.assertEqual(db.execute('SELECT priority,via FROM queue WHERE url=?',(a.BASE+'/ads/'+ad,)).fetchone(),(1,'persian_channel_page'))
+            self.assertIsNone(db.execute('SELECT 1 FROM queue WHERE url=?',(a.BASE+'/ads/'+other,)).fetchone())
+
+
 if __name__=='__main__':unittest.main()
 
 

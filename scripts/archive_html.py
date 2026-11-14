@@ -56,6 +56,8 @@ def connect(directory, cutoff=None, seed_known=False):
     if seed_known:                       # real runs only: tests must not read the repo's data
         ay.seed_known(db, ROOT / 'data' / 'ads')
     ay.requeue_missing_snapshots(db)
+    if seed_known:                       # real runs: ads linked from Persian channel pages first
+        ay.seed_from_channel_pages(db, enqueue)
     if not db.execute("SELECT 1 FROM meta WHERE key='yield_seeded_v1'").fetchone():
         cutoff_value = db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
         ay.seed_snapshots(db, cutoff_value, enqueue)

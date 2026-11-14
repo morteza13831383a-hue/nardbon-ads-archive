@@ -91,6 +91,32 @@ def seed_known(db, ads_dir='data/ads'):
     return n
 
 
+def seed_from_channel_pages(db, enqueue, html_dir=None):
+    """Ads linked on Persian channel profiles the channel collector already fetched
+    (data/channel-html-import): ads that ran in Persian channels are the likeliest Iran
+    targets. No extra request to find them; each ad is still verified on its own page."""
+    import glob
+    import gzip
+    import pathlib
+    html_dir = html_dir or pathlib.Path(__file__).resolve().parents[1] / 'data' / 'channel-html-import'
+    n = 0
+    for f in sorted(glob.glob(str(pathlib.Path(html_dir) / 'channels-*.jsonl.gz'))):
+        with gzip.open(f, 'rt', encoding='utf-8') as fh:
+            for line in fh:
+                if not line.strip():
+                    continue
+                r = json.loads(line)
+                if r.get('classification') == 'unclassified':
+                    continue
+                for link in r.get('links') or []:
+                    m = re.search(r'/ads/(c[a-z0-9]{24})(?:$|[/?#])', link.get('url') or '')
+                    if m:
+                        enqueue(db, f'{BASE}/ads/{m[1]}', 'detail', 1, via='persian_channel_page')
+                        n += 1
+    db.commit()
+    return n
+
+
 def months_between(start, end):
     y, m = start.year, start.month
     while (y, m) <= (end.year, end.month):
