@@ -1,20 +1,20 @@
 # Collection status
 
-2026-11-14T16:38:24.010578+00:00
+2026-11-14T16:38:48.940087+00:00
 
 Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
 | Site / type | Total saved | New / 100 requests since baseline | Conditional remaining time |
 |---|---:|---:|---|
-| tgadsspy / channel | 7,198 | 80.0 | not defensible yet |
+| tgadsspy / channel | 7,198 | 66.67 | not defensible yet |
 | tgstat / channel | 186 | not yet measured | not defensible yet |
 | tgstat / group | 187 | not yet measured | not defensible yet |
 
 ## Pacing, pauses and remaining work
 
-- **tgadsspy**: delay 5 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'ignored': 1, 'pending': 153, 'unsupported': 143}; queue states: {'done': 4702, 'failed': 269, 'listing_saved': 2547, 'pending': 28688, 'robots_disallowed': 22}.
-  Known listing-slice page budget upper bound: 30,599; future graph/range partitions are unknown, so this is not an exact pages-left count.
-- **tgstat**: delay 8 s + jitter; pause 1711 s; blocks in 6 h 1; host halted False. Stop reason: none. Slices: {'pending': 92}; queue states: {'done': 468, 'failed': 129, 'pending': 7734}.
+- **tgadsspy**: delay 5 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'ignored': 1, 'pending': 149, 'robots_disallowed': 4, 'unsupported': 143}; queue states: {'done': 4702, 'failed': 269, 'listing_saved': 2547, 'pending': 28688, 'robots_disallowed': 22}.
+  Known listing-slice page budget upper bound: 29,799; future graph/range partitions are unknown, so this is not an exact pages-left count.
+- **tgstat**: delay 8 s + jitter; pause 1687 s; blocks in 6 h 1; host halted False. Stop reason: none. Slices: {'pending': 92}; queue states: {'done': 468, 'failed': 129, 'pending': 7734}.
   Exact pages left are unknown until server hasMore=false for each category/type/sort; account holds are never automatically cleared.
 
 ## Filter / failure findings
