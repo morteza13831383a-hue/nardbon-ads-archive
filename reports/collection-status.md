@@ -1,20 +1,20 @@
 # Collection status
 
-2026-11-15T20:38:37.425723+00:00
+2026-11-15T21:28:39.523890+00:00
 
 Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
 | Site / type | Total saved | New / 100 requests since baseline | Conditional remaining time |
 |---|---:|---:|---|
-| tgadsspy / channel | 46,816 | 315.51 | unknown: listing frontier ended; profile/discovery yield and reachable coverage unverified |
+| tgadsspy / channel | 46,816 | 310.66 | unknown: listing frontier ended; profile/discovery yield and reachable coverage unverified |
 | tgstat / group | 1,425 | 285.91 | paused / review required |
 | tgstat / channel | 22,702 | 5200.0 | paused / review required |
 
 ## Pacing, pauses and remaining work
 
-- **tgadsspy**: delay 5.75 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'capped': 12, 'done': 63, 'ignored': 5, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 9798, 'failed': 269, 'listing_saved': 3317, 'pending': 22822, 'robots_disallowed': 22}.
+- **tgadsspy**: delay 5.75 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'capped': 12, 'done': 63, 'ignored': 5, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 9861, 'failed': 269, 'listing_saved': 3254, 'pending': 22822, 'robots_disallowed': 22}.
   Known listing-slice page budget upper bound: 0; future graph/range partitions are unknown, so this is not an exact pages-left count.
-  Priority profile states: {'done': 7390, 'pending': 35018}. Listing caps/repeats are unresolved coverage gaps; finishing the listing frontier does not establish complete coverage.
+  Priority profile states: {'done': 7586, 'pending': 34822}. Listing caps/repeats are unresolved coverage gaps; finishing the listing frontier does not establish complete coverage.
 - **tgstat**: delay 11 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: Session is logged out. Slices: {'done': 92}; queue states: {'done': 468, 'failed': 10, 'listing_saved': 7736, 'pending': 117}.
   Exact pages left are unknown until server hasMore=false for each category/type/sort; account holds are never automatically cleared.
 
