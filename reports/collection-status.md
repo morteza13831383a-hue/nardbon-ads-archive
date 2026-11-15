@@ -1,14 +1,14 @@
 # Collection status
 
-2026-11-15T14:37:33.909492+00:00
+2026-11-15T14:38:16.273851+00:00
 
 Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
 | Site / type | Total saved | New / 100 requests since baseline | Conditional remaining time |
 |---|---:|---:|---|
 | tgadsspy / channel | 46,816 | 352.1 | unknown: listing frontier ended; profile/discovery yield and reachable coverage unverified |
-| tgstat / group | 1,425 | 300.49 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
-| tgstat / channel | 22,702 | 5465.05 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
+| tgstat / group | 1,425 | 297.6 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
+| tgstat / channel | 22,702 | 5412.5 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
 
 ## Pacing, pauses and remaining work
 
