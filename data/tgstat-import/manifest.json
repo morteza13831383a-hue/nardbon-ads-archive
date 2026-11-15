@@ -1,36 +1,36 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-15T13:05:23.634549+00:00",
+  "updated_at": "2026-11-15T13:10:19.309638+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
     "group": 1425,
-    "channel": 9649
+    "channel": 11567
   },
-  "requests": 1211,
+  "requests": 1236,
   "per_100_requests": {
-    "group": 117.67,
-    "channel": 796.78
+    "group": 115.29,
+    "channel": 935.84
   },
   "fields_present": {
-    "type": 11074,
-    "username": 10700,
-    "title": 11074,
-    "description": 10097,
-    "category": 11074,
-    "country": 11074,
+    "type": 12992,
+    "username": 12572,
+    "title": 12992,
+    "description": 11794,
+    "category": 12992,
+    "country": 12992,
     "language": 373,
-    "url": 11074,
-    "collected_at": 11074,
-    "members": 11060,
+    "url": 12992,
+    "collected_at": 12992,
+    "members": 12978,
     "text_sample": 186,
-    "source_id": 11045,
-    "record_detail": 11045
+    "source_id": 12966,
+    "record_detail": 12966
   },
   "queue": {
     "done": 468,
     "failed": 10,
-    "listing_saved": 7335,
-    "pending": 518
+    "listing_saved": 7436,
+    "pending": 417
   },
   "listings": [
     {
@@ -892,83 +892,83 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 67095,
-      "sha256": "49f13dcd1d95065ab2852035864d93f9776b24295ab71d1bb52cf3e253795d34"
+      "bytes": 76388,
+      "sha256": "ad519fab56c8090d54baadb81ed651c4804d52f90f1209039c1c8c843cfdf537"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 74270,
-      "sha256": "3c69eb736537acb6f2005a3b7d7513df8ee6c2a3333addfd0e33878452b7f392"
+      "bytes": 82454,
+      "sha256": "73574cb6b686d55c46fb0652861562de7408a00c2d3f50f1ec1f15aa0abe2298"
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 64543,
-      "sha256": "c8ee01961c0502fba87f34f456c886237f23a4a03cc87058d3625f2d6fe7498e"
+      "bytes": 73732,
+      "sha256": "6c94d7a60ac0b05cf9f706c887dcbbf4323c53844a1fd6ab126c7e0181f395df"
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 70925,
-      "sha256": "544a7d5d5dd3e796dbe0bbba98a15272dc06ac50218b2f47fa64159a019d3cbe"
+      "bytes": 79156,
+      "sha256": "dc3bc603c219b42801d68517c00eb2a2f753c132442a45af0d214a4b0e97c6b3"
     },
     {
       "name": "tgstat-04.jsonl.gz",
-      "bytes": 68921,
-      "sha256": "7bc9c9430cef11d2fcc73d3c08b01c85c6118d600e2361231cdaaf326834f89a"
+      "bytes": 78389,
+      "sha256": "42afd9e366b01cee55130391ac7f7e2d5159b9332483a870648050b70e9b985f"
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 67282,
-      "sha256": "74f362a7b00d9bd08aa79dea89a95aeaec2a2793d415254233738e123d184f8e"
+      "bytes": 77567,
+      "sha256": "8654a894b9833f08652037f3d04c43a3407fe807c5f2077a4b8b0b2d6424f2c7"
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 70854,
-      "sha256": "da527e7eb711af43e8a9b09ea64b34004ab1bcd9ef311edac6c1502118bd3b4f"
+      "bytes": 79933,
+      "sha256": "deeee1ddb45edcc5c7c16da4d25b9506af1ebb7700a2dfe5200f0bf4bd43567e"
     },
     {
       "name": "tgstat-07.jsonl.gz",
-      "bytes": 64637,
-      "sha256": "96de83de0e33e3f17b01c3a403e0e93a1052f1785580b5f3a6dad90b55dd5ea3"
+      "bytes": 76282,
+      "sha256": "7a88e617822ceb4ed909a3102a439612569be429bd4bfbb27e5775e19bbf3aec"
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 64960,
-      "sha256": "ca066b0733054ea1b825a2aa9b9d8595056476dd02641d491aeafbc52f91483d"
+      "bytes": 73431,
+      "sha256": "0c44990214faad2336be934dad465b984a290cb85cab98c560c3183bf619119d"
     },
     {
       "name": "tgstat-09.jsonl.gz",
-      "bytes": 70915,
-      "sha256": "91067aaee36765d47dcc017ce1188fc8ed307f4d004ebbe27bdca772c3099f70"
+      "bytes": 81250,
+      "sha256": "c96d34bab05d78d2c4d099cde2bdc9822069e1fe40bf97b906920268e223e7a2"
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 66059,
-      "sha256": "0774f7a3f6da1a7cc4092d8df8420cd22a6b8130e2257267ba91afd44bff59e1"
+      "bytes": 75409,
+      "sha256": "17ece9c7473ff1e330e67f92f3b3810144733aee5e4915ca61e93cde8b3bf29d"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 63195,
-      "sha256": "b597a99e4425a1275fd92c40685ac5ee6b9638b395777a0fe1b48ce327b17d8d"
+      "bytes": 73188,
+      "sha256": "810362bdfe7eb7a2e2cfd0ac87a920fb211b0aca3179c18b7e579b7beab19831"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 68170,
-      "sha256": "abe2ddbc6b0f23989fbc28e30b07f19918f4d70923cf5e23e572a6252602a4e9"
+      "bytes": 79135,
+      "sha256": "638621874c3a1068022861737f4e40401c4cf51522dc211dcbefc5e661a90627"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 66477,
-      "sha256": "b0ce555d8e7fbd1581e0d896b5044aba3aa15e033d8e87462ca51bf94bf61f63"
+      "bytes": 76556,
+      "sha256": "3546b5a871b19a176f0847b621dae048499bab70d1bcb499ca8feab0be12e207"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
-      "bytes": 64000,
-      "sha256": "278dec84b6e4a541270f50ef25a51c01c37cf2de693f5bcad6068f0c2a9b358a"
+      "bytes": 73829,
+      "sha256": "81977988ea3abb46f699977370457821b8852fccb81143f0859c235663eceee8"
     },
     {
       "name": "tgstat-0f.jsonl.gz",
-      "bytes": 71235,
-      "sha256": "2deb2b9b1f67fd1b5d7057b7bb3efe3dda8f16399ed9e790b80c3a7a616662c0"
+      "bytes": 83103,
+      "sha256": "5d85276ec0a037ea79c6d95db88400a1f9ab2ef5a8026ad92c0d99f7e81b2d12"
     }
   ],
   "catalog_coverage": [
@@ -2163,10 +2163,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 4,
-      "rows": 408,
+      "pages": 5,
+      "rows": 510,
       "expected": null,
-      "page": 4,
+      "page": 5,
       "offset": 0
     },
     {
@@ -2185,10 +2185,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 4,
-      "rows": 408,
+      "pages": 5,
+      "rows": 510,
       "expected": null,
-      "page": 4,
+      "page": 5,
       "offset": 0
     },
     {
@@ -2250,11 +2250,11 @@
       "category": "beauty",
       "type": "channel",
       "sort": "members",
-      "status": "pending",
-      "pages": 4,
+      "status": "done",
+      "pages": 5,
       "rows": 320,
       "expected": null,
-      "page": 4,
+      "page": 5,
       "offset": 0
     },
     {
@@ -2273,10 +2273,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 4,
-      "rows": 408,
+      "pages": 5,
+      "rows": 489,
       "expected": null,
-      "page": 4,
+      "page": 5,
       "offset": 0
     },
     {
@@ -2295,10 +2295,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 397,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2317,10 +2317,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2405,10 +2405,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2471,10 +2471,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2493,10 +2493,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2537,10 +2537,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2624,11 +2624,11 @@
       "category": "gambling",
       "type": "channel",
       "sort": "members",
-      "status": "pending",
-      "pages": 3,
+      "status": "done",
+      "pages": 4,
       "rows": 264,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2647,10 +2647,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2734,11 +2734,11 @@
       "category": "language",
       "type": "channel",
       "sort": "members",
-      "status": "pending",
-      "pages": 3,
+      "status": "done",
+      "pages": 4,
       "rows": 286,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2800,11 +2800,11 @@
       "category": "medicine",
       "type": "channel",
       "sort": "members",
-      "status": "pending",
-      "pages": 3,
+      "status": "done",
+      "pages": 4,
       "rows": 219,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2823,10 +2823,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2867,10 +2867,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2889,10 +2889,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2910,11 +2910,11 @@
       "category": "pics",
       "type": "channel",
       "sort": "members",
-      "status": "pending",
-      "pages": 3,
+      "status": "done",
+      "pages": 4,
       "rows": 244,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2933,10 +2933,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 361,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2977,10 +2977,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -2999,10 +2999,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 368,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -3043,10 +3043,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -3065,10 +3065,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -3087,10 +3087,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
@@ -3153,10 +3153,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 3,
-      "rows": 306,
+      "pages": 4,
+      "rows": 408,
       "expected": null,
-      "page": 3,
+      "page": 4,
       "offset": 0
     },
     {
