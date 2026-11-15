@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-15T07:35:32Z",
+ "cursor": "2026-11-15T08:35:30Z",
  "backfill": {
   "since": "2026-06-07T10:59:55Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-14T14:35:29Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "a786a8835ab915c8",
+  "tgads/data/2026-11.json": "4eb823dbd32dce04",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,7 +20,7 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "c00c6a365e1ed43f",
+  "tgads/channels/channels.json": "2e2b39bb859e0788",
   "tgads/data/2026-08.json": "9bc4d6276c9c2d0f",
   "tgads/data/2026-09.json": "4b82632db60c0d16",
   "tgads/data/2026-04.json": "c7e0710408e756e7",
@@ -31,18 +31,6 @@
   "tgads/data/2025-07.json": "72d87888107ac7de"
  },
  "runs": [
-  {
-   "at": "2026-11-13T12:00:51Z",
-   "ok": true,
-   "error": null,
-   "new": 3,
-   "updated": 4,
-   "media": 483,
-   "missed": 0,
-   "sent_media": 483,
-   "sent_files": 6,
-   "secs": 369
-  },
   {
    "at": "2026-11-13T12:30:44Z",
    "ok": true,
@@ -750,18 +738,30 @@
    "sent_media": 96,
    "sent_files": 9,
    "secs": 305
+  },
+  {
+   "at": "2026-11-15T09:35:30Z",
+   "ok": true,
+   "error": null,
+   "new": 17,
+   "updated": 6,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 2,
+   "secs": 10
   }
  ],
- "last_upload_ok": "2026-11-15T08:40:35Z",
+ "last_upload_ok": "2026-11-15T09:35:38Z",
  "lang_seen": {
   "-": 227,
   "tr": 63,
   "he": 39,
   "ru": 732,
-  "ar": 239,
+  "ar": 240,
   "my": 47,
   "en": 491,
-  "fa": 8690,
+  "fa": 8716,
   "uz": 63,
   "zh": 26,
   "id": 44,
