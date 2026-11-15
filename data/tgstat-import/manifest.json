@@ -1,36 +1,36 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-15T12:40:17.372277+00:00",
+  "updated_at": "2026-11-15T12:44:49.054233+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "group": 1260,
-    "channel": 4447
+    "group": 1293,
+    "channel": 5186
   },
-  "requests": 1086,
+  "requests": 1111,
   "per_100_requests": {
-    "group": 116.02,
-    "channel": 409.48
+    "group": 116.38,
+    "channel": 466.79
   },
   "fields_present": {
-    "type": 5707,
-    "username": 5503,
-    "title": 5707,
-    "description": 5218,
-    "category": 5707,
-    "country": 5707,
+    "type": 6479,
+    "username": 6242,
+    "title": 6479,
+    "description": 5938,
+    "category": 6479,
+    "country": 6479,
     "language": 373,
-    "url": 5707,
-    "collected_at": 5707,
-    "members": 5681,
+    "url": 6479,
+    "collected_at": 6479,
+    "members": 6461,
     "text_sample": 186,
-    "source_id": 5623,
-    "record_detail": 5623
+    "source_id": 6422,
+    "record_detail": 6422
   },
   "queue": {
     "done": 468,
     "failed": 10,
-    "listing_saved": 5121,
-    "pending": 2732
+    "listing_saved": 5858,
+    "pending": 1995
   },
   "listings": [
     {
@@ -892,83 +892,83 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 41202,
-      "sha256": "90fe3eeb9aaf7bd0d11212b799c3b3e93f11ec494f1ff97ef9599e97e877bb37"
+      "bytes": 44536,
+      "sha256": "7719e33328279df062e572128c23abbb327a6f75c48b32da770290370e04e048"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 47130,
-      "sha256": "4343f01de0268a913d7774e37c748348763fcd9c4a841e9f3345fa24ee35db4b"
+      "bytes": 50654,
+      "sha256": "06a7764351aae317d4d9cb667846a52a9ffd2d67c99f6f043fe90e677a0863cc"
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 35431,
-      "sha256": "3cebd689963aad0b72e95aeb776e4dec6646cb61e894b5cbb8db1dbd0741e801"
+      "bytes": 39115,
+      "sha256": "7c3b39e34bed3355ca7a03efe3df5757af2795b07f9027d83021fdbb543e2913"
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 41321,
-      "sha256": "67243013e1b4ad37e76511566eaea63c718b9f5d6c42d3337688a84457b2b333"
+      "bytes": 44742,
+      "sha256": "25a8699651687a7f25a6384c9a19a266179467d106a9016c31114cf90eed646e"
     },
     {
       "name": "tgstat-04.jsonl.gz",
-      "bytes": 39929,
-      "sha256": "d3519ca38531b2bfb60bfb6c5c4faac733f04ec3e4f2b19d956bf20cb8869c6a"
+      "bytes": 44465,
+      "sha256": "9d3aec4fd76848ca1b937ebc58eca5e3f1f7dcfc21ce43ae306f99275565fd72"
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 39126,
-      "sha256": "69531c1487ac72673036bda72418a4a0e583a0b27f0ad0825de9ea6717887fd6"
+      "bytes": 42856,
+      "sha256": "45dd3dcacdb9f3280ce2b5cc439ab9a248dcc4939200ddd67dad8284bf1dcd05"
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 42985,
-      "sha256": "5f9cf0ef2923ff95d4a9be0272abd0d063c0758edccfef980ac17af3687060bf"
+      "bytes": 47053,
+      "sha256": "4a3d316b821c3a5005e2f4f87f743673bbaf361de48d81f4053f797ef9abd8e2"
     },
     {
       "name": "tgstat-07.jsonl.gz",
-      "bytes": 36836,
-      "sha256": "93e0322435ec0d0af28728449f3e374bc6fb9013fd086f75511704b87844d45a"
+      "bytes": 41177,
+      "sha256": "55619c2363e1ef0516e9d8ec2858be57713f32d3999fc53e031aa09e747d77de"
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 37387,
-      "sha256": "4ba61ab6bc51ed748f350d6f58b885e7d205a51c0ba7ba363bfa7c85110549ec"
+      "bytes": 42625,
+      "sha256": "1fa8d1c6c032d86ed7d52f39eb753ba08d01a17ef149df0a02ce9515ad445d4c"
     },
     {
       "name": "tgstat-09.jsonl.gz",
-      "bytes": 42550,
-      "sha256": "8dcac81e67842eeae2f83d04c3645fd7033b60ab98160bbb7cc740cc43f4aa73"
+      "bytes": 46352,
+      "sha256": "f6ad613eb5a1d49503db552028b19c4fece79928e2885d6746527c4bd53a1a6b"
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 38464,
-      "sha256": "129329510cdbf38ae07e21b46a4922384653a0561555af3d9452093a205f905b"
+      "bytes": 42484,
+      "sha256": "77eaa9a018cbf8f34f31ad1a61af3072eaa605987b8841465b879825f048bd84"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 34856,
-      "sha256": "57e263a481836bf2ed0a89d3c0540ff3d0bda56b35dc1103875e034967daeba7"
+      "bytes": 39888,
+      "sha256": "bfa1ccfa1e83696e064bbb8b97bfdacc860d66af9381cbccd830b75349012335"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 40919,
-      "sha256": "ee4a1c16bdf39b4b1816518f2da26b5cb78a2af21c0bba01fb15f2c510a26e82"
+      "bytes": 45773,
+      "sha256": "ab8d5bd1b1cfe8765f92ba4db394a7535c0b7816f38a5b3bba15fb336e2e089d"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 39849,
-      "sha256": "6661915fd55169f36004d0a47c7f774312af9e75472ddd36d20362eb5efcdbe8"
+      "bytes": 44059,
+      "sha256": "7247dbf9838bf4848c60e5a42765401f5b12be3f0f90db7242f8fe9a19d12cfe"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
-      "bytes": 36730,
-      "sha256": "f1f76f014d694ab83df2a2a999d2a4c060913d6d5b1521d3f6eeb61aa6672747"
+      "bytes": 40836,
+      "sha256": "6ce8286f0de90b61437921a88880e5ffd0166e6c41cd97e4c4bed3ea65622379"
     },
     {
       "name": "tgstat-0f.jsonl.gz",
-      "bytes": 40877,
-      "sha256": "fe87ed967f22c75b8c8d9f0f86b5dacd8b8057ede9276ef6bdf9c3f299d6b87b"
+      "bytes": 44543,
+      "sha256": "787de581b86aaa55a05ba12c6550f30ae7f720a8f8ec7bb5080200eea620d0ff"
     }
   ],
   "catalog_coverage": [
@@ -2239,11 +2239,11 @@
       "category": "babies",
       "type": "chat",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 4,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
@@ -2251,21 +2251,21 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 1,
-      "rows": 102,
+      "pages": 2,
+      "rows": 204,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "beauty",
       "type": "chat",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 7,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
@@ -2273,21 +2273,21 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 1,
-      "rows": 102,
+      "pages": 2,
+      "rows": 204,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "blogs",
       "type": "chat",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 18,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
@@ -2295,21 +2295,21 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 1,
-      "rows": 102,
+      "pages": 2,
+      "rows": 204,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "books",
       "type": "chat",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 28,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
@@ -2317,21 +2317,21 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 1,
-      "rows": 102,
+      "pages": 2,
+      "rows": 204,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "business",
       "type": "chat",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 46,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
@@ -2339,65 +2339,65 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 1,
-      "rows": 102,
+      "pages": 2,
+      "rows": 146,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "career",
       "type": "chat",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 7,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "construction",
       "type": "channel",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 33,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "construction",
       "type": "chat",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 5,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "courses",
       "type": "channel",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 41,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "courses",
       "type": "chat",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 4,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
@@ -2405,10 +2405,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 1,
-      "rows": 102,
+      "pages": 2,
+      "rows": 204,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
@@ -2416,54 +2416,54 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 1,
-      "rows": 102,
+      "pages": 2,
+      "rows": 110,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "darknet",
       "type": "channel",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 69,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "darknet",
       "type": "chat",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 12,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "design",
       "type": "channel",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 102,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "design",
       "type": "chat",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 15,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
@@ -2471,21 +2471,21 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 1,
-      "rows": 102,
+      "pages": 2,
+      "rows": 204,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
       "category": "economics",
       "type": "chat",
       "sort": "members",
-      "status": "pending",
-      "pages": 1,
+      "status": "done",
+      "pages": 2,
       "rows": 60,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
@@ -2493,10 +2493,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 1,
-      "rows": 102,
+      "pages": 2,
+      "rows": 204,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
@@ -2504,10 +2504,10 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 1,
-      "rows": 102,
+      "pages": 2,
+      "rows": 135,
       "expected": null,
-      "page": 1,
+      "page": 2,
       "offset": 0
     },
     {
