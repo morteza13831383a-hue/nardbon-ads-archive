@@ -20,7 +20,7 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "2ea0eadb036a4982",
+  "tgads/channels/channels.json": "7b88bca1d283f2cc",
   "tgads/data/2026-08.json": "8cec5bfda1bde679",
   "tgads/data/2026-09.json": "11423721f7ea0f64",
   "tgads/data/2026-04.json": "a60c2e90d3df6ee9",
@@ -31,18 +31,6 @@
   "tgads/data/2025-07.json": "72d87888107ac7de"
  },
  "runs": [
-  {
-   "at": "2026-11-13T19:00:47Z",
-   "ok": true,
-   "error": null,
-   "new": 25,
-   "updated": 32,
-   "media": 44,
-   "missed": 0,
-   "sent_media": 44,
-   "sent_files": 8,
-   "secs": 115
-  },
   {
    "at": "2026-11-13T19:33:07Z",
    "ok": true,
@@ -750,9 +738,21 @@
    "sent_media": 94,
    "sent_files": 9,
    "secs": 268
+  },
+  {
+   "at": "2026-11-15T21:37:25Z",
+   "ok": false,
+   "error": "api: rate limited, paused until 2026-11-16T00:37:26Z",
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 1,
+   "secs": 10
   }
  ],
- "last_upload_ok": "2026-11-15T20:41:34Z",
+ "last_upload_ok": "2026-11-15T21:37:34Z",
  "lang_seen": {
   "-": 240,
   "tr": 63,
@@ -795,12 +795,12 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": "60",
-  "X-RateLimit-Remaining": "59",
+  "X-RateLimit-Limit": null,
+  "X-RateLimit-Remaining": null,
   "X-RateLimit-Reset": null
  },
  "channels_total": 2261,
- "api_blocked_until": "2026-11-15T20:06:46Z",
+ "api_blocked_until": "2026-11-16T00:37:26Z",
  "channels_idx": 13,
  "desc_last": "2026-11-13T17:31:52Z",
  "html_archive_exported_at": "2026-11-13T08:53:25Z",
