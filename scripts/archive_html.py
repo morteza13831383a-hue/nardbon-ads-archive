@@ -76,7 +76,7 @@ def enqueue(db, url, kind, priority, via=None):
     # a better (lower) priority also brings its strategy label, so tests credit the finder
     db.execute('INSERT INTO queue(url,kind,priority,via) VALUES(?,?,?,?) ON CONFLICT(url) DO UPDATE SET '
                'via=CASE WHEN excluded.priority<priority AND excluded.via IS NOT NULL THEN excluded.via ELSE via END, '
-               'priority=MIN(priority,excluded.priority)', (url,kind,priority,via))
+               'priority=MIN(priority,excluded.priority) WHERE excluded.priority<priority', (url,kind,priority,via))
 
 
 def compact(node):

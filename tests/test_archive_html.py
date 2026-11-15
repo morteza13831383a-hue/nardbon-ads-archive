@@ -240,6 +240,54 @@ class ChannelPageSeeds(unittest.TestCase):
             self.assertEqual(db.execute('SELECT priority,via,status FROM queue WHERE url=?',(a.BASE+'/ads/'+ids[1],)).fetchone(),(1,'persian_channel_page','pending'))
             db.close()
 
+    def test_seed_cache_persists_and_failed_files_retry_atomically(self):
+        import archive_yield as ay
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); d=root/'exports'; d.mkdir()
+            path=d/'channels.jsonl.gz'
+            row={'classification':'persian_candidate','links':[{'url':a.BASE+'/ads/'+'c'+'a'*24}]}
+            def write(lines):
+                with gzip.open(path,'wt',encoding='utf-8') as f:f.write(lines)
+            write(json.dumps(row)+'\n')
+            db=a.connect(root,CUTOFF)
+            self.assertEqual(ay.seed_from_channel_pages(db,a.enqueue,d),1)
+            db.close();db=a.connect(root,CUTOFF)
+            with patch.object(a,'enqueue',side_effect=AssertionError('unchanged file parsed')):
+                self.assertEqual(ay.seed_from_channel_pages(db,a.enqueue,d),0)
+            row['links'][0]['url']=a.BASE+'/ads/'+'c'+'b'*24
+            write(json.dumps(row)+'\nINVALID\n')
+            with self.assertRaises(ValueError):ay.seed_from_channel_pages(db,a.enqueue,d)
+            self.assertIsNone(db.execute('SELECT 1 FROM queue WHERE url=?',(row['links'][0]['url'],)).fetchone())
+            write(json.dumps(row)+'\n')
+            self.assertEqual(ay.seed_from_channel_pages(db,a.enqueue,d),1)
+            db.close()
+
+    def test_duplicate_enqueue_does_not_write_but_better_evidence_updates(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db=a.connect(Path(tmp),CUTOFF)
+            a.enqueue(db,URL,'detail',30,via='sitemap')
+            before=db.total_changes
+            a.enqueue(db,URL,'detail',30,via='other')
+            self.assertEqual(db.total_changes,before)
+            a.enqueue(db,URL,'detail',1,via='persian_channel_page')
+            self.assertEqual(db.execute('SELECT priority,via FROM queue WHERE url=?',(URL,)).fetchone(),(1,'persian_channel_page'))
+            db.close()
+
+    def test_observed_yield_counts_retries_and_excludes_unrequested_known_rows(self):
+        import archive_yield as ay
+        with tempfile.TemporaryDirectory() as tmp:
+            db=a.connect(Path(tmp),CUTOFF)
+            ay.RequestLedger(db,None)
+            for suffix in ('a','b'):
+                a.enqueue(db,a.BASE+'/ads/'+suffix,'detail',1,via='route')
+            db.execute("UPDATE queue SET status='iran' WHERE via='route'")
+            for status in (503,200):
+                db.execute('INSERT INTO source_requests(url,via,status,at) VALUES(?,?,?,?)',
+                           (a.BASE+'/ads/a','route',status,'2026-11-15'))
+            result=ay.coverage_report(db)['observed_http_by_strategy']
+            self.assertEqual(result,[{'via':'route','requests':2,'iran':1,'iran_per_100':50.0}])
+            db.close()
+
     def test_ad_runner_seeds_at_each_slice_boundary(self):
         import archive_collect as runner
         from types import SimpleNamespace

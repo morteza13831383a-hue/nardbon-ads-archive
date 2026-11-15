@@ -104,19 +104,48 @@ def seed_from_channel_pages(db, enqueue, html_dir=None):
     local_export = pathlib.Path(html_dir) / 'channels.jsonl.gz'
     if local_export.is_file():
         files.append(str(local_export))
+    # Hash compressed bytes on the same open descriptor we parse: an atomic
+    # exporter replacement cannot associate new contents with an old digest.
+    import hashlib
+    import io
+    db.execute('CREATE TABLE IF NOT EXISTS channel_seed_files '
+               '(path TEXT PRIMARY KEY, sha256 TEXT NOT NULL)')
     for f in files:
-        with gzip.open(f, 'rt', encoding='utf-8') as fh:
-            for line in fh:
-                if not line.strip():
-                    continue
-                r = json.loads(line)
-                if r.get('classification') == 'unclassified':
-                    continue
-                for link in r.get('links') or []:
-                    m = re.search(r'/ads/(c[a-z0-9]{24})(?:$|[/?#])', link.get('url') or '')
-                    if m:
-                        enqueue(db, f'{BASE}/ads/{m[1]}', 'detail', 1, via='persian_channel_priority_profile'if r.get('ad_discovery_via')=='persian_channel_priority_profile'else'persian_channel_page')
-                        n += 1
+        key = str(pathlib.Path(f).resolve())
+        with open(f, 'rb') as raw:
+            digest = hashlib.sha256()
+            for chunk in iter(lambda: raw.read(1024 * 1024), b''):
+                digest.update(chunk)
+            fingerprint = digest.hexdigest()
+            if db.execute('SELECT 1 FROM channel_seed_files WHERE path=? AND sha256=?',
+                          (key, fingerprint)).fetchone():
+                continue
+            raw.seek(0)
+            db.execute('SAVEPOINT channel_seed_file')
+            file_count = 0
+            try:
+                with gzip.GzipFile(fileobj=raw) as compressed, io.TextIOWrapper(compressed, encoding='utf-8') as fh:
+                    for line in fh:
+                        if not line.strip():
+                            continue
+                        r = json.loads(line)
+                        if r.get('classification') == 'unclassified':
+                            continue
+                        for link in r.get('links') or []:
+                            m = re.search(r'/ads/(c[a-z0-9]{24})(?:$|[/?#])', link.get('url') or '')
+                            if m:
+                                via = ('persian_channel_priority_profile' if
+                                       r.get('ad_discovery_via') == 'persian_channel_priority_profile'
+                                       else 'persian_channel_page')
+                                enqueue(db, f'{BASE}/ads/{m[1]}', 'detail', 1, via=via)
+                                file_count += 1
+                db.execute('INSERT OR REPLACE INTO channel_seed_files VALUES(?,?)', (key, fingerprint))
+                db.execute('RELEASE channel_seed_file')
+                n += file_count
+            except Exception:
+                db.execute('ROLLBACK TO channel_seed_file')
+                db.execute('RELEASE channel_seed_file')
+                raise
     db.commit()
     return n
 
@@ -287,10 +316,25 @@ def coverage_report(db):
                   for v, n, i in db.execute(
                       "SELECT via, COUNT(*), SUM(status='iran') FROM queue "
                       "WHERE status NOT IN ('pending','skipped_time') GROUP BY via ORDER BY 3 DESC")]
+    # Queue outcomes are not HTTP attempts: retries, known rows and robots skips
+    # otherwise distort performance comparisons. Keep legacy fields for readers.
+    observed = []
+    if db.execute("SELECT 1 FROM sqlite_master WHERE name='source_requests'").fetchone():
+        observed = [dict(via=v, requests=n, iran=i,
+                         iran_per_100=round(100*i/n, 2))
+                    for v,n,i in db.execute("""
+                        SELECT s.via, COUNT(*),
+                               COUNT(DISTINCT CASE WHEN q.status='iran' AND s.status=200 THEN s.url END)
+                        FROM source_requests s LEFT JOIN queue q ON q.url=s.url
+                        GROUP BY s.via ORDER BY COUNT(*) DESC
+                    """)]
     site_sum = sum(m['site_iran_total'] for m in months)
     return {'by_month': months, 'site_sum_of_months': site_sum,
             'extracted_total': sum(found.values()),
             'by_strategy': strategies,
+            'by_strategy_basis': 'Legacy completed queue rows, not HTTP requests',
+            'observed_http_by_strategy': observed,
+            'observed_http_scope': 'Only requests recorded since the request ledger was installed',
             'skipped_by_id_time': db.execute("SELECT COUNT(*) FROM queue WHERE status='skipped_time'").fetchone()[0]}
 
 
