@@ -1,21 +1,21 @@
 # Collection status
 
-2026-11-15T12:33:24.195971+00:00
+2026-11-15T12:34:24.709276+00:00
 
 Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
 | Site / type | Total saved | New / 100 requests since baseline | Conditional remaining time |
 |---|---:|---:|---|
-| tgadsspy / channel | 46,816 | 370.65 | unknown: listing frontier ended; profile/discovery yield and reachable coverage unverified |
-| tgstat / channel | 2,754 | 3616.9 | 964.8 continuous hours at recent yield; unverified coverage |
-| tgstat / group | 815 | 884.51 | 117.0 continuous hours at recent yield; unverified coverage |
+| tgadsspy / channel | 46,816 | 370.16 | unknown: listing frontier ended; profile/discovery yield and reachable coverage unverified |
+| tgstat / channel | 2,996 | 3649.35 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
+| tgstat / group | 878 | 897.4 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
 
 ## Pacing, pauses and remaining work
 
-- **tgadsspy**: delay 2.5 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'capped': 12, 'done': 63, 'ignored': 5, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 9129, 'failed': 269, 'listing_saved': 3986, 'pending': 22822, 'robots_disallowed': 22}.
+- **tgadsspy**: delay 2.5 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'capped': 12, 'done': 63, 'ignored': 5, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 9137, 'failed': 269, 'listing_saved': 3978, 'pending': 22822, 'robots_disallowed': 22}.
   Known listing-slice page budget upper bound: 0; future graph/range partitions are unknown, so this is not an exact pages-left count.
-  Priority profile states: {'done': 5521, 'pending': 36887}. Listing caps/repeats are unresolved coverage gaps; finishing the listing frontier does not establish complete coverage.
-- **tgstat**: delay 9 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'done': 1, 'pending': 91}; queue states: {'done': 468, 'failed': 62, 'listing_saved': 3062, 'pending': 4739}.
+  Priority profile states: {'done': 5536, 'pending': 36872}. Listing caps/repeats are unresolved coverage gaps; finishing the listing frontier does not establish complete coverage.
+- **tgstat**: delay 9 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'done': 1, 'pending': 91}; queue states: {'done': 468, 'failed': 50, 'listing_saved': 3358, 'pending': 4455}.
   Exact pages left are unknown until server hasMore=false for each category/type/sort; account holds are never automatically cleared.
 
 ## Filter / failure findings
@@ -25,14 +25,14 @@ Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGSt
 - tgadsspy `sponsored`: ignored; Parameter omitted from server pagination; https://tgadsspy.com/channels?lang=fa&sponsored=eligible.
 - tgadsspy `minMembers`: ignored; Parameter omitted from server pagination; https://tgadsspy.com/channels?lang=fa&minMembers=1000000000.
 - tgadsspy `niche`: ignored; Parameter omitted from server pagination; https://tgadsspy.com/channels?lang=fa&niche=vpn.
-- TGStat prior failures: 62 × Profile heading missing; possible sign-in/challenge page.
+- TGStat prior failures: 50 × Profile heading missing; possible sign-in/challenge page.
 - The earlier 129 TGStat failures were missing expected profile headings, not proof of 129 transport blocks. The old full-profile strategy required those headings; new listing rows save metadata directly. Existing failures are preserved for audit; timeouts/5xx are retried, and only rows lacking public usernames may need profile resolution.
 - Live probes found category=news changes results. Bounds 0–100 and order=asc returned the same multi-million-member channels as the base page and were omitted from pagination. Such filters cannot be treated as proven independent coverage paths.
 - The Persian-language TGStat catalog beyond country Iran is not yet verified; discovery uses anonymous approved pages, and genuine account/session holds are never bypassed.
 
 ## Two-source overlap estimate
 
-{"tgadsspy": 46816, "tgstat_public_handles": 2665, "intersection": 458, "union_public_handles": 49023, "population_estimate": 272412}
+{"tgadsspy": 46816, "tgstat_public_handles": 2902, "intersection": 515, "union_public_handles": 49203, "population_estimate": 263806}
 
 The population estimate assumes independent, representative source samples. Catalog caps and correlated discovery violate that assumption, so it is an estimate, not a completeness certificate. Queue exhaustion with unresolved caps does not mean the owner targets were reached.
 

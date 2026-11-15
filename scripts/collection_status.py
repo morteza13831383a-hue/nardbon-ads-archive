@@ -27,6 +27,9 @@ def snapshot(spy_work,tg_work):
         if site=='tgstat'and exists(c,'tgstat_slices'):
             item['slices']=dict(c.execute('SELECT status,COUNT(*)FROM tgstat_slices GROUP BY status'));item['pages_fetched']=c.execute('SELECT COALESCE(SUM(pages),0)FROM tgstat_slices').fetchone()[0]
         if site=='tgstat'and exists(c,'tgstat_languages'):item['persian_catalog_discovery']=list(c.execute('SELECT url,status,evidence FROM tgstat_languages'))
+        if site=='tgstat':
+            resumed=c.execute("SELECT value FROM meta WHERE key='resume_verified_at'").fetchone()
+            item['resume_verified_at']=resumed[0]if resumed else None
         if site=='tgstat':item['legacy_failures']=list(c.execute("SELECT error,COUNT(*)FROM queue WHERE status='failed'GROUP BY error"))
         out['sites'][site]=item;c.close()
     a=set(out['sites'].get('tgadsspy',{}).get('channel_handles',[]));b=set(out['sites'].get('tgstat',{}).get('channel_handles',[]))
@@ -43,6 +46,9 @@ def render(current,baseline):
             eta='paused / review required'if s['stop_reason']or s['pacing']['halted']else (f'{remaining/hours:.1f} continuous hours at recent yield; unverified coverage'if gained>=10 and elapsed>=60 and hours else'not defensible yet')
             if not(s['stop_reason']or s['pacing']['halted'])and site=='tgadsspy'and s.get('slices')and not s['slices'].get('pending'):
                 eta='unknown: listing frontier ended; profile/discovery yield and reachable coverage unverified'
+            if site=='tgstat'and s.get('resume_verified_at')and not(s['stop_reason']or s['pacing']['halted']):
+                if datetime.fromisoformat(s['resume_verified_at']).timestamp()>baseline['at']:
+                    eta='unknown: baseline spans the pre-resume hold; requires an active-run measurement window'
             lines.append(f'| {site} / {kind} | {n:,} | {rate} | {eta} |')
     lines+=['','## Pacing, pauses and remaining work','']
     for site,s in current['sites'].items():
