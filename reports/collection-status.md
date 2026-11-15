@@ -1,19 +1,19 @@
 # Collection status
 
-2026-11-15T02:37:39.362695+00:00
+2026-11-15T02:37:58.913323+00:00
 
 Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
 | Site / type | Total saved | New / 100 requests since baseline | Conditional remaining time |
 |---|---:|---:|---|
-| tgadsspy / channel | 37,983 | 638.91 | 165.5 continuous hours at recent yield; unverified coverage |
+| tgadsspy / channel | 38,005 | 638.7 | 165.5 continuous hours at recent yield; unverified coverage |
 | tgstat / channel | 186 | 0.0 | paused / review required |
 | tgstat / group | 187 | 0.0 | paused / review required |
 
 ## Pacing, pauses and remaining work
 
-- **tgadsspy**: delay 2.5 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'done': 51, 'ignored': 5, 'pending': 24, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 5546, 'failed': 269, 'listing_saved': 6964, 'pending': 23427, 'robots_disallowed': 22}.
-  Known listing-slice page budget upper bound: 1,968; future graph/range partitions are unknown, so this is not an exact pages-left count.
+- **tgadsspy**: delay 2.5 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'done': 51, 'ignored': 5, 'pending': 24, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 5547, 'failed': 269, 'listing_saved': 6966, 'pending': 23424, 'robots_disallowed': 22}.
+  Known listing-slice page budget upper bound: 1,964; future graph/range partitions are unknown, so this is not an exact pages-left count.
 - **tgstat**: delay 8 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: Catalog reported an error; session/account review required. Slices: {'pending': 92}; queue states: {'done': 468, 'failed': 129, 'pending': 7734}.
   Exact pages left are unknown until server hasMore=false for each category/type/sort; account holds are never automatically cleared.
 
@@ -31,7 +31,7 @@ Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGSt
 
 ## Two-source overlap estimate
 
-{"tgadsspy": 37983, "tgstat_public_handles": 186, "intersection": 65, "union_public_handles": 38104, "population_estimate": 108690}
+{"tgadsspy": 38005, "tgstat_public_handles": 186, "intersection": 65, "union_public_handles": 38126, "population_estimate": 108753}
 
 The population estimate assumes independent, representative source samples. Catalog caps and correlated discovery violate that assumption, so it is an estimate, not a completeness certificate. Queue exhaustion with unresolved caps does not mean the owner targets were reached.
 
