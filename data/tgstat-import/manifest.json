@@ -1,36 +1,36 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-15T12:24:33.751161+00:00",
+  "updated_at": "2026-11-15T12:31:18.806351+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "channel": 1273,
-    "group": 471
+    "channel": 2369,
+    "group": 745
   },
-  "requests": 1011,
+  "requests": 1036,
   "per_100_requests": {
-    "channel": 125.91,
-    "group": 46.59
+    "channel": 228.67,
+    "group": 71.91
   },
   "fields_present": {
-    "type": 1744,
-    "username": 1682,
-    "title": 1744,
-    "description": 1602,
-    "members": 1605,
-    "category": 1744,
-    "country": 1744,
+    "type": 3114,
+    "username": 2995,
+    "title": 3114,
+    "description": 2844,
+    "members": 3014,
+    "category": 3114,
+    "country": 3114,
     "language": 373,
     "text_sample": 186,
-    "url": 1744,
-    "collected_at": 1744,
-    "source_id": 1457,
-    "record_detail": 1457
+    "url": 3114,
+    "collected_at": 3114,
+    "source_id": 2896,
+    "record_detail": 2896
   },
   "queue": {
     "done": 468,
-    "failed": 96,
-    "listing_saved": 1305,
-    "pending": 6462
+    "failed": 66,
+    "listing_saved": 2616,
+    "pending": 5181
   },
   "listings": [
     {
@@ -892,83 +892,83 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 21221,
-      "sha256": "817c349fe3ff0f5685ca2792ce68d36683133bdec20f092b7d34862a7eea3e7b"
+      "bytes": 28208,
+      "sha256": "715481994337c42d6be38774c4d76842e5dc6e4a2b7181a85173b92c2b4576a4"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 23887,
-      "sha256": "df1c897c377dabb7754f922730ce281473a1e63e4f5a8845990449fb8bd30214"
+      "bytes": 31710,
+      "sha256": "fcac612c301d1f6c60a7bb6c32c93d7845dd7933e0906f36736556a53d7b8d86"
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 16735,
-      "sha256": "f1853ba2ae1b703d079b46d7c88887b1762f2df3df654643944e7dab50679d30"
+      "bytes": 22907,
+      "sha256": "743fc4c4d29b68e82a191377ddc0bb13377b3f93a3ad5cfe75e6aa6dafd637ad"
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 19281,
-      "sha256": "2327cb424f52bb6774fd490a856d1685836bf108081741b05d5b4c41e563730a"
+      "bytes": 26989,
+      "sha256": "2500f6653236af9c35a29ef69b78a7db477e557d4dcb685ad5039fa38ff735fc"
     },
     {
       "name": "tgstat-04.jsonl.gz",
-      "bytes": 16962,
-      "sha256": "cec94c9ef4dd344506e41d253458acbb8851a123af1b687ef104ac1c16ddd4e0"
+      "bytes": 24245,
+      "sha256": "64758e79ce5a3cad5158d4fac291d2dd6cf640616f178a5f4e127baba2652b41"
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 20383,
-      "sha256": "efc03a5e3a3161dab2f03b6a9b10d7378225a00430b17a85f4e18eeda44bee81"
+      "bytes": 27505,
+      "sha256": "a560c7ad6667f5d8e1d0ea58a71236843fd6c2b7612301260dbf5bab0ada5ce8"
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 20633,
-      "sha256": "b9e6cd82078a8093e5df59bb12e07222c50e916d94884d5b73a9908ec2cfec4b"
+      "bytes": 29365,
+      "sha256": "f6cec8c586573bcb34c2a377847aa2a4a9595ad149cc46cab2b75eb64f3724a9"
     },
     {
       "name": "tgstat-07.jsonl.gz",
-      "bytes": 15045,
-      "sha256": "92397ac51e785fdd2f093dba995b17dc3b42e0164df7e96558c8dfe07f9ed68f"
+      "bytes": 22595,
+      "sha256": "6730459bc785aeff694d53435071cf28f2aada2a4842e46733cc5fbd4171f23b"
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 16866,
-      "sha256": "6b46c076bf298d56008c13eb4f377a526ec5fc22aed1c292d37fba7cd824ab00"
+      "bytes": 24567,
+      "sha256": "f6bacb9a45d0062e0deba53d0fac39768c0acf61a6f24fb34d0c1e8eb1665b28"
     },
     {
       "name": "tgstat-09.jsonl.gz",
-      "bytes": 18807,
-      "sha256": "a302fbd78c2a7f744e4785dd37d6195cb786c892ebb78006e9f1dc8c98efdbfc"
+      "bytes": 26788,
+      "sha256": "bebc9797773c7435894aeda275665c79b2170773dade1ecee43317b2ec4ba1d7"
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 16308,
-      "sha256": "3be0256adc2d7d67810ba12294599e9e358e06eb808bf000d9f449390eae4118"
+      "bytes": 23435,
+      "sha256": "c26b2ef7fba605ad63813134b4f4635345410609be6ea4b63f0554b59045d217"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 15427,
-      "sha256": "7e48645355a2b8d5a5550656cc4a0c4973ada67e31a263cf69ee932a8d5df73b"
+      "bytes": 21477,
+      "sha256": "3748a80e687ecc72dfedcd2b6a62eb8a29bb94dbd6eef41ddea3a442510c9791"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 20552,
-      "sha256": "8e1b2dca49ff29c94edb3f6178bd6e45fb8d686f67794f27c5a595f7363453c0"
+      "bytes": 27411,
+      "sha256": "73e3eb7327923b8781cc5df5a865e64abe110787eb72af2eaaa1f6facaf233ca"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 17130,
-      "sha256": "45a6450fec6537383d098efa512271d6a095c06f3833445074c624f1d50589d0"
+      "bytes": 24912,
+      "sha256": "f57a85d18b137b2aa7572772795530d16980c35cd85a169aba22f89b8055c150"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
-      "bytes": 16991,
-      "sha256": "a0300492304f84312c97e3ab62266741161ac2217ec840a51f2bae960517652d"
+      "bytes": 24227,
+      "sha256": "0c8bedb2b8a2ea3077b24d5c75068b9387acd7ca04e9340a2e003589548d1485"
     },
     {
       "name": "tgstat-0f.jsonl.gz",
-      "bytes": 19104,
-      "sha256": "98cc9040fc1bbf5633eda070abeba61814b6e4437650725c1389caa7c8e6a902"
+      "bytes": 26398,
+      "sha256": "844e39bc4a9572de874964280d69d69aef3aafd33f967095721ed96bf1d04c9c"
     }
   ],
   "catalog_coverage": [
@@ -2438,10 +2438,10 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 12,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2449,10 +2449,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 102,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2460,10 +2460,10 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 15,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2471,10 +2471,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 102,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2482,10 +2482,10 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 60,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2493,10 +2493,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 102,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2504,10 +2504,10 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 102,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2515,10 +2515,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 102,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2526,10 +2526,10 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 1,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2537,10 +2537,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 102,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2548,10 +2548,10 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 13,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2559,10 +2559,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 95,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2570,10 +2570,10 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 7,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2581,10 +2581,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 89,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2592,10 +2592,10 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 4,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2603,10 +2603,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 81,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2614,10 +2614,10 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 8,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2625,10 +2625,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 102,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2636,10 +2636,10 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 19,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2647,10 +2647,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 102,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2658,10 +2658,10 @@
       "type": "chat",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 72,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2669,21 +2669,21 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 45,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
       "category": "handmade",
       "type": "chat",
       "sort": "members",
-      "status": "pending",
-      "pages": 0,
+      "status": "done",
+      "pages": 1,
       "rows": 0,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
@@ -2691,10 +2691,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 0,
-      "rows": 0,
+      "pages": 1,
+      "rows": 102,
       "expected": null,
-      "page": 0,
+      "page": 1,
       "offset": 0
     },
     {
