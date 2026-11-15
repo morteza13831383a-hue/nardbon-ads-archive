@@ -61,16 +61,15 @@ jobs:
           path: outbox
           key: outbox-${{ github.run_id }}
 
-      # Daily report at 04:35 UTC (08:05 Tehran): an issue that mentions the owner, so it arrives
-      # by e-mail; yesterday's issue is closed. Never fails the run.
-      - name: Daily report
+      # Short status report every run: a comment on today's issue (the owner is mentioned in
+      # the issue, so GitHub e-mails each comment). Yesterday's issue is closed. Never fails the run.
+      - name: Status report
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if [ "$(date -u +%H)" = "04" ] || [ "${{ github.event.inputs.report }}" = "true" ]; then
-            python scripts/daily_report.py || echo "daily report failed"
-          fi
+          # one short line-set every run (hourly), as a comment on today's issue
+          python scripts/daily_report.py --hourly || echo "report failed"
 
       - name: Save data to repository
         if: always()

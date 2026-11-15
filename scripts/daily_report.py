@@ -204,7 +204,78 @@ def build(cur, prev):
     return "\n".join(lines), bool(warn)
 
 
+HISTORY_F = DATA / "report_history.json"
+TARGETS = {"ads": None, "channels": 547000, "groups": 4500}   # ads target = tgadsspy's own Iran total
+
+
+def short_report():
+    """Four lines, posted hourly as a comment on today's issue (one e-mail each, nothing else)."""
+    cur = collect()
+    hist = json.loads(HISTORY_F.read_text("utf-8")) if HISTORY_F.exists() else {"points": [], "site_total": None, "site_day": ""}
+    today = NOW.astimezone(TEHRAN).strftime("%Y-%m-%d")
+    if hist.get("site_day") != today or not hist.get("site_total"):        # site total once a day
+        months = sorted(m for m in cur["ads_by_month"] if re.fullmatch(r"\d{4}-\d{2}", m))
+        total = sum(site_month_totals(months).values())
+        if total:
+            hist["site_total"], hist["site_day"] = total, today
+    point = {"t": NOW.isoformat(), "ads": cur["ads"], "channels": cur["channels"], "groups": cur["groups"]}
+    pts = [p for p in hist["points"] if p["t"] >= (NOW - dt.timedelta(days=2)).isoformat()]
+    prev = pts[-1] if pts else None
+    pts.append(point)
+    hist["points"] = pts
+    HISTORY_F.write_text(json.dumps(hist, ensure_ascii=False), "utf-8")
+
+    # rate from the last ~3 h, projected to midnight Tehran
+    base = next((p for p in pts if p["t"] >= (NOW - dt.timedelta(hours=3)).isoformat()), pts[0])
+    hours = max((NOW - dt.datetime.fromisoformat(base["t"])).total_seconds() / 3600, 0.5)
+    local = NOW.astimezone(TEHRAN)
+    left_today = (24 - local.hour - local.minute / 60)
+    rate = {k: (point[k] - base[k]) / hours for k in ("ads", "channels", "groups")}
+    by_night = {k: max(0, round(rate[k] * left_today)) for k in rate}
+    new = {k: point[k] - prev[k] if prev else 0 for k in ("ads", "channels", "groups")}
+
+    problems = []
+    st = cur["state"]
+    last_hour = [r for r in st.get("runs", []) if r.get("at", "") >= (NOW - dt.timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%SZ")]
+    failed = [r for r in last_hour if not r.get("ok")]
+    if failed:
+        problems.append("همگام‌سازی خطا داد")
+    if (st.get("api_blocked_until") or "") > NOW.strftime("%Y-%m-%dT%H:%M:%SZ"):
+        problems.append("API تبلیغات موقتاً متوقف است")
+    for label, (_, last) in deliveries().items():
+        if not last or dt.datetime.fromisoformat(last) < NOW - dt.timedelta(hours=6):
+            problems.append(f"{label} بیش از ۶ ساعت چیزی نفرستاده")
+
+    site = hist.get("site_total")
+    ads_left = f" · {n(site - cur['ads'])} مانده ({n(round(100 * cur['ads'] / site))}٪ کامل)" if site else ""
+    ch_left = f" · {n(round(100 * cur['channels'] / TARGETS['channels']))}٪ از حدود ۵۴۷ هزار"
+    lines = [
+        f"**{tehran(NOW.isoformat())}** — " + ("✅ همه‌چیز عادی است" if not problems else "⚠️ " + "، ".join(problems)),
+        f"- تبلیغ: **+{n(new['ads'])}** · کل {n(cur['ads'])}{ads_left}",
+        f"- کانال: **+{n(new['channels'])}** · کل {n(cur['channels'])}{ch_left} · گروه: +{n(new['groups'])} (کل {n(cur['groups'])})",
+        f"- تا آخر امشب حدوداً: +{n(by_night['ads'])} تبلیغ، +{n(by_night['channels'])} کانال",
+    ]
+    text = "\n".join(lines)
+
+    title = f"گزارش نردبون {jalali(local)}"
+    sh("gh", "label", "create", LABEL, "--repo", REPO, "--color", "0E8A16", "--description", "Status report")
+    issues = json.loads(sh("gh", "api", f"repos/{REPO}/issues?labels={LABEL}&state=open&per_page=20") or "[]")
+    todays = [i for i in issues if i.get("title") == title]
+    for i in issues:
+        if i.get("title") != title:
+            sh("gh", "api", "-X", "PATCH", f"repos/{REPO}/issues/{i['number']}", "-f", "state=closed")
+    if todays:
+        sh("gh", "api", f"repos/{REPO}/issues/{todays[0]['number']}/comments", "-f", f"body={text}")
+    else:
+        body = f"@{OWNER} گزارش‌های امروز در این صفحه می‌آیند (هر ساعت یک خط کوتاه).\n\n{text}"
+        sh("gh", "api", f"repos/{REPO}/issues", "-f", f"title={title}", "-f", f"body={body}", "-f", f"labels[]={LABEL}")
+    print(text)
+
+
 def main():
+    import sys
+    if "--hourly" in sys.argv:
+        return short_report()
     cur = collect()
     prev = json.loads(STATS_F.read_text("utf-8")) if STATS_F.exists() else {}
     body, has_warn = build(cur, prev)
