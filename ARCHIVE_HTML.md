@@ -124,3 +124,26 @@ site total vs extracted and, per strategy, Iran ads per 100 requests.
 Done when, for every month, extracted ≥ site total (small drift allowed because the site keeps
 counting until the cutoff), the sum of months matches the `/countries/ir` total, and the
 per-niche counts of each month match. An empty queue alone is not proof.
+
+
+### Exclusive tgadsspy budget and handoff
+
+`collection_supervisor.py` supports the runtime config policy
+`tgadsspy_budget_policy: "ads_then_channels"`, with `ads_work`, `ads_process_file`
+and the existing `ads_command`. The coordinator pauses the tgadsspy channel worker
+and preserves its SQLite checkpoint while the archive owns the whole shared host budget.
+TGStat continues under its independent budget and existing account/session holds.
+
+The coordinator checks all pending archive job kinds, including sitemap and listing
+jobs. It transfers ownership once the queue has drained, no unresolved failed/blocked
+rows or source holds remain, all saved ads are delivered, and both the archive parent
+and any orphaned slice have exited. Channels then resume from their checkpoint; the
+handoff is one-way until the user requests another priority change. Missing or unreadable
+checkpoints never count as finished. Source pacing, cutoff and halt rules stay in force.
+
+`state_dir/tgadsspy-ownership.json` stores the phase and the measurement baseline.
+The preceding hour's unique Iran ads saved is compared with new unique records saved
+since channels were paused, per wall-clock hour, including cooldowns. The after window
+freezes when ownership transfers. `reports/collection-status.md` shows the current
+owner, pending archive jobs by kind, undelivered records, and both measurement windows.
+A change in discovery mix can change yield independently of request speed.

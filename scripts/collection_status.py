@@ -49,7 +49,18 @@ def render(current,baseline):
             if site=='tgstat'and s.get('resume_verified_at')and not(s['stop_reason']or s['pacing']['halted']):
                 if datetime.fromisoformat(s['resume_verified_at']).timestamp()>baseline['at']:
                     eta='unknown: baseline spans the pre-resume hold; requires an active-run measurement window'
+            if site=='tgadsspy'and current.get('tgadsspy_budget',{}).get('owner')=='ads':
+                eta='paused: the ad worker owns the entire tgadsspy request budget'
             lines.append(f'| {site} / {kind} | {n:,} | {rate} | {eta} |')
+    if current.get('tgadsspy_budget'):
+        lease=current['tgadsspy_budget'];pending=dict(lease['archive'].get('pending',{}));pending.setdefault('sitemap',0);before=lease.get('before_ads_per_hour');after=lease.get('after_ads_per_hour')
+        lines+=['','## Exclusive tgadsspy budget','',f"Current owner: **{lease['owner']}**. {lease['reason']}.",f"Exclusive ownership began: {datetime.fromtimestamp(lease['changed_at'],timezone.utc).isoformat()if lease.get('changed_at')else'unknown'}.",'',
+            '| Ad yield window | New Iran ads saved / hour | Window |','|---|---:|---|',
+            f"| Before exclusive ad ownership | {before if before is not None else 'unmeasured'} | {(lease.get('before_window_seconds')or 0)/3600:.2f} h before the switch |",
+            f"| After exclusive ad ownership | {after if after is not None else 'warming up'} | {lease['after_window_seconds']/3600:.2f} h since the switch |",
+            '',f"New Iran ads since switch: {lease['after_ads_saved']:,}. Remaining ad jobs by kind (including sitemap): {pending}. Unresolved ad rows: {lease['archive'].get('unresolved',{})}. Undelivered Iran ads: {lease['archive'].get('undelivered','unknown')}.",
+            'Rates count newly saved unique Iran ads per wall-clock hour, including pauses. The before window is the preceding hour; the after window starts when channels were paused. Different discovery mixes can change yield independently of request speed.',
+            'Channels resume automatically only after the entire ad queue drains, unresolved errors/holds are absent, all saved ads have been delivered and the final archive process exits. This handoff does not claim full source coverage. TGStat remains on its own independent host budget.']
     lines+=['','## Pacing, pauses and remaining work','']
     for site,s in current['sites'].items():
         p=s['pacing'];lines.append(f"- **{site}**: delay {p['delay_s']} s + jitter; pause {p['pause_left_s']} s; blocks in 6 h {p['blocks_6h']}; host halted {p['halted']}. Stop reason: {s['stop_reason']or'none'}. Slices: {s.get('slices','not initialized')}; queue states: {s['pending_jobs']}.")
@@ -65,7 +76,10 @@ def render(current,baseline):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);p.add_argument('--publish',action='store_true');a=p.parse_args();config=json.loads(a.config.read_text());state=Path(config['state_dir']);state.mkdir(parents=True,exist_ok=True)
-    current=snapshot(config['spy_work'],config['tg_work']);basefile=state/'report-baseline.json'
+    current=snapshot(config['spy_work'],config['tg_work'])
+    if config.get('tgadsspy_budget_policy')=='ads_then_channels':
+        current['tgadsspy_budget']=__import__('collection_ownership').describe(config)
+    basefile=state/'report-baseline.json'
     if not basefile.exists():basefile.write_text(json.dumps(current))
     baseline=json.loads(basefile.read_text());body=render(current,baseline)
     path=Path(config['code'])/'reports'/'collection-status.md';path.parent.mkdir(exist_ok=True);path.write_text(body)
