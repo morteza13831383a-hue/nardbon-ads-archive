@@ -22,6 +22,8 @@ def snapshot(spy_work,tg_work):
         item={'saved':dict(counts),'requests':c.execute('SELECT COUNT(*)FROM requests').fetchone()[0]if exists(c,'requests')else None,'pacing':pacing('https://tgstat.com'if site=='tgstat'else'https://tgadsspy.com'),'stop_reason':stop[0]if stop else None,'pending_jobs':dict(c.execute('SELECT status,COUNT(*)FROM queue GROUP BY status')),'channel_handles':sorted(names)}
         if site=='tgadsspy'and exists(c,'spy_slices'):
             item['slices']=dict(c.execute('SELECT status,COUNT(*)FROM spy_slices GROUP BY status'));item['known_page_budget_upper_bound']=c.execute("SELECT COALESCE(SUM(MAX(0,201-page)),0)FROM spy_slices WHERE status='pending'").fetchone()[0];item['controls']=list(c.execute('SELECT name,verdict,evidence FROM spy_controls'))
+        if site=='tgadsspy'and exists(c,'priority_profiles'):
+            item['priority_profiles']=dict(c.execute('SELECT status,COUNT(*)FROM priority_profiles GROUP BY status'))
         if site=='tgstat'and exists(c,'tgstat_slices'):
             item['slices']=dict(c.execute('SELECT status,COUNT(*)FROM tgstat_slices GROUP BY status'));item['pages_fetched']=c.execute('SELECT COALESCE(SUM(pages),0)FROM tgstat_slices').fetchone()[0]
         if site=='tgstat'and exists(c,'tgstat_languages'):item['persian_catalog_discovery']=list(c.execute('SELECT url,status,evidence FROM tgstat_languages'))
@@ -39,11 +41,15 @@ def render(current,baseline):
             gained=n-prior.get('saved',{}).get(kind,n);rate=round(100*gained/delta,2)if delta and delta>0 else 'not yet measured'
             hours=gained/elapsed*3600;remaining=max(0,TARGETS.get(site,{}).get(kind,n)-n)
             eta='paused / review required'if s['stop_reason']or s['pacing']['halted']else (f'{remaining/hours:.1f} continuous hours at recent yield; unverified coverage'if gained>=10 and elapsed>=60 and hours else'not defensible yet')
+            if not(s['stop_reason']or s['pacing']['halted'])and site=='tgadsspy'and s.get('slices')and not s['slices'].get('pending'):
+                eta='unknown: listing frontier ended; profile/discovery yield and reachable coverage unverified'
             lines.append(f'| {site} / {kind} | {n:,} | {rate} | {eta} |')
     lines+=['','## Pacing, pauses and remaining work','']
     for site,s in current['sites'].items():
         p=s['pacing'];lines.append(f"- **{site}**: delay {p['delay_s']} s + jitter; pause {p['pause_left_s']} s; blocks in 6 h {p['blocks_6h']}; host halted {p['halted']}. Stop reason: {s['stop_reason']or'none'}. Slices: {s.get('slices','not initialized')}; queue states: {s['pending_jobs']}.")
         if 'known_page_budget_upper_bound'in s:lines.append(f"  Known listing-slice page budget upper bound: {s['known_page_budget_upper_bound']:,}; future graph/range partitions are unknown, so this is not an exact pages-left count.")
+        if 'priority_profiles'in s:
+            lines.append(f"  Priority profile states: {s['priority_profiles']}. Listing caps/repeats are unresolved coverage gaps; finishing the listing frontier does not establish complete coverage.")
         if site=='tgstat':lines.append('  Exact pages left are unknown until server hasMore=false for each category/type/sort; account holds are never automatically cleared.')
     lines+=['','## Filter / failure findings','']
     for row in current['sites'].get('tgadsspy',{}).get('controls',[]):lines.append(f'- tgadsspy `{row[0]}`: {row[1]}; {row[2]}.')
