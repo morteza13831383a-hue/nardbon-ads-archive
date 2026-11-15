@@ -87,7 +87,7 @@ class FinalCollectionTests(unittest.TestCase):
                 c.post_catalog('news','channel',0,0)
                 self.assertEqual(opened.call_count,1);self.assertEqual(opened.call_args.args[0].get_method(),'POST')
             db.close();tg._SECRET_FILTER=None
-    def test_captcha_error_is_a_cooldown_challenge_not_an_account_warning(self):
+    def test_captcha_error_halts_the_account_host(self):
         from email.message import Message
         from tgstat_session import Session
         from source_budget import Challenge
@@ -102,5 +102,9 @@ class FinalCollectionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory()as tmp,patch.dict(os.environ,{'TGSTAT_COOKIE':raw,'CRAWL_BUDGET_DIR':tmp}):
             db=tg.connect(Path(tmp));db.execute("insert into categories values('news','News')");db.commit();s=Session.from_environment();s.csrf='TEST_CSRF';s.csrf_param='_tgstat_csrk';c=tg.Client(db,session=s,final_plan=True);c.rules=[tg.Robots('User-agent: *\nAllow: /')]
             with patch.object(tg,'reserve'),patch.object(c.session_opener,'open',return_value=Response()):
-                with self.assertRaises(Challenge):c.post_catalog('news','channel',0,0)
-            self.assertEqual(__import__('source_budget').status('https://tgstat.com')['blocks_6h'],1);db.close();tg._SECRET_FILTER=None
+                # policy (Nov 15): a captcha on the user's own account halts TGStat until a person
+                # clears it in the browser; it is no longer a 30-minute cooldown
+                from source_budget import HostBlocked
+                with self.assertRaises((Challenge,HostBlocked)):c.post_catalog('news','channel',0,0)
+            st=__import__('source_budget').status('https://tgstat.com')
+            self.assertEqual(st['blocks_6h'],1);self.assertTrue(st['halted']);db.close();tg._SECRET_FILTER=None

@@ -43,7 +43,7 @@ class BudgetTests(unittest.TestCase):
     def test_account_host_keeps_a_higher_floor(self):
         for _ in range(b.SPEEDUP_EVERY*20):
             b.report('https://tgstat.com',200)
-        self.assertEqual(self.state('https://tgstat.com')['delay'],4.0)
+        self.assertEqual(self.state('https://tgstat.com')['delay'],15.0)
 
     def test_challenge_page_counts_as_a_block(self):
         b.report('https://tgadsspy.com','challenge')
@@ -51,7 +51,7 @@ class BudgetTests(unittest.TestCase):
 
     def test_third_block_inside_six_hours_latches_host_stop(self):
         with patch.object(b.time,'time',return_value=1000):
-            b.report('https://tgstat.com',403);b.report('https://ir.tgstat.com','challenge')
+            b.report('https://tgstat.com',403);b.report('https://ir.tgstat.com',403)
             with self.assertRaises(b.HostBlocked):b.report('https://tgstat.com',429)
         self.assertTrue(self.state('https://tgstat.com')['halted'])
         with self.assertRaises(b.HostBlocked):b.reserve('https://ir.tgstat.com',4)
@@ -60,6 +60,32 @@ class BudgetTests(unittest.TestCase):
         with patch.object(b.time,'time',return_value=1000):b.report('https://tgadsspy.com',403)
         with patch.object(b.time,'time',return_value=1000+7*3600):b.report('https://tgadsspy.com',403)
         self.assertEqual(len(self.state('https://tgadsspy.com')['blocks']),1)
+
+
+class AccountHostTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory()
+        self.env=patch.dict(os.environ,{'CRAWL_BUDGET_DIR':self.tmp.name}); self.env.start()
+    def tearDown(self):
+        self.env.stop(); self.tmp.cleanup()
+
+    def test_captcha_on_account_host_halts_at_once(self):
+        self.assertTrue(b.is_challenge('<div class="g-recaptcha"></div>'))
+        with self.assertRaises(b.HostBlocked):
+            b.report('https://ir.tgstat.com','challenge')
+        with self.assertRaises(b.HostBlocked):
+            b.reserve('https://tgstat.com',1)
+
+    def test_daily_cap_waits_for_next_day(self):
+        _,path=b._paths('https://tgstat.com')
+        path.write_text(json.dumps({'delay':15,'streak':0,'last':0,'pause_until':0,'blocks':[],'halted':False,
+                                    'reported_requests':0,'day':'2026-11-15','day_count':1500}))
+        waits=[]
+        clock=[1794700800.0 + 3600]                  # 2026-11-15 01:00 UTC
+        def sleep(sec): waits.append(sec); clock[0]+=sec
+        with patch.object(b.time,'time',side_effect=lambda:clock[0]),patch.object(b.time,'sleep',side_effect=sleep),patch.object(b.random,'uniform',return_value=0):
+            b.reserve('https://tgstat.com',1)
+        self.assertGreater(sum(waits), 3600)          # slept until the next UTC day
 
 
 if __name__=='__main__':

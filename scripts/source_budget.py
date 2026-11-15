@@ -23,7 +23,11 @@ from urllib.error import HTTPError
 
 START, MIN_DELAY, MAX_DELAY = 4.0, 2.5, 20.0
 # hosts reached with the user's own logged-in account stay slower: an account ban costs more
-MIN_BY_HOST = {'tgstat.com': 4.0, 'ir.tgstat.com': 4.0}
+MIN_BY_HOST = {'tgstat.com': 15.0, 'ir.tgstat.com': 15.0}
+# hosts used with the user's own account: a captcha already means the account is under review,
+# so it halts at once (no 30-min retry), and a daily request cap keeps the volume human-like
+ACCOUNT_HOSTS = {'tgstat.com', 'ir.tgstat.com'}
+DAILY_CAP_BY_HOST = {'tgstat.com': 1500, 'ir.tgstat.com': 1500}
 SPEEDUP_EVERY, SPEEDUP_STEP = 400, 0.25
 BLOCK_PAUSE, ERROR_PAUSE = 30 * 60, 2 * 60
 
@@ -49,6 +53,8 @@ def _load(path):
     state.setdefault('halted', False)
     state.setdefault('reported_requests', 0)
     state.setdefault('pause_until', 0.0)   # wall clock
+    state.setdefault('day', '')            # UTC date of day_count
+    state.setdefault('day_count', 0)
     return state
 
 
@@ -67,7 +73,8 @@ class Challenge(RuntimeError):
 
 def is_challenge(body):
     value=body[:250000].lower()
-    return any(v in value for v in ('<title>just a moment','cf-chl-','/cdn-cgi/challenge-platform','challenge-form','checking your browser'))
+    return any(v in value for v in ('<title>just a moment','cf-chl-','/cdn-cgi/challenge-platform','challenge-form','checking your browser',
+                                    'captcha','g-recaptcha','hcaptcha','cf-turnstile','smartcaptcha'))
 
 def reserve(base, delay=0):
     """Wait in short, unlocked intervals so other workers can report an in-flight failure."""
@@ -78,10 +85,17 @@ def reserve(base, delay=0):
             state=_load(path);now=time.time()
             if state['halted']:raise HostBlocked('Host halted after three blocks within six hours')
             if state['last']>now+60:state['last']=0
-            gap=max(state['delay'],delay or 0)+random.uniform(0,1.5)
+            host=urlsplit(base).netloc.lower()
+            today=time.strftime('%Y-%m-%d',time.gmtime(now))
+            if state['day']!=today:state['day'],state['day_count']=today,0
+            cap=DAILY_CAP_BY_HOST.get(host)
+            floor=MIN_BY_HOST.get(host,0)
+            gap=max(state['delay'],delay or 0,floor)+random.uniform(0,1.5)
             wait=max(state['pause_until']-now,state['last']+gap-now,0)
+            if cap and state['day_count']>=cap:       # daily cap reached: wait for the next UTC day
+                wait=max(wait,86400-now%86400+random.uniform(0,600))
             if wait<=0:
-                state['last']=now;_save(path,state);return
+                state['last']=now;state['day_count']+=1;_save(path,state);return
         time.sleep(min(wait,30))
 
 
@@ -96,7 +110,8 @@ def report(base, status):
         state['blocks']=[v for v in state['blocks']if v>=now-6*3600]
         if status in (403, 429) or status == 'challenge':
             state['blocks'].append(now)
-            state['halted']=len(state['blocks'])>=3
+            account=urlsplit(base).netloc.lower() in ACCOUNT_HOSTS
+            state['halted']=len(state['blocks'])>=3 or (account and status=='challenge')
             state['delay'] = min(MAX_DELAY, state['delay'] * 2)
             state['pause_until'] = max(state['pause_until'], now + BLOCK_PAUSE)
             state['streak'] = 0
