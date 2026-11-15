@@ -81,6 +81,7 @@ class Client:
     def request(self,url,robots=False,data=None,public_discovery=False):
         from tgstat_session import endpoint_allowed,account_problem
         method='POST'if data is not None else'GET'
+        profile_alias=None  # Proven canonical destination, confined to this request chain.
         for _ in range(6):
             if _SECRET_FILTER and _SECRET_FILTER.clean(url)!=url:raise AccessStop('Credential reflection in a URL; source paused')
             authenticated=bool(self.session and not robots and endpoint_allowed(url,method))
@@ -91,7 +92,7 @@ class Client:
                 if not authenticated or not match or not self.db.execute('SELECT 1 FROM categories WHERE slug=?',(match[1],)).fetchone():raise ValueError('Unapproved catalog request')
                 if urlsplit(url).netloc!='ir.tgstat.com' or not self.rules or not all(r.allowed(url)for r in self.rules)or BLOCKED.search(urlsplit(url).path):raise ValueError('Catalog request is out of scope or robots-disallowed')
             elif not(scoped(url)or(public_discovery and url in('https://tgstat.com/','https://tgstat.com/channels/search')))or not self.rules or not all(r.allowed(url)for r in self.rules):raise ValueError('Out of scope or robots-disallowed URL')
-            if authenticated and method=='GET'and not self.known_profile(url):raise ValueError('Profile has no Iran-list provenance')
+            if authenticated and method=='GET'and not(self.known_profile(url)or url==profile_alias):raise ValueError('Profile has no Iran-list provenance')
             reserve('https://tgstat.com',self.delay)
             headers={'User-Agent':UA,'Accept':'text/html,application/json'if method=='POST'else'text/html,text/plain'}
             if method=='POST':headers.update({'Content-Type':'application/x-www-form-urlencoded','X-Requested-With':'XMLHttpRequest','Referer':BASE+'/'+match[1]})
@@ -116,7 +117,19 @@ class Client:
                 if exc.code in(401,403,429):raise AccessStop(f'HTTP {exc.code}: source paused')from None
                 if exc.code in(301,302,303,307,308):
                     target=canonical(urljoin(url,exc.headers.get('Location','')))
-                    if authenticated and(method=='POST'or not endpoint_allowed(target,'GET')or not self.known_profile(target)):raise AccessStop('Unexpected authenticated redirect; source paused')from None
+                    if authenticated:
+                        # Iran catalog private IDs may canonicalize to a public handle.
+                        # Grant provenance only for that exact same-host, same-type GET.
+                        public=PROFILE.fullmatch(urlsplit(target).path)
+                        source_path=urlsplit(url).path
+                        unresolved=(self.db.execute("SELECT 1 FROM sqlite_master WHERE name='tgstat_unresolved'").fetchone()
+                                    and self.db.execute('SELECT 1 FROM tgstat_unresolved WHERE url=?',(url,)).fetchone())
+                        canonical_profile=(method=='GET' and endpoint_allowed(target,'GET') and public
+                                           and not PROFILE.fullmatch(source_path) and unresolved
+                                           and source_path.startswith('/'+public[1]+'/'))
+                        if canonical_profile:profile_alias=target
+                        if method=='POST'or not endpoint_allowed(target,'GET')or not(self.known_profile(target)or target==profile_alias):
+                            raise AccessStop('Unexpected authenticated redirect; source paused')from None
                     url=target;continue
                 if robots and exc.code in(404,410):return ''
                 if authenticated:

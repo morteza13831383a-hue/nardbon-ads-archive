@@ -74,6 +74,25 @@ class SessionTests(unittest.TestCase):
                     with self.assertRaises((t.AccessStop,__import__('source_budget').HostBlocked)):c.get(t.BASE+'/channel/@example')
                     self.assertEqual(opened.call_count,1)
                 db.close()
+    def test_private_iran_profile_can_redirect_only_to_same_type_public_profile(self):
+        import tgstat_listing as listing
+        for target,accepted in [(t.BASE+'/channel/@example',True),(t.BASE+'/chat/@example',False),
+                                (t.BASE+'/login',False),('https://tgstat.com/channel/@example',False),
+                                (t.BASE+'/channel/@example?login=1',False)]:
+            with tempfile.TemporaryDirectory() as tmp:
+                db=t.connect(Path(tmp));listing.ensure(db)
+                source=t.BASE+'/channel/private123'
+                db.execute('INSERT INTO tgstat_unresolved(url,payload) VALUES(?,?)',(source,'{}'));db.commit()
+                c=t.Client(db,session=session());c.rules=[t.Robots('User-agent: *\nAllow: /')]
+                effects=[HTTPError(source,302,'redirect',{'Location':target},None),Response('<h1>Channel</h1>')]
+                with patch.object(t,'reserve'),patch.object(c.session_opener,'open',side_effect=effects) as opened:
+                    if accepted:self.assertIn('Channel',c.get(source))
+                    else:
+                        with self.assertRaises(t.AccessStop):c.get(source)
+                    self.assertEqual(opened.call_count,2 if accepted else 1)
+                self.assertFalse(c.known_profile(target))
+                db.close()
+
     def test_cookie_csrf_and_rotated_cookie_never_reach_exports_or_logs(self):
         body=f'<meta name="csrf-token"content="{CSRF}"><meta name="csrf-param"content="_tgstat_csrk"><h1>Title {SENTINEL}</h1><p class="card-text">Bio {SENTINEL} {CSRF} {ROTATED}</p><div class="post-text">Post {SENTINEL}</div>'
         with tempfile.TemporaryDirectory()as tmp:
