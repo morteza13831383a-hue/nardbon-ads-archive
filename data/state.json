@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-15T09:35:33Z",
+ "cursor": "2026-11-15T10:26:42Z",
  "backfill": {
   "since": "2026-06-07T10:59:55Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-14T14:35:29Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "bbc48d26f8e7bd93",
+  "tgads/data/2026-11.json": "0a456ad7621b75ff",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,29 +20,17 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "c7028b68ed17fe63",
-  "tgads/data/2026-08.json": "9bc4d6276c9c2d0f",
-  "tgads/data/2026-09.json": "4b82632db60c0d16",
-  "tgads/data/2026-04.json": "c7e0710408e756e7",
-  "tgads/data/2026-05.json": "6cec733e06b431bb",
-  "tgads/data/2026-06.json": "4e483a5777eaee7d",
-  "tgads/data/2026-07.json": "8e33206c4d0ff47b",
-  "tgads/data/2026-10.json": "cffb8a88ceab0c3c",
+  "tgads/channels/channels.json": "987c1f5889881142",
+  "tgads/data/2026-08.json": "197d753c876e20f6",
+  "tgads/data/2026-09.json": "5f93f93ca9c25037",
+  "tgads/data/2026-04.json": "d156d1a65550a25f",
+  "tgads/data/2026-05.json": "08ed360be388a27f",
+  "tgads/data/2026-06.json": "bee432847ce5f7b4",
+  "tgads/data/2026-07.json": "1d6c499286c505a7",
+  "tgads/data/2026-10.json": "5753e9328bb5c40c",
   "tgads/data/2025-07.json": "72d87888107ac7de"
  },
  "runs": [
-  {
-   "at": "2026-11-13T12:55:45Z",
-   "ok": true,
-   "error": null,
-   "new": 476,
-   "updated": 131,
-   "media": 97,
-   "missed": 0,
-   "sent_media": 97,
-   "sent_files": 6,
-   "secs": 316
-  },
   {
    "at": "2026-11-13T13:10:11Z",
    "ok": true,
@@ -750,18 +738,30 @@
    "sent_media": 0,
    "sent_files": 2,
    "secs": 60
+  },
+  {
+   "at": "2026-11-15T11:26:42Z",
+   "ok": true,
+   "error": null,
+   "new": 13,
+   "updated": 94,
+   "media": 97,
+   "missed": 0,
+   "sent_media": 97,
+   "sent_files": 9,
+   "secs": 254
   }
  ],
- "last_upload_ok": "2026-11-15T10:36:32Z",
+ "last_upload_ok": "2026-11-15T11:30:55Z",
  "lang_seen": {
-  "-": 227,
+  "-": 232,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 241,
   "my": 47,
   "en": 491,
-  "fa": 8748,
+  "fa": 8872,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -1040,13 +1040,28 @@
    "tg-mogenir": "2026-11-15T08:36:20Z",
    "tg-rahamedicine": "2026-11-15T08:36:24Z",
    "tg-tipradar_ai": "2026-11-15T08:36:28Z",
-   "tg-inveslopersian": "2026-11-15T08:36:32Z"
+   "tg-inveslopersian": "2026-11-15T08:36:32Z",
+   "tg-vexoracard-bot": "2026-11-15T11:26:43Z",
+   "tg-dealplaza_de": "2026-11-15T11:26:47Z",
+   "tg-levenvpn_bot": "2026-11-15T11:26:51Z",
+   "tg-halgheaval_bot": "2026-11-15T11:26:55Z",
+   "tg-benitoo_vpn": "2026-11-15T11:26:59Z",
+   "tg-ritzobet2024": "2026-11-15T11:27:04Z",
+   "tg-ritzobet_ir": "2026-11-15T11:27:08Z",
+   "tg-analysistips_org": "2026-11-15T11:27:12Z",
+   "tg-amir_diamoond": "2026-11-15T11:27:16Z",
+   "tg-asisvpn": "2026-11-15T11:27:20Z",
+   "tg-boorik2026": "2026-11-15T11:27:24Z",
+   "tg-mahaksteel": "2026-11-15T11:27:28Z",
+   "tg-tignal": "2026-11-15T11:27:32Z",
+   "tg-alforextrading_anylisis415": "2026-11-15T11:27:37Z",
+   "tg-ariadaneshgroup": "2026-11-15T11:27:41Z"
   },
   "partial": {},
   "ads_found": 2509,
-  "known": 1724,
-  "waiting": 1504,
+  "known": 1746,
+  "waiting": 1511,
   "seeds": 0
  },
- "heavy_last": "2026-11-15T08:35:32Z"
+ "heavy_last": "2026-11-15T11:26:42Z"
 }
