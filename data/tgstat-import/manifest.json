@@ -1,33 +1,36 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-14T13:34:43.465127+00:00",
+  "updated_at": "2026-11-15T12:24:33.751161+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "channel": 181,
-    "group": 182
+    "channel": 1273,
+    "group": 471
   },
-  "requests": 944,
+  "requests": 1011,
   "per_100_requests": {
-    "channel": 19.17,
-    "group": 19.28
+    "channel": 125.91,
+    "group": 46.59
   },
   "fields_present": {
-    "type": 363,
-    "username": 363,
-    "title": 363,
-    "description": 325,
-    "members": 181,
-    "category": 363,
-    "country": 363,
-    "language": 363,
-    "text_sample": 181,
-    "url": 363,
-    "collected_at": 363
+    "type": 1744,
+    "username": 1682,
+    "title": 1744,
+    "description": 1602,
+    "members": 1605,
+    "category": 1744,
+    "country": 1744,
+    "language": 373,
+    "text_sample": 186,
+    "url": 1744,
+    "collected_at": 1744,
+    "source_id": 1457,
+    "record_detail": 1457
   },
   "queue": {
-    "done": 458,
-    "failed": 130,
-    "pending": 7205
+    "done": 468,
+    "failed": 96,
+    "listing_saved": 1305,
+    "pending": 6462
   },
   "listings": [
     {
@@ -889,83 +892,83 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 13223,
-      "sha256": "1d9b076d94c2ee8eaa7cdcded4d94c3cf8498f602d593af11fbda06287200858"
+      "bytes": 21221,
+      "sha256": "817c349fe3ff0f5685ca2792ce68d36683133bdec20f092b7d34862a7eea3e7b"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 15401,
-      "sha256": "09973a636c0052ba566f157220988caf95f2d3c94a5c64119bf0c83f8573b252"
+      "bytes": 23887,
+      "sha256": "df1c897c377dabb7754f922730ce281473a1e63e4f5a8845990449fb8bd30214"
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 9323,
-      "sha256": "ec5ab4b7faa5591ab5eb26d1ef985477662fbd700e5997e8ec1cfc53ae353a47"
+      "bytes": 16735,
+      "sha256": "f1853ba2ae1b703d079b46d7c88887b1762f2df3df654643944e7dab50679d30"
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 11043,
-      "sha256": "06c50bf97a5d36641289f1677bda6453feade5f51b350a1dd146e7a2cfc129ae"
+      "bytes": 19281,
+      "sha256": "2327cb424f52bb6774fd490a856d1685836bf108081741b05d5b4c41e563730a"
     },
     {
       "name": "tgstat-04.jsonl.gz",
-      "bytes": 9781,
-      "sha256": "b0039ee83df306e8ec4279bbfa7b85677f0d162ac59e1a46db99919c47c73756"
+      "bytes": 16962,
+      "sha256": "cec94c9ef4dd344506e41d253458acbb8851a123af1b687ef104ac1c16ddd4e0"
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 13321,
-      "sha256": "821a5add05e2f20a7e6a4eb3a0b5697a9e03b14273bb2c10e6833743c8ae85f5"
+      "bytes": 20383,
+      "sha256": "efc03a5e3a3161dab2f03b6a9b10d7378225a00430b17a85f4e18eeda44bee81"
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 11081,
-      "sha256": "ad6f1be4f550fb26911235375202fb81d5c1a3144c1be13caf9927630320bdcb"
+      "bytes": 20633,
+      "sha256": "b9e6cd82078a8093e5df59bb12e07222c50e916d94884d5b73a9908ec2cfec4b"
     },
     {
       "name": "tgstat-07.jsonl.gz",
-      "bytes": 9335,
-      "sha256": "a00815eb1ee4c54909baf70992e74d76d84e6bb0dbe4fbd25964a82762651140"
+      "bytes": 15045,
+      "sha256": "92397ac51e785fdd2f093dba995b17dc3b42e0164df7e96558c8dfe07f9ed68f"
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 9476,
-      "sha256": "ad4bfdf6772c3c2331484946677aa612bf7406cc8c5ed0e7fb4d08447f88b407"
+      "bytes": 16866,
+      "sha256": "6b46c076bf298d56008c13eb4f377a526ec5fc22aed1c292d37fba7cd824ab00"
     },
     {
       "name": "tgstat-09.jsonl.gz",
-      "bytes": 10984,
-      "sha256": "19a564516cd4a753cdd8a8e9f9e62806a750a06c33e5a01a1e98893b6fe6b03a"
+      "bytes": 18807,
+      "sha256": "a302fbd78c2a7f744e4785dd37d6195cb786c892ebb78006e9f1dc8c98efdbfc"
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 9563,
-      "sha256": "297dc665a3092f112dabd6fd0db2f1e12e3643ebc10e843a3d27fa7495777838"
+      "bytes": 16308,
+      "sha256": "3be0256adc2d7d67810ba12294599e9e358e06eb808bf000d9f449390eae4118"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 9389,
-      "sha256": "63d45223b07e60d29797050973aeae0ac177b2180b488fa558cea6e9291ca080"
+      "bytes": 15427,
+      "sha256": "7e48645355a2b8d5a5550656cc4a0c4973ada67e31a263cf69ee932a8d5df73b"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 11950,
-      "sha256": "d943f24ade0d21927ff5e4d97d82170b4d22c73fdf90e40ce72d4818c16b47ac"
+      "bytes": 20552,
+      "sha256": "8e1b2dca49ff29c94edb3f6178bd6e45fb8d686f67794f27c5a595f7363453c0"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 9706,
-      "sha256": "230945e42a3addf9fc27560a3d3d7cb0f4cc15a3325e389dbeab4f7509b4fa24"
+      "bytes": 17130,
+      "sha256": "45a6450fec6537383d098efa512271d6a095c06f3833445074c624f1d50589d0"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
-      "bytes": 9056,
-      "sha256": "f1f0080bd3809fb902861d4e5bcf1b13c46e8956805e1172a16ef734775e92e2"
+      "bytes": 16991,
+      "sha256": "a0300492304f84312c97e3ab62266741161ac2217ec840a51f2bae960517652d"
     },
     {
       "name": "tgstat-0f.jsonl.gz",
-      "bytes": 11026,
-      "sha256": "580c7da06c5eaac7e7d24c6fd54bb4b7748f68693fbb83e44ac6633c71f3d243"
+      "bytes": 19104,
+      "sha256": "98cc9040fc1bbf5633eda070abeba61814b6e4437650725c1389caa7c8e6a902"
     }
   ],
   "catalog_coverage": [
@@ -1822,23 +1825,25 @@
     {
       "category": "news",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        44
+        44,
+        0
       ],
       "unique_handles": 42,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "other",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 100,
+      "unique_handles": 197,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1846,11 +1851,12 @@
     {
       "category": "other",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        102
+        102,
+        55
       ],
-      "unique_handles": 99,
+      "unique_handles": 151,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1858,11 +1864,12 @@
     {
       "category": "pics",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 98,
+      "unique_handles": 196,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1882,11 +1889,12 @@
     {
       "category": "politics",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 102,
+      "unique_handles": 202,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1894,23 +1902,25 @@
     {
       "category": "politics",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        35
+        35,
+        0
       ],
       "unique_handles": 33,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "psychology",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        102
+        102,
+        90
       ],
-      "unique_handles": 98,
+      "unique_handles": 188,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1918,23 +1928,25 @@
     {
       "category": "psychology",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        3
+        3,
+        0
       ],
       "unique_handles": 3,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
       "category": "religion",
       "type": "channel",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
+        102,
         102
       ],
-      "unique_handles": 101,
+      "unique_handles": 202,
       "end_reached": false,
       "pending": 1,
       "failed": 0
@@ -1942,13 +1954,14 @@
     {
       "category": "religion",
       "type": "group",
-      "pages_fetched": 1,
+      "pages_fetched": 2,
       "rows_per_page": [
-        42
+        42,
+        0
       ],
       "unique_handles": 42,
-      "end_reached": false,
-      "pending": 1,
+      "end_reached": true,
+      "pending": 0,
       "failed": 0
     },
     {
@@ -2144,7 +2157,1021 @@
       "failed": 0
     }
   ],
-  "stop_reason": null,
+  "listing_first_coverage": [
+    {
+      "category": "adult",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 102,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "adult",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 71,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "apps",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 102,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "apps",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 37,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "art",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 102,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "art",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 3,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "babies",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 64,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "babies",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 4,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "beauty",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 102,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "beauty",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 7,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "blogs",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 102,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "blogs",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 18,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "books",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 102,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "books",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 28,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "business",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 102,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "business",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 46,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "career",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 102,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "career",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 7,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "construction",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 33,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "construction",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 5,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "courses",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 41,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "courses",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 4,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "crypto",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 102,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "crypto",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 102,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "darknet",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 1,
+      "rows": 69,
+      "expected": null,
+      "page": 1,
+      "offset": 0
+    },
+    {
+      "category": "darknet",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "design",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "design",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "economics",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "economics",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "education",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "education",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "edutainment",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "edutainment",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "entertainment",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "entertainment",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "erotica",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "erotica",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "esoterics",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "esoterics",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "food",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "food",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "gambling",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "gambling",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "games",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "games",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "handmade",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "handmade",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "health",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "health",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "instagram",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "instagram",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "language",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "language",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "law",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "law",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "marketing",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "marketing",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "medicine",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "medicine",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "music",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "music",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "nature",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "nature",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "news",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "news",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "other",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "other",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "pics",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "pics",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "politics",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "politics",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "psychology",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "psychology",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "religion",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "religion",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "sales",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "sales",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "shock",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "shock",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "sport",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "sport",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "tech",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "tech",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "telegram",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "telegram",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "transport",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "transport",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "travels",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "travels",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "video",
+      "type": "channel",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    },
+    {
+      "category": "video",
+      "type": "chat",
+      "sort": "members",
+      "status": "pending",
+      "pages": 0,
+      "rows": 0,
+      "expected": null,
+      "page": 0,
+      "offset": 0
+    }
+  ],
+  "stop_reason": "",
   "complete": false,
   "limitations": [
     "TGStat Iran/Persian labels include Dari groups; region() uses title, description, text_sample.",
