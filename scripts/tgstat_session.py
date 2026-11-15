@@ -93,17 +93,27 @@ class Session:
 
 def account_problem(doc,fragment=False):
     """Inspect site notices/navigation, not a channel's post text or biography."""
+    all_nodes=list(doc.root.nodes());content=set()
+    for n in all_nodes:
+        if set(n.attrs.get('class','').split()).intersection({'post-text','post-body','peer-item-box'}):
+            content.update(id(child)for child in n.nodes())
+    nodes=[n for n in all_nodes if id(n)not in content]
+    def ui_text(n):
+        if id(n)in content or n.tag in('script','style'):return ''
+        return ' '.join(ui_text(c)if hasattr(c,'tag')else c for c in n.children)
     notices=[]
-    for n in doc.root.nodes():
+    for n in nodes:
         c=set(n.attrs.get('class','').split())
         if c.intersection({'alert-warning','alert-danger','error-summary'})and re.search(r'warn|limit|restrict|block|exceed|огранич|лимит|محدود|هشدار|مسدود',n.text(),re.I):return 'Account warning or limit detected'
         if n.tag in('title','h1')or c.intersection({'alert','alert-danger','alert-warning','notification','error-summary'}):notices.append(n.text())
         if n.tag=='a':
-            path=urlsplit(n.attrs.get('data-src',n.attrs.get('href',''))).path
-            if path in('/login','/signin','/sign-in'):return 'Session is logged out'
+            target=urlsplit(n.attrs.get('data-src',n.attrs.get('href','')))
+            host=target.hostname
+            same_site=host is None or host=='tgstat.com'or host.endswith('.tgstat.com')
+            if same_site and target.path in('/login','/signin','/sign-in'):return 'Session is logged out'
         if n.tag=='form'and any(word in (n.attrs.get('id','')+' '+n.attrs.get('action','')).lower()for word in('login','signin')):return 'Session is logged out'
     has_cards=any('peer-item-box'in n.attrs.get('class','').split()for n in doc.root.nodes())
-    if (fragment or not any(n.tag=='h1'for n in doc.root.nodes()))and not has_cards:notices.append(doc.root.text())
+    if (fragment or not any(n.tag=='h1'for n in nodes))and not has_cards:notices.append(ui_text(doc.root))
     words=' '.join(notices).lower()
     if any(v in words for v in('sign in to access','please log in','login required','session expired','authorization required','войдите','авторизац','وارد حساب','ورود به حساب')):return 'Session is logged out'
     if any(v in words for v in('account is limited','account has been limited','account is restricted','account has been restricted','account warning','account is blocked','account has been blocked','limit exceeded','too many requests','rate limit','доступ ограничен','превышен лимит','حساب شما محدود','حساب شما مسدود')):return 'Account warning or limit detected'

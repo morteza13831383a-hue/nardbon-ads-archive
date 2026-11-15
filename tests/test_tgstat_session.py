@@ -7,6 +7,7 @@ from urllib.parse import parse_qs
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 import tgstat_collect as t
 from tgstat_session import Session,endpoint_allowed,account_problem
+from html_core import Document
 
 SENTINEL='DUMMY_SESSION_0123456789abcdef'
 CSRF='DUMMY_CSRF_FOR_TEST_ONLY_b3db4b28'
@@ -157,3 +158,20 @@ def setUpModule():
 
 def tearDownModule():
     _isolated_budget_env.stop();_isolated_budget_dir.cleanup()
+
+
+class AccountNoticeScopeTests(unittest.TestCase):
+    def test_login_link_in_channel_post_does_not_invalidate_authenticated_session(self):
+        body='<div class="profile-dropdown"><a href="/logout">Logout</a></div><h1>Iran channel</h1><div class="post-body"><div class="post-text"><a href="https://student.example.edu/login">University login</a></div></div>'
+        self.assertIsNone(account_problem(Document(body)))
+    def test_external_login_link_outside_posts_is_not_a_tgstat_logout(self):
+        for url in('https://student.example.edu/login','https://tgstat.com.example.edu/login'):
+            self.assertIsNone(account_problem(Document('<h1>Channel</h1><a href="'+url+'">Login</a>')))
+    def test_post_login_forms_and_words_are_excluded_from_fragment_fallback(self):
+        body='<div class="post-body"><form id="login"action="/login">Please log in; account is limited</form></div>'
+        self.assertIsNone(account_problem(Document(body),fragment=True))
+    def test_real_navigation_login_and_account_warning_still_stop(self):
+        for url in('/login','https://tgstat.com/login','https://ir.tgstat.com/login'):
+            self.assertEqual(account_problem(Document('<nav><a href="'+url+'">Login</a></nav><h1>Channel</h1>')),'Session is logged out')
+        self.assertEqual(account_problem(Document('<form id="login"action="/login"></form>')),'Session is logged out')
+        self.assertEqual(account_problem(Document('<div class="alert-warning">Account is limited</div><div class="post-body">Public post</div>')),'Account warning or limit detected')
