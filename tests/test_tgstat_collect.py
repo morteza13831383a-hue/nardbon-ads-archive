@@ -67,3 +67,18 @@ def setUpModule():
 
 def tearDownModule():
     _isolated_budget_env.stop();_isolated_budget_dir.cleanup()
+
+
+class DeliveryRecoveryTests(unittest.TestCase):
+    def test_github_failure_retains_outbox_without_clearing_account_hold(self):
+        import subprocess
+        import tgstat_collect as core
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory()as tmp:
+            db=core.connect(Path(tmp));db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason','Account warning or limit detected')");db.commit()
+            failure=subprocess.CalledProcessError(1,['gh','api'])
+            with patch.object(core,'publish',side_effect=failure):self.assertFalse(core.try_publish(db,Path(tmp),'owner/repo'))
+            self.assertEqual(db.execute("SELECT value FROM meta WHERE key='github_delivery_pending'").fetchone()[0],'1')
+            self.assertEqual(db.execute("SELECT value FROM meta WHERE key='stop_reason'").fetchone()[0],'Account warning or limit detected')
+            with patch.object(core,'publish'):self.assertTrue(core.try_publish(db,Path(tmp),'owner/repo'))
+            self.assertIsNone(db.execute("SELECT value FROM meta WHERE key='github_delivery_pending'").fetchone());db.close()

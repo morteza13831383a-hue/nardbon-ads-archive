@@ -11,6 +11,7 @@ import json
 from pathlib import Path
 import re
 import sqlite3
+import subprocess
 import time
 from urllib.error import HTTPError, URLError
 from http.client import HTTPException
@@ -420,6 +421,19 @@ def run(db,client,pages,inventory=False,authenticated=False):
         turn+=1;db.execute("INSERT OR REPLACE INTO meta VALUES('turn',?)",(str(turn%4),));db.commit()
 
 
+
+def try_publish(db,work,repo):
+    """Delivery outages retain the SQLite outbox and must not become account holds."""
+    try:
+        publish(db,work,repo)
+    except subprocess.CalledProcessError:
+        db.execute("INSERT OR REPLACE INTO meta VALUES('github_delivery_pending','1')");db.commit()
+        print('GitHub delivery failed; checkpoint retained; retrying after the next slice.',flush=True)
+        return False
+    db.execute("DELETE FROM meta WHERE key='github_delivery_pending'");db.commit()
+    return True
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--final-plan',action='store_true',help='Listing-first complete catalog mode with adaptive retries');p.add_argument('--session',action='store_true',help='Use TGSTAT_COOKIE from environment for approved profiles and Show more only');p.add_argument('--work-dir',type=Path,required=True);p.add_argument('--repo');p.add_argument('--pages-per-slice',type=int,default=25);p.add_argument('--max-slices',type=int,default=1);p.add_argument('--inventory',action='store_true',help='Only public listing inventory; no profile fetching')
     a=p.parse_args()
@@ -445,10 +459,13 @@ def main():
                         if not __import__('tgstat_listing').step(sys.modules[__name__],db,client):break
                 else:run(db,client,a.pages_per_slice,a.inventory,authenticated=a.session)
                 report=export(db,a.work_dir);print(json.dumps({'slice':i+1,'records':report['records'],'requests':report['requests'],'per_100_requests':report['per_100_requests'],'queue':report['queue']},ensure_ascii=False),flush=True)
-                if a.repo:publish(db,a.work_dir,a.repo)
+                delivered=try_publish(db,a.work_dir,a.repo)if a.repo else True
                 i+=1
                 if a.final_plan:
-                    if not db.execute("SELECT 1 FROM tgstat_slices WHERE status='pending'LIMIT 1").fetchone()and not db.execute("SELECT 1 FROM tgstat_unresolved WHERE status='pending'LIMIT 1").fetchone():break
+                    if not db.execute("SELECT 1 FROM tgstat_slices WHERE status='pending'LIMIT 1").fetchone()and not db.execute("SELECT 1 FROM tgstat_unresolved WHERE status='pending'LIMIT 1").fetchone():
+                        if not delivered and a.max_slices==0:
+                            time.sleep(30);continue
+                        break
                     continue
                 if not db.execute("SELECT 1 FROM queue WHERE status='pending'"+('AND kind=\'listing\''if a.inventory else'')+'LIMIT 1').fetchone()and not(a.session and db.execute("SELECT 1 FROM catalog_pages WHERE status='pending'LIMIT 1").fetchone()):break
         except AccessStop as exc:
