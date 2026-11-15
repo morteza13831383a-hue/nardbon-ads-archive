@@ -21,9 +21,9 @@ class OwnershipTests(unittest.TestCase):
             self.pending(kind);self.assertEqual(own.advance(self.cfg)['owner'],'ads');self.db.execute("DELETE FROM queue WHERE status='pending'");self.db.commit()
     def test_drained_checkpoint_switches_once_then_stays_with_channels(self):
         self.assertEqual(own.advance(self.cfg)['owner'],'channels');self.pending('detail');self.assertEqual(own.advance(self.cfg)['owner'],'channels')
-    def test_source_holds_and_unresolved_errors_preserve_ad_ownership(self):
+    def test_source_holds_preserve_ad_ownership_and_failed_rows_remain_reported(self):
         self.db.execute('INSERT INTO meta VALUES("last_stop_reason","HTTP 403")');self.db.commit();self.assertEqual(own.advance(self.cfg)['owner'],'ads')
-        self.db.execute('DELETE FROM meta');self.db.execute('INSERT INTO queue VALUES("detail","failed")');self.db.commit();self.assertEqual(own.advance(self.cfg)['owner'],'ads')
+        self.db.execute('DELETE FROM meta');self.db.execute('INSERT INTO queue VALUES("detail","failed")');self.db.commit();result=own.advance(self.cfg);self.assertEqual(result['owner'],'channels');self.assertEqual(result['archive']['unresolved'],{'failed':1})
     def test_active_orphan_slice_and_terminal_host_halt_prevent_switch(self):
         self.proc.return_value=[123];self.assertEqual(own.advance(self.cfg)['owner'],'ads');self.proc.return_value=[]
         with patch.object(own,'status',return_value={'halted':True,'pause_left_s':0}):self.assertEqual(own.advance(self.cfg)['owner'],'ads')

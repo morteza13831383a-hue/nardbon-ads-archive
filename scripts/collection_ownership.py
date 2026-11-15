@@ -48,11 +48,10 @@ def archive_state(config):
 def describe(config):
     state=load_state(config);ad=archive_state(config);budget=status('https://tgadsspy.com');active=active_ads(config)
     owner=state.get('owner','ads');reason='Ad queue has not drained'
-    complete=not ad.get('error')and ad.get('queue_rows',0)>0 and not ad.get('pending')and not ad.get('unresolved')and not ad.get('undelivered')and not ad.get('hold')and not active and not budget['halted']and not budget['pause_left_s']
+    complete=not ad.get('error')and ad.get('queue_rows',0)>0 and not ad.get('pending')and not ad.get('undelivered')and not ad.get('hold')and not active and not budget['halted']and not budget['pause_left_s']
     if owner=='channels':reason='Ad checkpoint drained; channel phase owns the host budget'
     elif ad.get('error'):reason=ad['error']
     elif ad.get('hold')or budget['halted']:reason='Ad/source hold preserved; channels remain paused'
-    elif ad.get('unresolved')and not ad.get('pending'):reason='Ad errors require review; channels remain paused'
     elif ad.get('undelivered')and not ad.get('pending'):reason='Waiting for collected ads to be delivered to GitHub'
     elif complete:reason='Ad checkpoint drained and archive processes exited'
     elif not ad.get('pending')and active:reason='Waiting for the final archive slice/delivery to exit'

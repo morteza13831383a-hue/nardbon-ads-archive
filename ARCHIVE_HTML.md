@@ -135,11 +135,11 @@ and preserves its SQLite checkpoint while the archive owns the whole shared host
 TGStat continues under its independent budget and existing account/session holds.
 
 The coordinator checks all pending archive job kinds, including sitemap and listing
-jobs. It transfers ownership once the queue has drained, no unresolved failed/blocked
-rows or source holds remain, all saved ads are delivered, and both the archive parent
+jobs. It transfers ownership once the queue has drained, no source holds remain, all saved ads are delivered, and both the archive parent
 and any orphaned slice have exited. Channels then resume from their checkpoint; the
 handoff is one-way until the user requests another priority change. Missing or unreadable
-checkpoints never count as finished. Source pacing, cutoff and halt rules stay in force.
+checkpoints never count as finished. Failed/robots-blocked rows remain coverage gaps
+in the report and do not count as pending jobs. Source pacing, cutoff and halt rules stay in force.
 
 `state_dir/tgadsspy-ownership.json` stores the phase and the measurement baseline.
 The preceding hour's unique Iran ads saved is compared with new unique records saved

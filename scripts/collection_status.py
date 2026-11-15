@@ -60,7 +60,7 @@ def render(current,baseline):
             f"| After exclusive ad ownership | {after if after is not None else 'warming up'} | {lease['after_window_seconds']/3600:.2f} h since the switch |",
             '',f"New Iran ads since switch: {lease['after_ads_saved']:,}. Remaining ad jobs by kind (including sitemap): {pending}. Unresolved ad rows: {lease['archive'].get('unresolved',{})}. Undelivered Iran ads: {lease['archive'].get('undelivered','unknown')}.",
             'Rates count newly saved unique Iran ads per wall-clock hour, including pauses. The before window is the preceding hour; the after window starts when channels were paused. Different discovery mixes can change yield independently of request speed.',
-            'Channels resume automatically only after the entire ad queue drains, unresolved errors/holds are absent, all saved ads have been delivered and the final archive process exits. This handoff does not claim full source coverage. TGStat remains on its own independent host budget.']
+            'Channels resume automatically only after the entire ad queue drains, source holds are absent, all saved ads have been delivered and the final archive process exits. Failed/robots-blocked rows remain reported as coverage gaps; this handoff does not claim full source coverage. TGStat remains on its own independent host budget.']
     lines+=['','## Pacing, pauses and remaining work','']
     for site,s in current['sites'].items():
         p=s['pacing'];lines.append(f"- **{site}**: delay {p['delay_s']} s + jitter; pause {p['pause_left_s']} s; blocks in 6 h {p['blocks_6h']}; host halted {p['halted']}. Stop reason: {s['stop_reason']or'none'}. Slices: {s.get('slices','not initialized')}; queue states: {s['pending_jobs']}.")
