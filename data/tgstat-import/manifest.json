@@ -1,30 +1,30 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-15T13:32:51.126313+00:00",
+  "updated_at": "2026-11-15T13:38:13.405679+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
     "group": 1425,
-    "channel": 19561
+    "channel": 21846
   },
-  "requests": 1336,
+  "requests": 1361,
   "per_100_requests": {
-    "group": 106.66,
-    "channel": 1464.15
+    "group": 104.7,
+    "channel": 1605.14
   },
   "fields_present": {
-    "type": 20986,
-    "username": 20376,
-    "title": 20986,
-    "description": 18969,
-    "category": 20986,
-    "country": 20986,
+    "type": 23271,
+    "username": 22633,
+    "title": 23271,
+    "description": 21005,
+    "category": 23271,
+    "country": 23271,
     "language": 373,
-    "url": 20986,
-    "collected_at": 20986,
-    "members": 20972,
+    "url": 23271,
+    "collected_at": 23271,
+    "members": 23257,
     "text_sample": 186,
-    "source_id": 20971,
-    "record_detail": 20971
+    "source_id": 23256,
+    "record_detail": 23256
   },
   "queue": {
     "done": 468,
@@ -892,83 +892,83 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 115719,
-      "sha256": "c4c1729e05d0b305b5e0f584f85d61f682e5d1a639f171119c017cf97b348fee"
+      "bytes": 128364,
+      "sha256": "51db90929b0d50e198a6903ed8df4b7d9ff939290755895b448c72dfc16be65a"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 121740,
-      "sha256": "09d30539119c6416cad137dcabca39735f758b0f383d4387067e1015323329d0"
+      "bytes": 134181,
+      "sha256": "58fe560bd71881b1f1abdfd6c1d7dea701e9df645ffc38186476d23576e31f81"
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 111678,
-      "sha256": "abe742e223915d606475540c343daeede986dad60a8168bebf2de41fa5993676"
+      "bytes": 123022,
+      "sha256": "750ee9b63543750be3799e91c30e0b8c2a692b229e5133a842c34acde042949b"
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 117757,
-      "sha256": "cf120af98e143b0bb04d1c8a4ac5a55b6a34cbbd09507eed4387e2d905ee58dc"
+      "bytes": 130828,
+      "sha256": "af1431c3577905c3244c85cd6e167949c72f659dc0a5ee70b60899af6b1d1eaf"
     },
     {
       "name": "tgstat-04.jsonl.gz",
-      "bytes": 119467,
-      "sha256": "f32c0c57a55a9175b30829a5618fe09bf5b198256e90e790ec53736e7c56e8b7"
+      "bytes": 131875,
+      "sha256": "9c24177132dbe2d750cffadd50a82360b1e430fc941e459a8d7a6a364a80a550"
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 115902,
-      "sha256": "89aab95b21e228dbd08b8670aed1504bc5f09cd251c968dfc3bae27275364e29"
+      "bytes": 127974,
+      "sha256": "d6168d5b73ac9eb66c222d55a92851354a6934d2f4327a37d1bf2f0a0eb2aaa0"
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 122922,
-      "sha256": "4a9bb279d113afda49b5b322847b12f8dc47eeea820763be71ab3e20e255e767"
+      "bytes": 137165,
+      "sha256": "128df028896d8514934e6c8da2815b6138ab548d5fc56a8a2732111629160e86"
     },
     {
       "name": "tgstat-07.jsonl.gz",
-      "bytes": 121726,
-      "sha256": "996a0f4e28f1965ce7c96fa9dfc640c9ecc255a94ebd21fd24f9a9678430dcf3"
+      "bytes": 134829,
+      "sha256": "576614f05396d2d27e1b026997b350e5c50e99e91e057f8073a7855e64a289e8"
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 113851,
-      "sha256": "e25a1ab1318435c930e261b4134170d405d8714fbd3607c07b00a14d7722fd87"
+      "bytes": 125151,
+      "sha256": "fa2244b302ff276cee391896a543c5f53f10cc67d91de3a5bd4eb2eac71d6fe5"
     },
     {
       "name": "tgstat-09.jsonl.gz",
-      "bytes": 124781,
-      "sha256": "454c90f3cd6bd6b890925d2d70ca767320f6fb79a846a2c7721a8976d629fe49"
+      "bytes": 135657,
+      "sha256": "f0c616e7ef4deb7963f6234409a521e75a0507b255c49b448bddd04205cf3c0a"
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 114959,
-      "sha256": "e81b0003240daffa9277a4ed267b44540cab142925556edc6ed01b6b683f931f"
+      "bytes": 124999,
+      "sha256": "701b6e33290e43eadece58ee77e694dab1680cea2e83801c7475e5906c9faad0"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 114570,
-      "sha256": "666681a58a0b027d8f6ac24be110b85342ba4d85fbb114ae0b1ab654790a69b8"
+      "bytes": 124548,
+      "sha256": "abe53bc98a0a52613da1825deb2688d62e15915da5055e5c23daf78606afba12"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 120930,
-      "sha256": "7b09af2fbe7d573428c29eda859c3c26dff9a97305e9c382aa223a327515a8f9"
+      "bytes": 131140,
+      "sha256": "d57c4a5e77a033ace04d3ed6c77732ded5ef029b2d0e05189dca0beee5618a73"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 115789,
-      "sha256": "2f3b14da826bc9db7bccff6147c747d2145946f2f2c369e40b8ee4ce949b7a05"
+      "bytes": 126441,
+      "sha256": "08c419286a041f94138144d85579b25cecb56a0390fbdf4e8aa4ebd372b2ef94"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
-      "bytes": 114453,
-      "sha256": "885e8af9a91eee5aca3d3adfcc6943dda61eb995e02e8eddf012d9fdd89a2e46"
+      "bytes": 124108,
+      "sha256": "d84a9db89aa860be33a6f62a1728b0f0ed4f5a2d5d51d8c1650750cbb028ef00"
     },
     {
       "name": "tgstat-0f.jsonl.gz",
-      "bytes": 125431,
-      "sha256": "5a6beb4f6b6ce21c17747e30e08e71db554eb43d00506d9f6dd6ac612f8cf7cc"
+      "bytes": 137321,
+      "sha256": "822d1b5f437146c421a5ea4b26252676172c8e92b644d72146ea64b59ffe3ae0"
     }
   ],
   "catalog_coverage": [
@@ -2493,10 +2493,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 14,
-      "rows": 1428,
+      "pages": 19,
+      "rows": 1895,
       "expected": null,
-      "page": 14,
+      "page": 19,
       "offset": 0
     },
     {
@@ -2823,10 +2823,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 13,
-      "rows": 1326,
+      "pages": 18,
+      "rows": 1798,
       "expected": null,
-      "page": 13,
+      "page": 18,
       "offset": 0
     },
     {
@@ -2866,11 +2866,11 @@
       "category": "news",
       "type": "channel",
       "sort": "members",
-      "status": "pending",
-      "pages": 13,
-      "rows": 1326,
+      "status": "done",
+      "pages": 18,
+      "rows": 1652,
       "expected": null,
-      "page": 13,
+      "page": 18,
       "offset": 0
     },
     {
@@ -2889,10 +2889,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 13,
-      "rows": 1326,
+      "pages": 18,
+      "rows": 1836,
       "expected": null,
-      "page": 13,
+      "page": 18,
       "offset": 0
     },
     {
@@ -3087,10 +3087,10 @@
       "type": "channel",
       "sort": "members",
       "status": "pending",
-      "pages": 13,
-      "rows": 1326,
+      "pages": 18,
+      "rows": 1836,
       "expected": null,
-      "page": 13,
+      "page": 18,
       "offset": 0
     },
     {
