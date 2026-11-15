@@ -1,30 +1,30 @@
 {
   "last_slice_performance": {
     "pages_attempted": 100,
-    "new_iran_ads": 12,
-    "seconds": 1579.26
+    "new_iran_ads": 26,
+    "seconds": 1577.72
   },
   "external_collection": null,
   "last_stop_reason": "",
   "schema_version": 1,
-  "generated_at": "2026-11-15T03:18:49.252249+00:00",
+  "generated_at": "2026-11-15T03:45:42.882666+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 8672,
+  "iran_ads_extracted": 8698,
   "source_reported_iran_total": 56483,
   "queue_status": {
-    "after_cutoff": 28,
-    "done": 3029,
-    "gone": 9,
-    "iran": 8672,
+    "after_cutoff": 29,
+    "done": 3100,
+    "gone": 10,
+    "iran": 8698,
     "known": 1631,
-    "not_iran": 4262,
-    "pending": 762930
+    "not_iran": 4263,
+    "pending": 763021
   },
   "queue_kinds": {
     "detail": 753799,
-    "listing": 26717,
+    "listing": 26908,
     "sitemap": 45
   },
   "discovered_queue_exhausted": false,
@@ -34,23 +34,23 @@
       {
         "month": "2026-04",
         "site_iran_total": 1147,
-        "extracted": 333,
-        "missing": 814,
-        "coverage_pct": 29.0
+        "extracted": 334,
+        "missing": 813,
+        "coverage_pct": 29.1
       },
       {
         "month": "2026-05",
         "site_iran_total": 2315,
-        "extracted": 487,
-        "missing": 1828,
-        "coverage_pct": 21.0
+        "extracted": 488,
+        "missing": 1827,
+        "coverage_pct": 21.1
       },
       {
         "month": "2026-06",
         "site_iran_total": 7107,
-        "extracted": 1104,
-        "missing": 6003,
-        "coverage_pct": 15.5
+        "extracted": 1108,
+        "missing": 5999,
+        "coverage_pct": 15.6
       },
       {
         "month": "2026-07",
@@ -62,15 +62,15 @@
       {
         "month": "2026-08",
         "site_iran_total": 10472,
-        "extracted": 1344,
-        "missing": 9128,
-        "coverage_pct": 12.8
+        "extracted": 1351,
+        "missing": 9121,
+        "coverage_pct": 12.9
       },
       {
         "month": "2026-09",
         "site_iran_total": 16687,
-        "extracted": 2297,
-        "missing": 14390,
+        "extracted": 2309,
+        "missing": 14378,
         "coverage_pct": 13.8
       },
       {
@@ -83,13 +83,13 @@
       {
         "month": "2026-11",
         "site_iran_total": 3310,
-        "extracted": 732,
-        "missing": 2578,
+        "extracted": 733,
+        "missing": 2577,
         "coverage_pct": 22.1
       }
     ],
     "site_sum_of_months": 56596,
-    "extracted_total": 8672,
+    "extracted_total": 8698,
     "by_strategy": [
       {
         "via": "iran_listing",
@@ -117,15 +117,15 @@
       },
       {
         "via": "persian_channel_priority_profile",
-        "requests": 411,
-        "iran": 335,
-        "iran_per_100": 81.51
+        "requests": 431,
+        "iran": 352,
+        "iran_per_100": 81.67
       },
       {
         "via": "advertiser_via_channel>ad",
-        "requests": 159,
-        "iran": 156,
-        "iran_per_100": 98.11
+        "requests": 168,
+        "iran": 165,
+        "iran_per_100": 98.21
       },
       {
         "via": "advertiser_niche>ad",
@@ -135,7 +135,7 @@
       },
       {
         "via": "sitemap",
-        "requests": 5260,
+        "requests": 5259,
         "iran": 2,
         "iran_per_100": 0.04
       },
@@ -159,7 +159,7 @@
       },
       {
         "via": "channel_advertisers",
-        "requests": 1409,
+        "requests": 1474,
         "iran": 0,
         "iran_per_100": 0.0
       },
@@ -171,13 +171,13 @@
       },
       {
         "via": "advertiser_via_channel",
-        "requests": 75,
+        "requests": 76,
         "iran": 0,
         "iran_per_100": 0.0
       },
       {
         "via": "advertiser_niche",
-        "requests": 661,
+        "requests": 665,
         "iran": 0,
         "iran_per_100": 0.0
       },
@@ -189,7 +189,7 @@
       },
       {
         "via": "original",
-        "requests": 261,
+        "requests": 263,
         "iran": 0,
         "iran_per_100": 0.0
       }
@@ -235,6 +235,12 @@
     },
     {
       "url": "https://tgadsspy.com/channels/argirankhodrosharify/advertisers",
+      "status": "gone",
+      "tries": 1,
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://tgadsspy.com/channels/armanhamrahkaspian/advertisers",
       "status": "gone",
       "tries": 1,
       "error": "HTTPError: HTTP Error 404: Not Found"
