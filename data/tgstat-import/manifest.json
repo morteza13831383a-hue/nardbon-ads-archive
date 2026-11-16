@@ -1,31 +1,31 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-16T16:49:34.128382+00:00",
+  "updated_at": "2026-11-16T17:34:43.719309+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
     "group": 1425,
-    "channel": 22920
+    "channel": 22923
   },
-  "requests": 2755,
+  "requests": 2757,
   "per_100_requests": {
-    "group": 51.72,
-    "channel": 831.94
+    "group": 51.69,
+    "channel": 831.45
   },
   "fields_present": {
-    "type": 24345,
-    "username": 23753,
-    "title": 24345,
+    "type": 24348,
+    "username": 23756,
+    "title": 24348,
     "description": 21645,
     "category": 24126,
     "country": 24345,
     "language": 438,
-    "url": 24345,
-    "collected_at": 24345,
-    "members": 24112,
+    "url": 24348,
+    "collected_at": 24348,
+    "members": 24115,
     "text_sample": 250,
     "source_id": 24111,
-    "record_detail": 24330,
-    "search_keyword": 219
+    "record_detail": 24333,
+    "search_keyword": 222
   },
   "queue": {
     "done": 468,
@@ -898,8 +898,8 @@
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 140324,
-      "sha256": "a6de3c777023fd9308b18993f1df37b25c0f95745cf69459b1d058862cce1982"
+      "bytes": 140394,
+      "sha256": "bf834cac8098ab46ea2ae01013519bae217267a811fddb664ba286cab41e3488"
     },
     {
       "name": "tgstat-02.jsonl.gz",
@@ -918,8 +918,8 @@
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 136690,
-      "sha256": "36a346642c47ad6779a97f85aa2e5e57b9d6eb2b2bd5dcee0c6372197dd2d360"
+      "bytes": 136786,
+      "sha256": "d78e4129890326d34b89372d40805fb5bc02ca69d0023106dcb6afb94e532b14"
     },
     {
       "name": "tgstat-06.jsonl.gz",
@@ -958,8 +958,8 @@
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 134313,
-      "sha256": "7e7e4411d4524e62c866022217231510f9f467b9a4c74c2928a51921c064ea1c"
+      "bytes": 134379,
+      "sha256": "4c5580852a64b5532e1b903e41652d519cc49719b30a3f38c687a2e1f2d56615"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
@@ -3172,7 +3172,7 @@
       "offset": 0
     }
   ],
-  "stop_reason": "",
+  "stop_reason": "TGStat search account restricted (site status=restricted)",
   "complete": false,
   "limitations": [
     "TGStat Iran/Persian labels include Dari groups; region() uses title, description, text_sample.",
