@@ -242,7 +242,12 @@ def short_report():
         problems.append("همگام‌سازی خطا داد")
     if (st.get("api_blocked_until") or "") > NOW.strftime("%Y-%m-%dT%H:%M:%SZ"):
         problems.append("API تبلیغات موقتاً متوقف است")
+    status_md = ROOT / "reports" / "collection-status.md"
+    status_text = status_md.read_text("utf-8") if status_md.exists() else ""
+    paused_on_purpose = {"کانال‌های tgadsspy": "paused: the ad worker owns" in status_text}
     for label, (_, last) in deliveries().items():
+        if paused_on_purpose.get(label):
+            continue                     # intentionally waiting for the ad queue to finish
         if not last or dt.datetime.fromisoformat(last) < NOW - dt.timedelta(hours=6):
             problems.append(f"{label} بیش از ۶ ساعت چیزی نفرستاده")
 
