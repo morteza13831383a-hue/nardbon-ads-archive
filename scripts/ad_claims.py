@@ -22,6 +22,10 @@ class Claims:
         if row and row[1] == 'claimed' and row[2] < time.time() - 7200:
             self.db.execute('DELETE FROM claims WHERE id=?', (ad_id,))
             row = None
+        if row and row[1] == 'unverified' and owner == 'tgadsspy':
+            self.db.execute("UPDATE claims SET owner=?,state='claimed',at=? WHERE id=?", (owner,time.time(),ad_id))
+            self.db.commit()
+            return 'acquired'
         if row:
             self.db.commit()
             return row[1]
@@ -32,7 +36,8 @@ class Claims:
     def finish(self, ad_id, owner, verified):
         self.db.execute('BEGIN IMMEDIATE')
         if verified:
-            self.db.execute("UPDATE claims SET state='done',at=? WHERE id=? AND owner=? AND state='claimed'", (time.time(), ad_id, owner))
+            state='unverified' if verified == 'unverified' else 'done'
+            self.db.execute("UPDATE claims SET state=?,at=? WHERE id=? AND owner=? AND state='claimed'", (state,time.time(),ad_id,owner))
         else:
             self.db.execute("DELETE FROM claims WHERE id=? AND owner=? AND state='claimed'", (ad_id, owner))
         self.db.commit()

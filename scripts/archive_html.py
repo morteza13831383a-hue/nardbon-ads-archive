@@ -22,6 +22,7 @@ import archive_yield as ay
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 'https://tgadsspy.com'
 MIRROR_BASE = 'https://telegramadsarchive.com'
+ANALYTICS_BASE = 'https://telegramadsanalytics.com'
 LOG = logging.getLogger('archive-html')
 AD_PATH = re.compile(r'^/ads/([A-Za-z0-9_-]+)$')
 LIST_PATH = re.compile(r'^/(?:countries/ir(?:/(?:advertisers|niches|snapshot/[0-9-]+|trending/(?:week|month)))?|archive(?:/[0-9-]+)?|niches/[a-z-]+|advertisers/[a-z0-9_-]+)$')
@@ -399,7 +400,7 @@ def import_records(db,paths):
                 record=json.loads(line)
                 url=record.get('source_url','')
                 match=AD_PATH.fullmatch(urlsplit(url).path)
-                if origin(url) not in (origin(BASE),origin(MIRROR_BASE)) or not match or match[1]!=record.get('id') or record.get('geo')!='IR':
+                if origin(url) not in (origin(BASE),origin(MIRROR_BASE),origin(ANALYTICS_BASE)) or not match or match[1]!=record.get('id') or record.get('geo')!='IR':
                     raise ValueError('Invalid imported ad identity or country')
                 first=datetime.fromisoformat(record['first_seen'].replace('Z','+00:00'))
                 if first.tzinfo is None:

@@ -83,8 +83,14 @@ def match(pattern, text):
 # "there is no issue with you crawling our site"). Only the Persian channel listing and its
 # pages, including its list filters (category, sort/order, member range, sponsored), so the
 # listing can be read in slices. Every other robots.txt rule still applies.
-OWNER_APPROVED = [re.compile(r'^/channels\?lang=fa(?:&(?:page|category|niche|sort|order|minMembers|maxMembers|sponsored)=[A-Za-z0-9_.-]{1,40})*$')]
-OWNER_APPROVED_MIRROR = [re.compile(r'^/ads/[A-Za-z0-9_-]+$')]
+OWNER_APPROVED = {
+    'tgadsspy.com': [re.compile(r'^/channels\?lang=fa(?:&(?:page|category|niche|sort|order|minMembers|maxMembers|sponsored)=[A-Za-z0-9_.-]{1,40})*$')],
+    # owner-approved by site support, 2026-11: exact ad detail paths on both sister hosts.
+    'telegramadsarchive.com': [re.compile(r'^/ads/[A-Za-z0-9_-]+$')],
+    'telegramadsanalytics.com': [re.compile(r'^/ads/[A-Za-z0-9_-]+$')],
+    # Owner-approved API search, ending 2026-12-16 23:59 UTC in tglist_api_collect.py.
+    'tglist.io': [re.compile(r'^/api/search_channels_v2\?page=[0-9]+&page_size=50&lang=fa&value=[^&]*&category_slug=&sort=$')],
+}
 
 
 class Robots:
@@ -124,7 +130,7 @@ class Robots:
     def allowed(self, url):
         p = urlsplit(url)
         target = p.path + ('?' + p.query if p.query else '')
-        exceptions = OWNER_APPROVED if p.hostname == 'tgadsspy.com' else OWNER_APPROVED_MIRROR if p.hostname == 'telegramadsarchive.com' else []
+        exceptions = OWNER_APPROVED.get((p.hostname or '').lower(), [])
         if p.scheme == 'https' and any(rx.fullmatch(target) for rx in exceptions):
             return True
         hits = []

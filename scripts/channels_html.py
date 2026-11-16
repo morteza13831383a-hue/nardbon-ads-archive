@@ -69,7 +69,7 @@ def enqueue(db, url, kind=None, priority=None):
     path = urlsplit(url).path
     if origin(url) != origin(BASE) or '/api/' in path:
         return
-    if path == '/channels' and urlsplit(url).query and not any(rx.fullmatch(path + '?' + urlsplit(url).query) for rx in OWNER_APPROVED):
+    if path == '/channels' and urlsplit(url).query and not any(rx.fullmatch(path + '?' + urlsplit(url).query) for rx in OWNER_APPROVED['tgadsspy.com']):
         return
     channel = CHANNEL.fullmatch(path)
     if channel:

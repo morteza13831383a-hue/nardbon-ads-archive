@@ -21,12 +21,16 @@ from html_core import Client, Document
 from source_budget import Challenge, HostBlocked, status as budget_status
 
 BASE = archive.MIRROR_BASE
+ORDER = 'ASC'
 
 
 def archive_ids(root):
     out = set()
     for path in glob.glob(str(root / 'data/ads/*.json')):
         out.update(row['id'] for row in json.loads(Path(path).read_text(encoding='utf-8')) if row.get('id'))
+    for path in (root/'data/html-archive-import').glob('ads-*.jsonl.gz'):
+        with gzip.open(path,'rt',encoding='utf-8') as handle:
+            out.update(row['id'] for line in handle if line.strip() for row in [json.loads(line)] if row.get('id'))
     return out
 
 
@@ -85,10 +89,10 @@ def crawl_slice(db, client, claims, spy_path, root, pages):
     saved_ids=archive_ids(root)
     cutoff = db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
     fetched = 0
-    for ad_id, month in db.execute("SELECT id,month FROM jobs WHERE status='pending' ORDER BY id LIMIT ?", (pages,)).fetchall():
+    for ad_id, month in db.execute("SELECT id,month FROM jobs WHERE status='pending' ORDER BY id " + ORDER + " LIMIT ?", (pages,)).fetchall():
         if spy_busy(spy_path, ad_id) or ad_id in saved_ids:
             db.execute("UPDATE jobs SET status='spy_done' WHERE id=?", (ad_id,));db.commit();continue
-        if claims.acquire(ad_id, 'mirror') != 'acquired':
+        if claims.acquire(ad_id, client.base) != 'acquired':
             continue
         url = BASE + '/ads/' + ad_id
         verified = False
@@ -101,10 +105,10 @@ def crawl_slice(db, client, claims, spy_path, root, pages):
             if not works:
                 raise ValueError('Mirror JSON-LD lacks matching ad ID')
             if not works[0].get('contentLocation'):
-                db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason','Mirror JSON-LD omits contentLocation; Iran cannot be verified')")
                 db.execute("UPDATE jobs SET status='unverified',error='Missing contentLocation' WHERE id=?", (ad_id,))
                 db.commit()
-                break
+                verified = 'unverified'
+                continue
             record, result = archive.extract(doc,url,cutoff)
             verified = result in ('iran','not_iran','after_cutoff')
             if record:
@@ -122,12 +126,12 @@ def crawl_slice(db, client, claims, spy_path, root, pages):
             db.execute('UPDATE jobs SET status=?,error=? WHERE id=?', ('failed',f'{type(exc).__name__}: {str(exc)[:100]}',ad_id))
             db.commit();break
         finally:
-            claims.finish(ad_id,'mirror',verified)
+            claims.finish(ad_id,client.base,verified)
     return fetched
 
 
 def export(db, work):
-    output = work / 'exports' / 'ads-mirror-00001.jsonl.gz'
+    output = work / 'exports' / ('ads-'+BASE.split('//')[1]+'-00001.jsonl.gz')
     output.parent.mkdir(parents=True,exist_ok=True)
     tmp = output.with_suffix('.tmp')
     with gzip.open(tmp,'wt',encoding='utf-8') as handle:
@@ -143,7 +147,7 @@ def publish(db, work, repo):
     if not pending:
         return 0
     out=work/'github-outbox';out.mkdir(exist_ok=True)
-    name='ads-mirror-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%f')+'.jsonl.gz'
+    name='ads-'+BASE.split('//')[1]+'-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%f')+'.jsonl.gz'
     path=out/name
     with gzip.open(path,'wt',encoding='utf-8') as handle:
         for _,payload in pending:handle.write(payload+'\n')
@@ -173,7 +177,11 @@ def main():
     p.add_argument('--repo',required=True)
     p.add_argument('--pages-per-slice',type=int,default=100)
     p.add_argument('--max-slices',type=int,default=1)
+    p.add_argument('--host',choices=('telegramadsarchive.com','telegramadsanalytics.com'),default='telegramadsarchive.com')
     a=p.parse_args()
+    global BASE,ORDER
+    BASE='https://'+a.host
+    ORDER='ASC' if a.host=='telegramadsarchive.com' else 'DESC'
     if a.pages_per_slice<1 or a.max_slices<0:p.error('Invalid slice size')
     if not a.spy_checkpoint.exists():p.error('tgadsspy checkpoint missing')
     lock=archive.source_lock(a.work_dir)
@@ -182,7 +190,11 @@ def main():
     db=connect(a.work_dir,cutoff)
     claims=Claims()
     try:
-        if db.execute("SELECT value FROM meta WHERE key='stop_reason' AND value!=''").fetchone():
+        old=db.execute("SELECT value FROM meta WHERE key='stop_reason' AND value!=''").fetchone()
+        if old and old[0]=='Mirror JSON-LD omits contentLocation; Iran cannot be verified':
+            db.execute("DELETE FROM meta WHERE key='stop_reason'");db.commit()
+            old=None
+        if old:
             raise SystemExit('Mirror stop reason retained; no request sent')
         client=Client(BASE,4,resilient=True)
         client.initialize()

@@ -32,6 +32,7 @@ class MirrorTests(unittest.TestCase):
  def test_owner_exception_host_and_exact_path(self):
   robots=Robots('User-agent: *\nDisallow: /ads/\nDisallow: /api/')
   self.assertTrue(robots.allowed(mirror.BASE+'/ads/'+ID))
+  self.assertTrue(robots.allowed('https://telegramadsanalytics.com/ads/'+ID))
   self.assertFalse(robots.allowed(mirror.BASE+'/ads/'+ID+'?x=1'))
   self.assertFalse(robots.allowed('https://another.example/ads/'+ID))
   self.assertFalse(robots.allowed(mirror.BASE+'/api/v1/ads'))
@@ -44,6 +45,10 @@ class MirrorTests(unittest.TestCase):
    self.assertEqual(b.acquire(ID,'mirror'),'acquired')
    b.finish(ID,'mirror',True)
    self.assertEqual(a.acquire(ID,'tgadsspy'),'done')
+   self.assertEqual(b.acquire('unverified-id','https://telegramadsarchive.com'),'acquired')
+   b.finish('unverified-id','https://telegramadsarchive.com','unverified')
+   self.assertEqual(b.acquire('unverified-id','https://telegramadsanalytics.com'),'unverified')
+   self.assertEqual(a.acquire('unverified-id','tgadsspy'),'acquired')
    a.close();b.close()
  def test_mirror_identity_imports_with_original_id(self):
   with tempfile.TemporaryDirectory() as temp:
@@ -59,6 +64,9 @@ class MirrorTests(unittest.TestCase):
    row['source_url']=mirror.BASE+'/ads/other'
    with gzip.open(path,'wt')as f:f.write(json.dumps(row)+'\n')
    with self.assertRaises(ValueError):archive.import_records(db,[path])
+   row['source_url']='https://telegramadsanalytics.com/ads/'+aid
+   with gzip.open(path,'wt')as f:f.write(json.dumps(row)+'\n')
+   self.assertEqual(archive.import_records(db,[path]),1)
    db.close()
  def test_seed_oldest_and_skip_completed(self):
   with tempfile.TemporaryDirectory() as temp:
