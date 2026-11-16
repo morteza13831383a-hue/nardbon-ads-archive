@@ -1,31 +1,31 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-16T21:44:42.760243+00:00",
+  "updated_at": "2026-11-16T21:45:04.785207+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
-    "group": 1459,
-    "channel": 23686
+    "group": 1460,
+    "channel": 23700
   },
   "requests": 2761,
   "per_100_requests": {
-    "group": 52.84,
-    "channel": 857.88
+    "group": 52.88,
+    "channel": 858.38
   },
   "fields_present": {
-    "type": 25145,
-    "username": 24553,
-    "title": 25145,
+    "type": 25160,
+    "username": 24568,
+    "title": 25160,
     "description": 21645,
     "category": 24126,
     "country": 24660,
     "language": 438,
-    "url": 25145,
-    "collected_at": 25145,
-    "members": 24912,
+    "url": 25160,
+    "collected_at": 25160,
+    "members": 24927,
     "text_sample": 250,
     "source_id": 24111,
-    "record_detail": 25130,
-    "search_keyword": 1019
+    "record_detail": 25145,
+    "search_keyword": 1034
   },
   "queue": {
     "done": 468,
@@ -893,13 +893,13 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 136479,
-      "sha256": "7a0fff08628eaf5ad80286568f149c7d77b8fe7ac8b1f6329da470053f4967e5"
+      "bytes": 136503,
+      "sha256": "57d94844ef21444b6f765c34ef7aaefeaea9eb2ff32e088cc5159e73927f93b7"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 144286,
-      "sha256": "ce539921172b66fe653201f45934f6c608cc4c03631a58279ae5b46d4fe07127"
+      "bytes": 144488,
+      "sha256": "01e9a5abe003e6fc6ecf99b4e1a320ed0a43701e49b163cc9a58a0397a55a63b"
     },
     {
       "name": "tgstat-02.jsonl.gz",
@@ -908,8 +908,8 @@
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 145005,
-      "sha256": "a36e4f6139a4d53693d41b5015a9451e937682d8b79cff0e5249f6d8ca6919c8"
+      "bytes": 145136,
+      "sha256": "9417e338a6f0e22fc6a012cc33404578222cf5da4a8a3a88e989410e65f8c5ff"
     },
     {
       "name": "tgstat-04.jsonl.gz",
@@ -918,18 +918,18 @@
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 140768,
-      "sha256": "aa76f0108fc6fb2d4f98093a5164213cb4f57753caa8ff01b353a79c6d25a172"
+      "bytes": 140831,
+      "sha256": "153f30a2d6943c71b12b8d0806deef1496925a416767e44efcc9d9566ae83362"
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 150709,
-      "sha256": "490c05b36aec9e1fe1868a905707bc557036b01b8324cf364b14496e83f1f063"
+      "bytes": 150763,
+      "sha256": "9d244ca19567f7ff6422924871703ff6480e000a1c7175b384494ed9afef3305"
     },
     {
       "name": "tgstat-07.jsonl.gz",
-      "bytes": 146026,
-      "sha256": "2f0de003b388f3b4a76529ebf73e580df6e92b87eca769e0aa18ab09de18d437"
+      "bytes": 146134,
+      "sha256": "bb110d47f28ea7444120f52c90b19fc6104457680be49169dc13f5860176dfe3"
     },
     {
       "name": "tgstat-08.jsonl.gz",
@@ -943,8 +943,8 @@
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 137895,
-      "sha256": "1d8b09cf957ab47ae3919610f4f2331a9c3dc935702f13d81245c4c7347a2ac2"
+      "bytes": 137956,
+      "sha256": "95d0cadb59063dc62c7894ec05987908e4eb2153ff11eced99bf3aa6d4c46494"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
@@ -953,13 +953,13 @@
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 142823,
-      "sha256": "b2af02eaae150adbb2b3cbd8d5278704648f616d6db107e3a5bde28d2ff19af0"
+      "bytes": 142910,
+      "sha256": "08e96d8ac90e933b6965d6da7b17f64fc49fea6887ba351fb03c9855f4a013a2"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 137846,
-      "sha256": "6a154f41442aeb59505b874445f0c37a91d3755a67233e29685f47436b9511bb"
+      "bytes": 137888,
+      "sha256": "ce1446fb476f719813af06df4ec606c2076713017b84ec03b0254cd95b6c0781"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
@@ -968,8 +968,8 @@
     },
     {
       "name": "tgstat-0f.jsonl.gz",
-      "bytes": 149471,
-      "sha256": "a602b87955de483ea9dc6e8897324079f82129d5a26b828b6b2a2f1dabbcdf90"
+      "bytes": 149535,
+      "sha256": "81b96db4e710f239cc38cf48c4c3f074bd66abf2eb1f17aff9291f51e6456d5a"
     }
   ],
   "catalog_coverage": [
