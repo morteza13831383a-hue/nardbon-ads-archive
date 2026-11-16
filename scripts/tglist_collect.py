@@ -59,7 +59,7 @@ def main():
     def get(url,robots=None):
         if not allowed_time():raise RuntimeError('TGList permission expired')
         if robots and not robots.allowed(url):raise RuntimeError('robots disallows request')
-        reserve(HOST,10)
+        reserve(HOST,max(10,robots.delay if robots else 10))
         if not allowed_time():raise RuntimeError('TGList permission expired')
         try:r=opener.open(Request(url,headers={'User-Agent':'IranAdsCollector/1.0','Accept':'text/html'}),timeout=30)
         except HTTPError as e:budget_report(HOST,e.code);raise
