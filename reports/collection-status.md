@@ -1,14 +1,14 @@
 # Collection status
 
-2026-11-16T14:48:01.183718+00:00
+2026-11-16T16:43:21.005814+00:00
 
 Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
 | Site / type | Total saved | New / 100 requests since baseline | Conditional remaining time |
 |---|---:|---:|---|
 | tgadsspy / channel | 46,816 | 310.06 | paused: the ad worker owns the entire tgadsspy request budget |
-| tgstat / group | 1,425 | 70.1 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
-| tgstat / channel | 22,701 | 1274.92 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
+| tgstat / group | 1,425 | 69.59 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
+| tgstat / channel | 22,789 | 1270.55 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
 
 ## Exclusive tgadsspy budget
 
@@ -18,15 +18,15 @@ Exclusive ownership began: 2026-11-15T21:33:46.615166+00:00.
 | Ad yield window | New Iran ads saved / hour | Window |
 |---|---:|---|
 | Before exclusive ad ownership | 29 | 1.00 h before the switch |
-| After exclusive ad ownership | 97.34 | 17.24 h since the switch |
+| After exclusive ad ownership | 87.58 | 19.16 h since the switch |
 
-New Iran ads since switch: 1,678. Remaining ad jobs by kind (including sitemap): {'detail': 734815, 'listing': 26426, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 0.
+New Iran ads since switch: 1,678. Remaining ad jobs by kind (including sitemap): {'detail': 734141, 'listing': 26395, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 0.
 Rates count newly saved unique Iran ads per wall-clock hour, including pauses. The before window is the preceding hour; the after window starts when channels were paused. Different discovery mixes can change yield independently of request speed.
 Channels resume automatically only after the entire ad queue drains, source holds are absent, all saved ads have been delivered and the final archive process exits. Failed/robots-blocked rows remain reported as coverage gaps; this handoff does not claim full source coverage. TGStat remains on its own independent host budget.
 
 ## Pacing, pauses and remaining work
 
-- **tgadsspy**: delay 6.0 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'capped': 12, 'done': 63, 'ignored': 5, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 9871, 'failed': 269, 'listing_saved': 3244, 'pending': 22822, 'robots_disallowed': 22}.
+- **tgadsspy**: delay 8.75 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'capped': 12, 'done': 63, 'ignored': 5, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 9871, 'failed': 269, 'listing_saved': 3244, 'pending': 22822, 'robots_disallowed': 22}.
   Known listing-slice page budget upper bound: 0; future graph/range partitions are unknown, so this is not an exact pages-left count.
   Priority profile states: {'done': 7611, 'pending': 34797}. Listing caps/repeats are unresolved coverage gaps; finishing the listing frontier does not establish complete coverage.
 - **tgstat**: delay 20.0 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'done': 92}; queue states: {'done': 468, 'failed': 10, 'listing_saved': 7736, 'pending': 117}.
@@ -46,7 +46,7 @@ Channels resume automatically only after the entire ad queue drains, source hold
 
 ## Two-source overlap estimate
 
-{"tgadsspy": 46816, "tgstat_public_handles": 22212, "intersection": 2446, "union_public_handles": 66582, "population_estimate": 425134}
+{"tgadsspy": 46816, "tgstat_public_handles": 22300, "intersection": 2452, "union_public_handles": 66664, "population_estimate": 425774}
 
 The population estimate assumes independent, representative source samples. Catalog caps and correlated discovery violate that assumption, so it is an estimate, not a completeness certificate. Queue exhaustion with unresolved caps does not mean the owner targets were reached.
 
