@@ -21,6 +21,7 @@ import archive_yield as ay
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = 'https://tgadsspy.com'
+MIRROR_BASE = 'https://telegramadsarchive.com'
 LOG = logging.getLogger('archive-html')
 AD_PATH = re.compile(r'^/ads/([A-Za-z0-9_-]+)$')
 LIST_PATH = re.compile(r'^/(?:countries/ir(?:/(?:advertisers|niches|snapshot/[0-9-]+|trending/(?:week|month)))?|archive(?:/[0-9-]+)?|niches/[a-z-]+|advertisers/[a-z0-9_-]+)$')
@@ -295,7 +296,7 @@ def sitemap(db, body):
     return count
 
 
-def crawl(db, client, max_pages, max_seconds, only_via=None):
+def crawl(db, client, max_pages, max_seconds, only_via=None, claims=None):
     cutoff = db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
     plan = ay.reprioritize(db, cutoff)
     LOG.info('Yield plan: %s', json.dumps(plan)[:1500])
@@ -317,6 +318,14 @@ def crawl(db, client, max_pages, max_seconds, only_via=None):
             break
         url,kind,tries = job
         db.execute("INSERT INTO attempted VALUES(?)",(url,))
+        ad_id = AD_PATH.fullmatch(urlsplit(url).path)[1] if kind == 'detail' and AD_PATH.fullmatch(urlsplit(url).path) else None
+        if claims and ad_id:
+            claim = claims.acquire(ad_id, 'tgadsspy')
+            if claim != 'acquired':
+                if claim == 'done':
+                    db.execute("UPDATE queue SET status='mirror_done' WHERE url=?", (url,))
+                    db.commit()
+                continue
         attempts += 1
         status, error = 'done',None
         stop = False
@@ -361,6 +370,8 @@ def crawl(db, client, max_pages, max_seconds, only_via=None):
             stop = stop or isinstance(exc,RuntimeError) and 'cooldown' in str(exc)
         db.execute('UPDATE queue SET status=?,tries=tries+1,error=? WHERE url=?',(status,error,url))
         db.commit()
+        if claims and ad_id:
+            claims.finish(ad_id, 'tgadsspy', status in ('iran','not_iran','after_cutoff'))
         if stop:
             db.execute("INSERT OR REPLACE INTO meta VALUES('last_stop_reason',?)",(error,))
             db.commit()
@@ -388,7 +399,7 @@ def import_records(db,paths):
                 record=json.loads(line)
                 url=record.get('source_url','')
                 match=AD_PATH.fullmatch(urlsplit(url).path)
-                if origin(url)!=origin(BASE) or not match or match[1]!=record.get('id') or record.get('geo')!='IR':
+                if origin(url) not in (origin(BASE),origin(MIRROR_BASE)) or not match or match[1]!=record.get('id') or record.get('geo')!='IR':
                     raise ValueError('Invalid imported ad identity or country')
                 first=datetime.fromisoformat(record['first_seen'].replace('Z','+00:00'))
                 if first.tzinfo is None:
@@ -397,8 +408,9 @@ def import_records(db,paths):
                     continue
                 record['archive_cutoff']=cutoff
                 db.execute('INSERT OR REPLACE INTO records VALUES(?,?)',(record['id'],json.dumps(record,ensure_ascii=False)))
-                enqueue(db,url,'detail',1)
-                db.execute("UPDATE queue SET status='iran',error=NULL WHERE url=?",(url,))
+                original_url=BASE+'/ads/'+record['id']
+                enqueue(db,original_url,'detail',1)
+                db.execute("UPDATE queue SET status='iran',error=NULL WHERE url=?",(original_url,))
                 count+=1
         db.commit()
     return count
@@ -527,7 +539,13 @@ def main():
             client=Client(BASE,args.delay)
             client.opener=ay.RequestLedger(db,client.opener)
             client.initialize()
-            crawl(db,client,args.max_pages,args.max_seconds,[v.strip() for v in args.only_via.split(',') if v.strip()] if args.only_via else None)
+            from ad_claims import Claims
+            claims=Claims()
+            try:
+                LOG.info('Shared cross-host ad-ID claims enabled')
+                crawl(db,client,args.max_pages,args.max_seconds,[v.strip() for v in args.only_via.split(',') if v.strip()] if args.only_via else None,claims)
+            finally:
+                claims.close()
         info=export(db,args.work_dir)
         if not args.export_only and info.get('last_stop_reason'):
             raise SystemExit(2)

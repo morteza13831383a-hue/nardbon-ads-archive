@@ -84,6 +84,7 @@ def match(pattern, text):
 # pages, including its list filters (category, sort/order, member range, sponsored), so the
 # listing can be read in slices. Every other robots.txt rule still applies.
 OWNER_APPROVED = [re.compile(r'^/channels\?lang=fa(?:&(?:page|category|niche|sort|order|minMembers|maxMembers|sponsored)=[A-Za-z0-9_.-]{1,40})*$')]
+OWNER_APPROVED_MIRROR = [re.compile(r'^/ads/[A-Za-z0-9_-]+$')]
 
 
 class Robots:
@@ -123,7 +124,8 @@ class Robots:
     def allowed(self, url):
         p = urlsplit(url)
         target = p.path + ('?' + p.query if p.query else '')
-        if any(rx.fullmatch(target) for rx in OWNER_APPROVED):
+        exceptions = OWNER_APPROVED if p.hostname == 'tgadsspy.com' else OWNER_APPROVED_MIRROR if p.hostname == 'telegramadsarchive.com' else []
+        if p.scheme == 'https' and any(rx.fullmatch(target) for rx in exceptions):
             return True
         hits = []
         for _, _, rules, _ in self.selected():
@@ -163,7 +165,7 @@ class Client:
                     # Agreed with the site owner: their Cloudflare skips the bot challenge for
                     # requests carrying this header. Unset = normal public access.
                     token = os.environ.get('ARCHIVE_ACCESS_TOKEN', '').strip()
-                    if token:
+                    if token and origin(self.base) == origin('https://tgadsspy.com'):
                         headers['X-Nardbon-Archive'] = token
                     try:
                         response = self.opener.open(Request(url, headers=headers), timeout=30)

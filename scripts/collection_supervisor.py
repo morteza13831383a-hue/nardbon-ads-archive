@@ -30,6 +30,8 @@ def tgstat_frontier_exhausted(path):
 def ensure(config):
     root=Path(config['code']);state=Path(config['state_dir']);state.mkdir(exist_ok=True,parents=True);python=config['python'];clean_env={k:v for k,v in os.environ.items()if k not in('TGSTAT_COOKIE','TGSTAT_COOKIE_FILE')}
     jobs=[('spy',Path(config['spy_work'])/'process.json','https://tgadsspy.com',Path(config['spy_work'])/'channels.sqlite3',[python,str(root/'scripts/channels_html.py'),'--final-plan','--work-dir',config['spy_work'],'--repo',config['repo'],'--pages-per-slice','25','--max-slices','0']),('tgstat',Path(config['tg_work'])/'process.json','https://tgstat.com',Path(config['tg_work'])/'tgstat.sqlite3',[python,str(root/'scripts/tgstat_collect.py'),'--final-plan','--session','--work-dir',config['tg_work'],'--repo',config['repo'],'--pages-per-slice','25','--max-slices','0'])]
+    if config.get('mirror_command'):
+        jobs.append(('mirror',Path(config['mirror_process_file']),'https://telegramadsarchive.com',Path(config['mirror_work'])/'checkpoint.sqlite3',config['mirror_command']))
     events=[];ownership=None
     if config.get('tgadsspy_budget_policy')=='ads_then_channels':
         from collection_ownership import advance
