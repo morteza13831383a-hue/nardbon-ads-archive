@@ -1,6 +1,6 @@
 # Collection status
 
-2026-11-16T16:43:21.005814+00:00
+2026-11-16T16:43:22.900555+00:00
 
 Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
