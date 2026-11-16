@@ -9,7 +9,8 @@ from urllib.error import HTTPError
 from html_core import Document,Robots
 from source_budget import reserve,report as budget_report,status as budget_status,is_challenge
 from tgstat_collect import NoRedirect,connect,export,try_publish,Client,AccessStop
-from tgstat_session import Session,account_problem,endpoint_allowed
+from tgstat_session import Session,account_problem,endpoint_allowed,delivery_gh
+import base64
 
 HOST='https://tgstat.com'
 PROFILE=re.compile(r'^/(channel|chat)/@([A-Za-z][A-Za-z0-9_]{3,31})/stat/?$')
@@ -25,20 +26,33 @@ def parse(html,kind,keyword):
         out[user]={'type':'channel'if kind=='channel'else'group','username':user,'title':title or user,'description':'','members':None,'avg_reach':None,'err':None,'category':None,'country':'Iran','language':None,'text_sample':'','url':'https://ir.tgstat.com/'+kind+'/@'+user,'record_detail':'keyword_search','search_keyword':keyword,'collected_at':datetime.now(timezone.utc).isoformat()}
     return out
 
+def refresh_auto(db,path,repo):
+    """Read the daily generated list from main; completed terms stay completed."""
+    day=datetime.now(timezone.utc).date().isoformat()
+    if db.execute("SELECT 1 FROM meta WHERE key='keyword_auto_refresh_day' AND value=?",(day,)).fetchone():return
+    try:
+        item=delivery_gh(repo,'contents/data/channel_keywords_auto.txt?ref=main')
+        body=base64.b64decode(item['content']).decode('utf-8')
+        tmp=path.with_suffix('.tmp');tmp.write_text(body);tmp.replace(path)
+    except Exception:
+        if not path.is_file():return
+    for term in keywords(path):db.execute("INSERT OR IGNORE INTO keyword_jobs(keyword,kind) VALUES(?,'channel')",(term,))
+    db.execute("INSERT OR REPLACE INTO meta VALUES('keyword_auto_refresh_day',?)",(day,));db.commit()
+
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--work-dir',type=Path,required=True);ap.add_argument('--repo',required=True);ap.add_argument('--keywords',type=Path,required=True);ap.add_argument('--daily-cap',type=int,default=300);a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--work-dir',type=Path,required=True);ap.add_argument('--repo',required=True);ap.add_argument('--keywords',type=Path,required=True);ap.add_argument('--auto-keywords',type=Path,required=True);ap.add_argument('--daily-cap',type=int,default=300);a=ap.parse_args()
     os.environ.pop('TGSTAT_COOKIE',None)
     with(a.work_dir/'worker.lock').open('a+')as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);db=connect(a.work_dir)
         db.executescript('CREATE TABLE IF NOT EXISTS keyword_jobs(keyword TEXT,kind TEXT,page INTEGER DEFAULT 0,offset INTEGER DEFAULT 0,status TEXT DEFAULT \'pending\',new_records INTEGER DEFAULT 0,pages INTEGER DEFAULT 0,PRIMARY KEY(keyword,kind)); CREATE TABLE IF NOT EXISTS keyword_requests(day TEXT,keyword TEXT,kind TEXT,page INTEGER,at TEXT);')
-        for term in keywords(a.keywords):
-            for kind in('channel','chat'):db.execute('INSERT OR IGNORE INTO keyword_jobs(keyword,kind) VALUES(?,?)',(term,kind))
-        db.commit()
+        for term in keywords(a.keywords):db.execute("INSERT OR IGNORE INTO keyword_jobs(keyword,kind) VALUES(?,'channel')",(term,))
+        db.commit();refresh_auto(db,a.auto_keywords,a.repo)
         if db.execute("SELECT value FROM meta WHERE key='stop_reason' AND value!=''").fetchone():raise SystemExit('Existing source stop retained')
         session=Session.from_environment()
         if not session.csrf_from_cookie():raise SystemExit('Session expired; source stopped')
         client=Client(db,final_plan=True);client.initialize();opener=build_opener(NoRedirect())
         while True:
+            refresh_auto(db,a.auto_keywords,a.repo)
             job=db.execute("SELECT keyword,kind,page,offset FROM keyword_jobs WHERE status='pending' ORDER BY rowid LIMIT 1").fetchone()
             if not job:break
             term,kind,page,offset=job;path='/channels/search'if kind=='channel'else'/chats/search';url=HOST+path
@@ -63,7 +77,8 @@ def main():
                 budget_report(HOST,'challenge');db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason','TGStat search challenge')");db.commit();print('Search stopped: challenge',flush=True);break
             try:
                 value=json.loads(body)
-                if value.get('status')!='ok' or not isinstance(value.get('html'),str):raise ValueError()
+                if value.get('status')!='ok':raise AccessStop('TGStat search account/status hold: '+str(value.get('status'))[:40])
+                if not isinstance(value.get('html'),str):raise ValueError()
                 html=value['html'];problem=account_problem(Document(html),fragment=True)
                 if problem:raise AccessStop(problem)
                 more=value['hasMore'];np=int(value['nextPage']);no=int(value['nextOffset'])
@@ -74,12 +89,11 @@ def main():
             for user,row in found.items():
                 if db.execute('SELECT 1 FROM records WHERE username=?',(user,)).fetchone():continue
                 db.execute('INSERT INTO records(username,payload) VALUES(?,?)',(user,json.dumps(row,ensure_ascii=False)));added+=1
+            low_yield=added<2
             db.execute('INSERT INTO keyword_requests VALUES(?,?,?,?,?)',(day,term,kind,page,datetime.now(timezone.utc).isoformat()))
-            db.execute("UPDATE keyword_jobs SET page=?,offset=?,status=?,new_records=new_records+?,pages=pages+1 WHERE keyword=? AND kind=?",(np,no,'pending'if more else'done',added,term,kind));db.commit()
+            db.execute("UPDATE keyword_jobs SET page=?,offset=?,status=?,new_records=new_records+?,pages=pages+1 WHERE keyword=? AND kind=?",(np,no,'done_low_yield'if low_yield else ('pending'if more else'done'),added,term,kind));db.commit()
             print(json.dumps({'keyword':term,'type':kind,'page':page,'new':added,'more':more},ensure_ascii=False),flush=True)
-            if added or not more:
+            if added or not more or low_yield:
                 export(db,a.work_dir);try_publish(db,a.work_dir,a.repo)
-            if db.execute("SELECT COUNT(*) FROM keyword_jobs WHERE status='done'").fetchone()[0]>=20:
-                print('First 10 keywords complete; continuing checkpoint',flush=True)
         db.close()
 if __name__=='__main__':main()
