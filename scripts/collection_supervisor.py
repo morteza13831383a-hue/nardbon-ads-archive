@@ -32,6 +32,8 @@ def ensure(config):
     jobs=[('spy',Path(config['spy_work'])/'process.json','https://tgadsspy.com',Path(config['spy_work'])/'channels.sqlite3',[python,str(root/'scripts/channels_html.py'),'--final-plan','--work-dir',config['spy_work'],'--repo',config['repo'],'--pages-per-slice','25','--max-slices','0']),('tgstat',Path(config['tg_work'])/'process.json','https://tgstat.com',Path(config['tg_work'])/'tgstat.sqlite3',[python,str(root/'scripts/tgstat_collect.py'),'--final-plan','--session','--work-dir',config['tg_work'],'--repo',config['repo'],'--pages-per-slice','25','--max-slices','0'])]
     if config.get('mirror_command'):
         jobs.append(('mirror',Path(config['mirror_process_file']),'https://telegramadsarchive.com',Path(config['mirror_work'])/'checkpoint.sqlite3',config['mirror_command']))
+    if config.get('analytics_command'):
+        jobs.append(('analytics',Path(config['analytics_process_file']),'https://telegramadsanalytics.com',Path(config['analytics_work'])/'checkpoint.sqlite3',config['analytics_command']))
     events=[];ownership=None
     if config.get('tgadsspy_budget_policy')=='ads_then_channels':
         from collection_ownership import advance
@@ -57,6 +59,7 @@ def ensure(config):
             if not Path(config['cookie_file']).exists():events.append({'worker':name,'state':'missing private cookie file'});continue
             env['TGSTAT_COOKIE_FILE']=config['cookie_file']
         log=state/(name+'-runner.log')
+        meta.parent.mkdir(parents=True,exist_ok=True)
         with log.open('a')as f:p=subprocess.Popen(command,stdin=subprocess.DEVNULL,stdout=f,stderr=subprocess.STDOUT,start_new_session=True,env=env)
         meta.write_text(json.dumps({'pid':p.pid,'command':command,'mode':'final-plan'},indent=2));events.append({'worker':name,'state':'started','pid':p.pid})
     (state/'supervisor-status.json').write_text(json.dumps({'at':time.time(),'events':events,'tgadsspy_budget':ownership},ensure_ascii=False,indent=2));return events
