@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-16T03:35:57Z",
+ "cursor": "2026-11-16T04:35:58Z",
  "backfill": {
   "since": "2026-06-07T10:59:55Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-15T14:36:34Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "86c33f158d666267",
+  "tgads/data/2026-11.json": "c4310a093fc2cdb0",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,29 +20,17 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "2ada1274ec8145ec",
-  "tgads/data/2026-08.json": "fd9b19594670087d",
-  "tgads/data/2026-09.json": "2bcc3b79d3f9f5f6",
-  "tgads/data/2026-04.json": "08304fe8e84a8d49",
-  "tgads/data/2026-05.json": "488480b82db0b278",
-  "tgads/data/2026-06.json": "0718c6297c3f04c7",
-  "tgads/data/2026-07.json": "6c02b1558c5f976a",
-  "tgads/data/2026-10.json": "2788dc883e49563d",
+  "tgads/channels/channels.json": "7ace0b09b5fca913",
+  "tgads/data/2026-08.json": "1c1b3c7c250b16c8",
+  "tgads/data/2026-09.json": "a925f1942d4188d1",
+  "tgads/data/2026-04.json": "32857c492c7b25d9",
+  "tgads/data/2026-05.json": "b5c4c264f20fb808",
+  "tgads/data/2026-06.json": "0f933ac151c95a34",
+  "tgads/data/2026-07.json": "2bff0aa95448e92a",
+  "tgads/data/2026-10.json": "f0be2e0fbc117f4f",
   "tgads/data/2025-07.json": "72d87888107ac7de"
  },
  "runs": [
-  {
-   "at": "2026-11-14T00:35:27Z",
-   "ok": true,
-   "error": null,
-   "new": 11,
-   "updated": 1,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 2,
-   "secs": 5
-  },
   {
    "at": "2026-11-14T01:35:27Z",
    "ok": true,
@@ -750,18 +738,30 @@
    "sent_media": 0,
    "sent_files": 1,
    "secs": 5
+  },
+  {
+   "at": "2026-11-16T05:35:58Z",
+   "ok": true,
+   "error": null,
+   "new": 8,
+   "updated": 120,
+   "media": 96,
+   "missed": 0,
+   "sent_media": 96,
+   "sent_files": 9,
+   "secs": 261
   }
  ],
- "last_upload_ok": "2026-11-16T04:36:01Z",
+ "last_upload_ok": "2026-11-16T05:40:17Z",
  "lang_seen": {
-  "-": 240,
+  "-": 243,
   "tr": 63,
   "he": 39,
   "ru": 732,
-  "ar": 263,
+  "ar": 264,
   "my": 47,
   "en": 491,
-  "fa": 9946,
+  "fa": 10077,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -1115,13 +1115,28 @@
    "tg-rtlcloud": "2026-11-16T02:36:42Z",
    "tg-vdsvpnbot": "2026-11-16T02:36:46Z",
    "tg-ti_r4": "2026-11-16T02:36:50Z",
-   "tg-mayeliiofficial": "2026-11-16T02:36:54Z"
+   "tg-mayeliiofficial": "2026-11-16T02:36:54Z",
+   "tg-arzdigip": "2026-11-16T05:35:59Z",
+   "tg-ara_drop": "2026-11-16T05:36:03Z",
+   "tg-alparipersiansupport": "2026-11-16T05:36:08Z",
+   "tg-wolfoftrade7777": "2026-11-16T05:36:12Z",
+   "tg-arjmand_design": "2026-11-16T05:36:16Z",
+   "tg-emgvpn": "2026-11-16T05:36:20Z",
+   "tg-eastvpnrobot": "2026-11-16T05:36:24Z",
+   "tg-randkimmigrationgroup": "2026-11-16T05:36:28Z",
+   "tg-iranbra": "2026-11-16T05:36:32Z",
+   "tg-lptstoke": "2026-11-16T05:36:37Z",
+   "tg-talayiha": "2026-11-16T05:36:41Z",
+   "tg-xpn_service_bot": "2026-11-16T05:36:45Z",
+   "tg-arayeshi_khodaie": "2026-11-16T05:36:49Z",
+   "tg-searchermusibot": "2026-11-16T05:36:53Z",
+   "tg-wavetradiing": "2026-11-16T05:36:58Z"
   },
   "partial": {},
   "ads_found": 2520,
-  "known": 2086,
-  "waiting": 1791,
+  "known": 2093,
+  "waiting": 1783,
   "seeds": 0
  },
- "heavy_last": "2026-11-16T02:35:56Z"
+ "heavy_last": "2026-11-16T05:35:58Z"
 }
