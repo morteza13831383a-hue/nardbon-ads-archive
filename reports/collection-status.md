@@ -1,14 +1,14 @@
 # Collection status
 
-2026-11-16T06:41:23.174285+00:00
+2026-11-16T08:09:31.670078+00:00
 
 Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
 | Site / type | Total saved | New / 100 requests since baseline | Conditional remaining time |
 |---|---:|---:|---|
 | tgadsspy / channel | 46,816 | 310.06 | paused: the ad worker owns the entire tgadsspy request budget |
-| tgstat / group | 1,425 | 99.76 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
-| tgstat / channel | 22,701 | 1814.26 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
+| tgstat / group | 1,425 | 99.44 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
+| tgstat / channel | 22,701 | 1808.43 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
 
 ## Exclusive tgadsspy budget
 
@@ -18,9 +18,9 @@ Exclusive ownership began: 2026-11-15T21:33:46.615166+00:00.
 | Ad yield window | New Iran ads saved / hour | Window |
 |---|---:|---|
 | Before exclusive ad ownership | 29 | 1.00 h before the switch |
-| After exclusive ad ownership | 2.08 | 9.13 h since the switch |
+| After exclusive ad ownership | 1.79 | 10.60 h since the switch |
 
-New Iran ads since switch: 19. Remaining ad jobs by kind (including sitemap): {'detail': 737470, 'listing': 25577, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 0.
+New Iran ads since switch: 19. Remaining ad jobs by kind (including sitemap): {'detail': 737470, 'listing': 25139, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 0.
 Rates count newly saved unique Iran ads per wall-clock hour, including pauses. The before window is the preceding hour; the after window starts when channels were paused. Different discovery mixes can change yield independently of request speed.
 Channels resume automatically only after the entire ad queue drains, source holds are absent, all saved ads have been delivered and the final archive process exits. Failed/robots-blocked rows remain reported as coverage gaps; this handoff does not claim full source coverage. TGStat remains on its own independent host budget.
 
@@ -57,5 +57,5 @@ The supervisor restarts crashed eligible workers from SQLite checkpoints, respec
 
 ## TGStat username-resolution frontier
 
-States: {'failed': 517, 'no_public_username': 75, 'resolved': 66}. Known frontier exhausted: True.
+States: {'no_public_username': 75, 'pending': 517, 'resolved': 66}. Known frontier exhausted: False.
 When this frontier is empty and delivery has succeeded, the supervisor leaves the worker idle instead of repeatedly restarting it. Failed profiles and listing caps remain unresolved coverage gaps; this is not complete coverage.
