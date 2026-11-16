@@ -225,6 +225,14 @@ class SnapshotRevisit(unittest.TestCase):
             self.assertEqual(ay.requeue_missing_snapshots(db),0)
 
 
+class StrategyOrderTests(unittest.TestCase):
+    def test_discovered_advertisers_precede_more_channel_graph_pages(self):
+        import archive_yield as ay
+        self.assertEqual(ay.classify_listing('/channels/example/advertisers','/advertisers/ordinary','English')[0],5)
+        self.assertEqual(ay.classify_listing('/channels/example/advertisers','/advertisers/persian','فارسی')[0],4)
+        self.assertEqual(ay.classify_listing('/channels/example','/channels/another/advertisers','')[0],6)
+
+
 class ChannelPageSeeds(unittest.TestCase):
     def test_live_export_refresh_seeds_new_links_without_reopening_completed_ads(self):
         import archive_yield as ay

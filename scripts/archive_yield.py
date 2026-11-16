@@ -297,7 +297,7 @@ def classify_listing(source_path, link_path, link_text=''):
         return 5, 'advertiser_niche'
     if m and CHANNEL_ADVERTISERS.fullmatch(source_path):
         # Persian name -> very likely an Iranian advertiser: before any further channel page
-        return (4, 'advertiser_via_channel') if PERSIAN.search(link_text or '') else (7, 'advertiser_via_channel')
+        return (4, 'advertiser_via_channel') if PERSIAN.search(link_text or '') else (5, 'advertiser_via_channel')
     return None
 
 
