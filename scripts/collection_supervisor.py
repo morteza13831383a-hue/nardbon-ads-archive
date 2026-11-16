@@ -15,6 +15,18 @@ def stop_reason(path):
         db=sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True);r=db.execute("SELECT value FROM meta WHERE key='stop_reason'AND value!=''").fetchone();db.close();return r[0]if r else None
     except sqlite3.Error:return None
 
+def tgstat_frontier_exhausted(path):
+    """An empty final-plan frontier is idle, not proof of complete coverage."""
+    try:
+        with sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True) as db:
+            tables={r[0]for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+            if not {'tgstat_slices','tgstat_unresolved','meta'} <= tables:return False
+            if not db.execute('SELECT 1 FROM tgstat_slices LIMIT 1').fetchone():return False
+            if db.execute("SELECT 1 FROM meta WHERE key='github_delivery_pending' AND value='1'").fetchone():return False
+            return not any(db.execute("SELECT 1 FROM "+table+" WHERE status='pending' LIMIT 1").fetchone()
+                           for table in ('tgstat_slices','tgstat_unresolved'))
+    except sqlite3.Error:return False
+
 def ensure(config):
     root=Path(config['code']);state=Path(config['state_dir']);state.mkdir(exist_ok=True,parents=True);python=config['python'];clean_env={k:v for k,v in os.environ.items()if k not in('TGSTAT_COOKIE','TGSTAT_COOKIE_FILE')}
     jobs=[('spy',Path(config['spy_work'])/'process.json','https://tgadsspy.com',Path(config['spy_work'])/'channels.sqlite3',[python,str(root/'scripts/channels_html.py'),'--final-plan','--work-dir',config['spy_work'],'--repo',config['repo'],'--pages-per-slice','25','--max-slices','0']),('tgstat',Path(config['tg_work'])/'process.json','https://tgstat.com',Path(config['tg_work'])/'tgstat.sqlite3',[python,str(root/'scripts/tgstat_collect.py'),'--final-plan','--session','--work-dir',config['tg_work'],'--repo',config['repo'],'--pages-per-slice','25','--max-slices','0'])]
@@ -36,6 +48,8 @@ def ensure(config):
         if alive(meta):continue
         hold=ownership['archive'].get('hold')if name=='ads'else stop_reason(checkpoint)
         if hold or status(host)['halted']:events.append({'worker':name,'state':'held','reason':hold or'three host blocks'});continue
+        if name=='tgstat'and tgstat_frontier_exhausted(checkpoint):
+            events.append({'worker':name,'state':'frontier_exhausted','reason':'No pending catalog or username-resolution jobs; failures/caps remain coverage gaps'});continue
         env=dict(clean_env)
         if name=='tgstat':
             if not Path(config['cookie_file']).exists():events.append({'worker':name,'state':'missing private cookie file'});continue

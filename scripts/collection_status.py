@@ -26,6 +26,9 @@ def snapshot(spy_work,tg_work):
             item['priority_profiles']=dict(c.execute('SELECT status,COUNT(*)FROM priority_profiles GROUP BY status'))
         if site=='tgstat'and exists(c,'tgstat_slices'):
             item['slices']=dict(c.execute('SELECT status,COUNT(*)FROM tgstat_slices GROUP BY status'));item['pages_fetched']=c.execute('SELECT COALESCE(SUM(pages),0)FROM tgstat_slices').fetchone()[0]
+        if site=='tgstat'and exists(c,'tgstat_unresolved'):
+            item['username_resolution']=dict(c.execute('SELECT status,COUNT(*)FROM tgstat_unresolved GROUP BY status'))
+            item['frontier_exhausted']=bool(item.get('slices'))and not item['slices'].get('pending')and not item['username_resolution'].get('pending')
         if site=='tgstat'and exists(c,'tgstat_languages'):item['persian_catalog_discovery']=list(c.execute('SELECT url,status,evidence FROM tgstat_languages'))
         if site=='tgstat':
             resumed=c.execute("SELECT value FROM meta WHERE key='resume_verified_at'").fetchone()
@@ -72,6 +75,9 @@ def render(current,baseline):
     for row in current['sites'].get('tgadsspy',{}).get('controls',[]):lines.append(f'- tgadsspy `{row[0]}`: {row[1]}; {row[2]}.')
     for reason,n in current['sites'].get('tgstat',{}).get('legacy_failures',[]):lines.append(f'- TGStat prior failures: {n} × {reason}.')
     lines+=['- The earlier 129 TGStat failures were missing expected profile headings, not proof of 129 transport blocks. The old full-profile strategy required those headings; new listing rows save metadata directly. Existing failures are preserved for audit; timeouts/5xx are retried, and only rows lacking public usernames may need profile resolution.','- Live probes found category=news changes results. Bounds 0–100 and order=asc returned the same multi-million-member channels as the base page and were omitted from pagination. Such filters cannot be treated as proven independent coverage paths.','- The Persian-language TGStat catalog beyond country Iran is not yet verified; discovery uses anonymous approved pages, and genuine account/session holds are never bypassed.','', '## Two-source overlap estimate','',json.dumps(current['overlap'],ensure_ascii=False),'','The population estimate assumes independent, representative source samples. Catalog caps and correlated discovery violate that assumption, so it is an estimate, not a completeness certificate. Queue exhaustion with unresolved caps does not mean the owner targets were reached.','','## Operation','', 'The supervisor restarts crashed eligible workers from SQLite checkpoints, respects shared cooldowns and terminal account/host holds, and leaves the ad collection logic/cutoff unchanged. It must itself be launched after a full machine shutdown. The scheduled status task attempts to restore that supervisor on this registered environment before updating this file; a stopped/offline environment cannot crawl.','']
+    tg=current['sites'].get('tgstat',{})
+    if 'username_resolution'in tg:
+        lines+=['','## TGStat username-resolution frontier','',f"States: {tg['username_resolution']}. Known frontier exhausted: {tg['frontier_exhausted']}.",'When this frontier is empty and delivery has succeeded, the supervisor leaves the worker idle instead of repeatedly restarting it. Failed profiles and listing caps remain unresolved coverage gaps; this is not complete coverage.','']
     return '\n'.join(lines)
 
 def main():
