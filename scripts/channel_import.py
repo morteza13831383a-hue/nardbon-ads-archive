@@ -30,6 +30,7 @@ import channels
 IMPORT_DIR = channels.ROOT / "data" / "channel-import"
 HTML_DIR = channels.ROOT / "data" / "channel-html-import"     # buckets from scripts/channels_html.py
 TGSTAT_DIR = channels.ROOT / "data" / "tgstat-import"          # Iran-related channels and groups from tgstat.com
+TGLIST_DIR = channels.ROOT / "data" / "tglist-import"          # keyword-search results from tglist.io (same row format)
 PLACEMENTS_F = channels.ROOT / "data" / "placements.json"
 USERNAME = re.compile(r"^[A-Za-z][A-Za-z0-9_]{3,31}$")
 
@@ -118,18 +119,18 @@ def import_html_buckets(chans, pl, log, now_iso):
     return n
 
 
-def import_tgstat(chans, pl, log, now_iso):
+def import_tgstat(chans, pl, log, now_iso, directory=None, seen_key="tgstat_files", source="tgstat", stamp="ts"):
     """tgstat.com (permission granted for Iran-related channels and groups). Parts may be new
     files or rewritten buckets: each is re-read when its digest changes. One row per entity:
     {"type": "channel"|"group", "username", "title", "description", "members", "avg_reach",
      "err", "category", "country", "language", "url", "collected_at"}"""
     import hashlib
-    seen = pl.setdefault("tgstat_files", {})
+    seen = pl.setdefault(seen_key, {})
     n = 0
     entities_f=channels.ROOT/'data'/'tgstat-entities.json'
     entities=json.loads(entities_f.read_text('utf-8'))if entities_f.exists()else{}
     entities_changed=False
-    for path in sorted(glob.glob(str(TGSTAT_DIR / "*.jsonl.gz"))):
+    for path in sorted(glob.glob(str((directory or TGSTAT_DIR) / "*.jsonl.gz"))):
         name = path.rsplit("/", 1)[-1]
         raw = Path(path).read_bytes()
         digest = hashlib.sha256(raw).hexdigest()
@@ -149,7 +150,7 @@ def import_tgstat(chans, pl, log, now_iso):
                 continue
             private_key=r['type']+':'+str(r.get('source_id',''))
             if private_key in entities:entities.pop(private_key);entities_changed=True
-            c = chans.get(u) or {"u": u, "k": [], "sr": "tgstat"}
+            c = chans.get(u) or {"u": u, "k": [], "sr": source}
             c["kd"] = r["type"]
             for src, dst in (("title", "t"), ("category", "c"), ("country", "co"), ("language", "lg")):
                 if r.get(src):
@@ -167,7 +168,7 @@ def import_tgstat(chans, pl, log, now_iso):
                 c["v"] = reach                      # TGStat average post reach ~ views per post
             if r.get("err") not in (None, ""):
                 c["er"] = r["err"]
-            c["ts"] = (r.get("collected_at") or now_iso())[:10]
+            c[stamp] = (r.get("collected_at") or now_iso())[:10]
             rg = region(" ".join(str(r.get(k) or "") for k in ("title", "description", "text_sample")))
             if rg:
                 c["rg"] = rg
@@ -176,7 +177,7 @@ def import_tgstat(chans, pl, log, now_iso):
         seen[name] = digest
     if entities_changed:entities_f.write_text(json.dumps(entities,ensure_ascii=False,separators=(',',':')),'utf-8')
     if n:
-        log(f"channel import: {n} TGStat channels/groups")
+        log(f"channel import: {n} {source} channels/groups")
     return n
 
 
@@ -205,6 +206,7 @@ def run(log, now_iso):
     chans = channels.load()
     n_html = import_html_buckets(chans, pl, log, now_iso)
     n_html += import_tgstat(chans, pl, log, now_iso)
+    n_html += import_tgstat(chans, pl, log, now_iso, TGLIST_DIR, "tglist_files", "tglist", "tl")
     if not todo and not n_html:
         return 0
     n_ch = n_pl = bad = 0
