@@ -1,6 +1,6 @@
 # Collection status
 
-2026-11-16T12:42:27.427421+00:00
+2026-11-16T14:43:03.448422+00:00
 
 Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
@@ -18,15 +18,15 @@ Exclusive ownership began: 2026-11-15T21:33:46.615166+00:00.
 | Ad yield window | New Iran ads saved / hour | Window |
 |---|---:|---|
 | Before exclusive ad ownership | 29 | 1.00 h before the switch |
-| After exclusive ad ownership | 110.79 | 15.15 h since the switch |
+| After exclusive ad ownership | 97.81 | 17.16 h since the switch |
 
-New Iran ads since switch: 1,678. Remaining ad jobs by kind (including sitemap): {'detail': 735647, 'listing': 26486, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 0.
+New Iran ads since switch: 1,678. Remaining ad jobs by kind (including sitemap): {'detail': 734842, 'listing': 26430, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 0.
 Rates count newly saved unique Iran ads per wall-clock hour, including pauses. The before window is the preceding hour; the after window starts when channels were paused. Different discovery mixes can change yield independently of request speed.
 Channels resume automatically only after the entire ad queue drains, source holds are absent, all saved ads have been delivered and the final archive process exits. Failed/robots-blocked rows remain reported as coverage gaps; this handoff does not claim full source coverage. TGStat remains on its own independent host budget.
 
 ## Pacing, pauses and remaining work
 
-- **tgadsspy**: delay 4.5 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'capped': 12, 'done': 63, 'ignored': 5, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 9871, 'failed': 269, 'listing_saved': 3244, 'pending': 22822, 'robots_disallowed': 22}.
+- **tgadsspy**: delay 6.0 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'capped': 12, 'done': 63, 'ignored': 5, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 9871, 'failed': 269, 'listing_saved': 3244, 'pending': 22822, 'robots_disallowed': 22}.
   Known listing-slice page budget upper bound: 0; future graph/range partitions are unknown, so this is not an exact pages-left count.
   Priority profile states: {'done': 7611, 'pending': 34797}. Listing caps/repeats are unresolved coverage gaps; finishing the listing frontier does not establish complete coverage.
 - **tgstat**: delay 20.0 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'done': 92}; queue states: {'done': 468, 'failed': 10, 'listing_saved': 7736, 'pending': 117}.
