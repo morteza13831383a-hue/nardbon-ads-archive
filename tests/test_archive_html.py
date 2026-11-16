@@ -226,6 +226,17 @@ class SnapshotRevisit(unittest.TestCase):
 
 
 class StrategyOrderTests(unittest.TestCase):
+    def test_ad_links_from_discovered_advertiser_are_verified_next(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db=a.connect(Path(tmp),CUTOFF)
+            parent=a.BASE+'/advertisers/example'
+            a.enqueue(db,parent,'listing',5,via='advertiser_via_channel')
+            ad=a.BASE+'/ads/'+('c'+'a'*24)
+            a.discover(db,Document('<a href="'+ad+'">Ad</a>'),parent)
+            self.assertEqual(db.execute('SELECT priority,via FROM queue WHERE url=?',(ad,)).fetchone(),
+                             (3,'advertiser_via_channel>ad'))
+            db.close()
+
     def test_discovered_advertisers_precede_more_channel_graph_pages(self):
         import archive_yield as ay
         self.assertEqual(ay.classify_listing('/channels/example/advertisers','/advertisers/ordinary','English')[0],5)

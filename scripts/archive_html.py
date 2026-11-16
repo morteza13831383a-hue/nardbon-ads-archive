@@ -209,7 +209,7 @@ def discover(db, doc, url):
             is_ir = urlsplit(url).path.startswith('/countries/ir') or any(x.attrs.get('aria-label') == 'Iran' for x in n.nodes())
             iran += int(is_ir)
             # Every detail is still verified independently, including cards from Iran pages.
-            enqueue(db,link,'detail',1 if is_ir else 30,via=child_via)
+            enqueue(db,link,'detail',1 if is_ir else (3 if child_via in ('advertiser_via_channel>ad','advertiser_niche>ad') else 30),via=child_via)
         elif LIST_PATH.fullmatch(p.path):
             # Only bounded useful catalogue filters; no search or sort permutations.
             if p.query not in ('','geo=IR','intent=all','intent=strict'):
