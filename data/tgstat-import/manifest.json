@@ -1,31 +1,31 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-16T22:15:37.461300+00:00",
+  "updated_at": "2026-11-16T22:15:58.967004+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
     "group": 1493,
-    "channel": 24160
+    "channel": 24174
   },
   "requests": 2761,
   "per_100_requests": {
     "group": 54.07,
-    "channel": 875.05
+    "channel": 875.55
   },
   "fields_present": {
-    "type": 25653,
-    "username": 25061,
-    "title": 25653,
+    "type": 25667,
+    "username": 25075,
+    "title": 25667,
     "description": 21645,
     "category": 24126,
-    "country": 24761,
+    "country": 24763,
     "language": 438,
-    "url": 25653,
-    "collected_at": 25653,
-    "members": 25420,
+    "url": 25667,
+    "collected_at": 25667,
+    "members": 25434,
     "text_sample": 250,
     "source_id": 24111,
-    "record_detail": 25638,
-    "search_keyword": 1527
+    "record_detail": 25652,
+    "search_keyword": 1541
   },
   "queue": {
     "done": 468,
@@ -893,13 +893,13 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 137982,
-      "sha256": "f3ab7f9032a647dd511ae35a7bb3f4ea2de564fa4517acfb2821636631fd632e"
+      "bytes": 138050,
+      "sha256": "946da989d9c598a8aa86bf94581533687b70ea7213fca6700815fef136c08878"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 146868,
-      "sha256": "b6c11f2afb8fecf8fa6db1dcd26da41ad5248313df58a0f48dd162bac30a4b52"
+      "bytes": 146933,
+      "sha256": "0ea6eecb21215c1be3cba980426066889092574de8e88861407887272001873e"
     },
     {
       "name": "tgstat-02.jsonl.gz",
@@ -908,8 +908,8 @@
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 147029,
-      "sha256": "f5cf73f0fa0f5ca08bb73ff66c1d8654a287553c7eec70fa9f6f1e90ef5fb77e"
+      "bytes": 147092,
+      "sha256": "7392c092d96391aff51544c547636795043d63809210259d56365a5ea75cf9fe"
     },
     {
       "name": "tgstat-04.jsonl.gz",
@@ -918,13 +918,13 @@
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 142949,
-      "sha256": "7fd4ecc92bca448baf21f04690f868d2778eccd363975c2d1a6bdced56612bec"
+      "bytes": 143017,
+      "sha256": "87f17d8a0d8b5ac6b2ec89b0959b370ac3b5aa7d1e70dc3ff3d2bcf1e92e4d16"
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 153284,
-      "sha256": "16e4625e6d502073a0127ec34c5e63439232fcde77b939c74e4601048d945f69"
+      "bytes": 153333,
+      "sha256": "44ea885c426c81d8de7cd724224dc8ac94aa228225019cbba1370e7683a14305"
     },
     {
       "name": "tgstat-07.jsonl.gz",
@@ -933,18 +933,18 @@
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 137600,
-      "sha256": "2dc9cb75dfbfa855d4dfa2a386baa9ccecb0eaa560ebf93068082d8e870c75cd"
+      "bytes": 137670,
+      "sha256": "4f469c9e794b5e348de689da86cbc929b82461c187ea004e21d1882dd7cd42c2"
     },
     {
       "name": "tgstat-09.jsonl.gz",
-      "bytes": 151423,
-      "sha256": "ffb0d05b3ff933c2e8dc2415f9bf109c705ccd46c39dd5fb2a43820a6658e842"
+      "bytes": 151490,
+      "sha256": "f7bb049bc210049235a34788a5ba39eb5a27e61ceb905541a3525635f18591d0"
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 140225,
-      "sha256": "638c30710ed9dca42df1a2e8a35a183e89e43b58c1aeb405f727d248bc8de965"
+      "bytes": 140435,
+      "sha256": "a945c1ef950bef5b1fbd77ff1fe22a3878af12abcad52954ff4049b7f23f718e"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
@@ -958,18 +958,18 @@
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 140297,
-      "sha256": "fd739eb3f4f951e68f24fef3d1d32d71696e3543c9cdbc45f8f943f2cef87167"
+      "bytes": 140365,
+      "sha256": "d75a53f98c771ed6df3faa9c2488ef2a234a0f68c09308f91f2faf8eb05f8cdf"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
-      "bytes": 137805,
-      "sha256": "28b508df6f03cbcd13490d386c216aec8de9abaa16be2e3b9f9b7ac4d9a2aa34"
+      "bytes": 137904,
+      "sha256": "c78ba5b78a88bbe567c307750829c599ecb949a0ff8007fac09a974b10461b16"
     },
     {
       "name": "tgstat-0f.jsonl.gz",
-      "bytes": 151428,
-      "sha256": "96896bc6ce293f07ba09062f81fe54bc5b394e77157b2dff3e0de5915fcb453c"
+      "bytes": 151480,
+      "sha256": "bb94959a73cca2fb58f013422f0ffd3aca04705e5efd8b467f677460d42f38a0"
     }
   ],
   "catalog_coverage": [
