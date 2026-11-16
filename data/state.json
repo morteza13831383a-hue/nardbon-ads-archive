@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-16T19:35:59Z",
+ "cursor": "2026-11-16T20:35:41Z",
  "backfill": {
   "since": "2026-06-07T10:59:55Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-16T17:36:11Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "0251dd973b17e1fd",
+  "tgads/data/2026-11.json": "d3a96c3b08d6fe13",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,7 +20,7 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "3fba829b87e432d7",
+  "tgads/channels/channels.json": "0a5bb5edb3285a3a",
   "tgads/data/2026-08.json": "c4f94c5754137b29",
   "tgads/data/2026-09.json": "45e0930478cfc94a",
   "tgads/data/2026-04.json": "e61ee6ac1fe135d4",
@@ -31,18 +31,6 @@
   "tgads/data/2025-07.json": "8181396af5de195a"
  },
  "runs": [
-  {
-   "at": "2026-11-14T16:35:27Z",
-   "ok": true,
-   "error": null,
-   "new": 12,
-   "updated": 6,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 5
-  },
   {
    "at": "2026-11-14T17:35:28Z",
    "ok": true,
@@ -750,18 +738,30 @@
    "sent_media": 96,
    "sent_files": 8,
    "secs": 278
+  },
+  {
+   "at": "2026-11-16T21:35:42Z",
+   "ok": true,
+   "error": null,
+   "new": 18,
+   "updated": 3,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 2,
+   "secs": 40
   }
  ],
- "last_upload_ok": "2026-11-16T20:40:35Z",
+ "last_upload_ok": "2026-11-16T21:36:19Z",
  "lang_seen": {
-  "-": 350,
+  "-": 358,
   "tr": 63,
   "he": 39,
   "ru": 732,
-  "ar": 277,
+  "ar": 278,
   "my": 47,
   "en": 491,
-  "fa": 11347,
+  "fa": 11371,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -1213,5 +1213,6 @@
   "waiting": 1950,
   "seeds": 0
  },
- "heavy_last": "2026-11-16T20:35:59Z"
+ "heavy_last": "2026-11-16T20:35:59Z",
+ "combot_last": "2026-11-16T21:35:42Z"
 }
