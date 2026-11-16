@@ -1,31 +1,31 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-16T16:36:56.456288+00:00",
+  "updated_at": "2026-11-16T16:37:18.565042+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
     "group": 1425,
-    "channel": 22740
+    "channel": 22758
   },
   "requests": 2753,
   "per_100_requests": {
     "group": 51.76,
-    "channel": 826.01
+    "channel": 826.66
   },
   "fields_present": {
-    "type": 24165,
-    "username": 23573,
-    "title": 24165,
+    "type": 24183,
+    "username": 23591,
+    "title": 24183,
     "description": 21645,
     "category": 24126,
-    "country": 24165,
+    "country": 24183,
     "language": 438,
-    "url": 24165,
-    "collected_at": 24165,
+    "url": 24183,
+    "collected_at": 24183,
     "members": 24112,
     "text_sample": 250,
     "source_id": 24111,
-    "record_detail": 24150,
-    "search_keyword": 39
+    "record_detail": 24168,
+    "search_keyword": 57
   },
   "queue": {
     "done": 468,
@@ -893,43 +893,43 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 132319,
-      "sha256": "79b85bbf386bb22cb88516b6ca3b8b7dd0dcf0b91d43e529711a54ea9b595b3e"
+      "bytes": 132431,
+      "sha256": "d50cfcbd2538de6e545fa44ead9893b8107456d6a85e68c3b489e106b883b70b"
     },
     {
       "name": "tgstat-01.jsonl.gz",
-      "bytes": 139461,
-      "sha256": "947c495f11ce1004b7badb491c96942cea55f06ebbd157256ed9f05fc9af8e05"
+      "bytes": 139561,
+      "sha256": "10fee9342c98db5b07ba1f3eae2e2dd8c80278791dd9d5c0a4967374397feb75"
     },
     {
       "name": "tgstat-02.jsonl.gz",
-      "bytes": 130478,
-      "sha256": "f07bd9722741218a6f666b00962e939c0a1c5adced52814fa9e45e10e70ffdbb"
+      "bytes": 130575,
+      "sha256": "c93e9b8ee2756505ee0c8a59a0ed86d80f52e0b42b4be5ec58ed7acf96323927"
     },
     {
       "name": "tgstat-03.jsonl.gz",
-      "bytes": 139916,
-      "sha256": "b454c3cb273311a3962eff65701bec8c7bfaa57e7def6a1715d75825ba41729a"
+      "bytes": 140164,
+      "sha256": "0edea211371caf04ecde4f0742c5456098d8c89e3a39e4fcf01214c0bf350c97"
     },
     {
       "name": "tgstat-04.jsonl.gz",
-      "bytes": 139281,
-      "sha256": "a23f281d2ccc019ee55b38e35d5d9c7c138011ea953b501bddb121d2e3517438"
+      "bytes": 139359,
+      "sha256": "ca761af9623c81b1579dc60ce73175707bade89e104fa33a30f1c7f7da1b1483"
     },
     {
       "name": "tgstat-05.jsonl.gz",
-      "bytes": 135520,
-      "sha256": "3361df0bc86f24839a47795eabce21a613ff8888dd4d010e37c53af86a5570cb"
+      "bytes": 135708,
+      "sha256": "a0584f5857b5955304a8e48ed219838af8552d8d62088e4364079dcfd83c3482"
     },
     {
       "name": "tgstat-06.jsonl.gz",
-      "bytes": 145341,
-      "sha256": "5bdd2f325c042a7dd5f847e288173bb9b955bbe9d7c5243ef0f5841ddd95f6f0"
+      "bytes": 145609,
+      "sha256": "d00f6c5d0d0f290d97dfd2a57fac13ba39ae569ac9c37f12e2cfadbc0cc6243d"
     },
     {
       "name": "tgstat-07.jsonl.gz",
-      "bytes": 141668,
-      "sha256": "2099f8ca00a5907332bc351675386b91c969dc54b98ccaa3d22fd04f528225c6"
+      "bytes": 141996,
+      "sha256": "a917b6ef76d4f650cd4be4ab7efe1b2f3c8a65b269ec4ca8b5a36d5dc78d7ffd"
     },
     {
       "name": "tgstat-08.jsonl.gz",
@@ -938,18 +938,18 @@
     },
     {
       "name": "tgstat-09.jsonl.gz",
-      "bytes": 144940,
-      "sha256": "3071ae1612b08a645e18abf4c5a9fb6dc3c7589d0ec798e482ab2e03ffc54158"
+      "bytes": 145031,
+      "sha256": "52ef05083e013b6a64af0cfde6b95214d3749bc40658e54092e15acf9509fbcf"
     },
     {
       "name": "tgstat-0a.jsonl.gz",
-      "bytes": 133661,
-      "sha256": "89e61676b825c094776b425ebb31aff6d04f35a9bb3756b5a8cdfdf649bef98d"
+      "bytes": 133758,
+      "sha256": "4ef6b59d95c0b493bb460223e83a57972ccce9434db19ce89de971ef070dab91"
     },
     {
       "name": "tgstat-0b.jsonl.gz",
-      "bytes": 132886,
-      "sha256": "a28a394f98dd76bb0a60369ad62468f394f6654cac1f1388ddb4575a0e88b70a"
+      "bytes": 133057,
+      "sha256": "71225ff534b772b30944cb718d92f9dcfeff5f0d0d89f6dbd2b109f3bcdf4db8"
     },
     {
       "name": "tgstat-0c.jsonl.gz",
@@ -958,8 +958,8 @@
     },
     {
       "name": "tgstat-0d.jsonl.gz",
-      "bytes": 133238,
-      "sha256": "75053a09b6cf55c3a4917cfb9f48945f88cf289af068d921aea8fc27ec0c7cd5"
+      "bytes": 133463,
+      "sha256": "8e868a71955ca26a0ca8d3f2c5c0e12cfe94b5965771147610a1456431497721"
     },
     {
       "name": "tgstat-0e.jsonl.gz",
