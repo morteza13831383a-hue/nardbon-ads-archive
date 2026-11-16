@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Resume eligible channels workers; account and terminal host holds always win."""
 import argparse,fcntl,json,os,signal,sqlite3,subprocess,time
+from contextlib import closing
 from pathlib import Path
 from source_budget import status
 
@@ -34,6 +35,10 @@ def ensure(config):
         jobs.append(('mirror',Path(config['mirror_process_file']),'https://telegramadsarchive.com',Path(config['mirror_work'])/'checkpoint.sqlite3',config['mirror_command']))
     if config.get('analytics_command'):
         jobs.append(('analytics',Path(config['analytics_process_file']),'https://telegramadsanalytics.com',Path(config['analytics_work'])/'checkpoint.sqlite3',config['analytics_command']))
+    if config.get('lyzem_command'):
+        jobs.append(('lyzem',Path(config['lyzem_process_file']),'https://lyzem.com',Path(config['lyzem_work'])/'checkpoint.sqlite3',config['lyzem_command']))
+    if config.get('quick_command'):
+        jobs.append(('quick',Path(config['quick_process_file']),'https://tgstat.com',Path(config['tg_work'])/'tgstat.sqlite3',config['quick_command']))
     events=[];ownership=None
     if config.get('tgadsspy_budget_policy')=='ads_then_channels':
         from collection_ownership import advance
@@ -50,12 +55,36 @@ def ensure(config):
             jobs=[j for j in jobs if j[0]!='ads']
     for name,meta,host,checkpoint,command in jobs:
         if alive(meta):continue
-        hold=ownership['archive'].get('hold')if name=='ads'else stop_reason(checkpoint)
+        if name=='quick':
+            try:
+                with closing(sqlite3.connect('file:'+str(checkpoint)+'?mode=ro',uri=True))as quick_db:
+                    value=quick_db.execute("SELECT value FROM meta WHERE key='quick_search_stop_reason' AND value!=''").fetchone()
+                    hold=value[0]if value else None
+                    today=time.strftime('%Y-%m-%d',time.gmtime())
+                    used=quick_db.execute('SELECT COUNT(*) FROM quick_requests WHERE day=?',(today,)).fetchone()[0]+quick_db.execute('SELECT COUNT(*) FROM keyword_requests WHERE day=?',(today,)).fetchone()[0]
+                    remaining=quick_db.execute("SELECT 1 FROM quick_jobs WHERE status='pending' LIMIT 1").fetchone()
+                if hold:
+                    events.append({'worker':name,'state':'held','reason':hold});continue
+                if used>=300 or not remaining:
+                    events.append({'worker':name,'state':'daily_cap_or_done','reason':'Quick search waits for a new UTC day or has no pending terms'});continue
+            except sqlite3.Error:hold='Quick search checkpoint unreadable'
+        else:hold=ownership['archive'].get('hold')if name=='ads'else stop_reason(checkpoint)
+        if name=='lyzem':
+            try:
+                with closing(sqlite3.connect('file:'+str(checkpoint)+'?mode=ro',uri=True))as lyzem_db:
+                    today=time.strftime('%Y-%m-%d',time.gmtime())
+                    used=lyzem_db.execute('SELECT COUNT(*) FROM requests WHERE day=?',(today,)).fetchone()[0]
+                    remaining=lyzem_db.execute("SELECT 1 FROM jobs WHERE status='pending' LIMIT 1").fetchone()
+                if hold:
+                    events.append({'worker':name,'state':'held','reason':hold});continue
+                if used>=1500 or not remaining:
+                    events.append({'worker':name,'state':'daily_cap_or_done','reason':'Lyzem waits for a new UTC day or has no pending terms'});continue
+            except sqlite3.Error:hold='Lyzem checkpoint unreadable'
         if hold or status(host)['halted']:events.append({'worker':name,'state':'held','reason':hold or'three host blocks'});continue
         if name=='tgstat'and tgstat_frontier_exhausted(checkpoint):
             events.append({'worker':name,'state':'frontier_exhausted','reason':'No pending catalog or username-resolution jobs; failures/caps remain coverage gaps'});continue
         env=dict(clean_env)
-        if name=='tgstat':
+        if name in ('tgstat','quick'):
             if not Path(config['cookie_file']).exists():events.append({'worker':name,'state':'missing private cookie file'});continue
             env['TGSTAT_COOKIE_FILE']=config['cookie_file']
         log=state/(name+'-runner.log')
