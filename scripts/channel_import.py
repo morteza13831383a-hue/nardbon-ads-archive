@@ -30,6 +30,7 @@ import channels
 IMPORT_DIR = channels.ROOT / "data" / "channel-import"
 HTML_DIR = channels.ROOT / "data" / "channel-html-import"     # buckets from scripts/channels_html.py
 TGSTAT_DIR = channels.ROOT / "data" / "tgstat-import"          # Iran-related channels and groups from tgstat.com
+COMBOT_DIR = channels.ROOT / "data" / "combot-import"          # Persian groups/channels from combot.org top lists
 TGLIST_DIR = channels.ROOT / "data" / "tglist-import"          # keyword-search results from tglist.io (same row format)
 PLACEMENTS_F = channels.ROOT / "data" / "placements.json"
 USERNAME = re.compile(r"^[A-Za-z][A-Za-z0-9_]{3,31}$")
@@ -207,6 +208,7 @@ def run(log, now_iso):
     n_html = import_html_buckets(chans, pl, log, now_iso)
     n_html += import_tgstat(chans, pl, log, now_iso)
     n_html += import_tgstat(chans, pl, log, now_iso, TGLIST_DIR, "tglist_files", "tglist", "tl")
+    n_html += import_tgstat(chans, pl, log, now_iso, COMBOT_DIR, "combot_files", "combot", "cb")
     if not todo and not n_html:
         return 0
     n_ch = n_pl = bad = 0

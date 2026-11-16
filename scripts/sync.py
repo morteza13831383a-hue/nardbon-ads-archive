@@ -707,6 +707,13 @@ def main():
             build_keywords.main()
         except Exception as e:
             log(f"keyword list failed: {e}")
+    # Persian groups/channels from combot.org top lists (once a day, ~7 paced requests)
+    try:
+        import combot_collect
+        if combot_collect.due(state, NOW):
+            combot_collect.step(state, log, now_iso)
+    except Exception as e:
+        log(f"combot failed: {e}")              # never fails the run
     # channel pages collected from tgadsspy by the external crawler (no network here)
     try:
         channel_import.run(log, now_iso)
