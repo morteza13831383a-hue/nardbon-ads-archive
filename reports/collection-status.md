@@ -53,3 +53,10 @@ The population estimate assumes independent, representative source samples. Cata
 ## Operation
 
 The supervisor restarts crashed eligible workers from SQLite checkpoints, respects shared cooldowns and terminal account/host holds, and leaves the ad collection logic/cutoff unchanged. It must itself be launched after a full machine shutdown. The scheduled status task attempts to restore that supervisor on this registered environment before updating this file; a stopped/offline environment cannot crawl.
+
+## Current-run audit — 2026-11-16 00:33 UTC
+
+- TGStat unresolved-profile states: 66 resolved, 75 without a public username, 352 failed, 165 pending. These failures are separate from the 10 legacy profile failures above; their exact causes are not retained in this status table. They are unresolved coverage gaps, not evidence of account blocking. Recent 400 requests: 392 HTTP 200 and 8 status 0 (no completed HTTP status recorded).
+- Since the verified resume at 2026-11-15T22:15:13Z: 441 requests; total records changed from 24,127 to 24,126 (net -1, or -0.23 records per 100 requests). Net change is not gross new discovery; private-to-public identity resolution can merge records. The older baseline ratios above must not be interpreted as current discovery speed.
+- Latest ad slice: 100 attempted pages, zero new Iran ads, 629.2 seconds. Latest 100 HTTP requests: 99 channel-advertiser discovery pages and one overhead request. This explains the lack of immediate ad output, but does not establish that discovery will yield new ads later. Ad logic, cutoff and queue ordering remain unchanged.
+- No defensible full-coverage finish date is available. TGStat's 92 completed catalog slices and the shrinking username-resolution queue do not demonstrate complete catalog enumeration.
