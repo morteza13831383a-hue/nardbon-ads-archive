@@ -1,30 +1,30 @@
 {
   "last_slice_performance": {
     "pages_attempted": 100,
-    "new_iran_ads": 1,
-    "seconds": 1118.55
+    "new_iran_ads": 5,
+    "seconds": 1052.94
   },
   "external_collection": null,
   "last_stop_reason": "",
   "schema_version": 1,
-  "generated_at": "2026-11-16T18:08:56.720820+00:00",
+  "generated_at": "2026-11-16T18:27:13.894744+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 11977,
+  "iran_ads_extracted": 11982,
   "source_reported_iran_total": 56483,
   "queue_status": {
     "after_cutoff": 136,
-    "done": 13136,
+    "done": 13152,
     "gone": 47,
-    "iran": 11977,
+    "iran": 11982,
     "known": 1631,
-    "not_iran": 6830,
-    "pending": 760165
+    "not_iran": 6909,
+    "pending": 760096
   },
   "queue_kinds": {
     "detail": 754344,
-    "listing": 39533,
+    "listing": 39564,
     "sitemap": 45
   },
   "discovered_queue_exhausted": false,
@@ -62,15 +62,15 @@
       {
         "month": "2026-08",
         "site_iran_total": 10472,
-        "extracted": 1842,
-        "missing": 8630,
+        "extracted": 1845,
+        "missing": 8627,
         "coverage_pct": 17.6
       },
       {
         "month": "2026-09",
         "site_iran_total": 16687,
-        "extracted": 3168,
-        "missing": 13519,
+        "extracted": 3170,
+        "missing": 13517,
         "coverage_pct": 19.0
       },
       {
@@ -89,7 +89,7 @@
       }
     ],
     "site_sum_of_months": 56596,
-    "extracted_total": 11977,
+    "extracted_total": 11982,
     "by_strategy": [
       {
         "via": "iran_listing",
@@ -99,9 +99,9 @@
       },
       {
         "via": "advertiser_via_channel>ad",
-        "requests": 4415,
-        "iran": 2129,
-        "iran_per_100": 48.22
+        "requests": 4483,
+        "iran": 2134,
+        "iran_per_100": 47.6
       },
       {
         "via": "persian_channel_priority_profile",
@@ -129,9 +129,9 @@
       },
       {
         "via": "advertiser_niche>ad",
-        "requests": 548,
+        "requests": 564,
         "iran": 70,
-        "iran_per_100": 12.77
+        "iran_per_100": 12.41
       },
       {
         "via": "sitemap",
@@ -171,13 +171,13 @@
       },
       {
         "via": "advertiser_via_channel",
-        "requests": 702,
+        "requests": 708,
         "iran": 0,
         "iran_per_100": 0.0
       },
       {
         "via": "advertiser_niche",
-        "requests": 1263,
+        "requests": 1273,
         "iran": 0,
         "iran_per_100": 0.0
       },
@@ -204,9 +204,9 @@
       },
       {
         "via": "advertiser_via_channel>ad",
-        "requests": 3945,
-        "iran": 1993,
-        "iran_per_100": 50.52
+        "requests": 4013,
+        "iran": 1998,
+        "iran_per_100": 49.79
       },
       {
         "via": "persian_channel_priority_profile",
@@ -216,27 +216,27 @@
       },
       {
         "via": "advertiser_niche",
-        "requests": 802,
+        "requests": 812,
         "iran": 0,
         "iran_per_100": 0.0
       },
       {
         "via": "advertiser_via_channel",
-        "requests": 702,
+        "requests": 708,
         "iran": 0,
         "iran_per_100": 0.0
       },
       {
         "via": "overhead",
-        "requests": 529,
+        "requests": 530,
         "iran": 40,
-        "iran_per_100": 7.56
+        "iran_per_100": 7.55
       },
       {
         "via": "advertiser_niche>ad",
-        "requests": 480,
+        "requests": 496,
         "iran": 10,
-        "iran_per_100": 2.08
+        "iran_per_100": 2.02
       },
       {
         "via": "persian_channel_page",
@@ -267,12 +267,6 @@
     "Media files and host delivery are tracked separately from text extraction."
   ],
   "errors": [
-    {
-      "url": "https://tgadsspy.com/ads/cmuygksnf08bdo501halkvpi8",
-      "status": "pending",
-      "tries": 1,
-      "error": "TimeoutError: The read operation timed out"
-    },
     {
       "url": "https://tgadsspy.com/channels/accban_ir/advertisers",
       "status": "gone",
