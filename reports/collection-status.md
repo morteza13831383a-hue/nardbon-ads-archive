@@ -1,6 +1,6 @@
 # Collection status
 
-2026-11-16T14:43:03.448422+00:00
+2026-11-16T14:48:01.183718+00:00
 
 Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
@@ -18,9 +18,9 @@ Exclusive ownership began: 2026-11-15T21:33:46.615166+00:00.
 | Ad yield window | New Iran ads saved / hour | Window |
 |---|---:|---|
 | Before exclusive ad ownership | 29 | 1.00 h before the switch |
-| After exclusive ad ownership | 97.81 | 17.16 h since the switch |
+| After exclusive ad ownership | 97.34 | 17.24 h since the switch |
 
-New Iran ads since switch: 1,678. Remaining ad jobs by kind (including sitemap): {'detail': 734842, 'listing': 26430, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 0.
+New Iran ads since switch: 1,678. Remaining ad jobs by kind (including sitemap): {'detail': 734815, 'listing': 26426, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 0.
 Rates count newly saved unique Iran ads per wall-clock hour, including pauses. The before window is the preceding hour; the after window starts when channels were paused. Different discovery mixes can change yield independently of request speed.
 Channels resume automatically only after the entire ad queue drains, source holds are absent, all saved ads have been delivered and the final archive process exits. Failed/robots-blocked rows remain reported as coverage gaps; this handoff does not claim full source coverage. TGStat remains on its own independent host budget.
 
