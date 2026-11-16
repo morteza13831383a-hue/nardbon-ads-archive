@@ -86,3 +86,18 @@ class MirrorTests(unittest.TestCase):
    mirror.seed(db,root/'spy/checkpoint.sqlite3',root)
    self.assertEqual(db.execute('SELECT status FROM jobs WHERE id=?',(first,)).fetchone()[0],'spy_done')
    db.close()
+ def test_other_worker_claim_is_removed_from_mirror_pending_queue(self):
+  with tempfile.TemporaryDirectory() as temp:
+   root=Path(temp);(root/'data/ads').mkdir(parents=True)
+   spy=archive.connect(root/'spy',CUTOFF);spy.execute('DELETE FROM queue')
+   archive.enqueue(spy,archive.BASE+'/ads/'+ID,'detail',30)
+   spy.execute("UPDATE queue SET month='2026-04' WHERE url=?",(archive.BASE+'/ads/'+ID,));spy.commit();spy.close()
+   db=mirror.connect(root/'mirror',CUTOFF)
+   claims=Claims(root/'claims.sqlite3')
+   self.assertEqual(claims.acquire(ID,'tgadsspy'),'acquired');claims.finish(ID,'tgadsspy',True)
+   class NoNetwork:
+    base=mirror.BASE
+    def get(self,url):raise AssertionError('No duplicate fetch allowed')
+   self.assertEqual(mirror.crawl_slice(db,NoNetwork(),claims,root/'spy/checkpoint.sqlite3',root,1),0)
+   self.assertEqual(db.execute('SELECT status FROM jobs WHERE id=?',(ID,)).fetchone()[0],'shared_done')
+   claims.close();db.close()

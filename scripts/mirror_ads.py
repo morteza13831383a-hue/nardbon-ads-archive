@@ -79,7 +79,8 @@ def spy_busy(spy_path, ad_id):
     with open_spy(spy_path) as spy:
         url = archive.BASE + '/ads/' + ad_id
         row = spy.execute('SELECT status FROM queue WHERE url=?', (url,)).fetchone()
-        active = spy.execute('SELECT 1 FROM source_requests WHERE url=? AND status=0 AND at>=? LIMIT 1', (url,(datetime.now(timezone.utc)-timedelta(hours=2)).isoformat())).fetchone()
+        try:active = spy.execute('SELECT 1 FROM source_requests WHERE url=? AND status=0 AND at>=? LIMIT 1', (url,(datetime.now(timezone.utc)-timedelta(hours=2)).isoformat())).fetchone()
+        except sqlite3.OperationalError:active=None
         done = spy.execute('SELECT 1 FROM records WHERE id=?', (ad_id,)).fetchone()
     return not row or row[0] != 'pending' or bool(active) or bool(done)
 
@@ -92,7 +93,10 @@ def crawl_slice(db, client, claims, spy_path, root, pages):
     for ad_id, month in db.execute("SELECT id,month FROM jobs WHERE status='pending' ORDER BY id " + ORDER + " LIMIT ?", (pages,)).fetchall():
         if spy_busy(spy_path, ad_id) or ad_id in saved_ids:
             db.execute("UPDATE jobs SET status='spy_done' WHERE id=?", (ad_id,));db.commit();continue
-        if claims.acquire(ad_id, client.base) != 'acquired':
+        claim=claims.acquire(ad_id, client.base)
+        if claim != 'acquired':
+            if claim in ('done','unverified'):
+                db.execute("UPDATE jobs SET status='shared_done' WHERE id=?",(ad_id,));db.commit()
             continue
         url = BASE + '/ads/' + ad_id
         verified = False
