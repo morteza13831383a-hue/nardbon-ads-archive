@@ -27,7 +27,7 @@ class SecretFilter:
 def endpoint_allowed(url,method):
     p=urlsplit(url)
     if p.scheme!='https' or p.query or p.fragment:return False
-    if p.netloc=='tgstat.com':return method=='POST' and p.path in ('/channels/search','/chats/search')
+    if p.netloc=='tgstat.com':return method=='POST' and p.path in ('/channels/search','/chats/search','/channels/global-search')
     if p.netloc!='ir.tgstat.com':return False
     return bool(method=='GET' and PROFILE_PATH.fullmatch(p.path) or method=='POST' and ITEMS_PATH.fullmatch(p.path))
 
