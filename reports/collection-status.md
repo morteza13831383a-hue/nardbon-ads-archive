@@ -1,14 +1,14 @@
 # Collection status
 
-2026-11-16T08:41:58.582758+00:00
+2026-11-16T10:42:19.027263+00:00
 
 Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
 | Site / type | Total saved | New / 100 requests since baseline | Conditional remaining time |
 |---|---:|---:|---|
 | tgadsspy / channel | 46,816 | 310.06 | paused: the ad worker owns the entire tgadsspy request budget |
-| tgstat / group | 1,425 | 93.43 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
-| tgstat / channel | 22,701 | 1699.25 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
+| tgstat / group | 1,425 | 74.49 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
+| tgstat / channel | 22,701 | 1354.69 | unknown: baseline spans the pre-resume hold; requires an active-run measurement window |
 
 ## Exclusive tgadsspy budget
 
@@ -18,15 +18,15 @@ Exclusive ownership began: 2026-11-15T21:33:46.615166+00:00.
 | Ad yield window | New Iran ads saved / hour | Window |
 |---|---:|---|
 | Before exclusive ad ownership | 29 | 1.00 h before the switch |
-| After exclusive ad ownership | 1.71 | 11.14 h since the switch |
+| After exclusive ad ownership | 71.07 | 13.14 h since the switch |
 
-New Iran ads since switch: 19. Remaining ad jobs by kind (including sitemap): {'detail': 737470, 'listing': 24940, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 0.
+New Iran ads since switch: 934. Remaining ad jobs by kind (including sitemap): {'detail': 736579, 'listing': 25808, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 5.
 Rates count newly saved unique Iran ads per wall-clock hour, including pauses. The before window is the preceding hour; the after window starts when channels were paused. Different discovery mixes can change yield independently of request speed.
 Channels resume automatically only after the entire ad queue drains, source holds are absent, all saved ads have been delivered and the final archive process exits. Failed/robots-blocked rows remain reported as coverage gaps; this handoff does not claim full source coverage. TGStat remains on its own independent host budget.
 
 ## Pacing, pauses and remaining work
 
-- **tgadsspy**: delay 4.0 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'capped': 12, 'done': 63, 'ignored': 5, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 9871, 'failed': 269, 'listing_saved': 3244, 'pending': 22822, 'robots_disallowed': 22}.
+- **tgadsspy**: delay 3.25 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'capped': 12, 'done': 63, 'ignored': 5, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 9871, 'failed': 269, 'listing_saved': 3244, 'pending': 22822, 'robots_disallowed': 22}.
   Known listing-slice page budget upper bound: 0; future graph/range partitions are unknown, so this is not an exact pages-left count.
   Priority profile states: {'done': 7611, 'pending': 34797}. Listing caps/repeats are unresolved coverage gaps; finishing the listing frontier does not establish complete coverage.
 - **tgstat**: delay 20.0 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'done': 92}; queue states: {'done': 468, 'failed': 10, 'listing_saved': 7736, 'pending': 117}.
@@ -57,5 +57,5 @@ The supervisor restarts crashed eligible workers from SQLite checkpoints, respec
 
 ## TGStat username-resolution frontier
 
-States: {'failed': 77, 'no_public_username': 75, 'pending': 440, 'resolved': 66}. Known frontier exhausted: False.
+States: {'failed': 413, 'no_public_username': 75, 'pending': 104, 'resolved': 66}. Known frontier exhausted: False.
 When this frontier is empty and delivery has succeeded, the supervisor leaves the worker idle instead of repeatedly restarting it. Failed profiles and listing caps remain unresolved coverage gaps; this is not complete coverage.
