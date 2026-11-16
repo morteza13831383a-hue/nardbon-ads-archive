@@ -17,12 +17,14 @@ The telemetr.io and telegramchannels.me probes stay below the requested 30-reque
 
 Telemetr's Iran table exposes a channel username/link, title, rank, member count, engagement statistics and category. Its numbered `?page=N` links changed the page title but repeated the same 99 handles on pages 1–3. telegramchannels.me's `/fa/channels?page=N` changes listing rows; cards show title, member count and description, and `/fa/groups` lists groups. `/fa/` is a site locale rather than a verified country filter.
 
-## Full-run snapshot at 2026-11-16 21:15:39 UTC
+## Full-run snapshot at 2026-11-16T21:20:49+00:00
 
-| Worker | Checkpointed requests | New saved rows | Other page outcomes | Block |
-|---|---:|---:|---|---|
-| telegramadsarchive.com, oldest first | 32 | 0 verified Iran ads | 19 explicitly non-Iran; 13 without country | none |
-| telegramadsanalytics.com, newest first | 45 | 0 verified Iran ads | 41 explicitly non-Iran; 4 without country | none |
-| lyzem.com | 55 | 2,445 new usernames (1,337 channels; 1,108 groups) | 10 completed term/type jobs | none |
+| Worker | Checkpointed requests | Rows found / classified | New saved vs initial catalog | Block |
+|---|---:|---:|---:|---|
+| telegramadsarchive.com (oldest first) | 59 | 39 non-Iran; 20 no country | 0 verified Iran ads | none |
+| telegramadsanalytics.com (newest first) | 105 | 87 non-Iran; 18 no country | 0 verified Iran ads | none |
+| lyzem.com | 103 | 5051 result rows | 4278 new usernames | none |
+| TGStat Quick search | 76 | 994 result rows | 186 new vs `data/channels.json` (426 channels and 17 groups newly saved in its own checkpoint) | none on Quick search |
 
-The two mirror workers and Lyzem worker are active from separate SQLite checkpoints. TGStat Quick search is also active, with 61 finished terms at this snapshot; the older full-search `status=restricted` hold remains in place. TGList API has a retained HTTP 403 hold and zero saved rows.
+Both mirror workers, Lyzem and TGStat Quick search are running from separate checkpoints. The older TGStat full-search `status=restricted` hold remains. TGList API remains stopped after HTTP 403 with zero saved rows.
+
