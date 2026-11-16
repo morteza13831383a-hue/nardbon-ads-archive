@@ -700,6 +700,13 @@ def main():
             channels.fill_descriptions(log, now_iso, time_left)
         except Exception as e:
             log(f"descriptions failed: {e}")      # never fails the run
+    # search keywords built from our own database (heavy runs only; a few seconds, no network)
+    if heavy:
+        try:
+            import build_keywords
+            build_keywords.main()
+        except Exception as e:
+            log(f"keyword list failed: {e}")
     # channel pages collected from tgadsspy by the external crawler (no network here)
     try:
         channel_import.run(log, now_iso)
