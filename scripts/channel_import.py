@@ -30,6 +30,8 @@ import channels
 IMPORT_DIR = channels.ROOT / "data" / "channel-import"
 HTML_DIR = channels.ROOT / "data" / "channel-html-import"     # buckets from scripts/channels_html.py
 TGSTAT_DIR = channels.ROOT / "data" / "tgstat-import"          # Iran-related channels and groups from tgstat.com
+TELEMETR_DIR = channels.ROOT / "data" / "telemetr-import"      # telemetr.io catalog (same row format)
+TGCHME_DIR = channels.ROOT / "data" / "tgchannelsme-import"   # telegramchannels.me catalog (same row format)
 LYZEM_DIR = channels.ROOT / "data" / "lyzem-import"            # keyword-search results from lyzem.com (same row format)
 COMBOT_DIR = channels.ROOT / "data" / "combot-import"          # Persian groups/channels from combot.org top lists
 TGLIST_DIR = channels.ROOT / "data" / "tglist-import"          # keyword-search results from tglist.io (same row format)
@@ -211,6 +213,8 @@ def run(log, now_iso):
     n_html += import_tgstat(chans, pl, log, now_iso, TGLIST_DIR, "tglist_files", "tglist", "tl")
     n_html += import_tgstat(chans, pl, log, now_iso, COMBOT_DIR, "combot_files", "combot", "cb")
     n_html += import_tgstat(chans, pl, log, now_iso, LYZEM_DIR, "lyzem_files", "lyzem", "lz")
+    n_html += import_tgstat(chans, pl, log, now_iso, TELEMETR_DIR, "telemetr_files", "telemetr", "tm")
+    n_html += import_tgstat(chans, pl, log, now_iso, TGCHME_DIR, "tgchannelsme_files", "tgchannelsme", "tc")
     if not todo and not n_html:
         return 0
     n_ch = n_pl = bad = 0
