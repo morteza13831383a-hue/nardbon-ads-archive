@@ -79,8 +79,9 @@ def listing(db,client,key,kind,page,known):
     url=client.base+'/ads?'+query(key,kind,page)
     doc=Document(client.get(url))
     counts=COUNT.findall(doc.root.text())
-    if not counts:raise ValueError('Result count absent')
     ids={m[1]for link in doc.links()if(m:=AD.fullmatch(link))}
+    if not counts and not ids:
+        raise ValueError('No result count or ad links; listing layout needs review')
     signature=hashlib.sha256('\n'.join(sorted(ids)).encode()).hexdigest()
     previous=db.execute('SELECT last_signature FROM jobs WHERE key=?',(key,)).fetchone()[0]
     if ids and signature==previous:raise ValueError('Repeated result page')
@@ -90,7 +91,7 @@ def listing(db,client,key,kind,page,known):
     has_next=any('page='+str(page+1)in x for x in doc.links()if x.startswith('/ads?'))
     complete=not has_next or(kind=='keyword' and not new)
     db.execute('UPDATE jobs SET page=?,status=?,site_count=?,new_ids=new_ids+?,last_signature=? WHERE key=?',
-               (page+1,'done'if complete else'pending',counts[-1],len(new),signature,key))
+               (page+1,'done'if complete else'pending',counts[-1]if counts else None,len(new),signature,key))
     db.execute('INSERT INTO requests VALUES(?,?,?,?)',('listing',key+':'+str(page),200,now()))
     db.commit();return len(ids),len(new),complete
 
@@ -153,7 +154,7 @@ def main():
                 break
             except Exception as exc:
                 db.execute("UPDATE jobs SET status='review' WHERE key=?",(job[0],))
-                db.execute("INSERT OR REPLACE INTO meta VALUES('review_reason',?)",(job[0]+': '+type(exc).__name__,));db.commit();break
+                db.execute("INSERT OR REPLACE INTO meta VALUES('review_reason',?)",(job[0]+': '+type(exc).__name__+': '+str(exc)[:160],));db.commit();break
             pages+=1;details(db,client,claims,known,cutoff)
             db.execute("INSERT OR REPLACE INTO meta VALUES('job_turn',?)",('keyword'if job[1]=='facet'else'facet',));db.commit()
             if pages%5==0 or complete:mirror_ads.publish(db,a.work_dir,a.repo)

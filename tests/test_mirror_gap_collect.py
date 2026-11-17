@@ -26,3 +26,15 @@ class GapTests(unittest.TestCase):
             self.assertIn('geo=IR',client.url)
             self.assertIn('q=',client.url)
             db.close()
+
+    def test_localized_listing_without_english_count_keeps_ad_links(self):
+        class Client:
+            base='https://telegramads.it'
+            def get(self,url):
+                return '<h1>Archivio degli annunci Telegram</h1><a href="/ads/abc">Ad</a>'
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);(root/'data').mkdir()
+            db=gap.connect(root/'db.sqlite3','2026-11-13T00:00:00+00:00',root)
+            self.assertEqual(gap.listing(db,Client(),'surface=channel','facet',1,set()),(1,1,True))
+            self.assertEqual(db.execute("SELECT status FROM jobs WHERE key='surface=channel'").fetchone()[0],'done')
+            db.close()
