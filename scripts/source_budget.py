@@ -12,6 +12,8 @@ A crawl-delay from robots.txt (passed as `delay`) is always respected as a floor
 State lives next to the lock (CRAWL_BUDGET_DIR) and survives process restarts.
 """
 import fcntl
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 import hashlib
 import json
 import os
@@ -28,6 +30,12 @@ MIN_BY_HOST = {'tgstat.com': 10.0, 'ir.tgstat.com': 10.0}
 SPEEDUP_EVERY, SPEEDUP_STEP = 400, 0.25
 BLOCK_PAUSE, ERROR_PAUSE = 30 * 60, 2 * 60
 CHALLENGE_PAUSE, MAX_BLOCK_PAUSE = 60 * 60, 4 * 60 * 60
+
+def retry_after_seconds(headers):
+    value=headers.get('Retry-After','') if headers else ''
+    if value.isdigit():return int(value)
+    try:return max(0,(parsedate_to_datetime(value)-datetime.now(timezone.utc)).total_seconds())
+    except (TypeError,ValueError,OverflowError):return None
 
 
 def _paths(base):

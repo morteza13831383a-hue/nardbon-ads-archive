@@ -7,7 +7,7 @@ from urllib.parse import urlencode,urlsplit
 from urllib.request import Request,build_opener
 from urllib.error import HTTPError
 from html_core import Document
-from source_budget import reserve,report as budget_report,status as budget_status,is_challenge
+from source_budget import reserve,report as budget_report,status as budget_status,is_challenge,retry_after_seconds
 from tgstat_collect import Client,NoRedirect,connect,export,try_publish
 from tgstat_session import Session,account_problem,endpoint_allowed
 from tgstat_keyword_search import keywords,refresh_auto
@@ -58,7 +58,7 @@ def main():
             sess.attach(req);reserve(HOST,10)
             try:r=opener.open(req,timeout=30)
             except HTTPError as exc:
-                budget_report(HOST,exc.code)
+                budget_report(HOST,exc.code,retry_after=retry_after_seconds(exc.headers))
                 if exc.code==401:db.execute("INSERT OR REPLACE INTO meta VALUES('quick_search_stop_reason',?)",('HTTP 401 logout',));db.commit();print('Quick search logout',flush=True);break
                 if exc.code in(403,429):print('Quick search host cooldown',exc.code,flush=True);break
                 print('Quick search HTTP error',exc.code,flush=True);break

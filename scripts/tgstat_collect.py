@@ -19,7 +19,7 @@ from urllib.parse import urljoin, urlsplit, urlunsplit, unquote, urlencode
 from urllib.request import Request, build_opener, HTTPCookieProcessor, HTTPRedirectHandler
 
 from html_core import Document, Robots
-from source_budget import reserve, report as budget_report, Challenge, HostBlocked, is_challenge
+from source_budget import reserve, report as budget_report, Challenge, HostBlocked, is_challenge, retry_after_seconds
 
 BASE='https://ir.tgstat.com'
 ROOT=Path(__file__).resolve().parents[1]
@@ -104,7 +104,7 @@ class Client:
             from source_budget import report as budget_report
             try:response=(self.session_opener if authenticated else self.opener).open(request,timeout=30)
             except HTTPError as exc:
-                budget_report('https://tgstat.com',exc.code)
+                budget_report('https://tgstat.com',exc.code,retry_after=retry_after_seconds(exc.headers))
                 self.db.execute('UPDATE requests SET status=?WHERE id=?',(exc.code,attempt));self.db.commit()
                 if self.final_plan and exc.code in(403,429):
                     try:error_body=exc.read(100000).decode('utf-8','replace')
@@ -114,7 +114,8 @@ class Client:
                         problem=account_problem(Document(error_body),fragment=True)
                         if problem:raise AccessStop(problem)from None
                     continue
-                if exc.code in(401,403,429):raise AccessStop(f'HTTP {exc.code}: source paused')from None
+                if exc.code==401:raise AccessStop('HTTP 401: account logged out')from None
+                if exc.code in(403,429):raise
                 if exc.code in(301,302,303,307,308):
                     target=canonical(urljoin(url,exc.headers.get('Location','')))
                     if authenticated:
@@ -483,6 +484,11 @@ def main():
                 if not db.execute("SELECT 1 FROM queue WHERE status='pending'"+('AND kind=\'listing\''if a.inventory else'')+'LIMIT 1').fetchone()and not(a.session and db.execute("SELECT 1 FROM catalog_pages WHERE status='pending'LIMIT 1").fetchone()):break
         except AccessStop as exc:
             db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",(str(exc),));db.commit();raise
+        except HTTPError as exc:
+            if exc.code in(403,429):
+                db.rollback()
+                raise SystemExit('TGStat host cooldown') from None
+            raise
         except Exception as exc:
             if session:
                 reason='Authenticated collection paused due to '+type(exc).__name__

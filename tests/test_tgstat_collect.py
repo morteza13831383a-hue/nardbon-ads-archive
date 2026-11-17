@@ -40,11 +40,11 @@ class TGStatTests(unittest.TestCase):
             for f in(work/'exports').glob('*.gz'):
                 with gzip.open(f,'rt')as h:rows.extend(json.loads(s)for s in h if s.strip())
             self.assertEqual(len(rows),1);db.close()
-    def test_access_stop_is_not_retried(self):
+    def test_rate_limit_is_not_retried(self):
         with tempfile.TemporaryDirectory()as tmp:
             db=t.connect(Path(tmp));c=t.Client(db);c.rules=[t.Robots('User-agent: *\nAllow: /')]
             with patch.object(t,'reserve'),patch.object(c.opener,'open',side_effect=HTTPError(t.BASE,429,'limited',{},None))as opened:
-                with self.assertRaises(t.AccessStop):c.get(t.BASE+'/channel/@example')
+                with self.assertRaises(HTTPError):c.get(t.BASE+'/channel/@example')
                 self.assertEqual(opened.call_count,1)
             self.assertEqual(db.execute('SELECT status FROM requests').fetchone()[0],429);db.close()
 

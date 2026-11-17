@@ -71,7 +71,7 @@ class SessionTests(unittest.TestCase):
             with tempfile.TemporaryDirectory()as tmp:
                 db=t.connect(Path(tmp));t.enqueue(db,'/channel/@example');db.commit();c=t.Client(db,session=session());c.rules=[t.Robots('User-agent: *\nAllow: /')]
                 with patch.object(t,'reserve'),patch.object(c.session_opener,'open',side_effect=HTTPError(t.BASE,status,'denied',{},None))as opened:
-                    with self.assertRaises((t.AccessStop,__import__('source_budget').HostBlocked)):c.get(t.BASE+'/channel/@example')
+                    with self.assertRaises(t.AccessStop if status==401 else HTTPError):c.get(t.BASE+'/channel/@example')
                     self.assertEqual(opened.call_count,1)
                 db.close()
     def test_private_iran_profile_can_redirect_only_to_same_type_public_profile(self):
