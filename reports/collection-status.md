@@ -1,6 +1,6 @@
 # Collection status
 
-2026-11-17T06:41:08.221576+00:00 UTC. Checkpoint counts; the 57,492 Iran listing total can include ads after the archive cutoff.
+2026-11-17T06:41:09.914964+00:00 UTC. Checkpoint counts; the 57,492 Iran listing total can include ads after the archive cutoff.
 
 ## A — niche listings
 
