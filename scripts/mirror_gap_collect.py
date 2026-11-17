@@ -138,6 +138,10 @@ def main():
             try:seen,new,complete=listing(db,client,*job,known,cutoff)
             except (HTTPError,Challenge,HostBlocked)as exc:
                 break
+            except (OSError,TimeoutError):
+                # Client.get has already reported the network failure to the
+                # shared host budget. Keep this page for a later retry.
+                break
             except Exception as exc:
                 db.execute("UPDATE jobs SET status='review' WHERE key=?",(job[0],))
                 db.execute("INSERT OR REPLACE INTO meta VALUES('review_reason',?)",(job[0]+': '+type(exc).__name__+': '+str(exc)[:160],));db.commit();break

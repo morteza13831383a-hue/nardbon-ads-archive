@@ -100,6 +100,10 @@ for _mirror_host in ('telegramadsarchive.com', 'telegramadsanalytics.com',
                      'telegramads.it', 'tgads.biz', 'tgads.observer',
                      'telegramstats.net'):
     OWNER_APPROVED.setdefault(_mirror_host, []).append(_MIRROR_LISTING)
+    # The owner also approved Persian keyword searches with the Iran filter.
+    # A percent-encoded phrase can exceed the generic filter-value bound above.
+    OWNER_APPROVED[_mirror_host].append(re.compile(
+        r'^/ads\?geo=IR&q=[A-Za-z0-9_%+.\-]{1,512}&page=[0-9]+$'))
     OWNER_APPROVED[_mirror_host].append(re.compile(r'^/ads/[A-Za-z0-9_-]+$'))
     OWNER_APPROVED[_mirror_host].append(re.compile(r'^/channels\?lang=fa(?:&(?:page|minMembers|maxMembers|sort|order)=[A-Za-z0-9_.-]{1,40})*$'))
 

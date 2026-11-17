@@ -2,6 +2,8 @@ from pathlib import Path
 import json,sys,tempfile,unittest
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 import mirror_gap_collect as gap
+from html_core import Robots
+from urllib.parse import urlencode
 
 def card(ad_id='abc'):
     listing={'@type':'CollectionPage','mainEntity':{'@type':'ItemList',
@@ -11,6 +13,12 @@ def card(ad_id='abc'):
             '<time datetime="2026-08-19T11:37:35Z">old</time></a></li>')
 
 class GapTests(unittest.TestCase):
+    def test_owner_approved_long_iran_keyword_query(self):
+        robots=Robots('User-agent: *\nDisallow: /ads?')
+        url='https://telegramadsanalytics.com/ads?'+urlencode(
+            {'geo':'IR','q':'دیجیتال مارکتینگ','page':1})
+        self.assertTrue(robots.allowed(url))
+        self.assertFalse(robots.allowed(url.replace('geo=IR','geo=US')))
     def test_facets_are_sharded_once_and_use_observed_filter_values(self):
         self.assertTrue(any('surface=channel' in x and 'source=eur' in x and
                             'type=banner' in x and 'media=photo' in x for x in gap.FACETS))
