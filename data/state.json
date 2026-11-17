@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-17T02:35:38Z",
+ "cursor": "2026-11-17T03:35:35Z",
  "backfill": {
   "since": "2026-06-07T10:59:55Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-16T17:36:11Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "3c84f86d1f9aae1e",
+  "tgads/data/2026-11.json": "825b7411bfc99f9f",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -31,18 +31,6 @@
   "tgads/data/2025-07.json": "8181396af5de195a"
  },
  "runs": [
-  {
-   "at": "2026-11-14T22:42:58Z",
-   "ok": true,
-   "error": null,
-   "new": 0,
-   "updated": 2,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 2,
-   "secs": 7
-  },
   {
    "at": "2026-11-14T23:35:30Z",
    "ok": true,
@@ -736,18 +724,28 @@
    "media": 0,
    "missed": 0,
    "secs": 7
+  },
+  {
+   "at": "2026-11-17T04:35:35Z",
+   "ok": false,
+   "error": "upload: upload tgads/channels/channels.json failed: 413 {\"ok\":false,\"error\":\"too large\"}",
+   "new": 5,
+   "updated": 1,
+   "media": 0,
+   "missed": 0,
+   "secs": 8
   }
  ],
  "last_upload_ok": "2026-11-17T00:38:48Z",
  "lang_seen": {
-  "-": 370,
+  "-": 372,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 286,
   "my": 47,
   "en": 491,
-  "fa": 11680,
+  "fa": 11684,
   "uz": 63,
   "zh": 26,
   "id": 44,
