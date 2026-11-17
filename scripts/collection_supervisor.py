@@ -44,6 +44,9 @@ def ensure(config):
     for item in config.get('mirror_niche_workers',[]):
         jobs.append(('niche_'+item['host'].replace('.','_'),Path(item['process_file']),
                      'https://'+item['host'],Path(item['work_dir'])/'checkpoint.sqlite3',item['command']))
+    if config.get('mirror_gap_command'):
+        jobs.append(('mirror_gap',Path(config['mirror_gap_process_file']),'https://telegramadsarchive.com',
+                     Path(config['mirror_gap_work'])/'checkpoint.sqlite3',config['mirror_gap_command']))
     events=[];ownership=None
     if config.get('tgadsspy_budget_policy')=='ads_then_channels':
         from collection_ownership import advance
@@ -81,6 +84,12 @@ def ensure(config):
                     candidates=niche_db.execute("SELECT 1 FROM candidates WHERE status='pending' LIMIT 1").fetchone()
                 if not pending and not candidates:
                     events.append({'worker':name,'state':'done_or_review'});continue
+            except sqlite3.Error:pass
+        if name=='mirror_gap' and checkpoint.exists():
+            try:
+                with closing(sqlite3.connect('file:'+str(checkpoint)+'?mode=ro',uri=True)) as gap_db:
+                    pending=gap_db.execute("SELECT 1 FROM jobs WHERE status='pending' LIMIT 1").fetchone()
+                if not pending:events.append({'worker':name,'state':'done_or_review'});continue
             except sqlite3.Error:pass
         if name in ('lyzem','tgchannelsme'):
             try:
