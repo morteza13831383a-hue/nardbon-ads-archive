@@ -1,31 +1,31 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-17T22:55:55.809534+00:00",
+  "updated_at": "2026-11-17T22:56:16.922161+00:00",
   "source": "https://ir.tgstat.com",
   "records": {
     "group": 1748,
-    "channel": 27668
+    "channel": 27672
   },
   "requests": 2901,
   "per_100_requests": {
     "group": 60.26,
-    "channel": 953.74
+    "channel": 953.88
   },
   "fields_present": {
-    "type": 29416,
-    "username": 28824,
-    "title": 29416,
+    "type": 29420,
+    "username": 28828,
+    "title": 29420,
     "description": 21645,
     "category": 24126,
-    "country": 26246,
+    "country": 26250,
     "language": 438,
-    "url": 29416,
-    "collected_at": 29416,
-    "members": 29183,
+    "url": 29420,
+    "collected_at": 29420,
+    "members": 29187,
     "text_sample": 250,
     "source_id": 24111,
-    "record_detail": 29401,
-    "search_keyword": 5290
+    "record_detail": 29405,
+    "search_keyword": 5294
   },
   "queue": {
     "done": 468,
@@ -893,8 +893,8 @@
   "files": [
     {
       "name": "tgstat-00.jsonl.gz",
-      "bytes": 154335,
-      "sha256": "b96ba6ba23d343e1a8acc9594f1380c6df6ac80e0886432f406c3a417e5d6b99"
+      "bytes": 154399,
+      "sha256": "6d1ed7bfb308f99cfd633d64b245de15ff992d67dd9f8a2608addea7a509efad"
     },
     {
       "name": "tgstat-01.jsonl.gz",
@@ -913,8 +913,8 @@
     },
     {
       "name": "tgstat-04.jsonl.gz",
-      "bytes": 161407,
-      "sha256": "08149cb8891561082acf886c07a60734dc464854e45041d158081b3174081722"
+      "bytes": 161502,
+      "sha256": "57dfb41d0ab8dc0dbfe9f2bad1e6114b0151c818484ad9b7a5536756db25642a"
     },
     {
       "name": "tgstat-05.jsonl.gz",
@@ -933,8 +933,8 @@
     },
     {
       "name": "tgstat-08.jsonl.gz",
-      "bytes": 152017,
-      "sha256": "6be95cd2f97adcbe84514359489f178bdd1a87cc9b36b7efab09211a5fd2334f"
+      "bytes": 152082,
+      "sha256": "7df33c103a952fe1398afe0925f991517325bdc31d51be9634db6ec94de47f04"
     },
     {
       "name": "tgstat-09.jsonl.gz",
@@ -953,8 +953,8 @@
     },
     {
       "name": "tgstat-0c.jsonl.gz",
-      "bytes": 160109,
-      "sha256": "8fd9306d7ccf0e70fa11e51fef0d76eb3059e8fcefb7d9691346f5be3aaa5fac"
+      "bytes": 160182,
+      "sha256": "246a969241d0ab3d62df948d90994213a8f50e91f0e542e00a41047fbe2bd4bf"
     },
     {
       "name": "tgstat-0d.jsonl.gz",
