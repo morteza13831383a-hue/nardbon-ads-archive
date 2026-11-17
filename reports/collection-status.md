@@ -1,17 +1,17 @@
 # Collection status
 
-2026-11-17T06:35:37.103534+00:00 UTC. Checkpoint counts; the 57,492 Iran listing total can include ads after the archive cutoff.
+2026-11-17T06:36:48.070458+00:00 UTC. Checkpoint counts; the 57,492 Iran listing total can include ads after the archive cutoff.
 
 ## A — niche listings
 
 | Mirror | Niches done / assigned | Iran ads saved | Listing pages | Hold |
 |---|---:|---:|---:|---|
 | telegramadsarchive.com | 3/5 | 515 | 36 | access hold HostBlocked |
-| telegramadsanalytics.com | 5/5 | 2237 | 171 | — |
-| telegramads.it | 5/5 | 2922 | 225 | — |
+| telegramadsanalytics.com | 5/7 | 2237 | 171 | — |
+| telegramads.it | 5/7 | 2922 | 225 | — |
 | tgads.biz | 3/5 | 492 | 33 | access hold HostBlocked |
 | tgads.observer | 3/5 | 445 | 48 | access hold HostBlocked |
-| telegramstats.net | 4/4 | 1867 | 131 | — |
+| telegramstats.net | 4/6 | 1867 | 131 | — |
 
 Unique new niche records beyond local baseline: 8,478.
 
