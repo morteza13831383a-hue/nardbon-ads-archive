@@ -74,6 +74,7 @@ def render(s):
     start=len(base);after_niche=len(base|niche);after_gap=len(base|niche|gapids)
     lines=['# Collection status',
        '',datetime.now(timezone.utc).isoformat()+' UTC. Checkpoint counts; the 57,492 Iran listing total can include ads after the archive cutoff.',
+       '', 'Ads priority: facet and keyword workers wait until all niche pages and pending ad details finish. See [the 29-niche audit](niche-coverage.md).',
        '', '## A — niche listings', '',
        '| Mirror | Niches done / assigned | Iran ads saved | Listing pages | Hold |',
        '|---|---:|---:|---:|---|']

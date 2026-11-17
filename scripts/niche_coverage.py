@@ -49,7 +49,7 @@ def render(rows):
            '', '| Niche | Site count | Pages × 30 | Last page | Next cursor | Status | Host |',
            '|---|---:|---:|---:|---:|---|---|']
     for r in rows:
-        mark=' **EARLY**' if r['early'] else ''
+        mark=(' **EARLY DONE**' if r['status']=='done' else ' **MORE PAGES**') if r['early'] else ''
         lines.append(f"| {r['name']} | {r['site_count']:,} | {r['pages_walked']} × 30 = {r['capacity']:,} | "
                      f"{r['last_page']} | {r['cursor']} | {r['status']}{mark} | {r['host']} |")
     return '\n'.join(lines)+'\n'
