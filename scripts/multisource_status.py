@@ -40,7 +40,10 @@ def snapshot(root):
     method=rows(gapdb,"SELECT j.kind,COUNT(DISTINCT CASE WHEN j.status='done' THEN j.key END),COUNT(r.id) FROM jobs j LEFT JOIN candidates c ON c.key=j.key LEFT JOIN records r ON r.id=c.id GROUP BY j.kind")
     spy=Path('/workspace/work/tgstat-production/tgstat.sqlite3')
     quick=rows(spy,"SELECT COUNT(*),COALESCE(SUM(channels),0),COALESCE(SUM(groups),0) FROM quick_jobs WHERE status='done'")
+    quick_today=rows(spy,"SELECT COUNT(*) FROM quick_requests WHERE day='"+datetime.now(timezone.utc).date().isoformat()+"'")
     quickhold=rows(spy,"SELECT value FROM meta WHERE key='quick_search_stop_reason'")
+    tgstat_types=rows(spy,"SELECT json_extract(payload,'$.type'),COUNT(*) FROM records GROUP BY 1")
+    tgstat_hold=rows(spy,"SELECT value FROM meta WHERE key='stop_reason'")
     lyzem=Path('/workspace/work/lyzem-production/checkpoint.sqlite3')
     lyzem_total=rows(lyzem,'SELECT COUNT(*) FROM records')
     lyzem_hold=rows(lyzem,"SELECT value FROM meta WHERE key='stop_reason'")
@@ -70,7 +73,8 @@ def render(s):
        '', '## D — existing channel searches', '',
        '| Worker | Saved / completed | Hold |', '|---|---:|---|',
        f"| Lyzem | {s['lyzem_total'][0][0] if s['lyzem_total'] else 0} records | {s['lyzem_hold'][0][0] if s['lyzem_hold'] else '—'} |",
-       f"| TGStat Quick | {s['quick'][0][1] if s['quick'] else 0} channels, {s['quick'][0][2] if s['quick'] else 0} groups; {s['quick'][0][0] if s['quick'] else 0} terms | {s['quickhold'][0][0] if s['quickhold'] else '—'} |",
+       f"| TGStat catalog | {dict(s['tgstat_types']).get('channel',0)} channels, {dict(s['tgstat_types']).get('group',0)} groups | {s['tgstat_hold'][0][0] if s['tgstat_hold'] else '—'} |",
+       f"| TGStat Quick | {s['quick'][0][1] if s['quick'] else 0} channels, {s['quick'][0][2] if s['quick'] else 0} groups; {s['quick'][0][0] if s['quick'] else 0} terms | {s['quickhold'][0][0] if s['quickhold'] else ('UTC daily cap 300/300' if s['quick_today'] and s['quick_today'][0][0]>=300 else '—')} |",
        '| TGList | 0 new requests | HTTP 403 hold retained |',
        '', '## Host holds and pacing', '',
        '| Host | Delay | Pause left | Halt |', '|---|---:|---:|---|']
