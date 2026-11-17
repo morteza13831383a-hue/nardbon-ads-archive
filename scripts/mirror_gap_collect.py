@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 import re
 import sqlite3
+import time
 from urllib.error import HTTPError
 from urllib.parse import urlencode
 
@@ -140,9 +141,10 @@ def main():
     try:client.initialize()
     except (HTTPError,Challenge,HostBlocked):
         raise
-    mirror_ads.BASE=client.base;claims=Claims();pages=0
+    mirror_ads.BASE=client.base;claims=Claims();pages=0;last_publish=time.monotonic()
     try:
-        details(db,client,claims,known,cutoff,100)
+        details(db,client,claims,known,cutoff,30)
+        mirror_ads.publish(db,a.work_dir,a.repo);last_publish=time.monotonic()
         while True:
             turn=db.execute("SELECT value FROM meta WHERE key='job_turn'").fetchone()
             preferred=turn[0]if turn else'facet'
@@ -157,7 +159,8 @@ def main():
                 db.execute("INSERT OR REPLACE INTO meta VALUES('review_reason',?)",(job[0]+': '+type(exc).__name__+': '+str(exc)[:160],));db.commit();break
             pages+=1;details(db,client,claims,known,cutoff)
             db.execute("INSERT OR REPLACE INTO meta VALUES('job_turn',?)",('keyword'if job[1]=='facet'else'facet',));db.commit()
-            if pages%5==0 or complete:mirror_ads.publish(db,a.work_dir,a.repo)
+            if pages%5==0 or complete or time.monotonic()-last_publish>=1200:
+                mirror_ads.publish(db,a.work_dir,a.repo);last_publish=time.monotonic()
             print(json.dumps({'key':job[0],'page':job[2],'seen':seen,'new':new,'done':complete},ensure_ascii=False),flush=True)
             if a.max_pages and pages>=a.max_pages:break
         mirror_ads.publish(db,a.work_dir,a.repo)

@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import re
 import sqlite3
+import time
 from urllib.error import HTTPError
 from urllib.parse import urlencode, urljoin
 
@@ -128,7 +129,7 @@ def main():
     except (HTTPError,Challenge,HostBlocked):
         raise
     claims=Claims();mirror_ads.BASE=client.base
-    pages=0
+    pages=0;last_publish=time.monotonic()
     try:
         while True:
             job=db.execute("SELECT name,page FROM niches WHERE status='pending' ORDER BY site_count,name LIMIT 1").fetchone()
@@ -142,10 +143,11 @@ def main():
                 db.execute("INSERT OR REPLACE INTO meta VALUES('review_reason',?)",(job[0]+': '+type(exc).__name__,));db.commit();break
             pages+=1
             detail(client,db,claims,known,cutoff)
-            if pages%5==0 or complete:mirror_ads.publish(db,a.work_dir,a.repo)
+            if pages%5==0 or complete or time.monotonic()-last_publish>=1200:
+                mirror_ads.publish(db,a.work_dir,a.repo);last_publish=time.monotonic()
             print(json.dumps({'host':a.host,'niche':job[0],'page':job[1],'seen':ids,'new_vs_local':new,'complete':complete}),flush=True)
             if a.max_pages and pages>=a.max_pages:break
-        detail(client,db,claims,known,cutoff,100)
+        detail(client,db,claims,known,cutoff,30)
         mirror_ads.publish(db,a.work_dir,a.repo)
     finally:claims.close();db.close()
 
