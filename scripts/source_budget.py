@@ -6,6 +6,7 @@ with adaptive pacing so long unattended runs stay polite without manual tuning.
   slow down  429 / 403 / challenge: pause 30 min, then the delay doubles (max 20 s)
              5xx / timeouts: pause 2 min, delay +1 s
   cool off   the pause is shared: every collector on the host waits it out
+  mirror hosts halt on their first 403/429/challenge so no sibling worker resumes
 
 A crawl-delay from robots.txt (passed as `delay`) is always respected as a floor.
 State lives next to the lock (CRAWL_BUDGET_DIR) and survives process restarts.
@@ -24,6 +25,9 @@ from urllib.error import HTTPError
 START, MIN_DELAY, MAX_DELAY = 4.0, 2.5, 20.0
 # hosts reached with the user's own logged-in account stay slower: an account ban costs more
 MIN_BY_HOST = {'tgstat.com': 15.0, 'ir.tgstat.com': 15.0}
+FIRST_BLOCK_STOP_HOSTS = {'telegramadsarchive.com', 'telegramadsanalytics.com',
+                          'telegramads.it', 'tgads.biz', 'tgads.observer',
+                          'telegramstats.net'}
 # hosts used with the user's own account: a captcha already means the account is under review,
 # so it halts at once (no 30-min retry), and a daily request cap keeps the volume human-like
 ACCOUNT_HOSTS = {'tgstat.com', 'ir.tgstat.com'}
@@ -110,8 +114,9 @@ def report(base, status):
         state['blocks']=[v for v in state['blocks']if v>=now-6*3600]
         if status in (403, 429) or status == 'challenge':
             state['blocks'].append(now)
-            account=urlsplit(base).netloc.lower() in ACCOUNT_HOSTS
-            state['halted']=len(state['blocks'])>=3 or (account and status=='challenge')
+            host=urlsplit(base).netloc.lower()
+            account=host in ACCOUNT_HOSTS
+            state['halted']=len(state['blocks'])>=3 or host in FIRST_BLOCK_STOP_HOSTS or (account and status=='challenge')
             state['delay'] = min(MAX_DELAY, state['delay'] * 2)
             state['pause_until'] = max(state['pause_until'], now + BLOCK_PAUSE)
             state['streak'] = 0
