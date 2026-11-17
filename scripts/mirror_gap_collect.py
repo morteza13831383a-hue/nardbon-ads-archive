@@ -12,10 +12,9 @@ import time
 from urllib.error import HTTPError
 from urllib.parse import urlencode
 
-import archive_html
 import mirror_ads
-from ad_claims import Claims
 from html_core import Client,Document
+from niche_listing_sweep import card_rows
 from source_budget import Challenge,HostBlocked
 
 SURFACES=('channel','bot')
@@ -76,54 +75,35 @@ def query(key,kind,page):
     args={'geo':'IR',**args,'page':page}
     return urlencode(args)
 
-def listing(db,client,key,kind,page,known):
+def listing(db,client,key,kind,page,known,cutoff):
     url=client.base+'/ads?'+query(key,kind,page)
     doc=Document(client.get(url))
     counts=COUNT.findall(doc.root.text())
     ids={m[1]for link in doc.links()if(m:=AD.fullmatch(link))}
+    cards,_,missing,future=card_rows(doc,url,'',cutoff)
     if not counts and not ids:
         raise ValueError('No result count or ad links; listing layout needs review')
+    if ids and not cards and not missing and not future:
+        raise ValueError('Ad links have no parseable listing cards; review this slice')
     signature=hashlib.sha256('\n'.join(sorted(ids)).encode()).hexdigest()
     previous=db.execute('SELECT last_signature FROM jobs WHERE key=?',(key,)).fetchone()[0]
     if ids and signature==previous:raise ValueError('Repeated result page')
-    seen={r[0]for r in db.execute('SELECT id FROM candidates')}
-    new=ids-known-seen
-    for ad_id in new:db.execute('INSERT OR IGNORE INTO candidates(id,key,listing_url)VALUES(?,?,?)',(ad_id,key,url))
+    seen={r[0]for r in db.execute('SELECT id FROM records')}
+    new=set(cards)-known-seen
+    for ad_id in new:
+        row=cards[ad_id];row['via']='mirror_iran_gap'
+        row['niche']=None
+        db.execute('INSERT OR IGNORE INTO candidates(id,key,listing_url,status)VALUES(?,?,?,?)',(ad_id,key,url,'listing'))
+        db.execute("UPDATE candidates SET status='listing' WHERE id=?",(ad_id,))
+        db.execute('INSERT OR IGNORE INTO records VALUES(?,?)',(ad_id,json.dumps(row,ensure_ascii=False)))
+    if missing:
+        db.execute("INSERT OR REPLACE INTO meta VALUES('missing_listing_dates',?)",(str(len(missing)),))
     has_next=any('page='+str(page+1)in x for x in doc.links()if x.startswith('/ads?'))
     complete=not has_next or(kind=='keyword' and not new)
     db.execute('UPDATE jobs SET page=?,status=?,site_count=?,new_ids=new_ids+?,last_signature=? WHERE key=?',
                (page+1,'done'if complete else'pending',counts[-1]if counts else None,len(new),signature,key))
     db.execute('INSERT INTO requests VALUES(?,?,?,?)',('listing',key+':'+str(page),200,now()))
     db.commit();return len(ids),len(new),complete
-
-def details(db,client,claims,known,cutoff,limit=30):
-    owner='mirror_iran:'+client.base.split('//',1)[1]
-    for ad_id,key,source in db.execute("SELECT id,key,listing_url FROM candidates WHERE status='pending' ORDER BY rowid LIMIT ?",(limit,)).fetchall():
-        if ad_id in known:
-            db.execute("UPDATE candidates SET status='known' WHERE id=?",(ad_id,));db.commit();continue
-        claim=claims.acquire(ad_id,owner)
-        if claim!='acquired':
-            db.execute('UPDATE candidates SET status=? WHERE id=?',('shared_'+claim,ad_id));db.commit();continue
-        verified=False
-        try:
-            url=client.base+'/ads/'+ad_id
-            doc=Document(client.get(url))
-            row,state=archive_html.extract(doc,url,cutoff,iran_listing=True)
-            if row:
-                row['via']='mirror_iran_gap'
-                row['listing_source_url']=source
-                db.execute('INSERT OR IGNORE INTO records VALUES(?,?)',(ad_id,json.dumps(row,ensure_ascii=False)))
-                verified=True
-            db.execute('UPDATE candidates SET status=? WHERE id=?',(state,ad_id))
-            db.execute('INSERT INTO requests VALUES(?,?,?,?)',('detail',ad_id,200,now()))
-            db.commit()
-        except (HTTPError,Challenge,HostBlocked)as exc:
-            code=getattr(exc,'code',0)
-            db.execute('INSERT INTO requests VALUES(?,?,?,?)',('detail',ad_id,code,now()))
-            db.commit();break
-        except Exception as exc:
-            db.execute('UPDATE candidates SET status=?,error=? WHERE id=?',('failed',type(exc).__name__,ad_id));db.commit()
-        finally:claims.finish(ad_id,owner,verified)
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--host',default='telegramadsarchive.com')
@@ -136,14 +116,18 @@ def main():
         cutoff=spy.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
     db=connect(a.work_dir/'checkpoint.sqlite3',cutoff,a.repo_root,a.shard_index,a.shard_count)
     known=mirror_ads.archive_ids(a.repo_root)
+    listing_checkpoint=Path('/workspace/work/niche-listing-sweep/checkpoint.sqlite3')
+    if listing_checkpoint.exists():
+        with sqlite3.connect('file:'+str(listing_checkpoint)+'?mode=ro',uri=True) as listings:
+            known.update(row[0] for row in listings.execute('SELECT id FROM records'))
     known.update(r[0]for r in db.execute('SELECT id FROM records'))
     client=Client('https://'+a.host,4,resilient=True)
     try:client.initialize()
     except (HTTPError,Challenge,HostBlocked):
         raise
-    mirror_ads.BASE=client.base;claims=Claims();pages=0;last_publish=time.monotonic()
+    mirror_ads.BASE=client.base;pages=0;last_publish=time.monotonic()
     try:
-        details(db,client,claims,known,cutoff,30)
+        # Older checkpoints may have pending detail candidates; defer enrichment.
         mirror_ads.publish(db,a.work_dir,a.repo);last_publish=time.monotonic()
         while True:
             turn=db.execute("SELECT value FROM meta WHERE key='job_turn'").fetchone()
@@ -151,19 +135,19 @@ def main():
             job=db.execute("SELECT key,kind,page FROM jobs WHERE status='pending' "
                 "ORDER BY CASE WHEN kind=? THEN 0 ELSE 1 END,rowid LIMIT 1",(preferred,)).fetchone()
             if not job:break
-            try:seen,new,complete=listing(db,client,*job,known)
+            try:seen,new,complete=listing(db,client,*job,known,cutoff)
             except (HTTPError,Challenge,HostBlocked)as exc:
                 break
             except Exception as exc:
                 db.execute("UPDATE jobs SET status='review' WHERE key=?",(job[0],))
                 db.execute("INSERT OR REPLACE INTO meta VALUES('review_reason',?)",(job[0]+': '+type(exc).__name__+': '+str(exc)[:160],));db.commit();break
-            pages+=1;details(db,client,claims,known,cutoff)
+            pages+=1
             db.execute("INSERT OR REPLACE INTO meta VALUES('job_turn',?)",('keyword'if job[1]=='facet'else'facet',));db.commit()
             if pages%5==0 or complete or time.monotonic()-last_publish>=1200:
                 mirror_ads.publish(db,a.work_dir,a.repo);last_publish=time.monotonic()
             print(json.dumps({'key':job[0],'page':job[2],'seen':seen,'new':new,'done':complete},ensure_ascii=False),flush=True)
             if a.max_pages and pages>=a.max_pages:break
         mirror_ads.publish(db,a.work_dir,a.repo)
-    finally:claims.close();db.close()
+    finally:db.close()
 
 if __name__=='__main__':main()
