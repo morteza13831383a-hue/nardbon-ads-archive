@@ -49,6 +49,12 @@ class BudgetTests(unittest.TestCase):
         b.report('https://tgadsspy.com','challenge')
         self.assertEqual(self.state('https://tgadsspy.com')['delay'],8.0)
 
+    def test_retry_after_extends_host_pause(self):
+        with patch.object(b.time,'time',return_value=1000.0):
+            b.report('https://tgads.biz',429,retry_after=7200)
+        self.assertEqual(self.state('https://tgads.biz')['pause_until'],8200.0)
+        self.assertEqual(b.retry_after_seconds({'Retry-After':'7200'}),7200)
+
     def test_repeated_blocks_extend_pause_without_halting(self):
         with patch.object(b.time,'time',return_value=1000):
             b.report('https://tgstat.com',403);b.report('https://ir.tgstat.com',403)
