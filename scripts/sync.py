@@ -61,7 +61,9 @@ ADV_PER_RUN = int(os.environ.get("ADVERTISERS_PER_RUN", "15"))        # advertis
 HEAVY_EVERY_MIN = int(os.environ.get("HEAVY_EVERY_MIN", "170"))        # images, advertiser sweep, channel crawler ~every 3 h; other runs stay under a minute
 ADV_GAP = float(os.environ.get("ADVERTISERS_GAP_SEC", "4"))     # ~15 requests/min, far under the plan limit
 ADV_REVISIT_DAYS = 30
-MEDIA_PER_RUN = int(os.environ.get("MEDIA_PER_RUN", "100"))             # images per run, gently
+MEDIA_PER_RUN = int(os.environ.get("MEDIA_PER_RUN", "400"))             # images per run (every run while a backlog exists)
+VIDEO_PER_RUN = int(os.environ.get("VIDEO_PER_RUN", "40"))
+VIDEO_MAX_BYTES = int(os.environ.get("VIDEO_MAX_BYTES", str(4 * 1024 * 1024)))   # bigger videos stay a source link
 MEDIA_GAP = float(os.environ.get("MEDIA_GAP_SEC", "0.2"))
 MEDIA_MAX_W = 900
 
@@ -403,20 +405,20 @@ def fetch_media(ads, stats):
             continue
         url = urljoin(SITE + "/", a["media_src"])     # API gives relative paths like /m/3c/...jpg
         if re.search(r"\.(mp4|mov|webm)(\?|$)", url, re.I):
-            a["media_status"] = "video"       # keep the link; videos are not stored
+            a["media_status"] = "video"       # handled by fetch_videos
             continue
         try:
             time.sleep(MEDIA_GAP)
             r = requests.get(url, timeout=30)
             r.raise_for_status()
             if "video" in r.headers.get("Content-Type", ""):
-                a["media_status"] = "video"
+                a["media_status"] = "video"   # handled by fetch_videos
                 continue
             im = Image.open(io.BytesIO(r.content))
             im = im.convert("RGB")
             if im.width > MEDIA_MAX_W:
                 im = im.resize((MEDIA_MAX_W, round(im.height * MEDIA_MAX_W / im.width)), Image.LANCZOS)
-            im.save(dest, "WEBP", quality=80, method=6)
+            im.save(dest, "WEBP", quality=80, method=4)
             a["media_status"] = "queued"
             a["media_w"], a["media_h"] = im.width, im.height
             done += 1
@@ -426,7 +428,39 @@ def fetch_media(ads, stats):
                 a["media_status"] = "failed"
             log("media failed", a["id"], str(e)[:120])
     stats["media"] = done
-    log(f"media: {done} images prepared")
+    log(f"media: {done} images prepared, {max(len(todo) - done, 0)} still waiting")
+    fetch_videos(ads)
+
+
+def fetch_videos(ads):
+    """Store small ad videos (<= VIDEO_MAX_BYTES) next to the images; bigger ones keep the source link.
+    Each video is tried once."""
+    todo = [a for a in ads.values() if a["media_status"] == "video" and not a.get("media_file") and not a.get("video_tried")]
+    todo.sort(key=lambda a: a.get("first_seen") or "", reverse=True)
+    done = 0
+    for a in todo[:VIDEO_PER_RUN]:
+        if time_left() < 180:
+            break
+        a["video_tried"] = True
+        url = urljoin(SITE + "/", a.get("media_src") or "")
+        try:
+            time.sleep(MEDIA_GAP)
+            with requests.get(url, timeout=60, stream=True) as r:
+                r.raise_for_status()
+                if int(r.headers.get("Content-Length") or 0) > VIDEO_MAX_BYTES:
+                    continue
+                data = b""
+                for chunk in r.iter_content(65536):
+                    data += chunk
+                    if len(data) > VIDEO_MAX_BYTES:
+                        break
+            if len(data) > VIDEO_MAX_BYTES or len(data) < 1000:
+                continue
+            (OUT_MEDIA / f"{a['id']}.mp4").write_bytes(data)
+            done += 1
+        except Exception as e:
+            log("video failed", a["id"], str(e)[:120])
+    log(f"media: {done} videos prepared, {max(len(todo) - VIDEO_PER_RUN, 0)} still waiting")
 
 
 # --------------------------------------------------------------------------- upload
@@ -594,14 +628,22 @@ def upload(ads, state, run):
     sent_media = sent_files = 0
     with Uploader() as up:
         # 1) images
-        for f in sorted(OUT_MEDIA.glob("*.webp")):
+        for f in sorted(OUT_MEDIA.glob("*.webp")) + sorted(OUT_MEDIA.glob("*.mp4")):
             if time_left() < 60:
                 break
-            up.put(f, f"{REMOTE_ROOT}/media/{f.name}")
+            try:
+                up.put(f, f"{REMOTE_ROOT}/media/{f.name}")
+            except RuntimeError as e:
+                if f.suffix != ".mp4":
+                    raise
+                log(f"video upload refused, keeping the source link: {e}")   # e.g. the host rejects .mp4
+                f.unlink()
+                continue
             a = ads.get(f.stem)
             if a:
                 a["media_file"] = f"media/{f.name}"
-                a["media_status"] = "ok"
+                if f.suffix == ".webp":
+                    a["media_status"] = "ok"
             f.unlink()
             sent_media += 1
         # 2) data shards (rewritten so media paths are current)
@@ -759,7 +801,7 @@ def main():
         errors.append(f"missed: up to {stats['missed']} ads beyond the API plan's reach in this window")
     if API_INFO:
         state["api_info"] = API_INFO
-    if heavy:
+    if heavy or any(a["media_status"] == "pending" for a in ads.values()):   # every run while images wait
         try:
             fetch_media(ads, stats)
         except Exception as e:

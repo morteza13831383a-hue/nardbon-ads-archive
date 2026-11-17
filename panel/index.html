@@ -71,6 +71,7 @@ th{color:var(--mute);font-weight:700;background:var(--bg)}
 .xlink{font-size:13px;color:var(--acc);text-decoration:none;font-weight:700}
 .hidden{display:none}
 @media (max-width:600px){nav{margin-right:0}.bar{gap:8px}}
+.media video{width:100%;max-height:420px;display:block;background:#000}
 </style>
 </head>
 <body>
@@ -161,8 +162,10 @@ function apply(){
 
 function card(a){
   const isNew = a.source === 'live' && a.found_at && Date.now() - new Date(a.found_at) < 864e5;
-  const media = a.media_file ? `<img loading="lazy" src="${esc(a.media_file)}" alt="">`
-    : a.media_status === 'video' ? `<a href="${esc(a.media_src)}" target="_blank" rel="noopener">ویدیو (لینک منبع)</a>`
+  const src = a.media_src && a.media_src.startsWith('/') ? 'https://tgadsspy.com' + a.media_src : a.media_src;
+  const media = a.media_file && /\.mp4$/i.test(a.media_file) ? `<video controls preload="metadata" playsinline src="${esc(a.media_file)}"></video>`
+    : a.media_file ? `<img loading="lazy" src="${esc(a.media_file)}" alt="">`
+    : a.media_status === 'video' ? `<a href="${esc(src)}" target="_blank" rel="noopener">ویدیو (لینک منبع)</a>`
     : a.media_status === 'none' ? 'بدون تصویر' : 'تصویر در صف ارسال';
   const days = a.first_seen && a.last_seen ? Math.max(1, Math.round((new Date(a.last_seen) - new Date(a.first_seen)) / 864e5)) : null;
   const ctaHref = a.cta_url && /^https?:/i.test(a.cta_url) ? a.cta_url : null;
