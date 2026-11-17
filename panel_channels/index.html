@@ -149,6 +149,10 @@ async function loadChannels(){
   $('ccount').textContent = 'در حال بارگذاری فهرست کانال‌ها…';
   try {
     const j = await getJSON('channels.json' + bust);
+    if(j.parts && j.parts.length){                       // large catalog: split into parts by the uploader
+      const parts = await Promise.all(j.parts.map(p => getJSON(p + bust)));
+      j.rows = parts.flatMap(p => p.rows || []);
+    }
     const F = j.fields;
     chans = j.rows.map(r => { const o = {}; F.forEach((f, i) => o[f] = r[i]); o.h = fa(`${o.t} ${o.u} ${o.d || ''} ${(o.k || []).join(' ')}`); return o; });
     capply();

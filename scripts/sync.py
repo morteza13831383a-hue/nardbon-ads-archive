@@ -565,6 +565,28 @@ def build_status(ads, state, shards):
     return status, manifest
 
 
+CH_PART_ROWS = int(os.environ.get("CHANNELS_PART_ROWS", "20000"))   # ~1.5 MB gzipped each; the host rejects big bodies
+
+
+def channel_parts():
+    """Split data/channels.json into channels-NN.json parts plus a small channels.json index
+    {"at", "fields", "parts": [...], "rows": []}, because the host's receiver rejects one big file."""
+    import tempfile
+    body = json.loads(channels.CHANNELS_F.read_text("utf-8"))
+    rows, out = body.get("rows") or [], pathlib.Path(tempfile.mkdtemp(prefix="chparts-"))
+    names, files = [], []
+    for i in range(0, max(len(rows), 1), CH_PART_ROWS):
+        name = f"channels-{i // CH_PART_ROWS:02d}.json"
+        f = out / name
+        f.write_text(json.dumps({"rows": rows[i:i + CH_PART_ROWS]}, ensure_ascii=False, separators=(",", ":")), "utf-8")
+        names.append(name)
+        files.append((f, f"{CH_ROOT}/{name}"))
+    idx = out / "channels.json"
+    idx.write_text(json.dumps({"at": body.get("at"), "fields": body.get("fields"), "parts": names, "rows": []},
+                              ensure_ascii=False, separators=(",", ":")), "utf-8")
+    return files + [(idx, f"{CH_ROOT}/channels.json")]
+
+
 def upload(ads, state, run):
     """Push everything pending. Raises on connection failure; partial progress is kept."""
     tmp = OUTBOX / "_gen"
@@ -606,7 +628,7 @@ def upload(ads, state, run):
             files += [(f, f"{CH_ROOT}/{f.relative_to(PANEL_CH).as_posix()}") for f in sorted(PANEL_CH.rglob("*")) if f.is_file()]
             files += [(f, f"{CH_ROOT}/fonts/{f.name}") for f in sorted((PANEL / "fonts").glob("*.woff2"))]
         if channels.CHANNELS_F.exists():
-            files.append((channels.CHANNELS_F, f"{CH_ROOT}/channels.json"))
+            files += channel_parts()             # parts first, the index (channels.json) last
         for f, remote in files:
             h = sha(f)
             if state["uploaded"].get(remote) != h:
