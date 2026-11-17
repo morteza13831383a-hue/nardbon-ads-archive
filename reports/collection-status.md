@@ -1,28 +1,28 @@
 # Collection status
 
-2026-11-17T06:36:48.070458+00:00 UTC. Checkpoint counts; the 57,492 Iran listing total can include ads after the archive cutoff.
+2026-11-17T06:37:54.036198+00:00 UTC. Checkpoint counts; the 57,492 Iran listing total can include ads after the archive cutoff.
 
 ## A — niche listings
 
 | Mirror | Niches done / assigned | Iran ads saved | Listing pages | Hold |
 |---|---:|---:|---:|---|
-| telegramadsarchive.com | 3/5 | 515 | 36 | access hold HostBlocked |
-| telegramadsanalytics.com | 5/7 | 2237 | 171 | — |
-| telegramads.it | 5/7 | 2922 | 225 | — |
-| tgads.biz | 3/5 | 492 | 33 | access hold HostBlocked |
-| tgads.observer | 3/5 | 445 | 48 | access hold HostBlocked |
-| telegramstats.net | 4/6 | 1867 | 131 | — |
+| telegramadsarchive.com | 3/3 | 515 | 36 | access hold HostBlocked |
+| telegramadsanalytics.com | 5/7 | 2237 | 184 | — |
+| telegramads.it | 5/7 | 2929 | 230 | — |
+| tgads.biz | 3/3 | 492 | 33 | access hold HostBlocked |
+| tgads.observer | 3/3 | 445 | 48 | access hold HostBlocked |
+| telegramstats.net | 4/6 | 1867 | 134 | — |
 
-Unique new niche records beyond local baseline: 8,478.
+Unique new niche records beyond local baseline: 8,485. Transferred slices count only under their destination.
 
 ## B — other filters and Persian text search
 
 | Method | Jobs done | Iran ads saved (attributed) | Gap to 57,492 after method |
 |---|---:|---:|---:|
-| facet | 1 | 258 | 32,042 after all current methods |
-| keyword | 0 | 201 | 32,042 after all current methods |
+| facet | 1 | 258 | 32,035 after all current methods |
+| keyword | 0 | 201 | 32,035 after all current methods |
 
-Baseline unique IDs: 16,513; after A: 24,991; after A+B: 25,450. Gap is a comparison, not a completeness proof.
+Baseline unique IDs: 16,513; after A: 24,998; after A+B: 25,457. Gap is a comparison, not a completeness proof.
 
 ## C — Persian channel member ranges
 
