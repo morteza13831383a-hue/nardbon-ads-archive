@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Resume eligible channels workers; account and terminal host holds always win."""
 import argparse,fcntl,json,os,signal,sqlite3,subprocess,time
+from collections import defaultdict
 from contextlib import closing
 from pathlib import Path
 from source_budget import status
@@ -28,6 +29,25 @@ def tgstat_frontier_exhausted(path):
                            for table in ('tgstat_slices','tgstat_unresolved'))
     except sqlite3.Error:return False
 
+def niches_complete(config):
+    active={};pages=defaultdict(set)
+    try:
+        for item in config.get('mirror_niche_workers',[]):
+            path=Path(item['work_dir'])/'checkpoint.sqlite3'
+            with closing(sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True)) as db:
+                if db.execute("SELECT 1 FROM candidates WHERE status='pending' LIMIT 1").fetchone():return False
+                for name,count,state in db.execute('SELECT name,site_count,status FROM niches'):
+                    if state!='transferred':
+                        if name in active:return False
+                        active[name]=(count or 0,state)
+                for key, in db.execute("SELECT key FROM requests WHERE kind='listing'"):
+                    name,sep,page=key.rpartition(':')
+                    if sep and page.isdigit():pages[name].add(int(page))
+        if len(active)!=29:return False
+        return all(state=='done' and len(pages[name])*30>=count-30
+                   for name,(count,state) in active.items())
+    except (OSError,sqlite3.Error):return False
+
 def ensure(config):
     root=Path(config['code']);state=Path(config['state_dir']);state.mkdir(exist_ok=True,parents=True);python=config['python'];clean_env={k:v for k,v in os.environ.items()if k not in('TGSTAT_COOKIE','TGSTAT_COOKIE_FILE')}
     jobs=[('spy',Path(config['spy_work'])/'process.json','https://tgadsspy.com',Path(config['spy_work'])/'channels.sqlite3',[python,str(root/'scripts/channels_html.py'),'--final-plan','--work-dir',config['spy_work'],'--repo',config['repo'],'--pages-per-slice','25','--max-slices','0']),('tgstat',Path(config['tg_work'])/'process.json','https://tgstat.com',Path(config['tg_work'])/'tgstat.sqlite3',[python,str(root/'scripts/tgstat_collect.py'),'--final-plan','--session','--work-dir',config['tg_work'],'--repo',config['repo'],'--pages-per-slice','25','--max-slices','0'])]
@@ -51,6 +71,9 @@ def ensure(config):
         jobs.append(('gap_'+item['host'].replace('.','_'),Path(item['process_file']),
                      'https://'+item['host'],Path(item['work_dir'])/'checkpoint.sqlite3',item['command']))
     events=[];ownership=None
+    if config.get('ads_niche_first') and not niches_complete(config):
+        jobs=[j for j in jobs if j[0]!='mirror_gap' and not j[0].startswith('gap_')]
+        events.append({'worker':'mirror_gap','state':'paused','reason':'Niche pages or ad details remain'})
     if config.get('tgadsspy_budget_policy')=='ads_then_channels':
         from collection_ownership import advance
         ownership=advance(config)
@@ -136,6 +159,10 @@ def main():
                         '--repo-root','/workspace/work/multisource-main','--repo',c['repo'],'--publish'],
                         env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=180)
                     except subprocess.TimeoutExpired:print('Multisource status publication timed out; supervision continues.',flush=True)
+                    try:subprocess.run([c['python'],str(Path(__file__).parent/'niche_coverage.py'),
+                        '--repo',c['repo'],'--publish'],env=report_env,
+                        stdout=output,stderr=subprocess.STDOUT,timeout=180)
+                    except subprocess.TimeoutExpired:print('Niche coverage publication timed out; supervision continues.',flush=True)
                 last_report=time.time()
             if a.once:return
             time.sleep(30)

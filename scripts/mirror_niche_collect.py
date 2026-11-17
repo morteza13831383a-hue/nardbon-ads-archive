@@ -68,10 +68,15 @@ def listing(client,db,niche,page,known):
     next_page=page+1
     for ad_id in ids-known:
         db.execute('INSERT OR IGNORE INTO candidates(id,niche)VALUES(?,?)',(ad_id,niche))
-    # Result cards can be fewer than the nominal page size. The site's actual
-    # next-page link, not ceil(count / 30), determines the end of a slice.
+    # A missing next-page link is not proof of completion when the site's own
+    # count says more result pages remain. Keep the explicit page cursor moving.
     has_next=any(('page='+str(page+1)) in href for href in doc.links() if href.startswith('/ads?'))
-    done=not has_next
+    walked={int(key.rsplit(':',1)[1]) for key, in db.execute("SELECT key FROM requests WHERE kind='listing' AND key LIKE ?",(niche+':%',))
+            if ':' in key and key.rsplit(':',1)[1].isdigit()}
+    capacity=30*len(walked|{page})
+    if not ids and capacity<max(total,expected or 0)-30:
+        raise ValueError('Listing empty before advertised niche count')
+    done=not has_next and capacity>=max(total,expected or 0)-30
     db.execute('UPDATE niches SET site_count=?,page=?,status=?,last_signature=? WHERE name=?',
                (total,next_page,'done'if done else'pending',signature,niche))
     db.execute('INSERT INTO requests VALUES(?,?,?,?)',('listing',niche+':'+str(page),200,datetime.now(timezone.utc).isoformat()))
@@ -142,12 +147,18 @@ def main():
                 db.execute("UPDATE niches SET status='review' WHERE name=?",(job[0],))
                 db.execute("INSERT OR REPLACE INTO meta VALUES('review_reason',?)",(job[0]+': '+type(exc).__name__,));db.commit();break
             pages+=1
-            detail(client,db,claims,known,cutoff)
+            if pages%10==0:detail(client,db,claims,known,cutoff)
             if pages%5==0 or complete or time.monotonic()-last_publish>=1200:
                 mirror_ads.publish(db,a.work_dir,a.repo);last_publish=time.monotonic()
             print(json.dumps({'host':a.host,'niche':job[0],'page':job[1],'seen':ids,'new_vs_local':new,'complete':complete}),flush=True)
             if a.max_pages and pages>=a.max_pages:break
-        detail(client,db,claims,known,cutoff,30)
+        if not a.max_pages:
+            while db.execute("SELECT 1 FROM candidates WHERE status='pending' LIMIT 1").fetchone():
+                detail(client,db,claims,known,cutoff,30)
+                if time.monotonic()-last_publish>=1200:
+                    mirror_ads.publish(db,a.work_dir,a.repo);last_publish=time.monotonic()
+                from source_budget import status as budget_status
+                if budget_status(client.base)['pause_left_s']:break
         mirror_ads.publish(db,a.work_dir,a.repo)
     finally:claims.close();db.close()
 

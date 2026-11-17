@@ -48,3 +48,15 @@ class NicheCollectorTests(unittest.TestCase):
             db.execute("INSERT INTO niches(name,site_count)VALUES('test',91)")
             self.assertEqual(niche.listing(Client(),db,'test',1,set()),(1,1,False))
             db.close()
+
+    def test_missing_next_link_does_not_finish_before_count(self):
+        class Client:
+            base='https://telegramadsarchive.com'
+            def get(self,url):
+                return '<div>Found 91</div><a href="/ads/abc">A</a>'
+        with tempfile.TemporaryDirectory() as temp:
+            db=niche.connect(Path(temp)/'checkpoint.sqlite3','telegramadsarchive.com','2026-11-13T00:00:00+00:00')
+            db.execute("INSERT INTO niches(name,site_count)VALUES('test',91)")
+            self.assertEqual(niche.listing(Client(),db,'test',1,set()),(1,1,False))
+            self.assertEqual(db.execute("SELECT page,status FROM niches WHERE name='test'").fetchone(),(2,'pending'))
+            db.close()
