@@ -128,6 +128,10 @@ def main():
                 with(state/'reports.log').open('a')as output:
                     try:subprocess.run([c['python'],str(Path(c['code'])/'scripts/collection_status.py'),'--config',str(a.config),'--publish'],env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=180)
                     except subprocess.TimeoutExpired:print('Coverage publication timed out; supervision continues.',flush=True)
+                    try:subprocess.run([c['python'],str(Path(__file__).parent/'multisource_status.py'),
+                        '--repo-root','/workspace/work/multisource-main','--repo',c['repo'],'--publish'],
+                        env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=180)
+                    except subprocess.TimeoutExpired:print('Multisource status publication timed out; supervision continues.',flush=True)
                 last_report=time.time()
             if a.once:return
             time.sleep(30)
