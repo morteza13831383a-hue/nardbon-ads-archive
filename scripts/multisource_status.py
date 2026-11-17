@@ -94,8 +94,8 @@ def render(s):
        '| Worker | Saved / completed | New / 100 requests since baseline | Hold |', '|---|---:|---:|---|',
        f"| tgadsspy channels | {s['spy_channels'][0][0] if s['spy_channels'] else 0} | {s['rates']['tgadsspy / channel']} | Paused: ad worker owns host budget |",
        f"| Lyzem | {s['lyzem_total'][0][0] if s['lyzem_total'] else 0} records | — | {s['lyzem_hold'][0][0] if s['lyzem_hold'] else '—'} |",
-       f"| TGStat catalog channels | {dict(s['tgstat_types']).get('channel',0)} | {s['rates']['tgstat / channel']} | {s['tgstat_hold'][0][0] if s['tgstat_hold'] else '—'} |",
-       f"| TGStat catalog groups | {dict(s['tgstat_types']).get('group',0)} | {s['rates']['tgstat / group']} | {s['tgstat_hold'][0][0] if s['tgstat_hold'] else '—'} |",
+       f"| TGStat all channels | {dict(s['tgstat_types']).get('channel',0)} | {s['rates']['tgstat / channel']} | Catalog: {s['tgstat_hold'][0][0] if s['tgstat_hold'] else '—'} |",
+       f"| TGStat all groups | {dict(s['tgstat_types']).get('group',0)} | {s['rates']['tgstat / group']} | Catalog: {s['tgstat_hold'][0][0] if s['tgstat_hold'] else '—'} |",
        f"| TGStat Quick | {s['quick'][0][1] if s['quick'] else 0} channels, {s['quick'][0][2] if s['quick'] else 0} groups; {s['quick'][0][0] if s['quick'] else 0} terms | — | {s['quickhold'][0][0] if s['quickhold'] else '—'} |",
        '| TGList | 0 new requests | — | HTTP 403 hold retained |',
        '',f"Remaining queued listing slices: tgadsspy {s['spy_slices'].get('pending',0)}, TGStat {s['tgstat_slices'].get('pending',0)}. Holds and catalog caps prevent a defensible completion date.",
@@ -109,11 +109,12 @@ def render(s):
         changes=[('ads',after_gap-b['ads_unique']),
                  ('tgadsspy channels',(s['spy_channels'][0][0]if s['spy_channels']else 0)-c['tgadsspy']),
                  ('Lyzem', (s['lyzem_total'][0][0]if s['lyzem_total']else 0)-c['lyzem']),
-                 ('TGStat catalog channels',types.get('channel',0)-c['tgstat_catalog_channel']),
-                 ('TGStat catalog groups',types.get('group',0)-c['tgstat_catalog_group']),
+                 ('TGStat all channels',types.get('channel',0)-c['tgstat_catalog_channel']),
+                 ('TGStat all groups',types.get('group',0)-c['tgstat_catalog_group']),
                  ('TGStat Quick channels',q[1]-c['tgstat_quick_channel']),
                  ('TGStat Quick groups',q[2]-c['tgstat_quick_group'])]
-        lines.extend(['','## Since current rollout','',f"Baseline: {b['at']}. "+'; '.join(f'{name} {value:+,}' for name,value in changes)+'.'])
+        lines.extend(['','## Since current rollout','',f"Baseline: {b['at']}. "+'; '.join(f'{name} {value:+,}' for name,value in changes)+'.',
+                      'TGStat Quick is included in the TGStat all-source totals above.'])
     return '\n'.join(lines)+'\n'
 
 def publish(path,repo):
