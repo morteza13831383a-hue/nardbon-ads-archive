@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-17T00:35:50Z",
+ "cursor": "2026-11-17T01:35:36Z",
  "backfill": {
   "since": "2026-06-07T10:59:55Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-16T17:36:11Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "a62d955a19e3c504",
+  "tgads/data/2026-11.json": "89d3baa3dba291ba",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -21,28 +21,16 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "0a5bb5edb3285a3a",
-  "tgads/data/2026-08.json": "055bf82db31e44be",
-  "tgads/data/2026-09.json": "4130ceccc95afd82",
+  "tgads/data/2026-08.json": "68ee3bf80118fda7",
+  "tgads/data/2026-09.json": "85a3d3476dcd3693",
   "tgads/data/2026-04.json": "516a630de0659c1a",
   "tgads/data/2026-05.json": "57b540f1ea0a9895",
   "tgads/data/2026-06.json": "92cef5961c6e6dd0",
-  "tgads/data/2026-07.json": "737711a0e412eb4b",
-  "tgads/data/2026-10.json": "12433c52bc005c35",
+  "tgads/data/2026-07.json": "81b4abe635b30606",
+  "tgads/data/2026-10.json": "e3506a5935b61c97",
   "tgads/data/2025-07.json": "8181396af5de195a"
  },
  "runs": [
-  {
-   "at": "2026-11-14T21:35:29Z",
-   "ok": true,
-   "error": null,
-   "new": 10,
-   "updated": 2,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 2,
-   "secs": 6
-  },
   {
    "at": "2026-11-14T22:35:27Z",
    "ok": true,
@@ -740,18 +728,28 @@
    "media": 0,
    "missed": 0,
    "secs": 9
+  },
+  {
+   "at": "2026-11-17T02:35:36Z",
+   "ok": false,
+   "error": "upload: upload tgads/channels/channels.json failed: 413 {\"ok\":false,\"error\":\"too large\"}",
+   "new": 4,
+   "updated": 81,
+   "media": 94,
+   "missed": 0,
+   "secs": 264
   }
  ],
  "last_upload_ok": "2026-11-17T00:38:48Z",
  "lang_seen": {
-  "-": 369,
+  "-": 370,
   "tr": 63,
   "he": 39,
   "ru": 732,
-  "ar": 283,
+  "ar": 286,
   "my": 47,
   "en": 491,
-  "fa": 11589,
+  "fa": 11675,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -1210,14 +1208,29 @@
    "tg-propchi": "2026-11-16T23:36:25Z",
    "tg-academy_mah_gold": "2026-11-16T23:36:29Z",
    "tg-texasnet": "2026-11-16T23:36:33Z",
-   "tg-simkartrondpouya": "2026-11-16T23:36:38Z"
+   "tg-simkartrondpouya": "2026-11-16T23:36:38Z",
+   "tg-ads_onlinnn": "2026-11-17T02:35:37Z",
+   "tg-ads_ban": "2026-11-17T02:35:41Z",
+   "tg-ads_yaraplus": "2026-11-17T02:35:45Z",
+   "tg-adpeak_official_bot": "2026-11-17T02:35:49Z",
+   "tg-adzplatform": "2026-11-17T02:35:59Z",
+   "tg-address_bedone_filter_ap_site": "2026-11-17T02:36:03Z",
+   "tg-adgameschannel": "2026-11-17T02:36:07Z",
+   "tg-adlinobot": "2026-11-17T02:36:11Z",
+   "tg-nerkhchand24": "2026-11-17T02:36:15Z",
+   "tg-amozsh_kamel": "2026-11-17T02:36:20Z",
+   "tg-tajgammon_fa": "2026-11-17T02:36:24Z",
+   "tg-oonvareabrasellbot": "2026-11-17T02:36:28Z",
+   "tg-a1m_pro_bot": "2026-11-17T02:36:32Z",
+   "tg-ashkinflowerstudio": "2026-11-17T02:36:36Z",
+   "tg-pingchibot": "2026-11-17T02:36:40Z"
   },
   "partial": {},
   "ads_found": 2592,
-  "known": 2412,
-  "waiting": 2012,
+  "known": 2445,
+  "waiting": 2030,
   "seeds": 0
  },
- "heavy_last": "2026-11-16T23:35:39Z",
+ "heavy_last": "2026-11-17T02:35:36Z",
  "combot_last": "2026-11-16T21:35:42Z"
 }
