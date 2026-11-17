@@ -84,6 +84,7 @@ def detail(client,db,claims,known,cutoff,limit=30):
         claim=claims.acquire(ad_id,owner)
         if claim!='acquired':
             if claim=='done':db.execute("UPDATE candidates SET status='shared_done' WHERE id=?",(ad_id,));db.commit()
+            else:db.execute("UPDATE candidates SET status='shared_pending' WHERE id=?",(ad_id,));db.commit()
             continue
         verified=False
         try:
@@ -122,7 +123,12 @@ def main():
     if db.execute("SELECT 1 FROM meta WHERE key='stop_reason'").fetchone():raise SystemExit('Host hold retained')
     known=mirror_ads.archive_ids(a.repo_root)
     known.update(x[0]for x in db.execute('SELECT id FROM records'))
-    client=Client('https://'+a.host,4,resilient=True);client.initialize()
+    client=Client('https://'+a.host,4,resilient=True)
+    try:client.initialize()
+    except (HTTPError,Challenge,HostBlocked) as exc:
+        if getattr(exc,'code',0)in(403,429)or isinstance(exc,(Challenge,HostBlocked)):
+            db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",('access hold '+type(exc).__name__,));db.commit()
+        raise
     claims=Claims();mirror_ads.BASE=client.base
     pages=0
     try:
@@ -144,6 +150,8 @@ def main():
             print(json.dumps({'host':a.host,'niche':job[0],'page':job[1],'seen':ids,'new_vs_local':new,'complete':complete}),flush=True)
             if db.execute("SELECT 1 FROM meta WHERE key='stop_reason'").fetchone():break
             if a.max_pages and pages>=a.max_pages:break
+        if not db.execute("SELECT 1 FROM meta WHERE key='stop_reason'").fetchone():
+            detail(client,db,claims,known,cutoff,100)
         mirror_ads.publish(db,a.work_dir,a.repo)
     finally:claims.close();db.close()
 
