@@ -13,11 +13,25 @@ from source_budget import status as budget_status
 
 ROOT=Path(__file__).resolve().parents[1]
 
-def build(work):
+def build(work,config_path=None):
     with sqlite3.connect('file:'+str(work/'checkpoint.sqlite3')+'?mode=ro',uri=True)as db:
-        ads=db.execute('SELECT COUNT(*) FROM records').fetchone()[0]
+        known={row[0] for row in db.execute('SELECT id FROM known_ids')}
+        collected={row[0] for row in db.execute('SELECT id FROM records')}
         base=int(db.execute("SELECT value FROM meta WHERE key='base_known_count'").fetchone()[0])
         pages=db.execute("SELECT status,COUNT(*) FROM pages GROUP BY status").fetchall()
+    config_path=config_path or work.parent/'final-collection/runtime.json'
+    gap_pending=gap_review=0
+    if config_path.exists():
+        config=json.loads(config_path.read_text())
+        for worker in config.get('mirror_gap_workers',[]):
+            checkpoint=Path(worker['work_dir'])/'checkpoint.sqlite3'
+            if not checkpoint.exists():continue
+            with sqlite3.connect('file:'+str(checkpoint)+'?mode=ro',uri=True) as db:
+                collected.update(row[0] for row in db.execute('SELECT id FROM records'))
+                counts=dict(db.execute('SELECT status,COUNT(*) FROM jobs GROUP BY status'))
+                gap_pending+=counts.get('pending',0)
+                gap_review+=counts.get('review',0)
+    ads=len(collected-known)
     prior_path=work/'status-state.json'
     prior=json.loads(prior_path.read_text()) if prior_path.exists() else {}
     new=max(0,ads-int(prior.get('ads',0)))
@@ -26,11 +40,11 @@ def build(work):
         budget=budget_status('https://'+host)
         if budget['pause_left_s']:
             paused.append(host+':'+str(round(budget['pause_left_s']/60))+'m')
-    review=dict(pages).get('review',0)
+    review=dict(pages).get('review',0)+gap_review
     stamp=datetime.now(timezone.utc).isoformat()
-    body=(f'New Iran ads since prior report: {new:,}; listing sweep total: {ads:,}; at {stamp}.\n'
-          f'Numerical gap to 57,492: {max(0,57492-base-ads):,}; pages: '+', '.join(f'{k} {v:,}'for k,v in pages)+'.\n'
-          f'Blocks/cooldowns: {", ".join(paused) if paused else "none"}; review pages: {review}.\n')
+    body=(f'New Iran ads since prior report: {new:,}; new unique total: {ads:,}; at {stamp}.\n'
+          f'Numerical gap to 57,492: {max(0,57492-base-ads):,}; niche pages: '+', '.join(f'{k} {v:,}'for k,v in pages)+f'; gap jobs pending {gap_pending:,}.\n'
+          f'Blocks/cooldowns: {", ".join(paused) if paused else "none"}; review jobs/pages: {review}.\n')
     return body,{'ads':ads,'at':stamp}
 
 def publish(path,repo):
