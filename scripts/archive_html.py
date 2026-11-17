@@ -410,6 +410,19 @@ def import_records(db,paths):
                 if first>cutoff_dt:
                     continue
                 record['archive_cutoff']=cutoff
+                prior=db.execute('SELECT payload FROM records WHERE id=?',(record['id'],)).fetchone()
+                if prior:
+                    existing=json.loads(prior[0])
+                    if record.get('record_detail')=='listing' and existing.get('record_detail')!='listing':
+                        # A later listing part must not erase a richer detail page.
+                        merged=dict(existing)
+                        for key,value in record.items():
+                            if merged.get(key) in (None,'',{},[]) and value not in (None,'',{},[]):merged[key]=value
+                    else:
+                        merged=dict(existing)
+                        for key,value in record.items():
+                            if value not in (None,'',{},[]):merged[key]=value
+                    record=merged
                 db.execute('INSERT OR REPLACE INTO records VALUES(?,?)',(record['id'],json.dumps(record,ensure_ascii=False)))
                 original_url=BASE+'/ads/'+record['id']
                 enqueue(db,original_url,'detail',1)

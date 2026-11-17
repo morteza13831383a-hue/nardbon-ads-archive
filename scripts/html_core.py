@@ -103,6 +103,10 @@ for _mirror_host in ('telegramadsarchive.com', 'telegramadsanalytics.com',
     OWNER_APPROVED[_mirror_host].append(re.compile(r'^/ads/[A-Za-z0-9_-]+$'))
     OWNER_APPROVED[_mirror_host].append(re.compile(r'^/channels\?lang=fa(?:&(?:page|minMembers|maxMembers|sort|order)=[A-Za-z0-9_.-]{1,40})*$'))
 
+# Owner-approved Iran niche listing on the primary site; the shared host budget
+# also covers its channel collector. Ad detail paths retain their existing rules.
+OWNER_APPROVED['tgadsspy.com'].append(re.compile(r'^/ads\?geo=IR&niche=[a-z0-9-]{1,50}&page=[0-9]+$'))
+
 
 class Robots:
     """robots rules with * and $, longest match and Allow tie priority."""

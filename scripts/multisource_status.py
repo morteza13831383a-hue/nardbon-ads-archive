@@ -133,6 +133,9 @@ def publish(path,repo):
 def main():
     p=argparse.ArgumentParser();p.add_argument('--repo-root',type=Path,required=True)
     p.add_argument('--repo',required=True);p.add_argument('--publish',action='store_true');a=p.parse_args()
+    runtime=Path('/workspace/work/final-collection/runtime.json')
+    if runtime.exists() and json.loads(runtime.read_text()).get('niche_listing_work'):
+        print('Listing sweep owns collection-status.md');return
     target=a.repo_root/'reports/collection-status.md';target.parent.mkdir(exist_ok=True)
     target.write_text(render(snapshot(a.repo_root)))
     if a.publish:print('published',publish(target,a.repo))

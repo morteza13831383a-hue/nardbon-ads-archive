@@ -82,6 +82,9 @@ def render(current,baseline):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--config',type=Path,required=True);p.add_argument('--publish',action='store_true');a=p.parse_args();config=json.loads(a.config.read_text());state=Path(config['state_dir']);state.mkdir(parents=True,exist_ok=True)
+    if config.get('niche_listing_work'):
+        # The listing sweep owns the six-hour, three-line status in this mode.
+        print('Listing sweep owns collection-status.md');return
     current=snapshot(config['spy_work'],config['tg_work'])
     if config.get('tgadsspy_budget_policy')=='ads_then_channels':
         current['tgadsspy_budget']=__import__('collection_ownership').describe(config)

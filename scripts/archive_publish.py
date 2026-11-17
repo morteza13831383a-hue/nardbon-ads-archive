@@ -34,6 +34,8 @@ def merge_record(ads, record):
     ads[aid]['html_archive']={
         'source_url':record['source_url'],'collected_at':record['collected_at'],
         'cutoff':record['archive_cutoff'],'html_sha256':record.get('html_sha256'),
+        'record_detail':record.get('record_detail','detail'),
+        'listing_source_url':record.get('listing_source_url'),
     }
 
 

@@ -30,6 +30,14 @@ def tgstat_frontier_exhausted(path):
     except sqlite3.Error:return False
 
 def niches_complete(config):
+    if config.get('niche_listing_work'):
+        path=Path(config['niche_listing_work'])/'checkpoint.sqlite3'
+        try:
+            with closing(sqlite3.connect('file:'+str(path)+'?mode=ro',uri=True)) as db:
+                if not db.execute('SELECT 1 FROM pages LIMIT 1').fetchone():return False
+                if db.execute("SELECT 1 FROM pages WHERE status!='done' LIMIT 1").fetchone():return False
+                return not db.execute('SELECT 1 FROM records WHERE id NOT IN (SELECT id FROM delivered) LIMIT 1').fetchone()
+        except (OSError,sqlite3.Error):return False
     active={};pages=defaultdict(set)
     try:
         for item in config.get('mirror_niche_workers',[]):
@@ -70,6 +78,9 @@ def ensure(config):
     for item in config.get('mirror_gap_workers',[]):
         jobs.append(('gap_'+item['host'].replace('.','_'),Path(item['process_file']),
                      'https://'+item['host'],Path(item['work_dir'])/'checkpoint.sqlite3',item['command']))
+    for item in config.get('niche_listing_workers',[]):
+        jobs.append(('niche_listing_'+item['host'].replace('.','_'),Path(item['process_file']),
+                     'https://'+item['host'],Path(item['work_dir'])/'checkpoint.sqlite3',item['command']))
     events=[];ownership=None
     if config.get('ads_niche_first') and not niches_complete(config):
         jobs=[j for j in jobs if j[0]!='mirror_gap' and not j[0].startswith('gap_')]
@@ -104,13 +115,21 @@ def ensure(config):
             except sqlite3.Error:hold='Quick search checkpoint unreadable'
         else:hold=ownership['archive'].get('hold')if name=='ads'else stop_reason(checkpoint)
         if name.startswith('niche_') and checkpoint.exists():
-            try:
-                with closing(sqlite3.connect('file:'+str(checkpoint)+'?mode=ro',uri=True)) as niche_db:
-                    pending=niche_db.execute("SELECT 1 FROM niches WHERE status='pending' LIMIT 1").fetchone()
-                    candidates=niche_db.execute("SELECT 1 FROM candidates WHERE status='pending' LIMIT 1").fetchone()
-                if not pending and not candidates:
-                    events.append({'worker':name,'state':'done_or_review'});continue
-            except sqlite3.Error:pass
+            if name.startswith('niche_listing_'):
+                try:
+                    with closing(sqlite3.connect('file:'+str(checkpoint)+'?mode=ro',uri=True)) as listing_db:
+                        pending=listing_db.execute("SELECT 1 FROM pages WHERE status='pending' LIMIT 1").fetchone()
+                    if not pending:
+                        events.append({'worker':name,'state':'done_or_waiting'});continue
+                except sqlite3.Error:pass
+            else:
+                try:
+                    with closing(sqlite3.connect('file:'+str(checkpoint)+'?mode=ro',uri=True)) as niche_db:
+                        pending=niche_db.execute("SELECT 1 FROM niches WHERE status='pending' LIMIT 1").fetchone()
+                        candidates=niche_db.execute("SELECT 1 FROM candidates WHERE status='pending' LIMIT 1").fetchone()
+                    if not pending and not candidates:
+                        events.append({'worker':name,'state':'done_or_review'});continue
+                except sqlite3.Error:pass
         if (name=='mirror_gap' or name.startswith('gap_')) and checkpoint.exists():
             try:
                 with closing(sqlite3.connect('file:'+str(checkpoint)+'?mode=ro',uri=True)) as gap_db:
@@ -147,22 +166,34 @@ def main():
     with(state/'supervisor.lock').open('a+')as lock:
         try:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         except BlockingIOError:return
-        last_report=0
+        last_report=0;last_niche_publish=0
         while True:
             print(json.dumps(ensure(c),ensure_ascii=False),flush=True)
-            if time.time()-last_report>=10800:
+            if c.get('niche_listing_work') and time.time()-last_niche_publish>=1800:
+                report_env={k:v for k,v in os.environ.items()if k not in('TGSTAT_COOKIE','TGSTAT_COOKIE_FILE')}
+                with (state/'niche-publisher.log').open('a') as output:
+                    result=subprocess.run([c['python'],str(Path(__file__).parent/'niche_listing_sweep.py'),
+                        '--work-dir',c['niche_listing_work'],'--repo',c['repo'],'--publish-only'],
+                        env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=300)
+                if result.returncode==0:last_niche_publish=time.time()
+            if time.time()-last_report>= (21600 if c.get('niche_listing_work') else 10800):
                 report_env={k:v for k,v in os.environ.items()if k not in('TGSTAT_COOKIE','TGSTAT_COOKIE_FILE')}
                 with(state/'reports.log').open('a')as output:
-                    try:subprocess.run([c['python'],str(Path(c['code'])/'scripts/collection_status.py'),'--config',str(a.config),'--publish'],env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=180)
-                    except subprocess.TimeoutExpired:print('Coverage publication timed out; supervision continues.',flush=True)
-                    try:subprocess.run([c['python'],str(Path(__file__).parent/'multisource_status.py'),
-                        '--repo-root','/workspace/work/multisource-main','--repo',c['repo'],'--publish'],
-                        env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=180)
-                    except subprocess.TimeoutExpired:print('Multisource status publication timed out; supervision continues.',flush=True)
-                    try:subprocess.run([c['python'],str(Path(__file__).parent/'niche_coverage.py'),
-                        '--repo',c['repo'],'--publish'],env=report_env,
-                        stdout=output,stderr=subprocess.STDOUT,timeout=180)
-                    except subprocess.TimeoutExpired:print('Niche coverage publication timed out; supervision continues.',flush=True)
+                    if c.get('niche_listing_work'):
+                        subprocess.run([c['python'],str(Path(__file__).parent/'niche_listing_status.py'),
+                            '--work-dir',c['niche_listing_work'],'--repo',c['repo'],'--publish'],
+                            env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=180)
+                    else:
+                        try:subprocess.run([c['python'],str(Path(c['code'])/'scripts/collection_status.py'),'--config',str(a.config),'--publish'],env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=180)
+                        except subprocess.TimeoutExpired:print('Coverage publication timed out; supervision continues.',flush=True)
+                        try:subprocess.run([c['python'],str(Path(__file__).parent/'multisource_status.py'),
+                            '--repo-root','/workspace/work/multisource-main','--repo',c['repo'],'--publish'],
+                            env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=180)
+                        except subprocess.TimeoutExpired:print('Multisource status publication timed out; supervision continues.',flush=True)
+                        try:subprocess.run([c['python'],str(Path(__file__).parent/'niche_coverage.py'),
+                            '--repo',c['repo'],'--publish'],env=report_env,
+                            stdout=output,stderr=subprocess.STDOUT,timeout=180)
+                        except subprocess.TimeoutExpired:print('Niche coverage publication timed out; supervision continues.',flush=True)
                 last_report=time.time()
             if a.once:return
             time.sleep(30)
