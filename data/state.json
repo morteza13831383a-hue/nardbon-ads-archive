@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-17T07:26:52Z",
+ "cursor": "2026-11-17T07:35:37Z",
  "backfill": {
   "since": "2026-06-07T10:59:55Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-16T17:36:11Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "d834c47f365d1010",
+  "tgads/data/2026-11.json": "a1ac1dfa73d69fc5",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -21,13 +21,13 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "0a5bb5edb3285a3a",
-  "tgads/data/2026-08.json": "f028464421b91834",
-  "tgads/data/2026-09.json": "d4af66cecf6dbea6",
+  "tgads/data/2026-08.json": "c17716b69d518779",
+  "tgads/data/2026-09.json": "a189c7fbf8b73c09",
   "tgads/data/2026-04.json": "915253abfc0ffbc8",
   "tgads/data/2026-05.json": "0a3579f13642b1e4",
-  "tgads/data/2026-06.json": "482f2aef6b8259da",
-  "tgads/data/2026-07.json": "d10eacb925ed3f9f",
-  "tgads/data/2026-10.json": "bae79f6d97804001",
+  "tgads/data/2026-06.json": "f50d3565f41ebff4",
+  "tgads/data/2026-07.json": "166a9ca88abbc714",
+  "tgads/data/2026-10.json": "df199ca39b0ad11a",
   "tgads/data/2025-07.json": "8181396af5de195a"
  },
  "runs": [
@@ -718,19 +718,19 @@
    "secs": 8
   },
   {
-   "at": "2026-11-17T08:26:53Z",
+   "at": "2026-11-17T08:35:37Z",
    "ok": false,
    "error": "upload: upload tgads/channels/channels.json failed: 413 {\"ok\":false,\"error\":\"too large\"}",
-   "new": 82,
+   "new": 84,
    "updated": 212,
-   "media": 72,
+   "media": 91,
    "missed": 0,
-   "secs": 487
+   "secs": 289
   }
  ],
  "last_upload_ok": "2026-11-17T06:39:26Z",
  "lang_seen": {
-  "-": 384,
+  "-": 386,
   "tr": 63,
   "he": 39,
   "ru": 732,
@@ -1227,21 +1227,21 @@
    "tg-mahd_config": "2026-11-17T05:36:26Z",
    "tg-v2raystariran": "2026-11-17T05:36:30Z",
    "tg-trade_javid": "2026-11-17T05:36:34Z",
-   "tg-afghan_tech001": "2026-11-17T08:26:54Z",
-   "tg-konkurcom": "2026-11-17T08:26:58Z",
-   "tg-ahantoday": "2026-11-17T08:27:02Z",
-   "tg-pmxchangee": "2026-11-17T08:27:06Z",
-   "tg-aghaye_kafsh_1": "2026-11-17T08:27:11Z",
-   "tg-sportsanalizt": "2026-11-17T08:27:15Z",
-   "tg-lacinonlineshop": "2026-11-17T08:27:19Z",
-   "tg-spokenenglish3_bot": "2026-11-17T08:27:23Z",
-   "tg-konkoorsalamir": "2026-11-17T08:27:27Z",
-   "tg-konkoormodiriat": "2026-11-17T08:27:32Z",
-   "tg-tethercheck_bot": "2026-11-17T08:27:36Z",
-   "tg-nargespahlevan_honar": "2026-11-17T08:27:40Z",
-   "tg-drkavyaniibot": "2026-11-17T08:27:44Z",
-   "tg-lastsecondtours": "2026-11-17T08:27:48Z",
-   "tg-tipsterr_golden": "2026-11-17T08:27:52Z"
+   "tg-afghan_tech001": "2026-11-17T08:35:38Z",
+   "tg-konkurcom": "2026-11-17T08:35:42Z",
+   "tg-ahantoday": "2026-11-17T08:35:47Z",
+   "tg-pmxchangee": "2026-11-17T08:35:51Z",
+   "tg-aghaye_kafsh_1": "2026-11-17T08:35:55Z",
+   "tg-sportsanalizt": "2026-11-17T08:35:59Z",
+   "tg-lacinonlineshop": "2026-11-17T08:36:03Z",
+   "tg-spokenenglish3_bot": "2026-11-17T08:36:07Z",
+   "tg-konkoorsalamir": "2026-11-17T08:36:12Z",
+   "tg-konkoormodiriat": "2026-11-17T08:36:16Z",
+   "tg-tethercheck_bot": "2026-11-17T08:36:20Z",
+   "tg-nargespahlevan_honar": "2026-11-17T08:36:24Z",
+   "tg-drkavyaniibot": "2026-11-17T08:36:28Z",
+   "tg-lastsecondtours": "2026-11-17T08:36:32Z",
+   "tg-tipsterr_golden": "2026-11-17T08:36:36Z"
   },
   "partial": {},
   "ads_found": 2663,
@@ -1249,6 +1249,6 @@
   "waiting": 6085,
   "seeds": 0
  },
- "heavy_last": "2026-11-17T08:26:53Z",
+ "heavy_last": "2026-11-17T08:35:37Z",
  "combot_last": "2026-11-16T21:35:42Z"
 }
