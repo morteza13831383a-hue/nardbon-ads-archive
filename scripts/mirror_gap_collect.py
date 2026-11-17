@@ -123,7 +123,10 @@ def main():
     mirror_ads.BASE=client.base;claims=Claims();pages=0
     try:
         while True:
-            job=db.execute("SELECT key,kind,page FROM jobs WHERE status='pending' ORDER BY rowid LIMIT 1").fetchone()
+            turn=db.execute("SELECT value FROM meta WHERE key='job_turn'").fetchone()
+            preferred=turn[0]if turn else'facet'
+            job=db.execute("SELECT key,kind,page FROM jobs WHERE status='pending' "
+                "ORDER BY CASE WHEN kind=? THEN 0 ELSE 1 END,rowid LIMIT 1",(preferred,)).fetchone()
             if not job:break
             try:seen,new,complete=listing(db,client,*job,known)
             except (HTTPError,Challenge,HostBlocked)as exc:
@@ -134,6 +137,7 @@ def main():
                 db.execute("UPDATE jobs SET status='review' WHERE key=?",(job[0],))
                 db.execute("INSERT OR REPLACE INTO meta VALUES('review_reason',?)",(job[0]+': '+type(exc).__name__,));db.commit();break
             pages+=1;details(db,client,claims,known,cutoff)
+            db.execute("INSERT OR REPLACE INTO meta VALUES('job_turn',?)",('keyword'if job[1]=='facet'else'facet',));db.commit()
             if pages%5==0 or complete:mirror_ads.publish(db,a.work_dir,a.repo)
             print(json.dumps({'key':job[0],'page':job[2],'seen':seen,'new':new,'done':complete},ensure_ascii=False),flush=True)
             if db.execute("SELECT 1 FROM meta WHERE key='stop_reason'").fetchone():break
