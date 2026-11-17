@@ -28,6 +28,8 @@ def ids_ads(root):
 
 def snapshot(root):
     baseline=ids_ads(root);niche=set();parts=[]
+    rollout_path=root/'reports/max-output-baseline.json'
+    rollout=json.loads(rollout_path.read_text()) if rollout_path.exists() else None
     for host in HOSTS:
         db=Path('/workspace/work/niche-workers')/host/'checkpoint.sqlite3'
         counts=dict(rows(db,'SELECT status,COUNT(*) FROM niches GROUP BY status'))
@@ -102,6 +104,16 @@ def render(s):
     for host in (*HOSTS,'lyzem.com','tgstat.com','tgadsspy.com'):
         v=budget_status('https://'+host)
         lines.append(f"| {host} | {v['delay_s']:.1f}s | {v['pause_left_s']:.0f}s | {v['halted']} |")
+    if s['rollout']:
+        b=s['rollout'];c=b['channels'];types=dict(s['tgstat_types']);q=s['quick'][0]if s['quick']else(0,0,0)
+        changes=[('ads',after_gap-b['ads_unique']),
+                 ('tgadsspy channels',(s['spy_channels'][0][0]if s['spy_channels']else 0)-c['tgadsspy']),
+                 ('Lyzem', (s['lyzem_total'][0][0]if s['lyzem_total']else 0)-c['lyzem']),
+                 ('TGStat catalog channels',types.get('channel',0)-c['tgstat_catalog_channel']),
+                 ('TGStat catalog groups',types.get('group',0)-c['tgstat_catalog_group']),
+                 ('TGStat Quick channels',q[1]-c['tgstat_quick_channel']),
+                 ('TGStat Quick groups',q[2]-c['tgstat_quick_group'])]
+        lines.extend(['','## Since current rollout','',f"Baseline: {b['at']}. "+'; '.join(f'{name} {value:+,}' for name,value in changes)+'.'])
     return '\n'.join(lines)+'\n'
 
 def publish(path,repo):
