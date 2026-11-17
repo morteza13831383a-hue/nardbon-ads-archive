@@ -32,7 +32,7 @@ def parse(html,term,secret_filter=None):
     return out
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--work-dir',type=Path,required=True);ap.add_argument('--repo',required=True);ap.add_argument('--keywords',type=Path,required=True);ap.add_argument('--auto-keywords',type=Path,required=True);ap.add_argument('--daily-cap',type=int,default=300);ap.add_argument('--limit-terms',type=int,default=0);a=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--work-dir',type=Path,required=True);ap.add_argument('--repo',required=True);ap.add_argument('--keywords',type=Path,required=True);ap.add_argument('--auto-keywords',type=Path,required=True);ap.add_argument('--daily-cap',type=int,default=0);ap.add_argument('--limit-terms',type=int,default=0);a=ap.parse_args()
     os.environ.pop('TGSTAT_COOKIE',None)
     with(a.work_dir/'worker.lock').open('a+')as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);db=connect(a.work_dir)
@@ -51,15 +51,16 @@ def main():
             if a.limit_terms and db.execute("SELECT COUNT(*) FROM quick_jobs WHERE status='done'").fetchone()[0]>=a.limit_terms:break
             term=job[0];day=datetime.now(timezone.utc).date().isoformat()
             count=db.execute('SELECT COUNT(*) FROM quick_requests WHERE day=?',(day,)).fetchone()[0]+db.execute('SELECT COUNT(*) FROM keyword_requests WHERE day=?',(day,)).fetchone()[0]
-            if count>=a.daily_cap:print('Daily cap reached',flush=True);break
+            if a.daily_cap and count>=a.daily_cap:print('Daily cap reached',flush=True);break
             b=budget_status(HOST)
             if b['halted']or b['pause_left_s']:print('Host cooldown/halt; checkpoint retained',flush=True);break
             req=Request(URL,data=urlencode({'query':term}).encode(),headers={'User-Agent':'IranAdsCollector/1.0','Content-Type':'application/x-www-form-urlencoded','Accept':'application/json','X-Requested-With':'XMLHttpRequest','Referer':HOST+'/'})
-            sess.attach(req);reserve(HOST,15)
+            sess.attach(req);reserve(HOST,10)
             try:r=opener.open(req,timeout=30)
             except HTTPError as exc:
                 budget_report(HOST,exc.code)
-                if exc.code in(401,403,429):db.execute("INSERT OR REPLACE INTO meta VALUES('quick_search_stop_reason',?)",('HTTP '+str(exc.code),));db.commit();print('Quick search access hold',exc.code,flush=True);break
+                if exc.code==401:db.execute("INSERT OR REPLACE INTO meta VALUES('quick_search_stop_reason',?)",('HTTP 401 logout',));db.commit();print('Quick search logout',flush=True);break
+                if exc.code in(403,429):print('Quick search host cooldown',exc.code,flush=True);break
                 print('Quick search HTTP error',exc.code,flush=True);break
             with r:body=r.read(2_000_001).decode(r.headers.get_content_charset()or'utf-8','replace');budget_report(HOST,r.status)
             if len(body)>2_000_000 or is_challenge(body):

@@ -37,8 +37,10 @@ def snapshot(root):
         parts.append((host,counts.get('done',0),sum(v for k,v in counts.items() if k!='transferred'),
                       len(found),pages[0][0]if pages else 0,hold[0][0]if hold else ''))
     gapids=set();done_keys={'facet':set(),'keyword':set()};saved_ids={'facet':set(),'keyword':set()}
-    for gapdb in (Path('/workspace/work/gap-production/checkpoint.sqlite3'),
-                  Path('/workspace/work/gap-analytics-production/checkpoint.sqlite3')):
+    gap_paths=[Path('/workspace/work/gap-production/checkpoint.sqlite3'),
+               Path('/workspace/work/gap-analytics-production/checkpoint.sqlite3')]
+    gap_paths.extend(Path('/workspace/work/gap-workers')/host/'checkpoint.sqlite3' for host in HOSTS[2:])
+    for gapdb in gap_paths:
         gapids.update(r[0]for r in rows(gapdb,'SELECT id FROM records'))
         for kind,key in rows(gapdb,"SELECT kind,key FROM jobs WHERE status='done'"):
             done_keys.setdefault(kind,set()).add(key)
@@ -92,7 +94,7 @@ def render(s):
        f"| Lyzem | {s['lyzem_total'][0][0] if s['lyzem_total'] else 0} records | — | {s['lyzem_hold'][0][0] if s['lyzem_hold'] else '—'} |",
        f"| TGStat catalog channels | {dict(s['tgstat_types']).get('channel',0)} | {s['rates']['tgstat / channel']} | {s['tgstat_hold'][0][0] if s['tgstat_hold'] else '—'} |",
        f"| TGStat catalog groups | {dict(s['tgstat_types']).get('group',0)} | {s['rates']['tgstat / group']} | {s['tgstat_hold'][0][0] if s['tgstat_hold'] else '—'} |",
-       f"| TGStat Quick | {s['quick'][0][1] if s['quick'] else 0} channels, {s['quick'][0][2] if s['quick'] else 0} groups; {s['quick'][0][0] if s['quick'] else 0} terms | — | {s['quickhold'][0][0] if s['quickhold'] else ('UTC daily cap 300/300' if s['quick_today'] and s['quick_today'][0][0]>=300 else '—')} |",
+       f"| TGStat Quick | {s['quick'][0][1] if s['quick'] else 0} channels, {s['quick'][0][2] if s['quick'] else 0} groups; {s['quick'][0][0] if s['quick'] else 0} terms | — | {s['quickhold'][0][0] if s['quickhold'] else '—'} |",
        '| TGList | 0 new requests | — | HTTP 403 hold retained |',
        '',f"Remaining queued listing slices: tgadsspy {s['spy_slices'].get('pending',0)}, TGStat {s['tgstat_slices'].get('pending',0)}. Holds and catalog caps prevent a defensible completion date.",
        '', '## Host holds and pacing', '',

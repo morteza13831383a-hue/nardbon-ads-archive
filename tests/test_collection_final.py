@@ -107,4 +107,4 @@ class FinalCollectionTests(unittest.TestCase):
                 from source_budget import HostBlocked
                 with self.assertRaises((Challenge,HostBlocked)):c.post_catalog('news','channel',0,0)
             st=__import__('source_budget').status('https://tgstat.com')
-            self.assertEqual(st['blocks_6h'],1);self.assertTrue(st['halted']);db.close();tg._SECRET_FILTER=None
+            self.assertEqual(st['blocks_6h'],1);self.assertFalse(st['halted']);self.assertGreater(st['pause_left_s'],0);db.close();tg._SECRET_FILTER=None

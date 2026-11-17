@@ -4,6 +4,12 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 import mirror_gap_collect as gap
 
 class GapTests(unittest.TestCase):
+    def test_facets_are_sharded_once_and_use_observed_filter_values(self):
+        self.assertTrue(any('surface=channel' in x and 'source=eur' in x and
+                            'type=banner' in x and 'media=photo' in x for x in gap.FACETS))
+        self.assertTrue(all(sum(gap.owned('facet',x,i,6) for i in range(6))==1
+                            for x in gap.FACETS))
+
     def test_iran_search_keeps_query_and_stops_on_no_new_ids(self):
         class Client:
             base='https://telegramadsarchive.com'

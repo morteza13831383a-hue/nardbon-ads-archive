@@ -47,6 +47,9 @@ def ensure(config):
     if config.get('mirror_gap_command'):
         jobs.append(('mirror_gap',Path(config['mirror_gap_process_file']),'https://'+config.get('mirror_gap_host','telegramadsarchive.com'),
                      Path(config['mirror_gap_work'])/'checkpoint.sqlite3',config['mirror_gap_command']))
+    for item in config.get('mirror_gap_workers',[]):
+        jobs.append(('gap_'+item['host'].replace('.','_'),Path(item['process_file']),
+                     'https://'+item['host'],Path(item['work_dir'])/'checkpoint.sqlite3',item['command']))
     events=[];ownership=None
     if config.get('tgadsspy_budget_policy')=='ads_then_channels':
         from collection_ownership import advance
@@ -73,8 +76,8 @@ def ensure(config):
                     remaining=quick_db.execute("SELECT 1 FROM quick_jobs WHERE status='pending' LIMIT 1").fetchone()
                 if hold:
                     events.append({'worker':name,'state':'held','reason':hold});continue
-                if used>=300 or not remaining:
-                    events.append({'worker':name,'state':'daily_cap_or_done','reason':'Quick search waits for a new UTC day or has no pending terms'});continue
+                if not remaining:
+                    events.append({'worker':name,'state':'done','reason':'No pending terms'});continue
             except sqlite3.Error:hold='Quick search checkpoint unreadable'
         else:hold=ownership['archive'].get('hold')if name=='ads'else stop_reason(checkpoint)
         if name.startswith('niche_') and checkpoint.exists():
@@ -85,11 +88,12 @@ def ensure(config):
                 if not pending and not candidates:
                     events.append({'worker':name,'state':'done_or_review'});continue
             except sqlite3.Error:pass
-        if name=='mirror_gap' and checkpoint.exists():
+        if (name=='mirror_gap' or name.startswith('gap_')) and checkpoint.exists():
             try:
                 with closing(sqlite3.connect('file:'+str(checkpoint)+'?mode=ro',uri=True)) as gap_db:
                     pending=gap_db.execute("SELECT 1 FROM jobs WHERE status='pending' LIMIT 1").fetchone()
-                if not pending:events.append({'worker':name,'state':'done_or_review'});continue
+                    candidates=gap_db.execute("SELECT 1 FROM candidates WHERE status='pending' LIMIT 1").fetchone()
+                if not pending and not candidates:events.append({'worker':name,'state':'done_or_review'});continue
             except sqlite3.Error:pass
         if name in ('lyzem','tgchannelsme'):
             try:
@@ -99,8 +103,8 @@ def ensure(config):
                     remaining=lyzem_db.execute("SELECT 1 FROM jobs WHERE status='pending' LIMIT 1").fetchone()
                 if hold:
                     events.append({'worker':name,'state':'held','reason':hold});continue
-                if used>=1500 or not remaining:
-                    events.append({'worker':name,'state':'daily_cap_or_done','reason':'Daily cap reached or no pending catalog jobs'});continue
+                if not remaining:
+                    events.append({'worker':name,'state':'done','reason':'No pending catalog jobs'});continue
             except sqlite3.Error:hold='Catalog checkpoint unreadable'
         if hold or status(host)['halted']:events.append({'worker':name,'state':'held','reason':hold or'three host blocks'});continue
         if name=='tgstat'and tgstat_frontier_exhausted(checkpoint):
@@ -123,7 +127,7 @@ def main():
         last_report=0
         while True:
             print(json.dumps(ensure(c),ensure_ascii=False),flush=True)
-            if time.time()-last_report>=7200:
+            if time.time()-last_report>=10800:
                 report_env={k:v for k,v in os.environ.items()if k not in('TGSTAT_COOKIE','TGSTAT_COOKIE_FILE')}
                 with(state/'reports.log').open('a')as output:
                     try:subprocess.run([c['python'],str(Path(c['code'])/'scripts/collection_status.py'),'--config',str(a.config),'--publish'],env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=180)

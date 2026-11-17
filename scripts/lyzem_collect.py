@@ -100,8 +100,8 @@ def publish(db,files,repo):
  return len(changed)
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--work-dir',type=Path,required=True);p.add_argument('--repo-root',type=Path,default=ROOT);p.add_argument('--repo');p.add_argument('--max-requests',type=int,default=0);p.add_argument('--daily-cap',type=int,default=1500);a=p.parse_args()
- if a.max_requests<0 or a.daily_cap<1:p.error('Invalid limits')
+ p=argparse.ArgumentParser();p.add_argument('--work-dir',type=Path,required=True);p.add_argument('--repo-root',type=Path,default=ROOT);p.add_argument('--repo');p.add_argument('--max-requests',type=int,default=0);p.add_argument('--daily-cap',type=int,default=0);a=p.parse_args()
+ if a.max_requests<0 or a.daily_cap<0:p.error('Invalid limits')
  lock=a.work_dir/'worker.lock';a.work_dir.mkdir(parents=True,exist_ok=True)
  with lock.open('a+')as handle:
   import fcntl
@@ -110,13 +110,11 @@ def main():
   if db.execute("SELECT 1 FROM meta WHERE key='stop_reason' AND value!=''").fetchone():raise SystemExit('Lyzem source hold retained')
   known=known_channels(a.repo_root);known.update(row[0]for row in db.execute('SELECT username FROM records'))
   day=datetime.now(timezone.utc).date().isoformat()
-  if db.execute('SELECT COUNT(*) FROM requests WHERE day=?',(day,)).fetchone()[0]>=a.daily_cap:raise SystemExit('Lyzem daily request cap reached')
-  client=Client(BASE,5,resilient=True)
+  if a.daily_cap and db.execute('SELECT COUNT(*) FROM requests WHERE day=?',(day,)).fetchone()[0]>=a.daily_cap:raise SystemExit('Lyzem daily request cap reached')
+  client=Client(BASE,3,resilient=True)
   try:client.initialize()
   except (HTTPError,Challenge,HostBlocked)as exc:
    code=exc.code if isinstance(exc,HTTPError)else'challenge'
-   if code in (403,429,'challenge'):
-    db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",(str(code),));db.commit()
    raise
   db.execute('INSERT INTO requests VALUES(?,?,?,?,?,?)',(day,'','robots',0,0,datetime.now(timezone.utc).isoformat()));db.commit()
   made=0
@@ -124,7 +122,7 @@ def main():
    while not a.max_requests or made<a.max_requests:
     if budget_status(BASE)['halted']:break
     day=datetime.now(timezone.utc).date().isoformat()
-    if db.execute('SELECT COUNT(*) FROM requests WHERE day=?',(day,)).fetchone()[0]>=a.daily_cap:
+    if a.daily_cap and db.execute('SELECT COUNT(*) FROM requests WHERE day=?',(day,)).fetchone()[0]>=a.daily_cap:
      if a.max_requests:break
      next_day=datetime.combine(datetime.now(timezone.utc).date()+timedelta(days=1),dt_time(0,0),timezone.utc)
      wait=max(1,(next_day-datetime.now(timezone.utc)).total_seconds())
@@ -139,8 +137,6 @@ def main():
     except (HTTPError,Challenge,HostBlocked,OSError,TimeoutError)as exc:
      code=exc.code if isinstance(exc,HTTPError)else'challenge' if isinstance(exc,Challenge)else 0
      db.execute('INSERT INTO requests VALUES(?,?,?,?,?,?)',(day,term,kind,page,code if isinstance(code,int)else 0,datetime.now(timezone.utc).isoformat()))
-     if code in(403,429,'challenge'):
-      db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",(str(code),))
      db.commit();print('Lyzem response',code,flush=True)
      if code in(403,429,'challenge'):break
      continue

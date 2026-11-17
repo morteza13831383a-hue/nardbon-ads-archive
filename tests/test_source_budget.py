@@ -43,18 +43,18 @@ class BudgetTests(unittest.TestCase):
     def test_account_host_keeps_a_higher_floor(self):
         for _ in range(b.SPEEDUP_EVERY*20):
             b.report('https://tgstat.com',200)
-        self.assertEqual(self.state('https://tgstat.com')['delay'],15.0)
+        self.assertEqual(self.state('https://tgstat.com')['delay'],10.0)
 
     def test_challenge_page_counts_as_a_block(self):
         b.report('https://tgadsspy.com','challenge')
         self.assertEqual(self.state('https://tgadsspy.com')['delay'],8.0)
 
-    def test_third_block_inside_six_hours_latches_host_stop(self):
+    def test_repeated_blocks_extend_pause_without_halting(self):
         with patch.object(b.time,'time',return_value=1000):
             b.report('https://tgstat.com',403);b.report('https://ir.tgstat.com',403)
-            with self.assertRaises(b.HostBlocked):b.report('https://tgstat.com',429)
-        self.assertTrue(self.state('https://tgstat.com')['halted'])
-        with self.assertRaises(b.HostBlocked):b.reserve('https://ir.tgstat.com',4)
+            b.report('https://tgstat.com',429)
+        self.assertFalse(self.state('https://tgstat.com')['halted'])
+        self.assertEqual(self.state('https://tgstat.com')['pause_until'],1000+4*b.BLOCK_PAUSE)
 
     def test_old_blocks_do_not_count_against_new_six_hour_window(self):
         with patch.object(b.time,'time',return_value=1000):b.report('https://tgadsspy.com',403)
@@ -69,14 +69,13 @@ class AccountHostTests(unittest.TestCase):
     def tearDown(self):
         self.env.stop(); self.tmp.cleanup()
 
-    def test_captcha_on_account_host_halts_at_once(self):
+    def test_captcha_on_account_host_pauses_without_halting(self):
         self.assertTrue(b.is_challenge('<div class="g-recaptcha"></div>'))
-        with self.assertRaises(b.HostBlocked):
-            b.report('https://ir.tgstat.com','challenge')
-        with self.assertRaises(b.HostBlocked):
-            b.reserve('https://tgstat.com',1)
+        with patch.object(b.time,'time',return_value=1000):b.report('https://ir.tgstat.com','challenge')
+        self.assertFalse(b.status('https://tgstat.com')['halted'])
+        self.assertEqual(json.loads(b._paths('https://tgstat.com')[1].read_text())['pause_until'],1000+b.CHALLENGE_PAUSE)
 
-    def test_daily_cap_waits_for_next_day(self):
+    def test_old_daily_count_no_longer_limits_requests(self):
         _,path=b._paths('https://tgstat.com')
         path.write_text(json.dumps({'delay':15,'streak':0,'last':0,'pause_until':0,'blocks':[],'halted':False,
                                     'reported_requests':0,'day':'2026-11-15','day_count':1500}))
@@ -85,7 +84,7 @@ class AccountHostTests(unittest.TestCase):
         def sleep(sec): waits.append(sec); clock[0]+=sec
         with patch.object(b.time,'time',side_effect=lambda:clock[0]),patch.object(b.time,'sleep',side_effect=sleep),patch.object(b.random,'uniform',return_value=0):
             b.reserve('https://tgstat.com',1)
-        self.assertGreater(sum(waits), 3600)          # slept until the next UTC day
+        self.assertLess(sum(waits), 30)
 
 
 if __name__=='__main__':

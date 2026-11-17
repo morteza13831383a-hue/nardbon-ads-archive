@@ -105,9 +105,7 @@ def detail(client,db,claims,known,cutoff,limit=30):
         except (HTTPError,Challenge,HostBlocked) as exc:
             code=getattr(exc,'code',0)
             db.execute('INSERT INTO requests VALUES(?,?,?,?)',('detail',ad_id,code,datetime.now(timezone.utc).isoformat()))
-            if code in(403,429)or isinstance(exc,(Challenge,HostBlocked)):
-                db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",('access hold '+type(exc).__name__,))
-            else:db.execute('UPDATE candidates SET error=? WHERE id=?',(type(exc).__name__,ad_id))
+            db.execute('UPDATE candidates SET error=? WHERE id=?',(type(exc).__name__,ad_id))
             db.commit();break
         except Exception as exc:
             db.execute('UPDATE candidates SET status=?,error=? WHERE id=?',('failed',type(exc).__name__,ad_id));db.commit()
@@ -123,14 +121,11 @@ def main():
     with sqlite3.connect('file:'+str(a.spy_checkpoint)+'?mode=ro',uri=True) as spy:
         cutoff=spy.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
     db=connect(a.work_dir/'checkpoint.sqlite3',a.host,cutoff)
-    if db.execute("SELECT 1 FROM meta WHERE key='stop_reason'").fetchone():raise SystemExit('Host hold retained')
     known=mirror_ads.archive_ids(a.repo_root)
     known.update(x[0]for x in db.execute('SELECT id FROM records'))
     client=Client('https://'+a.host,4,resilient=True)
     try:client.initialize()
-    except (HTTPError,Challenge,HostBlocked) as exc:
-        if getattr(exc,'code',0)in(403,429)or isinstance(exc,(Challenge,HostBlocked)):
-            db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",('access hold '+type(exc).__name__,));db.commit()
+    except (HTTPError,Challenge,HostBlocked):
         raise
     claims=Claims();mirror_ads.BASE=client.base
     pages=0
@@ -141,8 +136,6 @@ def main():
             try:
                 ids,new,complete=listing(client,db,*job,known)
             except (HTTPError,Challenge,HostBlocked) as exc:
-                if getattr(exc,'code',0)in(403,429)or isinstance(exc,(Challenge,HostBlocked)):
-                    db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",('access hold '+type(exc).__name__,));db.commit()
                 break
             except Exception as exc:
                 db.execute("UPDATE niches SET status='review' WHERE name=?",(job[0],))
@@ -151,10 +144,8 @@ def main():
             detail(client,db,claims,known,cutoff)
             if pages%5==0 or complete:mirror_ads.publish(db,a.work_dir,a.repo)
             print(json.dumps({'host':a.host,'niche':job[0],'page':job[1],'seen':ids,'new_vs_local':new,'complete':complete}),flush=True)
-            if db.execute("SELECT 1 FROM meta WHERE key='stop_reason'").fetchone():break
             if a.max_pages and pages>=a.max_pages:break
-        if not db.execute("SELECT 1 FROM meta WHERE key='stop_reason'").fetchone():
-            detail(client,db,claims,known,cutoff,100)
+        detail(client,db,claims,known,cutoff,100)
         mirror_ads.publish(db,a.work_dir,a.repo)
     finally:claims.close();db.close()
 

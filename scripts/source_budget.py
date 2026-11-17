@@ -6,7 +6,7 @@ with adaptive pacing so long unattended runs stay polite without manual tuning.
   slow down  429 / 403 / challenge: pause 30 min, then the delay doubles (max 20 s)
              5xx / timeouts: pause 2 min, delay +1 s
   cool off   the pause is shared: every collector on the host waits it out
-  mirror hosts halt on their first 403/429/challenge so no sibling worker resumes
+  blocks pause only this host; workers resume from their checkpoints
 
 A crawl-delay from robots.txt (passed as `delay`) is always respected as a floor.
 State lives next to the lock (CRAWL_BUDGET_DIR) and survives process restarts.
@@ -24,16 +24,10 @@ from urllib.error import HTTPError
 
 START, MIN_DELAY, MAX_DELAY = 4.0, 2.5, 20.0
 # hosts reached with the user's own logged-in account stay slower: an account ban costs more
-MIN_BY_HOST = {'tgstat.com': 15.0, 'ir.tgstat.com': 15.0}
-FIRST_BLOCK_STOP_HOSTS = {'telegramadsarchive.com', 'telegramadsanalytics.com',
-                          'telegramads.it', 'tgads.biz', 'tgads.observer',
-                          'telegramstats.net'}
-# hosts used with the user's own account: a captcha already means the account is under review,
-# so it halts at once (no 30-min retry), and a daily request cap keeps the volume human-like
-ACCOUNT_HOSTS = {'tgstat.com', 'ir.tgstat.com'}
-DAILY_CAP_BY_HOST = {'tgstat.com': 1500, 'ir.tgstat.com': 1500}
+MIN_BY_HOST = {'tgstat.com': 10.0, 'ir.tgstat.com': 10.0}
 SPEEDUP_EVERY, SPEEDUP_STEP = 400, 0.25
 BLOCK_PAUSE, ERROR_PAUSE = 30 * 60, 2 * 60
+CHALLENGE_PAUSE, MAX_BLOCK_PAUSE = 60 * 60, 4 * 60 * 60
 
 
 def _paths(base):
@@ -59,6 +53,7 @@ def _load(path):
     state.setdefault('pause_until', 0.0)   # wall clock
     state.setdefault('day', '')            # UTC date of day_count
     state.setdefault('day_count', 0)
+    state.setdefault('block_streak', 0)
     return state
 
 
@@ -87,23 +82,19 @@ def reserve(base, delay=0):
         with lock.open('a+') as handle:
             fcntl.flock(handle,fcntl.LOCK_EX)
             state=_load(path);now=time.time()
-            if state['halted']:raise HostBlocked('Host halted after three blocks within six hours')
             if state['last']>now+60:state['last']=0
             host=urlsplit(base).netloc.lower()
             today=time.strftime('%Y-%m-%d',time.gmtime(now))
             if state['day']!=today:state['day'],state['day_count']=today,0
-            cap=DAILY_CAP_BY_HOST.get(host)
             floor=MIN_BY_HOST.get(host,0)
             gap=max(state['delay'],delay or 0,floor)+random.uniform(0,1.5)
             wait=max(state['pause_until']-now,state['last']+gap-now,0)
-            if cap and state['day_count']>=cap:       # daily cap reached: wait for the next UTC day
-                wait=max(wait,86400-now%86400+random.uniform(0,600))
             if wait<=0:
                 state['last']=now;state['day_count']+=1;_save(path,state);return
         time.sleep(min(wait,30))
 
 
-def report(base, status):
+def report(base, status, retry_after=None):
     """Tell the budget how the last request went: an HTTP status, or 0 for a network error."""
     lock, path = _paths(base)
     with lock.open('a+') as handle:
@@ -114,11 +105,13 @@ def report(base, status):
         state['blocks']=[v for v in state['blocks']if v>=now-6*3600]
         if status in (403, 429) or status == 'challenge':
             state['blocks'].append(now)
-            host=urlsplit(base).netloc.lower()
-            account=host in ACCOUNT_HOSTS
-            state['halted']=len(state['blocks'])>=3 or host in FIRST_BLOCK_STOP_HOSTS or (account and status=='challenge')
+            state['halted']=False
+            state['block_streak']+=1
             state['delay'] = min(MAX_DELAY, state['delay'] * 2)
-            state['pause_until'] = max(state['pause_until'], now + BLOCK_PAUSE)
+            pause=min(MAX_BLOCK_PAUSE,(CHALLENGE_PAUSE if status=='challenge' else BLOCK_PAUSE)*2**min(state['block_streak']-1,4))
+            if retry_after is not None:
+                pause=max(pause,min(MAX_BLOCK_PAUSE,max(0,float(retry_after))))
+            state['pause_until'] = max(state['pause_until'], now + pause)
             state['streak'] = 0
         elif status == 0 or (isinstance(status, int) and status >= 500):
             state['delay'] = min(MAX_DELAY, state['delay'] + 1)
@@ -130,10 +123,10 @@ def report(base, status):
                 floor = MIN_BY_HOST.get(urlsplit(base).netloc.lower(), MIN_DELAY)
                 state['delay'] = max(floor, state['delay'] - SPEEDUP_STEP)
                 state['streak'] = 0
+                state['block_streak'] = 0
         else:
             state['streak']=0
         _save(path, state)
-        if state['halted']:raise HostBlocked('Host halted after three blocks within six hours')
 
 
 def status(base):

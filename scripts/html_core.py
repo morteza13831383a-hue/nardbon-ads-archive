@@ -194,7 +194,17 @@ class Client:
                                     body = e.read(20000).decode('utf-8', 'replace')
                                 except Exception:
                                     pass
-                            report(self.base, 'challenge' if 'Just a moment' in body else e.code)
+                            retry = e.headers.get('Retry-After', '')
+                            if retry.isdigit():
+                                retry_seconds = int(retry)
+                            else:
+                                from email.utils import parsedate_to_datetime
+                                from datetime import datetime, timezone
+                                try:
+                                    retry_seconds = max(0, (parsedate_to_datetime(retry) - datetime.now(timezone.utc)).total_seconds())
+                                except (TypeError, ValueError, OverflowError):
+                                    retry_seconds = None
+                            report(self.base, 'challenge' if 'Just a moment' in body else e.code, retry_after=retry_seconds)
                         if e.code in (301,302,303,307,308):report(self.base,e.code)
                         raise
                     except (OSError, TimeoutError):

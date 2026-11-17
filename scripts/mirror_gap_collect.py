@@ -3,6 +3,7 @@
 import argparse
 from datetime import datetime,timezone
 import hashlib
+from itertools import product
 import json
 from pathlib import Path
 import re
@@ -16,7 +17,20 @@ from ad_claims import Claims
 from html_core import Client,Document
 from source_budget import Challenge,HostBlocked
 
-FACETS=('source=eur','type=channelPic','type=botMiniApp','media=video','emoji=only')
+SURFACES=('channel','bot')
+CURRENCIES=('ton','eur')
+FORMATS=('banner','botMiniApp','channelPic','giveaway','invoice','text')
+CREATIVES=('photo','text','video')
+# These values come from the site's own Iran listing links. No Premium value or
+# second chronological sort was exposed, so neither is guessed here.
+FACETS=tuple(dict.fromkeys(
+    ('surface='+v for v in SURFACES)
+    ))+tuple('source='+v for v in CURRENCIES)+tuple('type='+v for v in FORMATS)+tuple('media='+v for v in CREATIVES)+('emoji=only',)+tuple(
+    urlencode({'surface':surface,'source':currency}) for surface,currency in product(SURFACES,CURRENCIES)
+)+tuple(
+    urlencode({'surface':surface,'source':currency,'type':fmt,'media':creative,**({'emoji':'only'}if emoji else {})})
+    for surface,currency,fmt,creative,emoji in product(SURFACES,CURRENCIES,FORMATS,CREATIVES,(False,True))
+)
 COUNT=re.compile(r'Found\s*([0-9,]+\+?)',re.I)
 AD=re.compile(r'/ads/([a-z0-9]+)')
 
@@ -27,7 +41,10 @@ def terms(path):
     return [v for line in path.read_text('utf-8').splitlines()
             if (v:=line.split('#',1)[0].strip()) and len(v)>=2]
 
-def connect(path,cutoff,root):
+def owned(kind,key,shard_index,shard_count):
+    return int.from_bytes(hashlib.sha256((kind+':'+key).encode()).digest()[:8],'big')%shard_count==shard_index
+
+def connect(path,cutoff,root,shard_index=0,shard_count=1):
     path.parent.mkdir(parents=True,exist_ok=True)
     db=sqlite3.connect(path,timeout=30)
     db.executescript('''CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY,value TEXT);
@@ -39,10 +56,15 @@ def connect(path,cutoff,root):
     old=db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()
     if old and old[0]!=cutoff:raise ValueError('Fixed cutoff changed')
     db.execute("INSERT OR IGNORE INTO meta VALUES('cutoff',?)",(cutoff,))
-    for x in FACETS:db.execute("INSERT OR IGNORE INTO jobs(key,kind)VALUES(?,'facet')",(x,))
+    for x in FACETS:
+        if owned('facet',x,shard_index,shard_count):db.execute("INSERT OR IGNORE INTO jobs(key,kind)VALUES(?,'facet')",(x,))
     for file in ('channel_keywords.txt','channel_keywords_auto.txt'):
         for term in terms(root/'data'/file):
-            db.execute("INSERT OR IGNORE INTO jobs(key,kind)VALUES(?,'keyword')",(term,))
+            if owned('keyword',term,shard_index,shard_count):
+                db.execute("INSERT OR IGNORE INTO jobs(key,kind)VALUES(?,'keyword')",(term,))
+    for key,kind in db.execute("SELECT key,kind FROM jobs WHERE status='pending'").fetchall():
+        if not owned(kind,key,shard_index,shard_count):
+            db.execute("UPDATE jobs SET status='other_shard' WHERE key=?",(key,))
     db.commit();return db
 
 def query(key,kind,page):
@@ -95,8 +117,6 @@ def details(db,client,claims,known,cutoff,limit=30):
             db.commit()
         except (HTTPError,Challenge,HostBlocked)as exc:
             code=getattr(exc,'code',0)
-            if code in(403,429)or isinstance(exc,(Challenge,HostBlocked)):
-                db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",('access hold '+type(exc).__name__,))
             db.execute('INSERT INTO requests VALUES(?,?,?,?)',('detail',ad_id,code,now()))
             db.commit();break
         except Exception as exc:
@@ -107,21 +127,21 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--host',default='telegramadsarchive.com')
     p.add_argument('--work-dir',type=Path,required=True);p.add_argument('--repo-root',type=Path,required=True)
     p.add_argument('--spy-checkpoint',type=Path,required=True);p.add_argument('--repo',required=True)
-    p.add_argument('--max-pages',type=int,default=0);a=p.parse_args()
+    p.add_argument('--max-pages',type=int,default=0)
+    p.add_argument('--shard-index',type=int,default=0);p.add_argument('--shard-count',type=int,default=1);a=p.parse_args()
+    if a.shard_count<1 or not 0<=a.shard_index<a.shard_count:p.error('Invalid shard')
     with sqlite3.connect('file:'+str(a.spy_checkpoint)+'?mode=ro',uri=True)as spy:
         cutoff=spy.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
-    db=connect(a.work_dir/'checkpoint.sqlite3',cutoff,a.repo_root)
-    if db.execute("SELECT 1 FROM meta WHERE key='stop_reason'").fetchone():raise SystemExit('Host hold retained')
+    db=connect(a.work_dir/'checkpoint.sqlite3',cutoff,a.repo_root,a.shard_index,a.shard_count)
     known=mirror_ads.archive_ids(a.repo_root)
     known.update(r[0]for r in db.execute('SELECT id FROM records'))
     client=Client('https://'+a.host,4,resilient=True)
     try:client.initialize()
-    except (HTTPError,Challenge,HostBlocked)as exc:
-        if getattr(exc,'code',0)in(403,429)or isinstance(exc,(Challenge,HostBlocked)):
-            db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",('access hold '+type(exc).__name__,));db.commit()
+    except (HTTPError,Challenge,HostBlocked):
         raise
     mirror_ads.BASE=client.base;claims=Claims();pages=0
     try:
+        details(db,client,claims,known,cutoff,100)
         while True:
             turn=db.execute("SELECT value FROM meta WHERE key='job_turn'").fetchone()
             preferred=turn[0]if turn else'facet'
@@ -130,8 +150,6 @@ def main():
             if not job:break
             try:seen,new,complete=listing(db,client,*job,known)
             except (HTTPError,Challenge,HostBlocked)as exc:
-                if getattr(exc,'code',0)in(403,429)or isinstance(exc,(Challenge,HostBlocked)):
-                    db.execute("INSERT OR REPLACE INTO meta VALUES('stop_reason',?)",('access hold '+type(exc).__name__,));db.commit()
                 break
             except Exception as exc:
                 db.execute("UPDATE jobs SET status='review' WHERE key=?",(job[0],))
@@ -140,7 +158,6 @@ def main():
             db.execute("INSERT OR REPLACE INTO meta VALUES('job_turn',?)",('keyword'if job[1]=='facet'else'facet',));db.commit()
             if pages%5==0 or complete:mirror_ads.publish(db,a.work_dir,a.repo)
             print(json.dumps({'key':job[0],'page':job[2],'seen':seen,'new':new,'done':complete},ensure_ascii=False),flush=True)
-            if db.execute("SELECT 1 FROM meta WHERE key='stop_reason'").fetchone():break
             if a.max_pages and pages>=a.max_pages:break
         mirror_ads.publish(db,a.work_dir,a.repo)
     finally:claims.close();db.close()
