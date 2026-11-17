@@ -36,9 +36,15 @@ def snapshot(root):
         hold=rows(db,"SELECT value FROM meta WHERE key='stop_reason'")
         parts.append((host,counts.get('done',0),sum(v for k,v in counts.items() if k!='transferred'),
                       len(found),pages[0][0]if pages else 0,hold[0][0]if hold else ''))
-    gapdb=Path('/workspace/work/gap-production/checkpoint.sqlite3')
-    gapids={r[0]for r in rows(gapdb,'SELECT id FROM records')}
-    method=rows(gapdb,"SELECT j.kind,COUNT(DISTINCT CASE WHEN j.status='done' THEN j.key END),COUNT(r.id) FROM jobs j LEFT JOIN candidates c ON c.key=j.key LEFT JOIN records r ON r.id=c.id GROUP BY j.kind")
+    gapids=set();done_keys={'facet':set(),'keyword':set()};saved_ids={'facet':set(),'keyword':set()}
+    for gapdb in (Path('/workspace/work/gap-production/checkpoint.sqlite3'),
+                  Path('/workspace/work/gap-analytics-production/checkpoint.sqlite3')):
+        gapids.update(r[0]for r in rows(gapdb,'SELECT id FROM records'))
+        for kind,key in rows(gapdb,"SELECT kind,key FROM jobs WHERE status='done'"):
+            done_keys.setdefault(kind,set()).add(key)
+        for kind,ad_id in rows(gapdb,"SELECT j.kind,r.id FROM jobs j JOIN candidates c ON c.key=j.key JOIN records r ON r.id=c.id"):
+            saved_ids.setdefault(kind,set()).add(ad_id)
+    method=[(kind,len(done_keys[kind]),len(saved_ids[kind]))for kind in ('facet','keyword')]
     spy=Path('/workspace/work/tgstat-production/tgstat.sqlite3')
     quick=rows(spy,"SELECT COUNT(*),COALESCE(SUM(channels),0),COALESCE(SUM(groups),0) FROM quick_jobs WHERE status='done'")
     quick_today=rows(spy,"SELECT COUNT(*) FROM quick_requests WHERE day='"+datetime.now(timezone.utc).date().isoformat()+"'")
