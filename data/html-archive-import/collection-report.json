@@ -1,31 +1,31 @@
 {
   "last_slice_performance": {
     "pages_attempted": 100,
-    "new_iran_ads": 8,
-    "seconds": 1603.64
+    "new_iran_ads": 15,
+    "seconds": 1597.91
   },
   "external_collection": null,
   "last_stop_reason": "",
   "schema_version": 1,
-  "generated_at": "2026-11-17T10:03:38.809517+00:00",
+  "generated_at": "2026-11-17T10:31:01.847165+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 12772,
+  "iran_ads_extracted": 12787,
   "source_reported_iran_total": 56483,
   "queue_status": {
     "after_cutoff": 139,
-    "done": 13939,
+    "done": 13961,
     "gone": 47,
-    "iran": 12772,
+    "iran": 12787,
     "known": 1631,
-    "mirror_done": 53,
-    "not_iran": 8820,
-    "pending": 757795
+    "mirror_done": 56,
+    "not_iran": 8883,
+    "pending": 757764
   },
   "queue_kinds": {
-    "detail": 754466,
-    "listing": 40685,
+    "detail": 754472,
+    "listing": 40751,
     "sitemap": 45
   },
   "discovered_queue_exhausted": false,
@@ -63,22 +63,22 @@
       {
         "month": "2026-08",
         "site_iran_total": 10472,
-        "extracted": 2012,
-        "missing": 8460,
+        "extracted": 2014,
+        "missing": 8458,
         "coverage_pct": 19.2
       },
       {
         "month": "2026-09",
         "site_iran_total": 16687,
-        "extracted": 3500,
-        "missing": 13187,
+        "extracted": 3512,
+        "missing": 13175,
         "coverage_pct": 21.0
       },
       {
         "month": "2026-10",
         "site_iran_total": 7203,
-        "extracted": 1964,
-        "missing": 5239,
+        "extracted": 1965,
+        "missing": 5238,
         "coverage_pct": 27.3
       },
       {
@@ -90,7 +90,7 @@
       }
     ],
     "site_sum_of_months": 56596,
-    "extracted_total": 12772,
+    "extracted_total": 12787,
     "by_strategy": [
       {
         "via": "iran_listing",
@@ -100,9 +100,9 @@
       },
       {
         "via": "advertiser_via_channel>ad",
-        "requests": 7047,
-        "iran": 2921,
-        "iran_per_100": 41.45
+        "requests": 7125,
+        "iran": 2936,
+        "iran_per_100": 41.21
       },
       {
         "via": "persian_channel_priority_profile",
@@ -130,9 +130,9 @@
       },
       {
         "via": "advertiser_niche>ad",
-        "requests": 767,
+        "requests": 770,
         "iran": 73,
-        "iran_per_100": 9.52
+        "iran_per_100": 9.48
       },
       {
         "via": "sitemap",
@@ -172,13 +172,13 @@
       },
       {
         "via": "advertiser_via_channel",
-        "requests": 1058,
+        "requests": 1070,
         "iran": 0,
         "iran_per_100": 0.0
       },
       {
         "via": "advertiser_niche",
-        "requests": 1710,
+        "requests": 1720,
         "iran": 0,
         "iran_per_100": 0.0
       },
@@ -205,9 +205,9 @@
       },
       {
         "via": "advertiser_via_channel>ad",
-        "requests": 6520,
-        "iran": 2785,
-        "iran_per_100": 42.71
+        "requests": 6595,
+        "iran": 2800,
+        "iran_per_100": 42.46
       },
       {
         "via": "persian_channel_priority_profile",
@@ -217,27 +217,27 @@
       },
       {
         "via": "advertiser_niche",
-        "requests": 1249,
+        "requests": 1259,
         "iran": 0,
         "iran_per_100": 0.0
       },
       {
         "via": "advertiser_via_channel",
-        "requests": 1059,
+        "requests": 1071,
         "iran": 0,
         "iran_per_100": 0.0
       },
       {
         "via": "advertiser_niche>ad",
-        "requests": 699,
+        "requests": 702,
         "iran": 13,
-        "iran_per_100": 1.86
+        "iran_per_100": 1.85
       },
       {
         "via": "overhead",
-        "requests": 566,
+        "requests": 567,
         "iran": 40,
-        "iran_per_100": 7.07
+        "iran_per_100": 7.05
       },
       {
         "via": "persian_channel_page",
