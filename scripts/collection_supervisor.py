@@ -173,17 +173,23 @@ def main():
             if c.get('niche_listing_work') and time.time()-last_niche_publish>=1800:
                 report_env={k:v for k,v in os.environ.items()if k not in('TGSTAT_COOKIE','TGSTAT_COOKIE_FILE')}
                 with (state/'niche-publisher.log').open('a') as output:
-                    result=subprocess.run([c['python'],str(Path(__file__).parent/'niche_listing_sweep.py'),
-                        '--work-dir',c['niche_listing_work'],'--repo',c['repo'],'--publish-only'],
-                        env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=300)
-                if result.returncode==0:last_niche_publish=time.time()
+                    try:
+                        result=subprocess.run([c['python'],str(Path(__file__).parent/'niche_listing_sweep.py'),
+                            '--work-dir',c['niche_listing_work'],'--repo',c['repo'],'--publish-only'],
+                            env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=300)
+                        if result.returncode==0:last_niche_publish=time.time()
+                    except subprocess.TimeoutExpired:
+                        print('Listing publication timed out; checkpoint retained.',file=output,flush=True)
             if time.time()-last_report>= (21600 if c.get('niche_listing_work') else 10800):
                 report_env={k:v for k,v in os.environ.items()if k not in('TGSTAT_COOKIE','TGSTAT_COOKIE_FILE')}
                 with(state/'reports.log').open('a')as output:
                     if c.get('niche_listing_work'):
-                        subprocess.run([c['python'],str(Path(__file__).parent/'niche_listing_status.py'),
-                            '--work-dir',c['niche_listing_work'],'--repo',c['repo'],'--publish'],
-                            env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=180)
+                        try:
+                            subprocess.run([c['python'],str(Path(__file__).parent/'niche_listing_status.py'),
+                                '--work-dir',c['niche_listing_work'],'--repo',c['repo'],'--publish'],
+                                env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=180)
+                        except subprocess.TimeoutExpired:
+                            print('Six-hour report timed out; supervision continues.',file=output,flush=True)
                     else:
                         try:subprocess.run([c['python'],str(Path(c['code'])/'scripts/collection_status.py'),'--config',str(a.config),'--publish'],env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=180)
                         except subprocess.TimeoutExpired:print('Coverage publication timed out; supervision continues.',flush=True)
