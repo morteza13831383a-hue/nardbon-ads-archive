@@ -1,58 +1,61 @@
 # Collection status
 
-2026-11-17T02:38:31.892427+00:00 UTC. Checkpoint counts; the 57,492 Iran listing total can include ads after the archive cutoff.
+2026-11-17T03:53:16.664908+00:00
 
-## A — niche listings
+Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
-| Mirror | Niches done / assigned | Iran ads saved | Listing pages | Hold |
-|---|---:|---:|---:|---|
-| telegramadsarchive.com | 3/5 | 262 | 20 | — |
-| telegramadsanalytics.com | 3/5 | 608 | 52 | — |
-| telegramads.it | 3/5 | 603 | 55 | — |
-| tgads.biz | 3/5 | 492 | 33 | access hold HostBlocked |
-| tgads.observer | 3/5 | 445 | 48 | access hold HostBlocked |
-| telegramstats.net | 3/4 | 615 | 44 | — |
-
-Unique new niche records beyond local baseline: 3,025.
-
-## B — other filters and Persian text search
-
-| Method | Jobs done | Iran ads saved (attributed) | Gap to 57,492 after method |
-|---|---:|---:|---:|
-| facet | 1 | 85 | 37,766 after all current methods |
-| keyword | 0 | 103 | 37,766 after all current methods |
-
-Baseline unique IDs: 16,513; after A: 19,538; after A+B: 19,726. Gap is a comparison, not a completeness proof.
-
-## C — Persian channel member ranges
-
-| Slices done | Sum of proven slice counts / 547,983 | New usernames | Status |
-|---:|---:|---:|---|
-| 0 | 0 / 547,983 | 0 | Held: mirror pages ignore minMembers/maxMembers; tgadsspy is reserved for ads. |
-
-## D — existing channel searches
-
-| Worker | Saved / completed | New / 100 requests since baseline | Hold |
+| Site / type | Total saved | New / 100 requests since baseline | Conditional remaining time |
 |---|---:|---:|---|
-| tgadsspy channels | 46816 | 310.06 | Paused: ad worker owns host budget |
-| Lyzem | 20030 records | — | challenge |
-| TGStat catalog channels | 25487 | 1411.1 | TGStat search account restricted (site status=restricted) |
-| TGStat catalog groups | 1579 | 77.64 | TGStat search account restricted (site status=restricted) |
-| TGStat Quick | 2567 channels, 154 groups; 573 terms | — | UTC daily cap 300/300 |
-| TGList | 0 new requests | — | HTTP 403 hold retained |
+| tgadsspy / channel | 46,816 | 310.06 | paused: the ad worker owns the entire tgadsspy request budget |
+| tgstat / group | 1,579 | 77.64 | paused / review required |
+| tgstat / channel | 25,487 | 1411.1 | paused / review required |
 
-Remaining queued listing slices: tgadsspy 0, TGStat 0. Holds and catalog caps prevent a defensible completion date.
+## Exclusive tgadsspy budget
 
-## Host holds and pacing
+Current owner: **ads**. Ad queue has not drained.
+Exclusive ownership began: 2026-11-15T21:33:46.615166+00:00.
 
-| Host | Delay | Pause left | Halt |
-|---|---:|---:|---|
-| telegramadsarchive.com | 5.8s | 0s | False |
-| telegramadsanalytics.com | 3.5s | 0s | False |
-| telegramads.it | 3.8s | 0s | False |
-| tgads.biz | 7.5s | 1097s | True |
-| tgads.observer | 7.5s | 1072s | True |
-| telegramstats.net | 3.8s | 0s | False |
-| lyzem.com | 7.5s | 0s | False |
-| tgstat.com | 19.8s | 0s | False |
-| tgadsspy.com | 13.0s | 0s | False |
+| Ad yield window | New Iran ads saved / hour | Window |
+|---|---:|---|
+| Before exclusive ad ownership | 29 | 1.00 h before the switch |
+| After exclusive ad ownership | 80.0 | 30.33 h since the switch |
+
+New Iran ads since switch: 2,426. Remaining ad jobs by kind (including sitemap): {'detail': 732183, 'listing': 26826, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 12.
+Rates count newly saved unique Iran ads per wall-clock hour, including pauses. The before window is the preceding hour; the after window starts when channels were paused. Different discovery mixes can change yield independently of request speed.
+Channels resume automatically only after the entire ad queue drains, source holds are absent, all saved ads have been delivered and the final archive process exits. Failed/robots-blocked rows remain reported as coverage gaps; this handoff does not claim full source coverage. TGStat remains on its own independent host budget.
+
+## Pacing, pauses and remaining work
+
+- **tgadsspy**: delay 12.75 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: none. Slices: {'capped': 12, 'done': 63, 'ignored': 5, 'robots_disallowed': 1656, 'unsupported': 1735}; queue states: {'done': 9871, 'failed': 269, 'listing_saved': 3244, 'pending': 22822, 'robots_disallowed': 22}.
+  Known listing-slice page budget upper bound: 0; future graph/range partitions are unknown, so this is not an exact pages-left count.
+  Priority profile states: {'done': 7611, 'pending': 34797}. Listing caps/repeats are unresolved coverage gaps; finishing the listing frontier does not establish complete coverage.
+- **tgstat**: delay 19.75 s + jitter; pause 0 s; blocks in 6 h 0; host halted False. Stop reason: TGStat search account restricted (site status=restricted). Slices: {'done': 92}; queue states: {'done': 468, 'failed': 10, 'listing_saved': 7736, 'pending': 117}.
+  Exact pages left are unknown until server hasMore=false for each category/type/sort; account holds are never automatically cleared.
+
+## Filter / failure findings
+
+- tgadsspy `order`: ignored; Parameter omitted from server pagination; https://tgadsspy.com/channels?lang=fa&category=health&order=asc.
+- tgadsspy `maxMembers`: ignored; Parameter omitted from server pagination; https://tgadsspy.com/channels?lang=fa&maxMembers=20000&minMembers=5000.
+- tgadsspy `sponsored`: ignored; Parameter omitted from server pagination; https://tgadsspy.com/channels?lang=fa&sponsored=eligible.
+- tgadsspy `minMembers`: ignored; Parameter omitted from server pagination; https://tgadsspy.com/channels?lang=fa&minMembers=1000000000.
+- tgadsspy `niche`: ignored; Parameter omitted from server pagination; https://tgadsspy.com/channels?lang=fa&niche=vpn.
+- TGStat prior failures: 10 × Profile heading missing; possible sign-in/challenge page.
+- The earlier 129 TGStat failures were missing expected profile headings, not proof of 129 transport blocks. The old full-profile strategy required those headings; new listing rows save metadata directly. Existing failures are preserved for audit; timeouts/5xx are retried, and only rows lacking public usernames may need profile resolution.
+- Live probes found category=news changes results. Bounds 0–100 and order=asc returned the same multi-million-member channels as the base page and were omitted from pagination. Such filters cannot be treated as proven independent coverage paths.
+- The Persian-language TGStat catalog beyond country Iran is not yet verified; discovery uses anonymous approved pages, and genuine account/session holds are never bypassed.
+
+## Two-source overlap estimate
+
+{"tgadsspy": 46816, "tgstat_public_handles": 24998, "intersection": 2694, "union_public_handles": 69120, "population_estimate": 434412}
+
+The population estimate assumes independent, representative source samples. Catalog caps and correlated discovery violate that assumption, so it is an estimate, not a completeness certificate. Queue exhaustion with unresolved caps does not mean the owner targets were reached.
+
+## Operation
+
+The supervisor restarts crashed eligible workers from SQLite checkpoints, respects shared cooldowns and terminal account/host holds, and leaves the ad collection logic/cutoff unchanged. It must itself be launched after a full machine shutdown. The scheduled status task attempts to restore that supervisor on this registered environment before updating this file; a stopped/offline environment cannot crawl.
+
+
+## TGStat username-resolution frontier
+
+States: {'failed': 517, 'no_public_username': 75, 'resolved': 66}. Known frontier exhausted: True.
+When this frontier is empty and delivery has succeeded, the supervisor leaves the worker idle instead of repeatedly restarting it. Failed profiles and listing caps remain unresolved coverage gaps; this is not complete coverage.
