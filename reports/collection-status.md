@@ -1,14 +1,14 @@
 # Collection status
 
-2026-11-17T01:33:28.115228+00:00
+2026-11-17T01:40:49.165324+00:00
 
 Targets supplied by the owner: ~547,000 Persian tgadsspy channels; ~127,000 TGStat Iran channels and ~4,500 groups. These are coverage targets, not guaranteed HTML enumeration totals. Afghan and other Persian records remain included; the importer labels region.
 
 | Site / type | Total saved | New / 100 requests since baseline | Conditional remaining time |
 |---|---:|---:|---|
 | tgadsspy / channel | 46,816 | 310.06 | paused: the ad worker owns the entire tgadsspy request budget |
-| tgstat / group | 1,570 | 77.13 | paused / review required |
-| tgstat / channel | 25,261 | 1398.49 | paused / review required |
+| tgstat / group | 1,577 | 77.52 | paused / review required |
+| tgstat / channel | 25,365 | 1404.29 | paused / review required |
 
 ## Exclusive tgadsspy budget
 
@@ -18,9 +18,9 @@ Exclusive ownership began: 2026-11-15T21:33:46.615166+00:00.
 | Ad yield window | New Iran ads saved / hour | Window |
 |---|---:|---|
 | Before exclusive ad ownership | 29 | 1.00 h before the switch |
-| After exclusive ad ownership | 81.16 | 28.00 h since the switch |
+| After exclusive ad ownership | 81.3 | 28.12 h since the switch |
 
-New Iran ads since switch: 2,272. Remaining ad jobs by kind (including sitemap): {'detail': 732597, 'listing': 26754, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 41.
+New Iran ads since switch: 2,286. Remaining ad jobs by kind (including sitemap): {'detail': 732583, 'listing': 26771, 'sitemap': 0}. Unresolved ad rows: {}. Undelivered Iran ads: 9.
 Rates count newly saved unique Iran ads per wall-clock hour, including pauses. The before window is the preceding hour; the after window starts when channels were paused. Different discovery mixes can change yield independently of request speed.
 Channels resume automatically only after the entire ad queue drains, source holds are absent, all saved ads have been delivered and the final archive process exits. Failed/robots-blocked rows remain reported as coverage gaps; this handoff does not claim full source coverage. TGStat remains on its own independent host budget.
 
@@ -46,7 +46,7 @@ Channels resume automatically only after the entire ad queue drains, source hold
 
 ## Two-source overlap estimate
 
-{"tgadsspy": 46816, "tgstat_public_handles": 24772, "intersection": 2669, "union_public_handles": 68919, "population_estimate": 434517}
+{"tgadsspy": 46816, "tgstat_public_handles": 24876, "intersection": 2678, "union_public_handles": 69014, "population_estimate": 434875}
 
 The population estimate assumes independent, representative source samples. Catalog caps and correlated discovery violate that assumption, so it is an estimate, not a completeness certificate. Queue exhaustion with unresolved caps does not mean the owner targets were reached.
 
