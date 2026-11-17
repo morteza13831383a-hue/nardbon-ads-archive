@@ -34,7 +34,8 @@ def snapshot(root):
         found={r[0]for r in rows(db,'SELECT id FROM records')};niche|=found
         pages=rows(db,"SELECT COUNT(*) FROM requests WHERE kind='listing'")
         hold=rows(db,"SELECT value FROM meta WHERE key='stop_reason'")
-        parts.append((host,counts.get('done',0),sum(counts.values()),len(found),pages[0][0]if pages else 0,hold[0][0]if hold else ''))
+        parts.append((host,counts.get('done',0),sum(v for k,v in counts.items() if k!='transferred'),
+                      len(found),pages[0][0]if pages else 0,hold[0][0]if hold else ''))
     gapdb=Path('/workspace/work/gap-production/checkpoint.sqlite3')
     gapids={r[0]for r in rows(gapdb,'SELECT id FROM records')}
     method=rows(gapdb,"SELECT j.kind,COUNT(DISTINCT CASE WHEN j.status='done' THEN j.key END),COUNT(r.id) FROM jobs j LEFT JOIN candidates c ON c.key=j.key LEFT JOIN records r ON r.id=c.id GROUP BY j.kind")
@@ -68,7 +69,7 @@ def render(s):
        '|---|---:|---:|---:|---|']
     for host,done,total,ads,pages,hold in s['parts']:
         lines.append(f'| {host} | {done}/{total} | {ads} | {pages} | {hold or "—"} |')
-    lines += ['',f'Unique new niche records beyond local baseline: {after_niche-start:,}.',
+    lines += ['',f'Unique new niche records beyond local baseline: {after_niche-start:,}. Transferred slices count only under their destination.',
        '', '## B — other filters and Persian text search', '',
        '| Method | Jobs done | Iran ads saved (attributed) | Gap to 57,492 after method |',
        '|---|---:|---:|---:|']
