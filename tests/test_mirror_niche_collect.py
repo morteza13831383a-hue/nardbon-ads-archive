@@ -36,3 +36,15 @@ class NicheCollectorTests(unittest.TestCase):
         record,status=archive_html.extract(doc,url,'2026-11-13T00:00:00+00:00',iran_listing=True)
         self.assertEqual(status,'iran')
         self.assertEqual(record['source_url'],url)
+
+    def test_listing_uses_next_link_when_page_has_fewer_cards(self):
+        class Client:
+            base='https://telegramadsarchive.com'
+            def get(self,url):
+                return '<div>Found 91</div><a href="/ads/abc">A</a>' \
+                    '<a href="/ads?geo=IR&niche=test&page=2">Next</a>'
+        with tempfile.TemporaryDirectory() as temp:
+            db=niche.connect(Path(temp)/'checkpoint.sqlite3','telegramadsarchive.com','2026-11-13T00:00:00+00:00')
+            db.execute("INSERT INTO niches(name,site_count)VALUES('test',91)")
+            self.assertEqual(niche.listing(Client(),db,'test',1,set()),(1,1,False))
+            db.close()

@@ -67,7 +67,10 @@ def listing(client,db,niche,page,known):
     next_page=page+1
     for ad_id in ids-known:
         db.execute('INSERT OR IGNORE INTO candidates(id,niche)VALUES(?,?)',(ad_id,niche))
-    done=not ids or page>=((total+29)//30)
+    # Result cards can be fewer than the nominal page size. The site's actual
+    # next-page link, not ceil(count / 30), determines the end of a slice.
+    has_next=any(('page='+str(page+1)) in href for href in doc.links() if href.startswith('/ads?'))
+    done=not has_next
     db.execute('UPDATE niches SET site_count=?,page=?,status=?,last_signature=? WHERE name=?',
                (total,next_page,'done'if done else'pending',signature,niche))
     db.execute('INSERT INTO requests VALUES(?,?,?,?)',('listing',niche+':'+str(page),200,datetime.now(timezone.utc).isoformat()))
