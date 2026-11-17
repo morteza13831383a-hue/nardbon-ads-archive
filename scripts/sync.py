@@ -61,8 +61,8 @@ ADV_PER_RUN = int(os.environ.get("ADVERTISERS_PER_RUN", "15"))        # advertis
 HEAVY_EVERY_MIN = int(os.environ.get("HEAVY_EVERY_MIN", "170"))        # images, advertiser sweep, channel crawler ~every 3 h; other runs stay under a minute
 ADV_GAP = float(os.environ.get("ADVERTISERS_GAP_SEC", "4"))     # ~15 requests/min, far under the plan limit
 ADV_REVISIT_DAYS = 30
-MEDIA_PER_RUN = int(os.environ.get("MEDIA_PER_RUN", "400"))             # images per run (every run while a backlog exists)
-VIDEO_PER_RUN = int(os.environ.get("VIDEO_PER_RUN", "40"))
+MEDIA_PER_RUN = int(os.environ.get("MEDIA_PER_RUN", "150"))             # images per heavy run (download + upload must fit the time budget)
+VIDEO_PER_RUN = int(os.environ.get("VIDEO_PER_RUN", "10"))
 VIDEO_MAX_BYTES = int(os.environ.get("VIDEO_MAX_BYTES", str(4 * 1024 * 1024)))   # bigger videos stay a source link
 MEDIA_GAP = float(os.environ.get("MEDIA_GAP_SEC", "0.2"))
 MEDIA_MAX_W = 900
@@ -390,6 +390,9 @@ def run_advertisers(ads, state, stats):
 # --------------------------------------------------------------------------- media
 def fetch_media(ads, stats):
     OUT_MEDIA.mkdir(parents=True, exist_ok=True)
+    for a in ads.values():                      # prepared in an earlier run but never uploaded (that runner is gone)
+        if a["media_status"] == "queued" and not a.get("media_file") and not (OUT_MEDIA / f"{a['id']}.webp").exists():
+            a["media_status"] = "pending"
     for a in ads.values():                      # retry images that failed only because of relative URLs
         if a["media_status"] == "failed" and (a.get("media_src") or "").startswith("/") and not a.get("media_rel_retry"):
             a["media_status"], a["media_tries"], a["media_rel_retry"] = "pending", 0, True
@@ -441,13 +444,13 @@ def fetch_videos(ads):
     for a in todo[:VIDEO_PER_RUN]:
         if time_left() < 180:
             break
-        a["video_tried"] = True
         url = urljoin(SITE + "/", a.get("media_src") or "")
         try:
             time.sleep(MEDIA_GAP)
             with requests.get(url, timeout=60, stream=True) as r:
                 r.raise_for_status()
                 if int(r.headers.get("Content-Length") or 0) > VIDEO_MAX_BYTES:
+                    a["video_tried"] = True          # too big: keep the source link for good
                     continue
                 data = b""
                 for chunk in r.iter_content(65536):
@@ -455,10 +458,12 @@ def fetch_videos(ads):
                     if len(data) > VIDEO_MAX_BYTES:
                         break
             if len(data) > VIDEO_MAX_BYTES or len(data) < 1000:
+                a["video_tried"] = True
                 continue
             (OUT_MEDIA / f"{a['id']}.mp4").write_bytes(data)
             done += 1
         except Exception as e:
+            a["video_tried"] = True
             log("video failed", a["id"], str(e)[:120])
     log(f"media: {done} videos prepared, {max(len(todo) - VIDEO_PER_RUN, 0)} still waiting")
 
@@ -638,6 +643,8 @@ def upload(ads, state, run):
                     raise
                 log(f"video upload refused, keeping the source link: {e}")   # e.g. the host rejects .mp4
                 f.unlink()
+                if ads.get(f.stem):
+                    ads[f.stem]["video_tried"] = True
                 continue
             a = ads.get(f.stem)
             if a:
@@ -801,7 +808,7 @@ def main():
         errors.append(f"missed: up to {stats['missed']} ads beyond the API plan's reach in this window")
     if API_INFO:
         state["api_info"] = API_INFO
-    if heavy or any(a["media_status"] == "pending" for a in ads.values()):   # every run while images wait
+    if heavy:
         try:
             fetch_media(ads, stats)
         except Exception as e:
