@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-17T07:35:37Z",
+ "cursor": "2026-11-17T08:35:33Z",
  "backfill": {
   "since": "2026-06-07T10:59:55Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-16T17:36:11Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "a1ac1dfa73d69fc5",
+  "tgads/data/2026-11.json": "5460cf68d6e4f9ce",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -21,28 +21,16 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "0a5bb5edb3285a3a",
-  "tgads/data/2026-08.json": "c17716b69d518779",
-  "tgads/data/2026-09.json": "a189c7fbf8b73c09",
+  "tgads/data/2026-08.json": "43d73e38f61a575d",
+  "tgads/data/2026-09.json": "464c91a76a17ae32",
   "tgads/data/2026-04.json": "915253abfc0ffbc8",
   "tgads/data/2026-05.json": "0a3579f13642b1e4",
-  "tgads/data/2026-06.json": "f50d3565f41ebff4",
-  "tgads/data/2026-07.json": "166a9ca88abbc714",
-  "tgads/data/2026-10.json": "df199ca39b0ad11a",
+  "tgads/data/2026-06.json": "9aa0e7d8c4d71258",
+  "tgads/data/2026-07.json": "674a1830b6827f13",
+  "tgads/data/2026-10.json": "adb8d49cec3f0cc4",
   "tgads/data/2025-07.json": "8181396af5de195a"
  },
  "runs": [
-  {
-   "at": "2026-11-15T03:35:30Z",
-   "ok": true,
-   "error": null,
-   "new": 3,
-   "updated": 0,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 2,
-   "secs": 8
-  },
   {
    "at": "2026-11-15T04:35:30Z",
    "ok": true,
@@ -726,18 +714,28 @@
    "media": 91,
    "missed": 0,
    "secs": 289
+  },
+  {
+   "at": "2026-11-17T09:35:34Z",
+   "ok": false,
+   "error": "upload: upload tgads/channels/channels.json failed: 413 {\"ok\":false,\"error\":\"too large\"}",
+   "new": 22,
+   "updated": 5,
+   "media": 0,
+   "missed": 0,
+   "secs": 12
   }
  ],
  "last_upload_ok": "2026-11-17T06:39:26Z",
  "lang_seen": {
-  "-": 386,
+  "-": 398,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 294,
   "my": 47,
   "en": 491,
-  "fa": 12127,
+  "fa": 12150,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -771,8 +769,8 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": "300",
-  "X-RateLimit-Remaining": "299",
+  "X-RateLimit-Limit": "600",
+  "X-RateLimit-Remaining": "599",
   "X-RateLimit-Reset": null
  },
  "channels_total": 2261,
