@@ -1,8 +1,8 @@
 # Iran niche listing coverage
 
-2026-11-17T14:37:53.794559+00:00 UTC. Distinct successful listing pages across all six mirrors.
+2026-11-17T14:38:15.298949+00:00 UTC. Distinct successful listing pages across all six mirrors.
 
-Site counts sum: 44,414; pages walked: 754; page capacity: 22,620; verified done: 24/29; premature done: 0.
+Site counts sum: 44,414; pages walked: 761; page capacity: 22,830; verified done: 24/29; premature done: 0.
 Counts can change while crawling. Page capacity is a coverage check, not a count of unique ad IDs.
 
 | Niche | Site count | Pages × 30 | Last page | Next cursor | Status | Host |
@@ -29,10 +29,10 @@ Counts can change while crawling. Page capacity is a coverage check, not a count
 | betting | 1,169 | 39 × 30 = 1,170 | 39 | 40 | done | telegramadsanalytics.com |
 | finance | 1,370 | 46 × 30 = 1,380 | 46 | 47 | done | telegramads.it |
 | tech | 1,668 | 27 × 30 = 810 | 27 | 28 | pending **EARLY** | telegramads.it |
-| bots | 2,607 | 21 × 30 = 630 | 21 | 22 | pending **EARLY** | tgads.observer |
+| bots | 2,607 | 23 × 30 = 690 | 23 | 24 | pending **EARLY** | tgads.observer |
 | retail | 2,715 | 91 × 30 = 2,730 | 91 | 92 | done | telegramstats.net |
-| fashion | 3,202 | 48 × 30 = 1,440 | 48 | 49 | pending **EARLY** | telegramadsarchive.com |
+| fashion | 3,202 | 49 × 30 = 1,470 | 49 | 50 | pending **EARLY** | telegramadsarchive.com |
 | crypto | 3,321 | 111 × 30 = 3,330 | 111 | 112 | done | telegramadsanalytics.com |
 | education | 4,567 | 153 × 30 = 4,590 | 153 | 154 | done | telegramads.it |
-| trading | 9,003 | 11 × 30 = 330 | 11 | 12 | pending **EARLY** | tgads.biz |
-| vpn | 9,199 | 9 × 30 = 270 | 9 | 10 | pending **EARLY** | telegramstats.net |
+| trading | 9,003 | 13 × 30 = 390 | 13 | 14 | pending **EARLY** | tgads.biz |
+| vpn | 9,199 | 11 × 30 = 330 | 11 | 12 | pending **EARLY** | telegramstats.net |
