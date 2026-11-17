@@ -1,28 +1,28 @@
 # Collection status
 
-2026-11-17T01:52:48.230389+00:00 UTC. Checkpoint counts; the 57,492 Iran listing total can include ads after the archive cutoff.
+2026-11-17T01:53:55.770476+00:00 UTC. Checkpoint counts; the 57,492 Iran listing total can include ads after the archive cutoff.
 
 ## A — niche listings
 
 | Mirror | Niches done / assigned | Iran ads saved | Listing pages | Hold |
 |---|---:|---:|---:|---|
-| telegramadsarchive.com | 2/5 | 73 | 6 | — |
-| telegramadsanalytics.com | 2/5 | 134 | 8 | — |
-| telegramads.it | 2/5 | 118 | 9 | — |
-| tgads.biz | 1/5 | 124 | 9 | — |
-| tgads.observer | 1/5 | 105 | 10 | — |
-| telegramstats.net | 1/4 | 121 | 8 | — |
+| telegramadsarchive.com | 2/5 | 77 | 7 | — |
+| telegramadsanalytics.com | 2/5 | 145 | 9 | — |
+| telegramads.it | 2/5 | 130 | 10 | — |
+| tgads.biz | 2/5 | 136 | 10 | — |
+| tgads.observer | 2/5 | 114 | 12 | — |
+| telegramstats.net | 1/4 | 134 | 8 | — |
 
-Unique new niche records beyond local baseline: 675.
+Unique new niche records beyond local baseline: 736.
 
 ## B — other filters and Persian text search
 
 | Method | Jobs done | Iran ads saved (attributed) | Gap to 57,492 after method |
 |---|---:|---:|---:|
-| facet | 0 | 11 | 40,293 after all current methods |
-| keyword | 0 | 0 | 40,293 after all current methods |
+| facet | 0 | 15 | 40,228 after all current methods |
+| keyword | 0 | 0 | 40,228 after all current methods |
 
-Baseline unique IDs: 16,513; after A: 17,188; after A+B: 17,199. Gap is a comparison, not a completeness proof.
+Baseline unique IDs: 16,513; after A: 17,249; after A+B: 17,264. Gap is a comparison, not a completeness proof.
 
 ## C — Persian channel member ranges
 
@@ -43,7 +43,7 @@ Baseline unique IDs: 16,513; after A: 17,188; after A+B: 17,199. Gap is a compar
 | Host | Delay | Pause left | Halt |
 |---|---:|---:|---|
 | telegramadsarchive.com | 6.0s | 0s | False |
-| telegramadsanalytics.com | 4.0s | 0s | False |
+| telegramadsanalytics.com | 3.8s | 0s | False |
 | telegramads.it | 4.0s | 0s | False |
 | tgads.biz | 4.0s | 0s | False |
 | tgads.observer | 4.0s | 0s | False |
