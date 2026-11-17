@@ -94,7 +94,7 @@ def elements(node):
     return [c for c in node.children if hasattr(c, 'tag')]
 
 
-def page_details(doc):
+def page_details(doc, base=BASE):
     article = next((n for n in doc.root.nodes() if n.tag == 'article'), None)
     if not article:
         raise ValueError('Missing ad article; possible challenge or layout change')
@@ -133,15 +133,15 @@ def page_details(doc):
             if headings and compact(headings[0]) == 'Where this ad ran':
                 for a in n.nodes():
                     if a.tag == 'a' and a.attrs.get('href','').startswith('/channels/'):
-                        details['placements_shown'].append({'url':urljoin(BASE,a.attrs['href']),'text':compact(a)})
+                        details['placements_shown'].append({'url':urljoin(base,a.attrs['href']),'text':compact(a)})
     details['article_text_segments'] = [text for n in article.nodes() if n.tag not in ('script','style','svg','path') for text in [' '.join(c for c in n.children if isinstance(c,str)).strip()] if text]
-    details['article_links'] = [dict(href=urljoin(BASE,n.attrs['href']),text=compact(n)) for n in article.nodes() if n.tag=='a' and 'href' in n.attrs]
+    details['article_links'] = [dict(href=urljoin(base,n.attrs['href']),text=compact(n)) for n in article.nodes() if n.tag=='a' and 'href' in n.attrs]
     details['article_media'] = [dict(n.attrs) for n in article.nodes() if n.tag in ('img','video','source')]
     details['placements_complete'] = False  # source explicitly shows only top channels
     return details
 
 
-def extract(doc, url, cutoff):
+def extract(doc, url, cutoff, iran_listing=False):
     works = []
     for item in doc.jsonld():
         kinds = item.get('@type',[])
@@ -153,7 +153,7 @@ def extract(doc, url, cutoff):
     item = next((w for w in works if str(w.get('identifier','')) == AD_PATH.fullmatch(urlsplit(url).path)[1]), works[0])
     country = item.get('contentLocation',{})
     countries = country if isinstance(country,list) else [country]
-    if not any(isinstance(c,dict) and str(c.get('name','')).upper() in ('IR','IRAN','ایران') for c in countries):
+    if not iran_listing and not any(isinstance(c,dict) and str(c.get('name','')).upper() in ('IR','IRAN','ایران') for c in countries):
         return None, 'not_iran'
     first = item.get('datePublished')
     if not first:
@@ -184,9 +184,9 @@ def extract(doc, url, cutoff):
         'advertiser':sponsor.get('name',''), 'advertiser_url':sponsor.get('sameAs'),
         'cta_url':cta_url or sponsor.get('sameAs',''), 'cta_text':cta_text,
         'first_seen':first, 'last_seen':item.get('dateModified'),
-        'media_src':urljoin(BASE,media['contentUrl']) if media.get('contentUrl') else None, 'source':'html-archive', 'source_url':url,
+        'media_src':urljoin(url,media['contentUrl']) if media.get('contentUrl') else None, 'source':'html-archive', 'source_url':url,
         'archive_cutoff':cutoff, 'collected_at':now(),
-        'jsonld':item, 'details':page_details(doc),
+        'jsonld':item, 'details':page_details(doc,url),
     }, 'iran'
 
 
@@ -400,7 +400,9 @@ def import_records(db,paths):
                 record=json.loads(line)
                 url=record.get('source_url','')
                 match=AD_PATH.fullmatch(urlsplit(url).path)
-                if origin(url) not in (origin(BASE),origin(MIRROR_BASE),origin(ANALYTICS_BASE)) or not match or match[1]!=record.get('id') or record.get('geo')!='IR':
+                if origin(url) not in {origin('https://' + h) for h in (
+                    'tgadsspy.com', 'telegramadsarchive.com', 'telegramadsanalytics.com',
+                    'telegramads.it', 'tgads.biz', 'tgads.observer', 'telegramstats.net')} or not match or match[1]!=record.get('id') or record.get('geo')!='IR':
                     raise ValueError('Invalid imported ad identity or country')
                 first=datetime.fromisoformat(record['first_seen'].replace('Z','+00:00'))
                 if first.tzinfo is None:

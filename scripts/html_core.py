@@ -92,6 +92,17 @@ OWNER_APPROVED = {
     'tglist.io': [re.compile(r'^/api/search_channels_v2\?page=[0-9]+&page_size=50&lang=fa&value=[^&]*&category_slug=&sort=$')],
 }
 
+# Site support additionally approved filtered ad listings on the G.MEDIA mirrors
+# (2026-11). Keep this exception on /ads query pages only; other robots rules
+# continue to apply. Query values are bounded to the site's filter alphabet.
+_MIRROR_LISTING = re.compile(r'^/ads\?(?:[A-Za-z][A-Za-z0-9]*=[A-Za-z0-9_%.,:+-]{0,80})(?:&[A-Za-z][A-Za-z0-9]*=[A-Za-z0-9_%.,:+-]{0,80})*$')
+for _mirror_host in ('telegramadsarchive.com', 'telegramadsanalytics.com',
+                     'telegramads.it', 'tgads.biz', 'tgads.observer',
+                     'telegramstats.net'):
+    OWNER_APPROVED.setdefault(_mirror_host, []).append(_MIRROR_LISTING)
+    OWNER_APPROVED[_mirror_host].append(re.compile(r'^/ads/[A-Za-z0-9_-]+$'))
+    OWNER_APPROVED[_mirror_host].append(re.compile(r'^/channels\?lang=fa(?:&(?:page|minMembers|maxMembers|sort|order)=[A-Za-z0-9_.-]{1,40})*$'))
+
 
 class Robots:
     """robots rules with * and $, longest match and Allow tie priority."""

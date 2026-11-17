@@ -22,7 +22,7 @@ class Claims:
         if row and row[1] == 'claimed' and row[2] < time.time() - 7200:
             self.db.execute('DELETE FROM claims WHERE id=?', (ad_id,))
             row = None
-        if row and row[1] == 'unverified' and owner == 'tgadsspy':
+        if row and row[1] == 'unverified' and (owner == 'tgadsspy' or owner.startswith('mirror_iran:')):
             self.db.execute("UPDATE claims SET owner=?,state='claimed',at=? WHERE id=?", (owner,time.time(),ad_id))
             self.db.commit()
             return 'acquired'

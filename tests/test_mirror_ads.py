@@ -17,6 +17,14 @@ CUTOFF='2026-11-13T08:53:18+00:00'
 ID='cmo909khl04xlm6ox6e9qskja'
 
 class MirrorTests(unittest.TestCase):
+ def test_owner_approved_mirror_listing_exception_is_path_limited(self):
+  robots=Robots('User-agent: *\nDisallow: /ads?*\nDisallow: /api/\n')
+  for host in ('telegramadsarchive.com','telegramadsanalytics.com','telegramads.it',
+               'tgads.biz','tgads.observer','telegramstats.net'):
+   self.assertTrue(robots.allowed('https://'+host+'/ads?geo=IR&niche=vpn&page=2'))
+   self.assertTrue(robots.allowed('https://'+host+'/ads/cmo909khl04xlm6ox6e9qskja'))
+   self.assertFalse(robots.allowed('https://'+host+'/api/v1/ads?geo=IR'))
+   self.assertFalse(robots.allowed('http://'+host+'/ads?geo=IR'))
  def test_tgadsspy_access_header_never_goes_to_mirror(self):
   class Reply:
    status=200
