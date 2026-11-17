@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Resume eligible channels workers; account and terminal host holds always win."""
 import argparse,fcntl,json,os,signal,sqlite3,subprocess,time
+from datetime import datetime
 from collections import defaultdict
 from contextlib import closing
 from pathlib import Path
@@ -167,7 +168,19 @@ def main():
     with(state/'supervisor.lock').open('a+')as lock:
         try:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         except BlockingIOError:return
-        last_report=0;last_niche_publish=0
+        clock_path=state/'publication-clock.json'
+        try:clock=json.loads(clock_path.read_text())
+        except (OSError,ValueError):
+            clock={}
+            status_path=Path(c.get('niche_listing_work',''))/'status-state.json'
+            if status_path.exists():
+                try:
+                    stamp=json.loads(status_path.read_text())['at']
+                    clock['last_report']=datetime.fromisoformat(stamp).timestamp()
+                except (OSError,ValueError,KeyError):pass
+            publisher_log=state/'niche-publisher.log'
+            if publisher_log.exists():clock['last_niche_publish']=publisher_log.stat().st_mtime
+        last_report=float(clock.get('last_report',0));last_niche_publish=float(clock.get('last_niche_publish',0))
         while True:
             print(json.dumps(ensure(c),ensure_ascii=False),flush=True)
             if c.get('niche_listing_work') and time.time()-last_niche_publish>=1800:
@@ -177,7 +190,9 @@ def main():
                         result=subprocess.run([c['python'],str(Path(__file__).parent/'niche_listing_sweep.py'),
                             '--work-dir',c['niche_listing_work'],'--repo',c['repo'],'--publish-only'],
                             env=report_env,stdout=output,stderr=subprocess.STDOUT,timeout=300)
-                        if result.returncode==0:last_niche_publish=time.time()
+                        if result.returncode==0:
+                            last_niche_publish=time.time()
+                            clock_path.write_text(json.dumps({'last_report':last_report,'last_niche_publish':last_niche_publish}))
                     except subprocess.TimeoutExpired:
                         print('Listing publication timed out; checkpoint retained.',file=output,flush=True)
             if time.time()-last_report>= (21600 if c.get('niche_listing_work') else 10800):
@@ -202,6 +217,7 @@ def main():
                             stdout=output,stderr=subprocess.STDOUT,timeout=180)
                         except subprocess.TimeoutExpired:print('Niche coverage publication timed out; supervision continues.',flush=True)
                 last_report=time.time()
+                clock_path.write_text(json.dumps({'last_report':last_report,'last_niche_publish':last_niche_publish}))
             if a.once:return
             time.sleep(30)
 
