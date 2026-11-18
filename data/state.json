@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-18T01:35:50Z",
+ "cursor": "2026-11-18T02:36:21Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "74c4e3836f448eb4",
+  "tgads/data/2026-11.json": "db6306d5f9dd2e93",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,7 +20,7 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "0dde618c52f3c923",
+  "tgads/channels/channels.json": "94fdac47adae0106",
   "tgads/data/2026-08.json": "ec104de1f0c6810b",
   "tgads/data/2026-09.json": "4876fdd119f29114",
   "tgads/data/2026-04.json": "e4fa166a82d3b928",
@@ -29,25 +29,13 @@
   "tgads/data/2026-07.json": "c8ce6ab89fc40736",
   "tgads/data/2026-10.json": "b63dcb5b3b01311d",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
-  "tgads/channels/channels-00.json": "43e4dbe46b42d91d",
-  "tgads/channels/channels-01.json": "a7545b67e219422c",
-  "tgads/channels/channels-02.json": "aac42247a9927c0d",
+  "tgads/channels/channels-00.json": "df378391fe3babe4",
+  "tgads/channels/channels-01.json": "6d0ed3bbbb9ad7a6",
+  "tgads/channels/channels-02.json": "d0369df1f9d5559c",
   "tgads/channels/channels-03.json": "358ad28db07faa38",
   "tgads/channels/channels-04.json": "ac22c2c1d920fd35"
  },
  "runs": [
-  {
-   "at": "2026-11-15T20:37:09Z",
-   "ok": true,
-   "error": null,
-   "new": 34,
-   "updated": 181,
-   "media": 94,
-   "missed": 0,
-   "sent_media": 94,
-   "sent_files": 9,
-   "secs": 268
-  },
   {
    "at": "2026-11-15T21:37:25Z",
    "ok": false,
@@ -723,18 +711,30 @@
    "sent_media": 94,
    "sent_files": 14,
    "secs": 353
+  },
+  {
+   "at": "2026-11-18T03:36:21Z",
+   "ok": true,
+   "error": null,
+   "new": 6,
+   "updated": 4,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 5,
+   "secs": 103
   }
  ],
- "last_upload_ok": "2026-11-18T02:41:39Z",
+ "last_upload_ok": "2026-11-18T03:38:01Z",
  "lang_seen": {
-  "-": 511,
+  "-": 513,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 329,
   "my": 47,
   "en": 496,
-  "fa": 14416,
+  "fa": 14433,
   "uz": 63,
   "zh": 26,
   "id": 44,
