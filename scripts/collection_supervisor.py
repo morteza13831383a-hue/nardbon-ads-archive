@@ -136,8 +136,11 @@ def ensure(config):
                 with closing(sqlite3.connect('file:'+str(checkpoint)+'?mode=ro',uri=True)) as gap_db:
                     pending=gap_db.execute("SELECT 1 FROM jobs WHERE status='pending' LIMIT 1").fetchone()
                     candidates=gap_db.execute("SELECT 1 FROM candidates WHERE status='pending' LIMIT 1").fetchone()
-                if not pending and (config.get('niche_listing_work') or not candidates):
+                    undelivered=gap_db.execute('SELECT 1 FROM records WHERE id NOT IN (SELECT id FROM delivered) LIMIT 1').fetchone()
+                if not pending and not undelivered and (config.get('niche_listing_work') or not candidates):
                     events.append({'worker':name,'state':'done_or_review'});continue
+                if not pending and undelivered and meta.exists() and time.time()-meta.stat().st_mtime<300:
+                    events.append({'worker':name,'state':'delivery_retry_wait'});continue
             except sqlite3.Error:pass
         if name in ('lyzem','tgchannelsme'):
             try:
