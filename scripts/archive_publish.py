@@ -9,6 +9,22 @@ import sqlite3
 import sync
 
 
+def host_export_name(name):
+    """The download receiver accepts text paths; preserve source bytes and names."""
+    if name.endswith(('.csv', '.jsonl.gz')):
+        return name + '.txt'
+    return name
+
+
+def host_export_manifest(source):
+    """Document the on-host filename aliases without changing source checksums."""
+    manifest=json.loads(source.read_text(encoding='utf-8'))
+    for entry in manifest.get('files',[]):
+        entry['host_name']=host_export_name(entry['name'])
+    manifest['host_filename_note']='Download host uses .txt aliases; remove the final .txt to restore the original filename. File bytes and SHA-256 are unchanged.'
+    return manifest
+
+
 def merge_record(ads, record):
     aid=record['id']
     raw={
@@ -114,11 +130,14 @@ def main():
         uploaded=json.loads(receipt.read_text()) if receipt.exists() else {}
         files=sorted((args.work_dir/'exports').glob('ads-*'))
         manifest=args.work_dir/'exports'/'manifest.json'
-        files.append(manifest)  # manifest is published last
+        host_manifest=args.work_dir/'host-export-manifest.json'
+        host_manifest.write_text(json.dumps(host_export_manifest(manifest),ensure_ascii=False,indent=2),encoding='utf-8')
+        files.append(host_manifest)  # manifest is published last
         with sync.Uploader() as uploader:
             for path in files:
                 digest=hashlib.sha256(path.read_bytes()).hexdigest()
-                remote=f'{sync.REMOTE_ROOT}/exports/archive-html/{path.name}'
+                name='manifest.json' if path==host_manifest else host_export_name(path.name)
+                remote=f'{sync.REMOTE_ROOT}/exports/archive-html/{name}'
                 if uploaded.get(remote)==digest:
                     continue
                 uploader.put(path,remote)
