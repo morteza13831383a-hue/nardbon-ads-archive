@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-17T22:35:44Z",
+ "cursor": "2026-11-17T23:35:49Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "203202ced4d592a9",
+  "tgads/data/2026-11.json": "98ddb7bd223b3842",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,7 +20,7 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "c391c4753c667f94",
+  "tgads/channels/channels.json": "ddcf9e7e74d851ff",
   "tgads/data/2026-08.json": "8621993de4c5467d",
   "tgads/data/2026-09.json": "022086ded88467d9",
   "tgads/data/2026-04.json": "eec18099168be99f",
@@ -29,25 +29,13 @@
   "tgads/data/2026-07.json": "62a2747a0873cf7e",
   "tgads/data/2026-10.json": "5bbf4bcd6411523b",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
-  "tgads/channels/channels-00.json": "8e049f8a4603d944",
-  "tgads/channels/channels-01.json": "d463d7290bcf6d29",
-  "tgads/channels/channels-02.json": "bb99f62c9f1df6a0",
-  "tgads/channels/channels-03.json": "1399c938befd083f",
-  "tgads/channels/channels-04.json": "a9df754f6f68cda7"
+  "tgads/channels/channels-00.json": "346155bda0f5be67",
+  "tgads/channels/channels-01.json": "878702e7b1a374df",
+  "tgads/channels/channels-02.json": "a2625021bde3e628",
+  "tgads/channels/channels-03.json": "70508ef16de69579",
+  "tgads/channels/channels-04.json": "778d71cee457b1eb"
  },
  "runs": [
-  {
-   "at": "2026-11-15T18:36:36Z",
-   "ok": true,
-   "error": null,
-   "new": 10,
-   "updated": 4,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 2,
-   "secs": 13
-  },
   {
    "at": "2026-11-15T19:06:45Z",
    "ok": false,
@@ -723,18 +711,30 @@
    "sent_media": 95,
    "sent_files": 12,
    "secs": 387
+  },
+  {
+   "at": "2026-11-18T00:35:49Z",
+   "ok": true,
+   "error": null,
+   "new": 16,
+   "updated": 6,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 7,
+   "secs": 23
   }
  ],
- "last_upload_ok": "2026-11-17T23:42:07Z",
+ "last_upload_ok": "2026-11-18T00:36:08Z",
  "lang_seen": {
-  "-": 494,
+  "-": 499,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 328,
   "my": 47,
   "en": 496,
-  "fa": 14162,
+  "fa": 14194,
   "uz": 63,
   "zh": 26,
   "id": 44,
