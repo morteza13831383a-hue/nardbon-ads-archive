@@ -50,7 +50,6 @@ jobs:
           FTP_PASS: ${{ secrets.FTP_PASS }}
           UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
           UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
-          CHANNELS_API_KEY: ${{ secrets.CHANNELS_API_KEY }}
           ADS_API_ONLY: "1"
         run: python scripts/sync.py
 
