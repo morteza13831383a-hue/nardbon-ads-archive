@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-18T16:46:56Z",
+ "cursor": "2026-11-18T16:55:47Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "08557f28b689f00e",
+  "tgads/data/2026-11.json": "8c16e8d67e755743",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -22,12 +22,12 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "2f28e34cf49e0dd7",
   "tgads/data/2026-08.json": "13d5692b2906eeb7",
-  "tgads/data/2026-09.json": "41dca4d67d12df66",
+  "tgads/data/2026-09.json": "cebdbe0eb70df482",
   "tgads/data/2026-04.json": "f7331d48c5d67136",
   "tgads/data/2026-05.json": "0678086694044be1",
   "tgads/data/2026-06.json": "874c13cf2b942af5",
   "tgads/data/2026-07.json": "aa658f94ab58b56e",
-  "tgads/data/2026-10.json": "0e5bf047899ab612",
+  "tgads/data/2026-10.json": "e05ea9f331f6b00d",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
   "tgads/channels/channels-00.json": "dad5b2a4047147e3",
   "tgads/channels/channels-01.json": "b978a9c25e6ebe82",
@@ -36,18 +36,6 @@
   "tgads/channels/channels-04.json": "ac22c2c1d920fd35"
  },
  "runs": [
-  {
-   "at": "2026-11-16T13:35:59Z",
-   "ok": true,
-   "error": null,
-   "new": 15,
-   "updated": 6,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 7
-  },
   {
    "at": "2026-11-16T14:36:00Z",
    "ok": true,
@@ -723,18 +711,30 @@
    "sent_media": 96,
    "sent_files": 6,
    "secs": 318
+  },
+  {
+   "at": "2026-11-18T17:55:48Z",
+   "ok": true,
+   "error": null,
+   "new": 0,
+   "updated": 5,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 3,
+   "secs": 11
   }
  ],
- "last_upload_ok": "2026-11-18T17:52:10Z",
+ "last_upload_ok": "2026-11-18T17:55:55Z",
  "lang_seen": {
-  "-": 603,
+  "-": 604,
   "tr": 63,
   "he": 39,
   "ru": 732,
-  "ar": 332,
+  "ar": 333,
   "my": 47,
   "en": 496,
-  "fa": 15175,
+  "fa": 15191,
   "uz": 63,
   "zh": 26,
   "id": 44,
