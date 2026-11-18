@@ -80,8 +80,13 @@ def listing(db,client,key,kind,page,known,cutoff):
     doc=Document(client.get(url))
     counts=COUNT.findall(doc.root.text())
     ids={m[1]for link in doc.links()if(m:=AD.fullmatch(link))}
-    cards,_,missing,future=card_rows(doc,url,'',cutoff)
+    cards,site_count,missing,future=card_rows(doc,url,'',cutoff)
     if not counts and not ids:
+        if site_count==0:
+            db.execute("UPDATE jobs SET page=?,status='done',site_count='0',last_signature='' WHERE key=?",
+                       (page+1,key))
+            db.execute('INSERT INTO requests VALUES(?,?,?,?)',('listing',key+':'+str(page),200,now()))
+            db.commit();return 0,0,True
         raise ValueError('No result count or ad links; listing layout needs review')
     if ids and not cards and not missing and not future:
         raise ValueError('Ad links have no parseable listing cards; review this slice')

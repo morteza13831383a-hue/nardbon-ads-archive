@@ -13,6 +13,21 @@ def card(ad_id='abc'):
             '<time datetime="2026-08-19T11:37:35Z">old</time></a></li>')
 
 class GapTests(unittest.TestCase):
+    def test_structured_zero_result_page_finishes_without_review(self):
+        class Client:
+            base='https://telegramads.it'
+            def get(self,url):
+                empty={'@type':'CollectionPage','mainEntity':{'@type':'ItemList',
+                       'numberOfItems':0,'itemListElement':[]}}
+                return '<script type="application/ld+json">'+json.dumps(empty)+'</script>'
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);(root/'data').mkdir()
+            db=gap.connect(root/'db.sqlite3','2026-11-13T00:00:00+00:00',root)
+            db.execute("INSERT INTO jobs(key,kind)VALUES('ربات ناشناس','keyword')")
+            self.assertEqual(gap.listing(db,Client(),'ربات ناشناس','keyword',1,set(),
+                '2026-11-13T00:00:00+00:00'),(0,0,True))
+            self.assertEqual(db.execute("SELECT status FROM jobs WHERE key='ربات ناشناس'").fetchone()[0],'done')
+            db.close()
     def test_owner_approved_long_iran_keyword_query(self):
         robots=Robots('User-agent: *\nDisallow: /ads?')
         url='https://telegramadsanalytics.com/ads?'+urlencode(
