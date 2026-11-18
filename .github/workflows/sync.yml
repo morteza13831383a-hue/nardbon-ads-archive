@@ -14,7 +14,6 @@ on:
 
 permissions:
   contents: write
-  issues: write         # daily report issue (GitHub e-mails the owner, who is mentioned)
 
 concurrency:
   group: sync
@@ -60,16 +59,6 @@ jobs:
         with:
           path: outbox
           key: outbox-${{ github.run_id }}
-
-      # Short status report every run: a comment on today's issue (the owner is mentioned in
-      # the issue, so GitHub e-mails each comment). Yesterday's issue is closed. Never fails the run.
-      - name: Status report
-        if: always()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          # one short line-set every run (hourly), as a comment on today's issue
-          python scripts/daily_report.py --hourly || echo "report failed"
 
       - name: Save data to repository
         if: always()
