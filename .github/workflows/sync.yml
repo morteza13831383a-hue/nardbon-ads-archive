@@ -14,7 +14,6 @@ on:
 
 permissions:
   contents: write
-  actions: write        # to start the archive importer (GitHub's own schedule skips most runs)
   issues: write         # daily report issue (GitHub e-mails the owner, who is mentioned)
 
 concurrency:
@@ -53,6 +52,7 @@ jobs:
           UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
           UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
           CHANNELS_API_KEY: ${{ secrets.CHANNELS_API_KEY }}
+          ADS_API_ONLY: "1"
         run: python scripts/sync.py
 
       - uses: actions/cache/save@v4
@@ -78,14 +78,3 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # merges instead of failing when archive-html.yml pushed data first
           python scripts/commit_data.py "sync $(date -u +%Y-%m-%dT%H:%MZ)"
-
-      # The old-ads importer (archive-html.yml) runs every 6 h. GitHub's scheduler drops most
-      # of its runs, so this hourly run (started reliably by cron-job.org) dispatches it.
-      - name: Start the archive importer every 6 hours
-        if: always()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if [ $(( 10#$(date -u +%H) % 6 )) -eq 0 ]; then
-            gh workflow run archive-html.yml --ref main && echo "archive importer dispatched"
-          fi

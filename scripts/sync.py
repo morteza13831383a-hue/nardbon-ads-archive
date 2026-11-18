@@ -59,6 +59,7 @@ BACKFILL_ROWS = int(os.environ.get("BACKFILL_ROWS_PER_RUN", "600"))    # one rea
 BACKFILL_GAP = float(os.environ.get("BACKFILL_GAP_SEC", "5"))           # pause between backfill pages
 ADV_PER_RUN = int(os.environ.get("ADVERTISERS_PER_RUN", "15"))        # advertiser history sweep (heavy runs only)
 HEAVY_EVERY_MIN = int(os.environ.get("HEAVY_EVERY_MIN", "170"))        # images, advertiser sweep, channel crawler ~every 3 h; other runs stay under a minute
+ADS_API_ONLY = os.environ.get("ADS_API_ONLY") == "1"  # temporary owner pause: incremental ad API only
 ADV_GAP = float(os.environ.get("ADVERTISERS_GAP_SEC", "4"))     # ~15 requests/min, far under the plan limit
 ADV_REVISIT_DAYS = 30
 MEDIA_PER_RUN = int(os.environ.get("MEDIA_PER_RUN", "100"))             # images per heavy run (download + upload must fit the time budget)
@@ -721,14 +722,14 @@ def main():
 
     # Actions bills every run by the started minute, so the slow work happens about every
     # 2 h and the rest of the runs only pick up new ads (under a minute each)
-    heavy = (state.get("heavy_last") or "") < iso(NOW - dt.timedelta(minutes=HEAVY_EVERY_MIN))
+    heavy = not ADS_API_ONLY and (state.get("heavy_last") or "") < iso(NOW - dt.timedelta(minutes=HEAVY_EVERY_MIN))
     if heavy:
         state["heavy_last"] = now_iso()
     blocked = state.get("api_blocked_until")
     if blocked and blocked > now_iso():
         log(f"API paused until {blocked} (rate limit) — skipping fetch this run")
     else:
-        for step in (run_incremental, run_backfill, run_advertisers):
+        for step in ((run_incremental,) if ADS_API_ONLY else (run_incremental, run_backfill, run_advertisers)):
             if step is not run_incremental and not heavy:
                 continue
             try:
@@ -743,7 +744,7 @@ def main():
                 traceback.print_exc()
     # phase 2: a small slice of the Persian channel catalog each run (own key; off without one)
     ch_block = state.get("channels_blocked_until") or ""
-    if channels.enabled() and channels.due(state, dt.datetime.now(dt.timezone.utc)) \
+    if not ADS_API_ONLY and channels.enabled() and channels.due(state, dt.datetime.now(dt.timezone.utc)) \
             and not ch_block > now_iso() and not (state.get("api_blocked_until") or "") > now_iso():
         try:
             state["channels_total"] = channels.step(state, log, now_iso)
@@ -779,31 +780,34 @@ def main():
         except Exception as e:
             log(f"keyword list failed: {e}")
     # Persian groups/channels from combot.org top lists (once a day, ~7 paced requests)
-    try:
-        import combot_collect
-        if combot_collect.due(state, NOW):
-            combot_collect.step(state, log, now_iso)
-    except Exception as e:
-        log(f"combot failed: {e}")              # never fails the run
+    if not ADS_API_ONLY:
+        try:
+            import combot_collect
+            if combot_collect.due(state, NOW):
+                combot_collect.step(state, log, now_iso)
+        except Exception as e:
+            log(f"combot failed: {e}")          # never fails the run
     # channel pages collected from tgadsspy by the external crawler (no network here)
-    try:
-        channel_import.run(log, now_iso)
-    except Exception as e:
-        errors.append(f"channel import: {e}")
-        traceback.print_exc()
+    if not ADS_API_ONLY:
+        try:
+            channel_import.run(log, now_iso)
+        except Exception as e:
+            errors.append(f"channel import: {e}")
+            traceback.print_exc()
     # list of known Iranian advertisers for the external crawler (biggest first)
-    try:
-        counts = {}
-        for a in ads.values():
-            s_ = advertiser_slug(a)
-            if s_:
-                counts[s_] = counts.get(s_, 0) + 1
-        text = "\n".join(sorted(counts, key=lambda k: (-counts[k], k))) + "\n"
-        f = DATA / "iran_advertisers.txt"
-        if not f.exists() or f.read_text("utf-8") != text:
-            f.write_text(text, "utf-8")
-    except Exception as e:
-        log(f"advertiser list failed: {e}")
+    if not ADS_API_ONLY:
+        try:
+            counts = {}
+            for a in ads.values():
+                s_ = advertiser_slug(a)
+                if s_:
+                    counts[s_] = counts.get(s_, 0) + 1
+            text = "\n".join(sorted(counts, key=lambda k: (-counts[k], k))) + "\n"
+            f = DATA / "iran_advertisers.txt"
+            if not f.exists() or f.read_text("utf-8") != text:
+                f.write_text(text, "utf-8")
+        except Exception as e:
+            log(f"advertiser list failed: {e}")
     if stats.get("missed"):
         errors.append(f"missed: up to {stats['missed']} ads beyond the API plan's reach in this window")
     if API_INFO:
