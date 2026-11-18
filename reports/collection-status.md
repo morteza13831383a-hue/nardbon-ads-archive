@@ -1,3 +1,3 @@
-New Iran ads since prior report: 3,227; listing sweep total: 6,306; at 2026-11-17T21:44:23.576142+00:00.
-Numerical gap to 57,492: 21,931; pages: done 1,497.
-Blocks/cooldowns: none; review pages: 0.
+New Iran ads since prior report: 11,025; new unique total: 17,331; at 2026-11-18T03:44:42.842704+00:00.
+Numerical gap to 57,492: 10,906; niche pages: done 1,497; gap jobs pending 0.
+Blocks/cooldowns: none; review jobs/pages: 33.
