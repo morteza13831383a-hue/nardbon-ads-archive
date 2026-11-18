@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-18T15:36:42Z",
+ "cursor": "2026-11-18T15:42:17Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -20,7 +20,7 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "ada26ff319995b6c",
+  "tgads/channels/channels.json": "2e95db5489751cbd",
   "tgads/data/2026-08.json": "13d5692b2906eeb7",
   "tgads/data/2026-09.json": "bbf095b4616fdca6",
   "tgads/data/2026-04.json": "f7331d48c5d67136",
@@ -29,25 +29,13 @@
   "tgads/data/2026-07.json": "aa658f94ab58b56e",
   "tgads/data/2026-10.json": "3fb280730d105fa8",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
-  "tgads/channels/channels-00.json": "65d207912b15ba92",
-  "tgads/channels/channels-01.json": "284c4b77570cef74",
-  "tgads/channels/channels-02.json": "4f80190d313eb016",
+  "tgads/channels/channels-00.json": "5261cf00b897ba9c",
+  "tgads/channels/channels-01.json": "81cc726f63d284f6",
+  "tgads/channels/channels-02.json": "d1dc466c691bdfb3",
   "tgads/channels/channels-03.json": "358ad28db07faa38",
   "tgads/channels/channels-04.json": "ac22c2c1d920fd35"
  },
  "runs": [
-  {
-   "at": "2026-11-16T11:35:58Z",
-   "ok": true,
-   "error": null,
-   "new": 70,
-   "updated": 124,
-   "media": 79,
-   "missed": 0,
-   "sent_media": 79,
-   "sent_files": 10,
-   "secs": 237
-  },
   {
    "at": "2026-11-16T12:36:00Z",
    "ok": true,
@@ -723,9 +711,21 @@
    "sent_media": 0,
    "sent_files": 4,
    "secs": 18
+  },
+  {
+   "at": "2026-11-18T16:42:18Z",
+   "ok": true,
+   "error": null,
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 4,
+   "secs": 20
   }
  ],
- "last_upload_ok": "2026-11-18T16:36:57Z",
+ "last_upload_ok": "2026-11-18T16:42:33Z",
  "lang_seen": {
   "-": 602,
   "tr": 63,
@@ -734,7 +734,7 @@
   "ar": 331,
   "my": 47,
   "en": 496,
-  "fa": 15007,
+  "fa": 15021,
   "uz": 63,
   "zh": 26,
   "id": 44,
