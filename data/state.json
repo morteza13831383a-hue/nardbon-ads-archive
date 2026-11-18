@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-18T06:36:29Z",
+ "cursor": "2026-11-18T06:54:22Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "dda5880c74da2920",
+  "tgads/data/2026-11.json": "06a975609c147f8e",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,7 +20,7 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "85f9b8398ccf5495",
+  "tgads/channels/channels.json": "3de769a34bcee929",
   "tgads/data/2026-08.json": "664598a966bc0a05",
   "tgads/data/2026-09.json": "a7552c4b35dc06ac",
   "tgads/data/2026-04.json": "f7331d48c5d67136",
@@ -29,25 +29,13 @@
   "tgads/data/2026-07.json": "166898bd5ce6b0ad",
   "tgads/data/2026-10.json": "60dbcc5493f44054",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
-  "tgads/channels/channels-00.json": "e9da88778b4de646",
-  "tgads/channels/channels-01.json": "61558427f6fdc1ff",
+  "tgads/channels/channels-00.json": "ff2b06e3137fe04a",
+  "tgads/channels/channels-01.json": "fbba80891bde8658",
   "tgads/channels/channels-02.json": "ff27e4599e1a267e",
   "tgads/channels/channels-03.json": "358ad28db07faa38",
   "tgads/channels/channels-04.json": "ac22c2c1d920fd35"
  },
  "runs": [
-  {
-   "at": "2026-11-16T01:36:15Z",
-   "ok": true,
-   "error": null,
-   "new": 59,
-   "updated": 8,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 6
-  },
   {
    "at": "2026-11-16T02:35:56Z",
    "ok": true,
@@ -723,18 +711,30 @@
    "sent_media": 0,
    "sent_files": 5,
    "secs": 24
+  },
+  {
+   "at": "2026-11-18T07:54:22Z",
+   "ok": true,
+   "error": null,
+   "new": 2,
+   "updated": 4,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 4,
+   "secs": 14
   }
  ],
- "last_upload_ok": "2026-11-18T07:36:48Z",
+ "last_upload_ok": "2026-11-18T07:54:32Z",
  "lang_seen": {
-  "-": 530,
+  "-": 531,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 329,
   "my": 47,
   "en": 496,
-  "fa": 14553,
+  "fa": 14565,
   "uz": 63,
   "zh": 26,
   "id": 44,
