@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-21T06:36:26Z",
+ "cursor": "2026-11-21T06:41:11Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -36,18 +36,6 @@
   "tgads/channels/channels-04.json": "ac22c2c1d920fd35"
  },
  "runs": [
-  {
-   "at": "2026-11-19T00:37:14Z",
-   "ok": true,
-   "error": null,
-   "new": 14,
-   "updated": 8,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 10
-  },
   {
    "at": "2026-11-19T01:37:16Z",
    "ok": true,
@@ -755,18 +743,30 @@
    "sent_media": 0,
    "sent_files": 1,
    "secs": 11
+  },
+  {
+   "at": "2026-11-21T07:41:12Z",
+   "ok": true,
+   "error": null,
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 0,
+   "secs": 10
   }
  ],
- "last_upload_ok": "2026-11-21T07:36:33Z",
+ "last_upload_ok": "2026-11-21T07:41:17Z",
  "lang_seen": {
-  "-": 849,
+  "-": 853,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 348,
   "my": 47,
   "en": 496,
-  "fa": 16274,
+  "fa": 16275,
   "uz": 63,
   "zh": 26,
   "id": 44,
