@@ -1,32 +1,32 @@
 {
   "last_slice_performance": {
     "pages_attempted": 60,
-    "new_iran_ads": 56,
-    "seconds": 924.15
+    "new_iran_ads": 57,
+    "seconds": 921.3
   },
   "external_collection": null,
   "last_stop_reason": "",
   "schema_version": 1,
-  "generated_at": "2026-11-23T22:31:58.750696+00:00",
+  "generated_at": "2026-11-23T22:48:22.261944+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 13930,
+  "iran_ads_extracted": 13987,
   "source_reported_iran_total": 56483,
   "queue_status": {
     "after_cutoff": 155,
     "done": 14298,
     "gone": 47,
-    "iran": 13930,
+    "iran": 13987,
     "known": 35788,
     "mirror_done": 122,
-    "not_iran": 9779,
-    "pending": 730880,
-    "skipped_time": 9
+    "not_iran": 9782,
+    "pending": 730905,
+    "skipped_time": 10
   },
   "queue_kinds": {
-    "detail": 762799,
-    "listing": 42164,
+    "detail": 762802,
+    "listing": 42247,
     "sitemap": 45
   },
   "discovered_queue_exhausted": false,
@@ -50,36 +50,36 @@
       {
         "month": "2026-06",
         "site_iran_total": 7107,
-        "extracted": 1793,
-        "missing": 5314,
-        "coverage_pct": 25.2
+        "extracted": 1810,
+        "missing": 5297,
+        "coverage_pct": 25.5
       },
       {
         "month": "2026-07",
         "site_iran_total": 8355,
-        "extracted": 1653,
-        "missing": 6702,
-        "coverage_pct": 19.8
+        "extracted": 1665,
+        "missing": 6690,
+        "coverage_pct": 19.9
       },
       {
         "month": "2026-08",
         "site_iran_total": 10472,
-        "extracted": 2204,
-        "missing": 8268,
-        "coverage_pct": 21.0
+        "extracted": 2218,
+        "missing": 8254,
+        "coverage_pct": 21.2
       },
       {
         "month": "2026-09",
         "site_iran_total": 16687,
-        "extracted": 4046,
-        "missing": 12641,
-        "coverage_pct": 24.2
+        "extracted": 4059,
+        "missing": 12628,
+        "coverage_pct": 24.3
       },
       {
         "month": "2026-10",
         "site_iran_total": 7203,
-        "extracted": 2055,
-        "missing": 5148,
+        "extracted": 2056,
+        "missing": 5147,
         "coverage_pct": 28.5
       },
       {
@@ -91,7 +91,7 @@
       }
     ],
     "site_sum_of_months": 56596,
-    "extracted_total": 13930,
+    "extracted_total": 13987,
     "by_strategy": [
       {
         "via": "iran_listing",
@@ -131,9 +131,9 @@
       },
       {
         "via": "sitemap_same_time",
-        "requests": 296,
-        "iran": 264,
-        "iran_per_100": 89.19
+        "requests": 348,
+        "iran": 316,
+        "iran_per_100": 90.8
       },
       {
         "via": "archive_day_iran_card",
@@ -155,9 +155,9 @@
       },
       {
         "via": "sitemap",
-        "requests": 30967,
-        "iran": 84,
-        "iran_per_100": 0.27
+        "requests": 30975,
+        "iran": 89,
+        "iran_per_100": 0.29
       },
       {
         "via": "advertiser_niche>ad",
@@ -254,9 +254,9 @@
       },
       {
         "via": "overhead",
-        "requests": 766,
+        "requests": 767,
         "iran": 190,
-        "iran_per_100": 24.8
+        "iran_per_100": 24.77
       },
       {
         "via": "advertiser_niche>ad",
@@ -266,15 +266,15 @@
       },
       {
         "via": "sitemap",
-        "requests": 385,
-        "iran": 271,
-        "iran_per_100": 70.39
+        "requests": 393,
+        "iran": 276,
+        "iran_per_100": 70.23
       },
       {
         "via": "sitemap_same_time",
-        "requests": 297,
-        "iran": 264,
-        "iran_per_100": 88.89
+        "requests": 349,
+        "iran": 316,
+        "iran_per_100": 90.54
       },
       {
         "via": "archive_day_iran_card",
@@ -308,7 +308,7 @@
       }
     ],
     "observed_http_scope": "Only requests recorded since the request ledger was installed",
-    "skipped_by_id_time": 9
+    "skipped_by_id_time": 10
   },
   "limitations": [
     "Sitemaps and public listings are discovery sources, not a guaranteed complete Iran export.",
