@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-23T19:37:12Z",
+ "cursor": "2026-11-23T20:36:25Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "ca7f54fa6069fbe8",
+  "tgads/data/2026-11.json": "e262e6001079ebdb",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,34 +20,23 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "2f28e34cf49e0dd7",
-  "tgads/data/2026-08.json": "56c12d3ffa4a121a",
-  "tgads/data/2026-09.json": "34f4e9ff36dc825d",
-  "tgads/data/2026-04.json": "b2ef94437fdc9b8c",
-  "tgads/data/2026-05.json": "e4a8edc848a5b868",
-  "tgads/data/2026-06.json": "700fbc85b870b22a",
-  "tgads/data/2026-07.json": "73e09d6de9d1c756",
-  "tgads/data/2026-10.json": "336ca639b3436a5f",
+  "tgads/channels/channels.json": "9c4ea6976b611313",
+  "tgads/data/2026-08.json": "c50db361673f402b",
+  "tgads/data/2026-09.json": "920c44651dd3c007",
+  "tgads/data/2026-04.json": "d64a3221c5c00be8",
+  "tgads/data/2026-05.json": "4068bb02e1d00026",
+  "tgads/data/2026-06.json": "17f5d1db4abdd37b",
+  "tgads/data/2026-07.json": "adfe4ff0ceb4fe7b",
+  "tgads/data/2026-10.json": "ba7e831864a8b0e7",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
-  "tgads/channels/channels-00.json": "dad5b2a4047147e3",
-  "tgads/channels/channels-01.json": "b978a9c25e6ebe82",
-  "tgads/channels/channels-02.json": "d1dc466c691bdfb3",
-  "tgads/channels/channels-03.json": "358ad28db07faa38",
-  "tgads/channels/channels-04.json": "ac22c2c1d920fd35"
+  "tgads/channels/channels-00.json": "effd001e6b6a9cec",
+  "tgads/channels/channels-01.json": "75c12bd6021db5ff",
+  "tgads/channels/channels-02.json": "e55cc4641a694f3a",
+  "tgads/channels/channels-03.json": "75e42718681facd2",
+  "tgads/channels/channels-04.json": "1886f10f979614b6",
+  "tgads/channels/channels-05.json": "03055b6b429dc390"
  },
  "runs": [
-  {
-   "at": "2026-11-21T15:38:13Z",
-   "ok": true,
-   "error": null,
-   "new": 14,
-   "updated": 3,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 12
-  },
   {
    "at": "2026-11-21T16:36:28Z",
    "ok": true,
@@ -765,18 +754,32 @@
    "sent_media": 0,
    "sent_files": 8,
    "secs": 67
+  },
+  {
+   "at": "2026-11-23T21:36:26Z",
+   "ok": true,
+   "error": null,
+   "html_new": 221,
+   "html_parts": 4,
+   "new": 9,
+   "updated": 3,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 15,
+   "secs": 75
   }
  ],
- "last_upload_ok": "2026-11-23T20:38:16Z",
+ "last_upload_ok": "2026-11-23T21:37:36Z",
  "lang_seen": {
-  "-": 1081,
+  "-": 1082,
   "tr": 63,
   "he": 39,
   "ru": 732,
-  "ar": 386,
+  "ar": 388,
   "my": 47,
   "en": 496,
-  "fa": 17809,
+  "fa": 17826,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -4970,10 +4973,14 @@
   "ads-cloud-20261123T193903080201-0001.jsonl.gz": "2b09c0281562f6b7250e122ba69900c8f49963c15f1de3973aa7c90fe0e886f4",
   "ads-cloud-20261123T195343482754-0001.jsonl.gz": "ac098c7732750c855c35e67adf476526b4ea0363633d6ac22721f7fc963018e5",
   "ads-cloud-20261123T200822192469-0001.jsonl.gz": "3db6b44b5b4a6d2b70e7f439465c39a9612d459807893aee6356701bbdbf2e36",
-  "ads-cloud-20261123T202306365910-0001.jsonl.gz": "88a27c73a43de338ba47868f0bfe58d0d396a7f43b6b9ce4b824d7d1fa405650"
+  "ads-cloud-20261123T202306365910-0001.jsonl.gz": "88a27c73a43de338ba47868f0bfe58d0d396a7f43b6b9ce4b824d7d1fa405650",
+  "ads-cloud-20261123T203744061723-0001.jsonl.gz": "31130e76820d227657758736cce15b4c424a1d127cf120ce0d7a9fb7a01992f2",
+  "ads-cloud-20261123T205219117574-0001.jsonl.gz": "b5b7a499c5c0d9ca9f050a3efc1cb8fba225f21e1fa306d9aa471fc81ab149a6",
+  "ads-cloud-20261123T210644994652-0001.jsonl.gz": "8deb17680a62566f19d4bf4675becdd48b3449d88d995ed4a2a2e36a1b583fd1",
+  "ads-cloud-20261123T212615002760-0001.jsonl.gz": "a34459ef3f151a8061db8de665fffefe3dbc4d6e650a8f646717d6176915ab35"
  },
  "ad_history_v1": {
-  "next_at": 1795468934,
+  "next_at": 1795472487,
   "days": {},
   "advertisers": {
    "tg-iranperfect-money": {
@@ -5170,33 +5177,83 @@
     "offset": 15,
     "status": "read",
     "first_id": "cmwsxmtpb1jd5qm01fh2cm5on"
+   },
+   "tg-mansurservatbot": {
+    "offset": 20,
+    "status": "read",
+    "first_id": "cmvhbryp30007pc017tecl9kn"
+   },
+   "tg-helotalkbot": {
+    "offset": 15,
+    "status": "read",
+    "first_id": "cmuuf09qg0kojmd01ygomf42g"
+   },
+   "tg-kafsh_stila": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-shadownetguard_bot": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-neda_crypto": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-minayi1369": {
+    "offset": 19,
+    "status": "read",
+    "first_id": "cmwsb7h7c1ggjqm015v8xtllj"
+   },
+   "tg-eco_eghtesaad": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-abshodemoein2": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmws1x7e41f6pqm01pnt4ykw2"
+   },
+   "tg-codalscan": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmu96ql7w01ntld01x9g4guug"
+   },
+   "tg-seyfdress": {
+    "offset": 20,
+    "status": "read",
+    "first_id": "cmwpg4euy14rsqm01xqlcax6c"
    }
   },
   "last": {
    "requests": 10,
-   "new": 5,
+   "new": 19,
    "dates_new": 0,
-   "advertisers_new": 5,
+   "advertisers_new": 19,
    "pages": [
     {
      "via": "advertiser",
-     "target": "tg-dezh1vpnbot",
+     "target": "tg-mansurservatbot",
      "offset": 0,
-     "rows": 25,
+     "rows": 20,
+     "new": 4,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-helotalkbot",
+     "offset": 0,
+     "rows": 15,
      "new": 0,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-filterinobot",
-     "offset": 0,
-     "rows": 21,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-forex_shayan",
+     "target": "tg-kafsh_stila",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -5204,15 +5261,7 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-freeconfigbot",
-     "offset": 0,
-     "rows": 12,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-ir_ivpn_bot",
+     "target": "tg-shadownetguard_bot",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -5220,15 +5269,7 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-marketinsght103",
-     "offset": 0,
-     "rows": 23,
-     "new": 1,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-mrserver_vpnbot",
+     "target": "tg-neda_crypto",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -5236,15 +5277,23 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-diakoacademy",
+     "target": "tg-minayi1369",
      "offset": 0,
-     "rows": 13,
+     "rows": 19,
+     "new": 6,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-eco_eghtesaad",
+     "offset": 0,
+     "rows": 0,
      "new": 0,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-hayatkidss",
+     "target": "tg-abshodemoein2",
      "offset": 0,
      "rows": 9,
      "new": 0,
@@ -5252,10 +5301,18 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-betcart",
+     "target": "tg-codalscan",
      "offset": 0,
-     "rows": 15,
-     "new": 4,
+     "rows": 9,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-seyfdress",
+     "offset": 0,
+     "rows": 20,
+     "new": 9,
      "status": "read"
     }
    ]
