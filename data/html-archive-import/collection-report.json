@@ -1,31 +1,31 @@
 {
   "last_slice_performance": {
     "pages_attempted": 60,
-    "new_iran_ads": 18,
-    "seconds": 849.41
+    "new_iran_ads": 56,
+    "seconds": 846.05
   },
   "external_collection": null,
   "last_stop_reason": "",
   "schema_version": 1,
-  "generated_at": "2026-11-23T17:10:09.494095+00:00",
+  "generated_at": "2026-11-23T17:25:13.285317+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 12934,
+  "iran_ads_extracted": 12990,
   "source_reported_iran_total": 56483,
   "queue_status": {
     "after_cutoff": 145,
     "done": 14270,
     "gone": 47,
-    "iran": 12934,
+    "iran": 12990,
     "known": 27838,
     "mirror_done": 104,
-    "not_iran": 9553,
-    "pending": 730733
+    "not_iran": 9557,
+    "pending": 730818
   },
   "queue_kinds": {
-    "detail": 754535,
-    "listing": 41044,
+    "detail": 754643,
+    "listing": 41081,
     "sitemap": 45
   },
   "discovered_queue_exhausted": false,
@@ -42,37 +42,37 @@
       {
         "month": "2026-05",
         "site_iran_total": 2315,
-        "extracted": 688,
-        "missing": 1627,
-        "coverage_pct": 29.7
+        "extracted": 689,
+        "missing": 1626,
+        "coverage_pct": 29.8
       },
       {
         "month": "2026-06",
         "site_iran_total": 7107,
-        "extracted": 1709,
-        "missing": 5398,
-        "coverage_pct": 24.0
+        "extracted": 1721,
+        "missing": 5386,
+        "coverage_pct": 24.2
       },
       {
         "month": "2026-07",
         "site_iran_total": 8355,
-        "extracted": 1500,
-        "missing": 6855,
-        "coverage_pct": 18.0
+        "extracted": 1515,
+        "missing": 6840,
+        "coverage_pct": 18.1
       },
       {
         "month": "2026-08",
         "site_iran_total": 10472,
-        "extracted": 2054,
-        "missing": 8418,
-        "coverage_pct": 19.6
+        "extracted": 2064,
+        "missing": 8408,
+        "coverage_pct": 19.7
       },
       {
         "month": "2026-09",
         "site_iran_total": 16687,
-        "extracted": 3551,
-        "missing": 13136,
-        "coverage_pct": 21.3
+        "extracted": 3569,
+        "missing": 13118,
+        "coverage_pct": 21.4
       },
       {
         "month": "2026-10",
@@ -90,7 +90,7 @@
       }
     ],
     "site_sum_of_months": 56596,
-    "extracted_total": 12934,
+    "extracted_total": 12990,
     "by_strategy": [
       {
         "via": "iran_listing",
@@ -106,9 +106,9 @@
       },
       {
         "via": "persian_channel_priority_profile",
-        "requests": 2367,
-        "iran": 1616,
-        "iran_per_100": 68.27
+        "requests": 2393,
+        "iran": 1638,
+        "iran_per_100": 68.45
       },
       {
         "via": "advertiser>ad",
@@ -133,6 +133,18 @@
         "requests": 786,
         "iran": 73,
         "iran_per_100": 9.29
+      },
+      {
+        "via": "saved_iran_listing",
+        "requests": 18,
+        "iran": 18,
+        "iran_per_100": 100.0
+      },
+      {
+        "via": "sitemap_same_time_pilot",
+        "requests": 16,
+        "iran": 16,
+        "iran_per_100": 100.0
       },
       {
         "via": "sitemap",
@@ -211,9 +223,9 @@
       },
       {
         "via": "persian_channel_priority_profile",
-        "requests": 1981,
-        "iran": 1615,
-        "iran_per_100": 81.52
+        "requests": 2007,
+        "iran": 1637,
+        "iran_per_100": 81.56
       },
       {
         "via": "advertiser_niche",
@@ -235,9 +247,9 @@
       },
       {
         "via": "overhead",
-        "requests": 579,
+        "requests": 580,
         "iran": 40,
-        "iran_per_100": 6.91
+        "iran_per_100": 6.9
       },
       {
         "via": "persian_channel_page",
@@ -256,6 +268,18 @@
         "requests": 56,
         "iran": 53,
         "iran_per_100": 94.64
+      },
+      {
+        "via": "saved_iran_listing",
+        "requests": 18,
+        "iran": 18,
+        "iran_per_100": 100.0
+      },
+      {
+        "via": "sitemap_same_time_pilot",
+        "requests": 16,
+        "iran": 16,
+        "iran_per_100": 100.0
       }
     ],
     "observed_http_scope": "Only requests recorded since the request ledger was installed",
