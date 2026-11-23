@@ -1,3 +1,4 @@
 pages=3 slices=1 publish=1
 # Line 1 controls the next push-triggered run: pages=N slices=N publish=0|1
 # publish=0 keeps results local to the run artifacts; publish=1 commits raw buckets to data/channel-html-import/
+# Bumped to fire the first 3-page test run (Cloudflare + token check)
