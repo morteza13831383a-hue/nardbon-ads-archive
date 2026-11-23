@@ -111,6 +111,8 @@ def main():
     with sqlite3.connect(dbpath) as db:
         for (payload,) in db.execute('SELECT payload FROM records ORDER BY id'):
             merge_record(ads,json.loads(payload))
+    from ad_images import apply_receipts
+    apply_receipts(ads)
     state=sync.load_state()
     run={'at':sync.now_iso(),'ok':False,'error':None,'source':'html-archive'}
     stats={'media':0}

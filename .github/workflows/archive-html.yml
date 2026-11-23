@@ -43,6 +43,8 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -111,13 +113,13 @@ jobs:
           echo "checkpoint=$([ -f archive-work/checkpoint.sqlite3 ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
           ls -la archive-work/checkpoint.sqlite3 2>/dev/null || true
       - name: Merge and upload collected archive
-        if: always() && steps.work.outputs.manifest == 'yes'
+        if: success() && steps.work.outputs.manifest == 'yes'
         env:
           UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
           UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
           TIME_BUDGET_SEC: '900'
-          MEDIA_PER_RUN: '100'
-          UPLOAD_EXPORTS: ${{ inputs.upload_exports }}
+          MEDIA_PER_RUN: '0'
+          UPLOAD_EXPORTS: ${{ github.event_name == 'schedule' || inputs.upload_exports }}
         shell: bash
         run: |
           mode=()
@@ -162,7 +164,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: iran-html-exports
-          retention-days: 90
+          retention-days: 3
           path: archive-work/exports/
       - name: Commit panel data and coverage report
         if: always()

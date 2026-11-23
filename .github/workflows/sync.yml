@@ -26,6 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 400      # the daily report counts collector deliveries of the last 24 h
 
       - uses: actions/setup-python@v5

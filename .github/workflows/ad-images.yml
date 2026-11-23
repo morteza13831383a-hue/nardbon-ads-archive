@@ -1,0 +1,33 @@
+name: Transfer ad images
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [sync-telegram-ads]
+    types: [completed]
+    branches: [main]
+permissions:
+  contents: write
+concurrency:
+  group: ad-image-deliveries
+  cancel-in-progress: false
+jobs:
+  images:
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 48
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Copy pending images and record accepted uploads
+        env:
+          UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
+          UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
+        run: |
+          git config user.name nardbon-archive-bot
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          python scripts/ad_images.py

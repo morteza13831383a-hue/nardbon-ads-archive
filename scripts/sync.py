@@ -716,6 +716,8 @@ def main():
     OUT_MEDIA.mkdir(parents=True, exist_ok=True)
     state = load_state()
     ads = load_ads()
+    from ad_images import apply_receipts
+    apply_receipts(ads)
     stats = {"new": 0, "upd": 0, "media": 0}
     run = {"at": now_iso(), "ok": False, "error": None}
     errors = []
