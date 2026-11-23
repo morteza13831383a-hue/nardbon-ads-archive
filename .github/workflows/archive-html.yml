@@ -1,9 +1,7 @@
 name: One-off Iran HTML archive
 
 on:
-  # Was: every push of crawl parts (~26 runs/day, ~90 min/day). Parts now wait and are
-  # imported together every 6 h: dispatched by sync.yml (hourly, cron-job.org), with
-  # GitHub's own schedule only as a backup.
+  # The hourly ad sync imports new IDs. This job rebuilds detailed exports and recovery data.
   schedule:
     - cron: "53 */12 * * *"
   workflow_dispatch:
@@ -51,12 +49,14 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - name: Restore the last archive checkpoint
+        id: restore
         env:
           GH_TOKEN: ${{ github.token }}
           REQUESTED_RUN: ${{ inputs.resume_run_id }}
         shell: bash
         run: |
           set -euo pipefail
+          backup_due=true
           mkdir -p archive-work outbox/media
           if [[ -n "$REQUESTED_RUN" ]]; then
             [[ "$REQUESTED_RUN" =~ ^[0-9]+$ ]] || { echo 'Invalid run ID'; exit 1; }
@@ -78,6 +78,9 @@ jobs:
                       raise RuntimeError('Unexpected checkpoint member: ' + item.filename)
               z.extractall('.')
           PY
+            created=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$artifact" --jq .created_at)
+            age=$(( $(date -u +%s) - $(date -u -d "$created" +%s) ))
+            if (( age < 7 * 86400 )); then backup_due=false; fi
             echo "Restored checkpoint artifact $artifact"
           else
             # An existing archive with a lost/expired checkpoint must not restart silently.
@@ -87,6 +90,7 @@ jobs:
             fi
             echo 'Starting a new fixed-cutoff, one-off archive'
           fi
+          echo "backup_due=$backup_due" >> "$GITHUB_OUTPUT"
       - name: Collect or import public HTML archive (no source API)
         env:
           PAGE_BUDGET: ${{ inputs.max_pages || '80' }}
@@ -113,6 +117,7 @@ jobs:
           echo "checkpoint=$([ -f archive-work/checkpoint.sqlite3 ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
           ls -la archive-work/checkpoint.sqlite3 2>/dev/null || true
       - name: Merge and upload collected archive
+        id: publish_archive
         if: success() && steps.work.outputs.manifest == 'yes'
         env:
           UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
@@ -143,7 +148,7 @@ jobs:
           PY
           fi
       - name: Prepare resumable checkpoint
-        if: always() && steps.work.outputs.checkpoint == 'yes'
+        if: always() && steps.work.outputs.checkpoint == 'yes' && (steps.restore.outputs.backup_due == 'true' || (github.event_name == 'workflow_dispatch' && inputs.import_only == false))
         run: |
           mkdir -p archive-checkpoint/archive-work archive-checkpoint/outbox/media
           cp archive-work/checkpoint.sqlite3 archive-checkpoint/archive-work/
@@ -153,14 +158,14 @@ jobs:
           cp -a outbox/media/. archive-checkpoint/outbox/media/
           touch archive-checkpoint/outbox/media/placeholder.txt
       - name: Save resumable checkpoint and queued images
-        if: always() && steps.work.outputs.checkpoint == 'yes'
+        if: always() && steps.work.outputs.checkpoint == 'yes' && (steps.restore.outputs.backup_due == 'true' || (github.event_name == 'workflow_dispatch' && inputs.import_only == false))
         uses: actions/upload-artifact@v4
         with:
           name: iran-html-checkpoint
-          retention-days: 90
+          retention-days: 21
           path: archive-checkpoint/
-      - name: Save detailed exports
-        if: always() && steps.work.outputs.manifest == 'yes'
+      - name: Save detailed exports when the host did not receive them
+        if: always() && steps.work.outputs.manifest == 'yes' && (steps.publish_archive.outcome != 'success' || (github.event_name != 'schedule' && !inputs.upload_exports))
         uses: actions/upload-artifact@v4
         with:
           name: iran-html-exports
