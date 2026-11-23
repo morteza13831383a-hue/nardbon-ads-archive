@@ -38,13 +38,28 @@ def load_receipts():
     return rows
 
 
+def transient(row):
+    reason = row.get('reason', '')
+    return (reason in {'ConnectionError', 'ChunkedEncodingError', 'ContentDecodingError',
+                       'ReadTimeout', 'ConnectTimeout', 'Timeout', 'SSLError', 'ProxyError'}
+            or (reason.startswith('HTTP ') and reason[5:] in {'408', '425', '500', '502', '503', '504'}))
+
+
+def ready_for_retry(row, now):
+    if row.get('status') != 'review':
+        return False
+    attempt = row.get('attempt', 1)
+    backoff = min(86400, 3600 * 2 ** min(attempt - 1, 5))
+    return now - row['at'] >= backoff and (transient(row) or attempt < 3)
+
+
 def apply_receipts(ads):
     rows = load_receipts()
     for ad in ads.values():
         if ad.get('media_status') not in ('pending', 'queued', 'failed'):
             continue
         row = rows.get(url_key(source(ad)), {})
-        if row.get('status') == 'review' and row.get('attempt', 0) >= 3:
+        if row.get('status') == 'review' and row.get('attempt', 0) >= 3 and not transient(row):
             ad['media_status'] = 'failed'
             ad['media_error'] = row.get('reason')
         elif row.get('status') == 'ok' and re.fullmatch(r'media/[a-zA-Z0-9_-]+\.webp', row['file']):
@@ -116,16 +131,14 @@ def drain():
         if ad.get('media_src') and ad.get('media_status') in ('failed', 'pending', 'queued'):
             url = source(ad)
             prev = known.get(url_key(url), {})
-            retry = (prev.get('status') == 'review' and prev.get('attempt', 1) < 3
-                     and now - prev['at'] > 3600)
-            if not prev or retry:
+            if not prev or ready_for_retry(prev, now):
                 todo[urlsplit(url).hostname or ''].add(url)
     cutoff = time.monotonic() + int(os.environ.get('DRAIN_SECONDS', '2200'))
     results = queue.Queue()
     def worker(host, urls, temp):
         with requests.Session() as client, sync.Uploader() as up:
             client.headers['User-Agent'] = 'Nardboon-Ad-Image-Sync/1.0'
-            for url in sorted(urls, key=lambda u: (u not in mapped, u)):
+            for url in sorted(urls, key=lambda u: (u not in mapped, bool(known.get(url_key(u))), u)):
                 if time.monotonic() >= cutoff:
                     return
                 if url in mapped:
@@ -151,8 +164,8 @@ def drain():
         part = 0
         while True:
             batch = []
-            deadline = time.monotonic() + 100
-            while len(batch)<200 and time.monotonic()<deadline:
+            deadline = time.monotonic() + 300
+            while len(batch) < 500 and time.monotonic() < deadline:
                 if all(f.done() for f in futures) and results.empty():
                     break
                 try: batch.append(results.get(timeout=2))
