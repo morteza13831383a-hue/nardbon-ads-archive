@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-23T20:36:25Z",
+ "cursor": "2026-11-23T21:36:23Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "e262e6001079ebdb",
+  "tgads/data/2026-11.json": "dc748a79435dc102",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,35 +20,23 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "9c4ea6976b611313",
-  "tgads/data/2026-08.json": "c50db361673f402b",
-  "tgads/data/2026-09.json": "920c44651dd3c007",
-  "tgads/data/2026-04.json": "d64a3221c5c00be8",
-  "tgads/data/2026-05.json": "4068bb02e1d00026",
-  "tgads/data/2026-06.json": "17f5d1db4abdd37b",
-  "tgads/data/2026-07.json": "adfe4ff0ceb4fe7b",
-  "tgads/data/2026-10.json": "ba7e831864a8b0e7",
+  "tgads/channels/channels.json": "4fccf06fd16ad312",
+  "tgads/data/2026-08.json": "9aff317c77df1444",
+  "tgads/data/2026-09.json": "0fe8e346f35e4e18",
+  "tgads/data/2026-04.json": "24f6f759bde549e3",
+  "tgads/data/2026-05.json": "23356ea6efa58847",
+  "tgads/data/2026-06.json": "4e86309f6c1f0a42",
+  "tgads/data/2026-07.json": "5901384ace09cab8",
+  "tgads/data/2026-10.json": "f9f2e779ec4cd9c4",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
   "tgads/channels/channels-00.json": "effd001e6b6a9cec",
   "tgads/channels/channels-01.json": "75c12bd6021db5ff",
   "tgads/channels/channels-02.json": "e55cc4641a694f3a",
   "tgads/channels/channels-03.json": "75e42718681facd2",
   "tgads/channels/channels-04.json": "1886f10f979614b6",
-  "tgads/channels/channels-05.json": "03055b6b429dc390"
+  "tgads/channels/channels-05.json": "075cba1df6addb20"
  },
  "runs": [
-  {
-   "at": "2026-11-21T16:36:28Z",
-   "ok": true,
-   "error": null,
-   "new": 12,
-   "updated": 7,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 12
-  },
   {
    "at": "2026-11-21T17:36:24Z",
    "ok": true,
@@ -768,18 +756,32 @@
    "sent_media": 0,
    "sent_files": 15,
    "secs": 75
+  },
+  {
+   "at": "2026-11-23T22:36:24Z",
+   "ok": true,
+   "error": null,
+   "html_new": 197,
+   "html_parts": 4,
+   "new": 14,
+   "updated": 4,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 10,
+   "secs": 73
   }
  ],
- "last_upload_ok": "2026-11-23T21:37:36Z",
+ "last_upload_ok": "2026-11-23T22:37:31Z",
  "lang_seen": {
-  "-": 1082,
+  "-": 1083,
   "tr": 63,
   "he": 39,
   "ru": 732,
-  "ar": 388,
+  "ar": 390,
   "my": 47,
   "en": 496,
-  "fa": 17826,
+  "fa": 17846,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -4977,10 +4979,14 @@
   "ads-cloud-20261123T203744061723-0001.jsonl.gz": "31130e76820d227657758736cce15b4c424a1d127cf120ce0d7a9fb7a01992f2",
   "ads-cloud-20261123T205219117574-0001.jsonl.gz": "b5b7a499c5c0d9ca9f050a3efc1cb8fba225f21e1fa306d9aa471fc81ab149a6",
   "ads-cloud-20261123T210644994652-0001.jsonl.gz": "8deb17680a62566f19d4bf4675becdd48b3449d88d995ed4a2a2e36a1b583fd1",
-  "ads-cloud-20261123T212615002760-0001.jsonl.gz": "a34459ef3f151a8061db8de665fffefe3dbc4d6e650a8f646717d6176915ab35"
+  "ads-cloud-20261123T212615002760-0001.jsonl.gz": "a34459ef3f151a8061db8de665fffefe3dbc4d6e650a8f646717d6176915ab35",
+  "ads-cloud-20261123T214243045525-0001.jsonl.gz": "bb93cabd564444dc39037db6351fbf586f8c0525d362b00a050bd9c3518d24da",
+  "ads-cloud-20261123T215910095623-0001.jsonl.gz": "d0c0fda1c86926560c587676c81623e4a32c343bee1c59e7c1be00733851cf33",
+  "ads-cloud-20261123T221532974291-0001.jsonl.gz": "f35723f6dfb182fefd622ee19ccd02def556f07b2e336add51bf93f4ca00cf1d",
+  "ads-cloud-20261123T223157650547-0001.jsonl.gz": "9c0b3e9474b21095d5311b8d7f2ee97704ce965cc91c9b86199d4e738fe94a5f"
  },
  "ad_history_v1": {
-  "next_at": 1795472487,
+  "next_at": 1795476085,
   "days": {},
   "advertisers": {
    "tg-iranperfect-money": {
@@ -5227,33 +5233,83 @@
     "offset": 20,
     "status": "read",
     "first_id": "cmwpg4euy14rsqm01xqlcax6c"
+   },
+   "tg-pubgnewsorg": {
+    "offset": 15,
+    "status": "read",
+    "first_id": "cmwtu9z9b1p72qm01gahcp635"
+   },
+   "tg-elhamtaherihamkari": {
+    "offset": 37,
+    "status": "read",
+    "first_id": "cmuwktbr804vkqa018u42lifv"
+   },
+   "tg-rafiee_crypto": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-myteen110": {
+    "offset": 11,
+    "status": "read",
+    "first_id": "cmvqs4a5u006cp801k4grjsag"
+   },
+   "tg-zahidhadi17": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmu4nbuzy01dfmn01tjnanhof"
+   },
+   "tg-aipolynetbot": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmu46ahre00mrmn015wy2lv48"
+   },
+   "tg-p6_rs": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-mofidsecuritiesofficial": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmwjeeg1009hoqm015abu74r4"
+   },
+   "tg-smartbodyvipbot": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmw6wt6wg0e28rq01cmvvmiog"
+   },
+   "tg-yekbet": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmwf5lhdx01lrls01iz2erjhd"
    }
   },
   "last": {
    "requests": 10,
-   "new": 19,
+   "new": 17,
    "dates_new": 0,
-   "advertisers_new": 19,
+   "advertisers_new": 17,
    "pages": [
     {
      "via": "advertiser",
-     "target": "tg-mansurservatbot",
-     "offset": 0,
-     "rows": 20,
-     "new": 4,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-helotalkbot",
+     "target": "tg-pubgnewsorg",
      "offset": 0,
      "rows": 15,
-     "new": 0,
+     "new": 5,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-kafsh_stila",
+     "target": "tg-elhamtaherihamkari",
+     "offset": 0,
+     "rows": 37,
+     "new": 11,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-rafiee_crypto",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -5261,39 +5317,15 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-shadownetguard_bot",
+     "target": "tg-myteen110",
      "offset": 0,
-     "rows": 0,
-     "new": 0,
+     "rows": 11,
+     "new": 1,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-neda_crypto",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-minayi1369",
-     "offset": 0,
-     "rows": 19,
-     "new": 6,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-eco_eghtesaad",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-abshodemoein2",
+     "target": "tg-zahidhadi17",
      "offset": 0,
      "rows": 9,
      "new": 0,
@@ -5301,7 +5333,7 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-codalscan",
+     "target": "tg-aipolynetbot",
      "offset": 0,
      "rows": 9,
      "new": 0,
@@ -5309,10 +5341,34 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-seyfdress",
+     "target": "tg-p6_rs",
      "offset": 0,
-     "rows": 20,
-     "new": 9,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-mofidsecuritiesofficial",
+     "offset": 0,
+     "rows": 9,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-smartbodyvipbot",
+     "offset": 0,
+     "rows": 9,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-yekbet",
+     "offset": 0,
+     "rows": 9,
+     "new": 0,
      "status": "read"
     }
    ]
