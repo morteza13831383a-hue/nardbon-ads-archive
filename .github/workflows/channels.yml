@@ -1,0 +1,151 @@
+name: Channel extraction (public HTML, no API)
+
+on:
+  workflow_dispatch:
+    inputs:
+      pages_per_slice:
+        description: 'Queue pages per slice (1-200)'
+        default: '25'
+        required: true
+      max_slices:
+        description: 'Slices this run; 0 = until the discovered queue is exhausted'
+        default: '1'
+        required: true
+      publish:
+        description: 'Publish raw buckets to data/channel-html-import'
+        type: boolean
+        default: true
+  push:
+    branches: [main]
+    paths: ['data/channels-run-trigger.txt']
+
+permissions:
+  contents: write
+  actions: read
+
+# Same lock as sync.yml: do not overwrite panel data while the normal sync is writing.
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  channels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Restore the last channels checkpoint
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p channels-work
+          artifact=$(gh api --paginate "repos/$GITHUB_REPOSITORY/actions/artifacts?name=channels-checkpoint&per_page=100" --jq '.artifacts[] | select(.expired == false and .workflow_run.head_branch == "main") | .id' | sort -nr | sed -n '1p')
+          if [[ -n "$artifact" ]]; then
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$artifact/zip" > checkpoint.zip
+            python - <<'PY'
+          import zipfile
+          from pathlib import Path
+          with zipfile.ZipFile('checkpoint.zip') as z:
+              for item in z.infolist():
+                  path = Path(item.filename)
+                  allowed = path.parts and path.parts[0] == 'channels-work'
+                  if path.is_absolute() or '..' in path.parts or not allowed:
+                      raise RuntimeError('Unexpected checkpoint member: ' + item.filename)
+              z.extractall('.')
+          PY
+            echo "Restored channels checkpoint artifact $artifact"
+          else
+            echo 'No saved checkpoint; starting a fresh discovery queue'
+          fi
+
+      - name: Resolve run parameters
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            PAGES='${{ inputs.pages_per_slice }}'
+            SLICES='${{ inputs.max_slices }}'
+            PUBLISH='${{ inputs.publish }}'
+          else
+            # push runs read the first line of the trigger file, e.g. "pages=25 slices=1 publish=1"
+            PAGES=25; SLICES=1; PUBLISH=true
+            for pair in $(head -n1 data/channels-run-trigger.txt 2>/dev/null || true); do
+              case "$pair" in
+                pages=*) PAGES="${pair#pages=}" ;;
+                slices=*) SLICES="${pair#slices=}" ;;
+                publish=*) PUBLISH="${pair#publish=}" ;;
+              esac
+            done
+          fi
+          case "$PUBLISH" in 1|true|yes) PUBLISH=true ;; *) PUBLISH=false ;; esac
+          [[ "$PAGES" =~ ^[0-9]+$ && "$SLICES" =~ ^[0-9]+$ ]] || { echo "Invalid budget: pages=$PAGES slices=$SLICES"; exit 1; }
+          [[ "$PAGES" -ge 1 && "$PAGES" -le 200 && "$SLICES" -le 10 ]] || { echo "Budget out of range: pages=$PAGES slices=$SLICES"; exit 1; }
+          {
+            echo "PAGES=$PAGES"
+            echo "SLICES=$SLICES"
+            echo "PUBLISH=$PUBLISH"
+          } >> "$GITHUB_ENV"
+          echo "Run parameters: pages=$PAGES slices=$SLICES publish=$PUBLISH"
+
+      - name: Run channel extraction (HTML only, no source API)
+        env:
+          ARCHIVE_ACCESS_TOKEN: ${{ secrets.ARCHIVE_ACCESS_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(--work-dir channels-work --pages-per-slice "$PAGES" --max-slices "$SLICES")
+          if [[ "$PUBLISH" == "true" ]]; then args+=(--repo "$GITHUB_REPOSITORY"); fi
+          python scripts/channels_html.py "${args[@]}"
+
+      - name: Check work files
+        id: work
+        if: always()
+        shell: bash
+        run: |
+          echo "checkpoint=$([ -f channels-work/channels.sqlite3 ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+          echo "manifest=$([ -f channels-work/exports/manifest.json ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+
+      - name: Save resumable checkpoint
+        if: always() && steps.work.outputs.checkpoint == 'yes'
+        uses: actions/upload-artifact@v4
+        with:
+          name: channels-checkpoint
+          retention-days: 90
+          path: channels-work/
+          if-no-files-found: ignore
+
+      - name: Save detailed exports
+        if: always() && steps.work.outputs.manifest == 'yes'
+        uses: actions/upload-artifact@v4
+        with:
+          name: channels-exports
+          retention-days: 7
+          path: channels-work/exports/
+          if-no-files-found: ignore
+
+      - name: Write run summary
+        if: always() && steps.work.outputs.manifest == 'yes'
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os
+          d = json.load(open('channels-work/exports/manifest.json'))
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write('### Channel extraction (public HTML, no API)\n\n')
+              f.write(f"Channels saved: **{d['channels']}**\n\n")
+              f.write(f"Classifications: `{json.dumps(d['classifications'])}`\n\n")
+              f.write(f"Queue: `{json.dumps(d['queue'])}`\n\n")
+          PY
