@@ -31,7 +31,7 @@ EVERY_H = float(os.environ.get("CHANNELS_EVERY_HOURS", "5"))  # one slice every 
 PAGE = 100
 PERSIAN = re.compile("[پچژگکی]")
 # compact rows keep the file small for the browser
-FIELDS = ["u", "t", "m", "v", "c", "e", "k", "s", "d", "dd", "pd", "lp", "sr", "ia", "ic", "cl", "kd", "co", "lg", "er", "ts", "rg", "tl", "cb", "lz", "tm", "tc"]   # tl/cb/lz/tm/tc: date seen in TGList / Combot / Lyzem / telemetr.io / telegramchannels.me   # kd channel/group, co country, lg language, er engagement, ts TGStat date   # ia/ic: Iranian advertisers / their creatives seen in the channel   # + posts per day, last post date, source (tme = found by our crawler)   # username, title, members, avg views, category, sponsor-eligible, keywords, last snapshot, description, description date
+FIELDS = ["u", "t", "m", "v", "c", "e", "k", "s", "d", "dd", "pd", "lp", "sr", "ia", "ic", "cl", "kd", "co", "lg", "er", "ts", "rg", "tl", "cb", "lz", "tm", "tc", "tse"]   # tse: Telegram Search Engine date. tl/cb/lz/tm/tc: date seen in TGList / Combot / Lyzem / telemetr.io / telegramchannels.me   # kd channel/group, co country, lg language, er engagement, ts TGStat date   # ia/ic: Iranian advertisers / their creatives seen in the channel   # + posts per day, last post date, source (tme = found by our crawler)   # username, title, members, avg views, category, sponsor-eligible, keywords, last snapshot, description, description date
 DESC_PER_RUN = int(os.environ.get("CHANNELS_DESC_PER_RUN", "60"))   # public t.me pages read per run
 DESC_GAP = float(os.environ.get("CHANNELS_DESC_GAP_SEC", "1.5"))
 DESC_MAX_AGE_DAYS = 30

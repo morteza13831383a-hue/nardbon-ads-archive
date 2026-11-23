@@ -73,22 +73,29 @@ def ensure_schema(db):
 
 
 def seed_known(db, ads_dir='data/ads'):
-    """A fresh checkpoint (new machine) must not re-fetch ads already in the archive:
-    mark every id from data/ads/*.json as done. Runs once per checkpoint."""
-    import glob
-    if db.execute("SELECT 1 FROM meta WHERE key='known_seeded_v1'").fetchone():
-        return 0
-    n = 0
-    for f in glob.glob(f'{ads_dir}/*.json'):
-        for a in json.load(open(f, encoding='utf-8')):
-            if CUID.fullmatch(a.get('id') or ''):
-                db.execute("INSERT INTO queue(url,kind,priority,status,via) VALUES(?, 'detail', 99, 'known', 'archive') "
-                           "ON CONFLICT(url) DO UPDATE SET status=CASE WHEN status='pending' THEN 'known' ELSE status END",
-                           (f'{BASE}/ads/{a["id"]}',))
-                n += 1
-    db.execute("INSERT INTO meta VALUES('known_seeded_v1', datetime('now'))")
-    db.commit()
-    return n
+    """Skip IDs already delivered by another source, including later panel imports."""
+    import hashlib
+    from pathlib import Path
+
+    db.execute("CREATE TABLE IF NOT EXISTS known_ad_shards(name TEXT PRIMARY KEY, digest TEXT NOT NULL)")
+    changed = 0
+    for path in sorted(Path(ads_dir).glob("*.json")):
+        raw = path.read_bytes()
+        digest = hashlib.sha256(raw).hexdigest()
+        if db.execute("SELECT 1 FROM known_ad_shards WHERE name=? AND digest=?",
+                      (path.name, digest)).fetchone():
+            continue
+        rows = json.loads(raw)
+        if not isinstance(rows, list):
+            raise ValueError(f"Invalid ad shard {path.name}")
+        urls = [(BASE + "/ads/" + row["id"],) for row in rows if CUID.fullmatch(row.get("id") or "")]
+        with db:
+            result = db.executemany(
+                "INSERT INTO queue(url,kind,priority,status,via) VALUES(?, 'detail', 99, 'known', 'archive') "
+                "ON CONFLICT(url) DO UPDATE SET status='known' WHERE queue.status='pending'", urls)
+            changed += result.rowcount
+            db.execute("INSERT OR REPLACE INTO known_ad_shards VALUES(?,?)", (path.name, digest))
+    return changed
 
 
 def seed_from_channel_pages(db, enqueue, html_dir=None):

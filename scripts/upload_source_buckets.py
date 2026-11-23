@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCES = (
     'channel-html-import', 'combot-import', 'lyzem-import',
     'telemetr-import', 'tgchannelsme-import', 'tglist-import',
-    'tgstat-import',
+    'tgstat-import', 'telegramsearchengine-import',
 )
 
 
