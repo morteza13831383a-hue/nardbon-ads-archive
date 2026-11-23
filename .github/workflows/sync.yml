@@ -52,6 +52,8 @@ jobs:
           UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
           UPLOAD_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
           ADS_API_ONLY: "1"
+          AD_ARCHIVE_FAST_SYNC: "1"
+          AD_HISTORY_PAGES: "10"
         run: python scripts/sync.py
 
       - uses: actions/cache/save@v4

@@ -744,6 +744,19 @@ def main():
             except Exception as e:
                 errors.append(f"{step.__name__}: {e}")
                 traceback.print_exc()
+    # Both historical routes operate on ads alone, with the live API cursor already saved in state.
+    if ADS_API_ONLY and os.environ.get("AD_ARCHIVE_FAST_SYNC") == "1":
+        try:
+            from archive_publish import import_new_parts
+            cutoff = json.loads((DATA / "html-archive-summary.json").read_text())["cutoff"]
+            run["html_new"], run["html_parts"] = import_new_parts(ads, state, DATA / "html-archive-import", cutoff)
+            log("Hourly HTML ad imports", run["html_new"], "new ads from", run["html_parts"], "parts")
+            if not errors and not (state.get("api_blocked_until") or "") > now_iso():
+                import ad_history
+                ad_history.collect(ads, state, cutoff, int(os.environ.get("AD_HISTORY_PAGES", "10")), sys.modules[__name__])
+        except Exception as exc:
+            log("Historical ad processing needs review", type(exc).__name__)
+            errors.append("ad history: " + type(exc).__name__)
     # phase 2: a small slice of the Persian channel catalog each run (own key; off without one)
     ch_block = state.get("channels_blocked_until") or ""
     if not ADS_API_ONLY and channels.enabled() and channels.due(state, dt.datetime.now(dt.timezone.utc)) \

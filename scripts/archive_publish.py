@@ -55,6 +55,38 @@ def merge_record(ads, record):
     }
 
 
+def import_new_parts(ads, state, directory, cutoff):
+    """Expose new ad IDs at the next sync; the full archive job still merges detail upgrades."""
+    from datetime import datetime
+    import gzip
+    from archive_html import eligible_import
+
+    cutoff_dt = datetime.fromisoformat(cutoff.replace('Z', '+00:00'))
+    receipts = state.setdefault('hourly_ad_parts', {})
+    new = parts = 0
+    for part in sorted(directory.glob('ads-*.jsonl.gz')):
+        digest = hashlib.sha256(part.read_bytes()).hexdigest()
+        if receipts.get(part.name) == digest:
+            continue
+        fresh = {}
+        with gzip.open(part, 'rt', encoding='utf-8') as stream:
+            for line in stream:
+                if not line.strip():
+                    continue
+                row = json.loads(line)
+                if row.get('id') in ads or not eligible_import(row, cutoff_dt):
+                    continue
+                row['archive_cutoff'] = cutoff
+                if row['id'] not in fresh or row.get('record_detail') != 'listing':
+                    fresh[row['id']] = row
+        for row in fresh.values():
+            merge_record(ads, row)
+        new += len(fresh)
+        parts += 1
+        receipts[part.name] = digest
+    return new, parts
+
+
 def upload_panel(ads,state,run):
     """Reuse the transport while publishing only the ad panel, never channel files/status."""
     sync.OUT_MEDIA.mkdir(parents=True,exist_ok=True)

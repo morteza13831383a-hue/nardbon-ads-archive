@@ -385,6 +385,19 @@ def crawl(db, client, max_pages, max_seconds, only_via=None, claims=None):
     return attempts
 
 
+def eligible_import(record, cutoff_dt):
+    url=record.get('source_url','')
+    match=AD_PATH.fullmatch(urlsplit(url).path)
+    if origin(url) not in {origin('https://' + h) for h in (
+        'tgadsspy.com', 'telegramadsarchive.com', 'telegramadsanalytics.com',
+        'telegramads.it', 'tgads.biz', 'tgads.observer', 'telegramstats.net')} or not match or match[1]!=record.get('id') or record.get('geo')!='IR':
+        raise ValueError('Invalid imported ad identity or country')
+    first=datetime.fromisoformat(record['first_seen'].replace('Z','+00:00'))
+    if first.tzinfo is None:
+        raise ValueError('Imported date requires timezone')
+    return first <= cutoff_dt
+
+
 def import_records(db,paths):
     """Import files collected on an executor with normal public-page access."""
     cutoff=db.execute("SELECT value FROM meta WHERE key='cutoff'").fetchone()[0]
@@ -398,16 +411,7 @@ def import_records(db,paths):
                 if not line.strip():
                     continue
                 record=json.loads(line)
-                url=record.get('source_url','')
-                match=AD_PATH.fullmatch(urlsplit(url).path)
-                if origin(url) not in {origin('https://' + h) for h in (
-                    'tgadsspy.com', 'telegramadsarchive.com', 'telegramadsanalytics.com',
-                    'telegramads.it', 'tgads.biz', 'tgads.observer', 'telegramstats.net')} or not match or match[1]!=record.get('id') or record.get('geo')!='IR':
-                    raise ValueError('Invalid imported ad identity or country')
-                first=datetime.fromisoformat(record['first_seen'].replace('Z','+00:00'))
-                if first.tzinfo is None:
-                    raise ValueError('Imported date requires timezone')
-                if first>cutoff_dt:
+                if not eligible_import(record, cutoff_dt):
                     continue
                 record['archive_cutoff']=cutoff
                 prior=db.execute('SELECT payload FROM records WHERE id=?',(record['id'],)).fetchone()
