@@ -1,32 +1,32 @@
 {
   "last_slice_performance": {
     "pages_attempted": 60,
-    "new_iran_ads": 22,
-    "seconds": 822.31
+    "new_iran_ads": 30,
+    "seconds": 819.68
   },
   "external_collection": null,
   "last_stop_reason": "",
   "schema_version": 1,
-  "generated_at": "2026-11-23T19:39:04.117189+00:00",
+  "generated_at": "2026-11-23T19:53:44.683077+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 13383,
+  "iran_ads_extracted": 13413,
   "source_reported_iran_total": 56483,
   "queue_status": {
     "after_cutoff": 155,
-    "done": 14284,
+    "done": 14293,
     "gone": 47,
-    "iran": 13383,
+    "iran": 13413,
     "known": 27838,
     "mirror_done": 122,
-    "not_iran": 9680,
-    "pending": 731010,
+    "not_iran": 9701,
+    "pending": 731043,
     "skipped_time": 8
   },
   "queue_kinds": {
-    "detail": 754802,
-    "listing": 41680,
+    "detail": 754817,
+    "listing": 41758,
     "sitemap": 45
   },
   "discovered_queue_exhausted": false,
@@ -57,23 +57,23 @@
       {
         "month": "2026-07",
         "site_iran_total": 8355,
-        "extracted": 1531,
-        "missing": 6824,
+        "extracted": 1532,
+        "missing": 6823,
         "coverage_pct": 18.3
       },
       {
         "month": "2026-08",
         "site_iran_total": 10472,
-        "extracted": 2085,
-        "missing": 8387,
+        "extracted": 2086,
+        "missing": 8386,
         "coverage_pct": 19.9
       },
       {
         "month": "2026-09",
         "site_iran_total": 16687,
-        "extracted": 3841,
-        "missing": 12846,
-        "coverage_pct": 23.0
+        "extracted": 3869,
+        "missing": 12818,
+        "coverage_pct": 23.2
       },
       {
         "month": "2026-10",
@@ -91,7 +91,7 @@
       }
     ],
     "site_sum_of_months": 56596,
-    "extracted_total": 13383,
+    "extracted_total": 13413,
     "by_strategy": [
       {
         "via": "iran_listing",
@@ -101,9 +101,9 @@
       },
       {
         "via": "advertiser_via_channel>ad",
-        "requests": 7999,
-        "iran": 3101,
-        "iran_per_100": 38.77
+        "requests": 8090,
+        "iran": 3148,
+        "iran_per_100": 38.91
       },
       {
         "via": "persian_channel_priority_profile",
@@ -119,9 +119,9 @@
       },
       {
         "via": "listing>ad",
-        "requests": 1040,
-        "iran": 998,
-        "iran_per_100": 95.96
+        "requests": 1043,
+        "iran": 999,
+        "iran_per_100": 95.78
       },
       {
         "via": "persian_channel_page",
@@ -131,9 +131,9 @@
       },
       {
         "via": "original",
-        "requests": 585,
-        "iran": 132,
-        "iran_per_100": 22.56
+        "requests": 572,
+        "iran": 119,
+        "iran_per_100": 20.8
       },
       {
         "via": "saved_iran_listing",
@@ -143,9 +143,9 @@
       },
       {
         "via": "sitemap",
-        "requests": 30931,
-        "iran": 82,
-        "iran_per_100": 0.27
+        "requests": 30902,
+        "iran": 77,
+        "iran_per_100": 0.25
       },
       {
         "via": "advertiser_niche>ad",
@@ -191,7 +191,7 @@
       },
       {
         "via": "advertiser_via_channel",
-        "requests": 1221,
+        "requests": 1229,
         "iran": 0,
         "iran_per_100": 0.0
       },
@@ -218,9 +218,9 @@
       },
       {
         "via": "advertiser_via_channel>ad",
-        "requests": 7394,
-        "iran": 2951,
-        "iran_per_100": 39.91
+        "requests": 7445,
+        "iran": 2981,
+        "iran_per_100": 40.04
       },
       {
         "via": "persian_channel_priority_profile",
@@ -236,15 +236,15 @@
       },
       {
         "via": "advertiser_via_channel",
-        "requests": 1222,
+        "requests": 1230,
         "iran": 0,
         "iran_per_100": 0.0
       },
       {
         "via": "overhead",
-        "requests": 744,
+        "requests": 746,
         "iran": 183,
-        "iran_per_100": 24.6
+        "iran_per_100": 24.53
       },
       {
         "via": "advertiser_niche>ad",
