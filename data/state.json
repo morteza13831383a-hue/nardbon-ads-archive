@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "5c102548cc8d6561",
+  "tgads/data/2026-11.json": "d910c4321af13369",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,35 +20,24 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "9958c20157aa5b29",
-  "tgads/data/2026-08.json": "b87ef33eb5fa7f42",
-  "tgads/data/2026-09.json": "248977b93bc0c55b",
+  "tgads/channels/channels.json": "471aa6d52a4ce7e2",
+  "tgads/data/2026-08.json": "de5b0e12e61f35fb",
+  "tgads/data/2026-09.json": "c2ffea9066692fad",
   "tgads/data/2026-04.json": "bbd033d71744998f",
-  "tgads/data/2026-05.json": "784f2abdec477dca",
-  "tgads/data/2026-06.json": "b0620ccf6fe28ca7",
-  "tgads/data/2026-07.json": "b5e6356bf55a6558",
-  "tgads/data/2026-10.json": "6d0d1a298fd58f55",
+  "tgads/data/2026-05.json": "403dc7deeb0ce43e",
+  "tgads/data/2026-06.json": "2b794f3d99229bac",
+  "tgads/data/2026-07.json": "94bfd484078ba3a3",
+  "tgads/data/2026-10.json": "95f5c5dfdfaa5e76",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
   "tgads/channels/channels-00.json": "effd001e6b6a9cec",
   "tgads/channels/channels-01.json": "75c12bd6021db5ff",
   "tgads/channels/channels-02.json": "e55cc4641a694f3a",
   "tgads/channels/channels-03.json": "75e42718681facd2",
   "tgads/channels/channels-04.json": "1886f10f979614b6",
-  "tgads/channels/channels-05.json": "9170d7f18d8259cb"
+  "tgads/channels/channels-05.json": "7d743d51349e8b31",
+  "tgads/channels/channels-06.json": "d84d133d7b2fd65c"
  },
  "runs": [
-  {
-   "at": "2026-11-22T03:36:38Z",
-   "ok": true,
-   "error": null,
-   "new": 3,
-   "updated": 0,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 21
-  },
   {
    "at": "2026-11-22T04:36:36Z",
    "ok": true,
@@ -792,9 +781,23 @@
    "sent_media": 0,
    "sent_files": 10,
    "secs": 264
+  },
+  {
+   "at": "2026-11-24T09:35:52Z",
+   "ok": false,
+   "error": "api: rate limited, paused until 2026-11-24T10:35:52Z",
+   "html_new": 423,
+   "html_parts": 4,
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 10,
+   "secs": 21
   }
  ],
- "last_upload_ok": "2026-11-24T08:40:05Z",
+ "last_upload_ok": "2026-11-24T09:36:07Z",
  "lang_seen": {
   "-": 1099,
   "tr": 63,
@@ -837,12 +840,12 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": "150",
-  "X-RateLimit-Remaining": "149",
+  "X-RateLimit-Limit": null,
+  "X-RateLimit-Remaining": null,
   "X-RateLimit-Reset": null
  },
  "channels_total": 2261,
- "api_blocked_until": "2026-11-16T00:37:26Z",
+ "api_blocked_until": "2026-11-24T10:35:52Z",
  "channels_idx": 13,
  "desc_last": "2026-11-13T17:31:52Z",
  "html_archive_exported_at": "2026-11-23T20:08:34Z",
@@ -5025,7 +5028,11 @@
   "ads-cloud-20261124T081240718210-0005.jsonl.gz": "94cfbb338f29ffec95353006db97581c1004ce1d6defcd74335ac8c31d380c5b",
   "ads-cloud-20261124T082729918428-0001.jsonl.gz": "ae7029da69517f353c3027471d16796be4f25530c07be880b160b144e3e0485a",
   "ads-cloud-20261124T082729918428-0002.jsonl.gz": "325d80b64b39da042c38e3f634700906d94603cf470f483d9c558f5a5186f739",
-  "ads-cloud-20261124T082729918428-0003.jsonl.gz": "35d02125d2f6fbc24381c70e9a84cbdaa8d1bde49da952bfaa2a71eb4702ae82"
+  "ads-cloud-20261124T082729918428-0003.jsonl.gz": "35d02125d2f6fbc24381c70e9a84cbdaa8d1bde49da952bfaa2a71eb4702ae82",
+  "ads-cloud-20261124T083654942039-0001.jsonl.gz": "ea74fe73417a0dc2f6bdfb018bce5c25b0eeb2a9973db1e0171aac9a29920332",
+  "ads-cloud-20261124T090708954159-0001.jsonl.gz": "1d166e7be74d663a66187d860be775c3533f9a0dac262f53f511d3bdf0dddb38",
+  "ads-cloud-20261124T090708954159-0002.jsonl.gz": "2abb6bee0bfbffe641012e362f4fd877df0ebe3d91fad9926b2f4094efc61212",
+  "ads-cloud-20261124T090708954159-0003.jsonl.gz": "1d3d611d89a03c1b0c3ce92fd8790f8a3e4f93fa5990697acd9eeaceadb758d7"
  },
  "ad_history_v1": {
   "next_at": 1795512952,
