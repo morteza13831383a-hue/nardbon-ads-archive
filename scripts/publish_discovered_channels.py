@@ -18,8 +18,14 @@ SOURCES = (("telegramsearchengine", "tse"), ("tgchannelsme", "tc"), ("lyzem", "l
 
 
 def raw(repo, path, ref, sha):
-    body = subprocess.check_output(["gh","api",f"repos/{repo}/contents/{path}?ref={ref}",
-                                   "-H","Accept: application/vnd.github.raw+json"], timeout=120)
+    if path.endswith(".gz"):
+        obj = gh(repo, "git/blobs/" + sha)
+        if obj.get("encoding") != "base64" or obj.get("sha") != sha:
+            raise ValueError("Invalid source blob")
+        body = base64.b64decode(obj["content"])
+    else:
+        body = subprocess.check_output(["gh","api",f"repos/{repo}/contents/{path}?ref={ref}",
+                                       "-H","Accept: application/vnd.github.raw+json"], timeout=120)
     actual = hashlib.sha1(f"blob {len(body)}\0".encode() + body).hexdigest()
     if actual != sha:
         raise ValueError("Remote object digest mismatch")
