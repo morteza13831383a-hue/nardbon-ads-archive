@@ -42,7 +42,7 @@ def transient(row):
     reason = row.get('reason', '')
     return (reason in {'ConnectionError', 'ChunkedEncodingError', 'ContentDecodingError',
                        'ReadTimeout', 'ConnectTimeout', 'Timeout', 'SSLError', 'ProxyError'}
-            or (reason.startswith('HTTP ') and reason[5:] in {'408', '425', '500', '502', '503', '504'}))
+            or (reason.startswith('HTTP ') and reason[5:] in {'408', '425', '500', '502', '503', '504', '522'}))
 
 
 def ready_for_retry(row, now):
