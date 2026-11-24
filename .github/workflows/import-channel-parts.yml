@@ -1,0 +1,34 @@
+name: Import collected channels
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '18 */3 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: import-channel-parts
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Merge source buckets into the channel catalog
+        env:
+          PYTHONPATH: scripts
+        run: |
+          python - <<'PY'
+          import channel_import
+          from datetime import datetime, timezone
+          channel_import.run(print, lambda: datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
+          PY
+          git config user.name 'nardbon-archive-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          python scripts/commit_data.py 'Import collected channel batches'
