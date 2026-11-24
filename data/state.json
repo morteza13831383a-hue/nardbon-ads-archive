@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-23T23:36:17Z",
+ "cursor": "2026-11-24T00:35:57Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "1034d996955a274b",
+  "tgads/data/2026-11.json": "000fd4d8065943c0",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -21,13 +21,13 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "6babda817eb7c266",
-  "tgads/data/2026-08.json": "76afacc979c4656d",
-  "tgads/data/2026-09.json": "f45b1b98fed8c047",
-  "tgads/data/2026-04.json": "c5bcd2f8fab7e99c",
-  "tgads/data/2026-05.json": "f1e040b64fd56698",
-  "tgads/data/2026-06.json": "b46faa5836c1837f",
-  "tgads/data/2026-07.json": "e126f27fdaf94cf0",
-  "tgads/data/2026-10.json": "023a20311108eb9e",
+  "tgads/data/2026-08.json": "260746d75500fa3c",
+  "tgads/data/2026-09.json": "2169d2cdfb7151f5",
+  "tgads/data/2026-04.json": "9c410a62254c0719",
+  "tgads/data/2026-05.json": "e4de648779b16423",
+  "tgads/data/2026-06.json": "2d93b0a41201d7b2",
+  "tgads/data/2026-07.json": "e6e7979b65b930c3",
+  "tgads/data/2026-10.json": "b92225076067c19f",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
   "tgads/channels/channels-00.json": "effd001e6b6a9cec",
   "tgads/channels/channels-01.json": "75c12bd6021db5ff",
@@ -37,18 +37,6 @@
   "tgads/channels/channels-05.json": "13f68d34431a6d06"
  },
  "runs": [
-  {
-   "at": "2026-11-21T19:45:35Z",
-   "ok": true,
-   "error": null,
-   "new": 0,
-   "updated": 0,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 0,
-   "secs": 9
-  },
   {
    "at": "2026-11-21T20:36:30Z",
    "ok": true,
@@ -776,18 +764,32 @@
    "sent_media": 0,
    "sent_files": 8,
    "secs": 70
+  },
+  {
+   "at": "2026-11-24T01:35:58Z",
+   "ok": true,
+   "error": null,
+   "html_new": 0,
+   "html_parts": 0,
+   "new": 2,
+   "updated": 4,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 8,
+   "secs": 260
   }
  ],
- "last_upload_ok": "2026-11-24T00:37:23Z",
+ "last_upload_ok": "2026-11-24T01:40:12Z",
  "lang_seen": {
-  "-": 1090,
+  "-": 1091,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 392,
   "my": 47,
   "en": 496,
-  "fa": 17905,
+  "fa": 17915,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -4998,7 +5000,7 @@
   "ads-cloud-20261124T001056493976-0001.jsonl.gz": "a7179126487d76a98bb98295e2c90ae31524367b84679a52deb04b457d3a618f"
  },
  "ad_history_v1": {
-  "next_at": 1795483279,
+  "next_at": 1795486859,
   "days": {},
   "advertisers": {
    "tg-iranperfect-money": {
@@ -5395,81 +5397,67 @@
     "offset": 0,
     "status": "read",
     "first_id": null
+   },
+   "tg-blitzstudy": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmoiak0dm08t8m6inlnwllggg"
+   },
+   "tg-mohammadentezar": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmqwldwfz1al3m6w8ws1kxhph"
+   },
+   "tg-adonissnews": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmvxuv5nx0974ls01v8jxeg0y"
+   },
+   "tg-starlinkvatan": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmrt4mepb11ymth01971gu0vo"
+   },
+   "tg-konkurarshadcomputer": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmwbn5y8500ouo00118ywqqlp"
+   },
+   "tg-spxteambot": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmsgpj8qm0005nx01ac3wqi5i"
+   },
+   "tg-arongroupsbroker": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmw6b5zdd0bb3rq01c3l3xch8"
+   },
+   "tg-bachegoonecom": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmworndri110jqm01de26936e"
+   },
+   "tg-aischoolbusiness_bot": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-scorize": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmvl84rm90113pe019fyaanzd"
    }
   },
   "last": {
    "requests": 10,
-   "new": 2,
+   "new": 0,
    "dates_new": 0,
-   "advertisers_new": 2,
+   "advertisers_new": 0,
    "pages": [
     {
      "via": "advertiser",
-     "target": "tg-tolididiaco",
-     "offset": 0,
-     "rows": 14,
-     "new": 2,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-tradewith059",
-     "offset": 0,
-     "rows": 9,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-rnievent",
-     "offset": 0,
-     "rows": 9,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-fundigo-prop",
-     "offset": 0,
-     "rows": 9,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-prop-search1",
-     "offset": 0,
-     "rows": 30,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-newlish1",
-     "offset": 0,
-     "rows": 10,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-vexoracard-com",
-     "offset": 0,
-     "rows": 9,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-vpntogo_bot",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-azmoonlaand",
+     "target": "tg-blitzstudy",
      "offset": 0,
      "rows": 8,
      "new": 0,
@@ -5477,9 +5465,73 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-parachi_bot",
+     "target": "tg-mohammadentezar",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-adonissnews",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-starlinkvatan",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-konkurarshadcomputer",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-spxteambot",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-arongroupsbroker",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-bachegoonecom",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-aischoolbusiness_bot",
      "offset": 0,
      "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-scorize",
+     "offset": 0,
+     "rows": 8,
      "new": 0,
      "status": "read"
     }
