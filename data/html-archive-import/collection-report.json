@@ -1,32 +1,32 @@
 {
   "last_slice_performance": {
-    "pages_attempted": 60,
-    "new_iran_ads": 52,
-    "seconds": 972.19
+    "pages_attempted": 47,
+    "new_iran_ads": 44,
+    "seconds": 757.64
   },
   "external_collection": null,
-  "last_stop_reason": "",
+  "last_stop_reason": "Challenge: Cloudflare challenge; waiting for shared pause",
   "schema_version": 1,
-  "generated_at": "2026-11-23T23:57:20.543451+00:00",
+  "generated_at": "2026-11-24T00:10:57.606194+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 14197,
+  "iran_ads_extracted": 14241,
   "source_reported_iran_total": 56483,
   "queue_status": {
     "after_cutoff": 155,
     "done": 14298,
     "gone": 47,
-    "iran": 14197,
+    "iran": 14241,
     "known": 35845,
     "mirror_done": 122,
-    "not_iran": 9812,
-    "pending": 730841,
+    "not_iran": 9814,
+    "pending": 730833,
     "skipped_time": 11
   },
   "queue_kinds": {
-    "detail": 762832,
-    "listing": 42451,
+    "detail": 762833,
+    "listing": 42488,
     "sitemap": 45
   },
   "discovered_queue_exhausted": false,
@@ -50,30 +50,30 @@
       {
         "month": "2026-06",
         "site_iran_total": 7107,
-        "extracted": 1866,
-        "missing": 5241,
+        "extracted": 1870,
+        "missing": 5237,
         "coverage_pct": 26.3
       },
       {
         "month": "2026-07",
         "site_iran_total": 8355,
-        "extracted": 1693,
-        "missing": 6662,
+        "extracted": 1699,
+        "missing": 6656,
         "coverage_pct": 20.3
       },
       {
         "month": "2026-08",
         "site_iran_total": 10472,
-        "extracted": 2270,
-        "missing": 8202,
-        "coverage_pct": 21.7
+        "extracted": 2286,
+        "missing": 8186,
+        "coverage_pct": 21.8
       },
       {
         "month": "2026-09",
         "site_iran_total": 16687,
-        "extracted": 4132,
-        "missing": 12555,
-        "coverage_pct": 24.8
+        "extracted": 4150,
+        "missing": 12537,
+        "coverage_pct": 24.9
       },
       {
         "month": "2026-10",
@@ -91,7 +91,7 @@
       }
     ],
     "site_sum_of_months": 56596,
-    "extracted_total": 14197,
+    "extracted_total": 14241,
     "by_strategy": [
       {
         "via": "iran_listing",
@@ -131,9 +131,9 @@
       },
       {
         "via": "sitemap_same_time",
-        "requests": 549,
-        "iran": 503,
-        "iran_per_100": 91.62
+        "requests": 591,
+        "iran": 545,
+        "iran_per_100": 92.22
       },
       {
         "via": "archive_day_iran_card",
@@ -149,9 +149,9 @@
       },
       {
         "via": "sitemap",
-        "requests": 31045,
-        "iran": 109,
-        "iran_per_100": 0.35
+        "requests": 31049,
+        "iran": 111,
+        "iran_per_100": 0.36
       },
       {
         "via": "saved_iran_listing",
@@ -254,9 +254,9 @@
       },
       {
         "via": "overhead",
-        "requests": 774,
+        "requests": 775,
         "iran": 193,
-        "iran_per_100": 24.94
+        "iran_per_100": 24.9
       },
       {
         "via": "advertiser_niche>ad",
@@ -266,15 +266,15 @@
       },
       {
         "via": "sitemap_same_time",
-        "requests": 540,
-        "iran": 503,
-        "iran_per_100": 93.15
+        "requests": 583,
+        "iran": 545,
+        "iran_per_100": 93.48
       },
       {
         "via": "sitemap",
-        "requests": 440,
-        "iran": 296,
-        "iran_per_100": 67.27
+        "requests": 444,
+        "iran": 298,
+        "iran_per_100": 67.12
       },
       {
         "via": "archive_day_iran_card",
@@ -317,6 +317,12 @@
     "Media files and host delivery are tracked separately from text extraction."
   ],
   "errors": [
+    {
+      "url": "https://tgadsspy.com/ads/cmqxr8uoi1e92m6w8odgnapke",
+      "status": "pending",
+      "tries": 1,
+      "error": "Challenge: Cloudflare challenge; waiting for shared pause"
+    },
     {
       "url": "https://tgadsspy.com/advertisers/tg-achavpnbot",
       "status": "pending",
