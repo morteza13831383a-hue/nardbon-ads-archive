@@ -49,8 +49,15 @@ def has_another(rows, meta, offset, limit):
 def collect(ads, state, cutoff, budget, sync):
     now = int(time.time())
     history = state.setdefault('ad_history_v1', {})
-    if (not sync.KEY or history.get('hold') or now < history.get('next_at', 0)
-            or int(sync.API_INFO.get('X-RateLimit-Remaining') or 0) < budget + 20):
+    # Keep a quarter of the reported quota available for live ads and other consumers.
+    def quota(headers, key):
+        try:
+            return max(0, int(headers.get(key) or 0))
+        except (TypeError, ValueError):
+            return 0
+    reserve = max(20, quota(sync.API_INFO, 'X-RateLimit-Limit') // 4)
+    budget = min(budget, quota(sync.API_INFO, 'X-RateLimit-Remaining') - reserve)
+    if not sync.KEY or history.get('hold') or now < history.get('next_at', 0) or budget <= 0:
         return
     history['next_at'] = now + 45 * 60
     calendar = dates(cutoff)
@@ -144,7 +151,7 @@ def collect(ads, state, cutoff, budget, sync):
                                 'offset': offset, 'rows': len(rows), 'new': new, 'status': status})
         report['new'] += new
         report['dates_new' if by_day else 'advertisers_new'] += new
-        if int(response.headers.get('X-RateLimit-Remaining') or 0) < 21:
+        if quota(response.headers, 'X-RateLimit-Remaining') <= reserve:
             report['stop'] = 'Quota reserve'
             break
     sync.log('Historical ad API', {k: v for k, v in report.items() if k != 'pages'},

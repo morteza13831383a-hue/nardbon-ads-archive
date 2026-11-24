@@ -15,6 +15,11 @@ ID = 'c' + 'a' * 24
 
 
 class HistoricalRoutes(TestCase):
+    def test_live_quota_reserve_stops_history(self):
+        fake=mock.Mock(KEY='test', API_INFO={'X-RateLimit-Limit':'600','X-RateLimit-Remaining':'150'})
+        ad_history.collect({}, {}, CUTOFF, 36, fake)
+        fake.SESSION.get.assert_not_called()
+
     @mock.patch('ad_history.time.sleep')
     def test_ignored_date_and_filtered_advertiser(self, sleep):
         ads = {'seed': {'id': 'seed', 'geo': 'IR', 'advertiser_slug': 'tg-example'}}
