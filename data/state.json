@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "bc372fcafd92da31",
+  "tgads/data/2026-11.json": "a2ea8426cb8a45a2",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -22,11 +22,11 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "5b342ecd24c7ccb0",
   "tgads/data/2026-08.json": "4fb8cf475555e5ae",
-  "tgads/data/2026-09.json": "faf0a9920a8bdcde",
+  "tgads/data/2026-09.json": "016c25fb8f96ae7f",
   "tgads/data/2026-04.json": "43aa059aab55b494",
-  "tgads/data/2026-05.json": "32734ff1fba2604b",
-  "tgads/data/2026-06.json": "856a2f53397b26d0",
-  "tgads/data/2026-07.json": "42f04d6dd4f740b5",
+  "tgads/data/2026-05.json": "c23aa30a3fef5488",
+  "tgads/data/2026-06.json": "c58049a271cb9676",
+  "tgads/data/2026-07.json": "c11e501f25489974",
   "tgads/data/2026-10.json": "159580ed4f101262",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
   "tgads/channels/channels-00.json": "72c34ef42d787186",
@@ -38,18 +38,6 @@
   "tgads/channels/channels-06.json": "460a9bbb78919c76"
  },
  "runs": [
-  {
-   "at": "2026-11-22T19:36:35Z",
-   "ok": true,
-   "error": null,
-   "new": 22,
-   "updated": 8,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 20
-  },
   {
    "at": "2026-11-22T19:57:32Z",
    "ok": true,
@@ -827,9 +815,23 @@
    "sent_media": 0,
    "sent_files": 5,
    "secs": 121
+  },
+  {
+   "at": "2026-11-24T22:45:19Z",
+   "ok": false,
+   "error": "api: rate limited, paused until 2026-11-25T01:45:19Z",
+   "html_new": 0,
+   "html_parts": 0,
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 5,
+   "secs": 187
   }
  ],
- "last_upload_ok": "2026-11-24T22:38:12Z",
+ "last_upload_ok": "2026-11-24T22:48:19Z",
  "lang_seen": {
   "-": 1111,
   "tr": 63,
@@ -872,12 +874,12 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": "60",
-  "X-RateLimit-Remaining": "59",
+  "X-RateLimit-Limit": null,
+  "X-RateLimit-Remaining": null,
   "X-RateLimit-Reset": null
  },
  "channels_total": 2261,
- "api_blocked_until": "2026-11-24T22:36:08Z",
+ "api_blocked_until": "2026-11-25T01:45:19Z",
  "channels_idx": 13,
  "desc_last": "2026-11-13T17:31:52Z",
  "html_archive_exported_at": "2026-11-24T10:33:24Z",
