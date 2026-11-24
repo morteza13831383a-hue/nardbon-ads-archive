@@ -22,11 +22,11 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "5b342ecd24c7ccb0",
   "tgads/data/2026-08.json": "4fb8cf475555e5ae",
-  "tgads/data/2026-09.json": "7b7f76c9295d3f52",
+  "tgads/data/2026-09.json": "6af59a5834943138",
   "tgads/data/2026-04.json": "43aa059aab55b494",
   "tgads/data/2026-05.json": "101f36acbcf21f13",
-  "tgads/data/2026-06.json": "96f52f074bab997f",
-  "tgads/data/2026-07.json": "ba278e7c50b77260",
+  "tgads/data/2026-06.json": "08e373793839e813",
+  "tgads/data/2026-07.json": "2e482d7836f433be",
   "tgads/data/2026-10.json": "159580ed4f101262",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
   "tgads/channels/channels-00.json": "72c34ef42d787186",
@@ -38,18 +38,6 @@
   "tgads/channels/channels-06.json": "460a9bbb78919c76"
  },
  "runs": [
-  {
-   "at": "2026-11-22T16:36:21Z",
-   "ok": true,
-   "error": null,
-   "new": 24,
-   "updated": 6,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 20
-  },
   {
    "at": "2026-11-22T17:36:28Z",
    "ok": true,
@@ -821,9 +809,23 @@
    "sent_media": 0,
    "sent_files": 5,
    "secs": 196
+  },
+  {
+   "at": "2026-11-24T20:36:15Z",
+   "ok": true,
+   "error": null,
+   "html_new": 13,
+   "html_parts": 2,
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 3,
+   "secs": 20
   }
  ],
- "last_upload_ok": "2026-11-24T19:39:18Z",
+ "last_upload_ok": "2026-11-24T20:36:28Z",
  "lang_seen": {
   "-": 1109,
   "tr": 63,
@@ -5090,7 +5092,9 @@
   "ads-cloud-20261124T174926730106-0001.jsonl.gz": "43ab87c63dc5d29160d9825ec1dffcd25c9200eaa9d45db8889f36e49feabe91",
   "ads-cloud-20261124T181828804950-0001.jsonl.gz": "f4348c722f2f673bdb0fe5348b86c930eb22eb4416db17181bd444882ecf8fce",
   "ads-cloud-20261124T184749881111-0001.jsonl.gz": "639a64ef929b5bacf547cedc67501751d206a0243cc314a762021b2bcf9a51ea",
-  "ads-cloud-20261124T191712574003-0001.jsonl.gz": "9b1ba15b229a4119733ab1509c24ec64407461191536f57e826081fed223a2f8"
+  "ads-cloud-20261124T191712574003-0001.jsonl.gz": "9b1ba15b229a4119733ab1509c24ec64407461191536f57e826081fed223a2f8",
+  "ads-cloud-20261124T194855155908-0001.jsonl.gz": "091cdea3e341a7f24675b9546be9bf0424e47e5f412f988a705e213945d719e4",
+  "ads-cloud-20261124T201903301351-0001.jsonl.gz": "a0f810091e0f3607563b8e611e6c0cc40256ab23cfe6c38ec47731edbbdf96be"
  },
  "ad_history_v1": {
   "next_at": 1795556181,
