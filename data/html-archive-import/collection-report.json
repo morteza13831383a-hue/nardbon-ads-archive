@@ -7,21 +7,21 @@
   "external_collection": null,
   "last_stop_reason": "",
   "schema_version": 1,
-  "generated_at": "2026-11-24T10:37:59.484710+00:00",
+  "generated_at": "2026-11-24T11:08:14.524537+00:00",
   "cutoff": "2026-11-13T08:53:18.687804+00:00",
   "source": "https://tgadsspy.com",
   "source_api_used": false,
-  "iran_ads_extracted": 17523,
+  "iran_ads_extracted": 17806,
   "source_reported_iran_total": 56483,
   "queue_status": {
     "after_cutoff": 155,
     "done": 14298,
     "gone": 47,
-    "iran": 17523,
+    "iran": 17806,
     "known": 35975,
     "mirror_done": 122,
     "not_iran": 9862,
-    "pending": 727618,
+    "pending": 727335,
     "skipped_time": 13
   },
   "queue_kinds": {
@@ -43,43 +43,43 @@
       {
         "month": "2026-05",
         "site_iran_total": 2315,
-        "extracted": 713,
-        "missing": 1602,
+        "extracted": 714,
+        "missing": 1601,
         "coverage_pct": 30.8
       },
       {
         "month": "2026-06",
         "site_iran_total": 7107,
-        "extracted": 1940,
-        "missing": 5167,
-        "coverage_pct": 27.3
+        "extracted": 1950,
+        "missing": 5157,
+        "coverage_pct": 27.4
       },
       {
         "month": "2026-07",
         "site_iran_total": 8355,
-        "extracted": 2274,
-        "missing": 6081,
-        "coverage_pct": 27.2
+        "extracted": 2319,
+        "missing": 6036,
+        "coverage_pct": 27.8
       },
       {
         "month": "2026-08",
         "site_iran_total": 10472,
-        "extracted": 3365,
-        "missing": 7107,
-        "coverage_pct": 32.1
+        "extracted": 3467,
+        "missing": 7005,
+        "coverage_pct": 33.1
       },
       {
         "month": "2026-09",
         "site_iran_total": 16687,
-        "extracted": 5668,
-        "missing": 11019,
-        "coverage_pct": 34.0
+        "extracted": 5791,
+        "missing": 10896,
+        "coverage_pct": 34.7
       },
       {
         "month": "2026-10",
         "site_iran_total": 7203,
-        "extracted": 2096,
-        "missing": 5107,
+        "extracted": 2098,
+        "missing": 5105,
         "coverage_pct": 29.1
       },
       {
@@ -91,7 +91,7 @@
       }
     ],
     "site_sum_of_months": 56596,
-    "extracted_total": 17523,
+    "extracted_total": 17806,
     "by_strategy": [
       {
         "via": "iran_listing",
@@ -130,33 +130,33 @@
         "iran_per_100": 91.73
       },
       {
+        "via": "verified_mirror_telegramstats.net_d1",
+        "requests": 653,
+        "iran": 653,
+        "iran_per_100": 100.0
+      },
+      {
         "via": "persian_channel_page",
         "requests": 746,
         "iran": 586,
         "iran_per_100": 78.55
       },
       {
-        "via": "verified_mirror_telegramstats.net_d1",
-        "requests": 512,
-        "iran": 512,
+        "via": "verified_mirror_telegramads.it_d1",
+        "requests": 565,
+        "iran": 565,
         "iran_per_100": 100.0
       },
       {
         "via": "verified_mirror_telegramstats.net_d0",
-        "requests": 467,
-        "iran": 467,
-        "iran_per_100": 100.0
-      },
-      {
-        "via": "verified_mirror_telegramads.it_d1",
-        "requests": 451,
-        "iran": 451,
+        "requests": 482,
+        "iran": 482,
         "iran_per_100": 100.0
       },
       {
         "via": "verified_mirror_telegramads.it_d0",
-        "requests": 411,
-        "iran": 411,
+        "requests": 424,
+        "iran": 424,
         "iran_per_100": 100.0
       },
       {
