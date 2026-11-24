@@ -21,13 +21,13 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "86aa9dd14e1b6423",
-  "tgads/data/2026-08.json": "b38e614c238f7b51",
-  "tgads/data/2026-09.json": "5892263984d39f7c",
+  "tgads/data/2026-08.json": "2ef45b162f410a7a",
+  "tgads/data/2026-09.json": "8c5f5f3c7b17785e",
   "tgads/data/2026-04.json": "bbd033d71744998f",
-  "tgads/data/2026-05.json": "2de35abc81693f2a",
-  "tgads/data/2026-06.json": "8e78bacb1177c4cd",
-  "tgads/data/2026-07.json": "3db6015669734de0",
-  "tgads/data/2026-10.json": "ada1a20c8a40d617",
+  "tgads/data/2026-05.json": "aa28ac1e143e2607",
+  "tgads/data/2026-06.json": "509766dfc1a8823d",
+  "tgads/data/2026-07.json": "db24303477fd0e62",
+  "tgads/data/2026-10.json": "47ef8fabdbf9e480",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
   "tgads/channels/channels-00.json": "effd001e6b6a9cec",
   "tgads/channels/channels-01.json": "75c12bd6021db5ff",
@@ -38,18 +38,6 @@
   "tgads/channels/channels-06.json": "a555a36d6dad05ee"
  },
  "runs": [
-  {
-   "at": "2026-11-22T07:24:46Z",
-   "ok": true,
-   "error": null,
-   "new": 8,
-   "updated": 2,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 10
-  },
   {
    "at": "2026-11-22T07:36:15Z",
    "ok": true,
@@ -801,9 +789,23 @@
    "sent_media": 0,
    "sent_files": 7,
    "secs": 27
+  },
+  {
+   "at": "2026-11-24T12:36:15Z",
+   "ok": true,
+   "error": null,
+   "html_new": 560,
+   "html_parts": 6,
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 6,
+   "secs": 15
   }
  ],
- "last_upload_ok": "2026-11-24T11:36:14Z",
+ "last_upload_ok": "2026-11-24T12:36:25Z",
  "lang_seen": {
   "-": 1103,
   "tr": 63,
@@ -5047,7 +5049,13 @@
   "ads-cloud-20261124T103756472800-0002.jsonl.gz": "e8a6bcca372eac1db9b72d76ac9cc6cf636afe84cc0b1fdf891a5aa9ea27a17d",
   "ads-cloud-20261124T110812025459-0001.jsonl.gz": "46d43910b13670ae89e2b4c6be98f5927a3bf67cba767dde29df30c05984a34d",
   "ads-cloud-20261124T110812025459-0002.jsonl.gz": "bdf0aa57016729f0bf41db4f654bbc639d461198d02adf8174e2e4910df4c6e8",
-  "ads-cloud-20261124T111826165112-0001.jsonl.gz": "b005c838d1e10f0e2410e82e2cd1f2b103939beb77308c74eb0d33e13ad80e5a"
+  "ads-cloud-20261124T111826165112-0001.jsonl.gz": "b005c838d1e10f0e2410e82e2cd1f2b103939beb77308c74eb0d33e13ad80e5a",
+  "ads-cloud-20261124T114021522500-0001.jsonl.gz": "84a9cff5ca3bf5cb6751b87d384874995a86af367bef350bea7a2a4fff3631ef",
+  "ads-cloud-20261124T114021522500-0002.jsonl.gz": "6e49a40cbd119c9ee4c22469e5e15416f5b859a052bbd67f2263f20b62442d7b",
+  "ads-cloud-20261124T120436103715-0001.jsonl.gz": "8ab7fd6d020516fb906f11e348186eacad60c1badffc643f18e72db351f7afac",
+  "ads-cloud-20261124T120436103715-0002.jsonl.gz": "95940807fbcd6096f9205bf4b5c90d90e19b591da338d92c6522d117ef435204",
+  "ads-cloud-20261124T122645853007-0001.jsonl.gz": "b70a020b124103dabcd42cecd41ec9bc6102a7662c751d282459a3feda5288e3",
+  "ads-cloud-20261124T122645853007-0002.jsonl.gz": "a9eec63eed32f28cd6cf67e5e40772712187e3ca65d7705e4bad40cd2a70fc3c"
  },
  "ad_history_v1": {
   "next_at": 1795527373,
