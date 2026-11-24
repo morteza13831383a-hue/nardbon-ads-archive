@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-24T05:35:43Z",
+ "cursor": "2026-11-24T06:35:50Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "08dc0e1ca54e7762",
+  "tgads/data/2026-11.json": "c0ac7f6b9e204d75",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,35 +20,23 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "6babda817eb7c266",
-  "tgads/data/2026-08.json": "fa1c39173b030488",
-  "tgads/data/2026-09.json": "eca85ba3520e0852",
-  "tgads/data/2026-04.json": "96315e57f5e7148a",
-  "tgads/data/2026-05.json": "8b04c2f5e2e78bb8",
-  "tgads/data/2026-06.json": "f477ad9eeda5e8da",
-  "tgads/data/2026-07.json": "345ea6baeaf82349",
-  "tgads/data/2026-10.json": "a366ac62ef975b40",
+  "tgads/channels/channels.json": "ced3e8c2d66c1158",
+  "tgads/data/2026-08.json": "88599ab8d7f69532",
+  "tgads/data/2026-09.json": "2c4957e5ecb7edaf",
+  "tgads/data/2026-04.json": "ef1c5d99a3e500ae",
+  "tgads/data/2026-05.json": "c2c4287d83fc7aca",
+  "tgads/data/2026-06.json": "0f18551d1213ecea",
+  "tgads/data/2026-07.json": "04c1782e24c003b5",
+  "tgads/data/2026-10.json": "a16f2221510a2d35",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
   "tgads/channels/channels-00.json": "effd001e6b6a9cec",
   "tgads/channels/channels-01.json": "75c12bd6021db5ff",
   "tgads/channels/channels-02.json": "e55cc4641a694f3a",
   "tgads/channels/channels-03.json": "75e42718681facd2",
   "tgads/channels/channels-04.json": "1886f10f979614b6",
-  "tgads/channels/channels-05.json": "13f68d34431a6d06"
+  "tgads/channels/channels-05.json": "1392514a8110d6d5"
  },
  "runs": [
-  {
-   "at": "2026-11-22T01:36:28Z",
-   "ok": true,
-   "error": null,
-   "new": 10,
-   "updated": 8,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 11
-  },
   {
    "at": "2026-11-22T02:36:28Z",
    "ok": true,
@@ -788,18 +776,32 @@
    "sent_media": 0,
    "sent_files": 8,
    "secs": 271
+  },
+  {
+   "at": "2026-11-24T07:35:51Z",
+   "ok": true,
+   "error": null,
+   "html_new": 69,
+   "html_parts": 1,
+   "new": 19,
+   "updated": 6,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 10,
+   "secs": 194
   }
  ],
- "last_upload_ok": "2026-11-24T06:40:10Z",
+ "last_upload_ok": "2026-11-24T07:38:59Z",
  "lang_seen": {
-  "-": 1096,
+  "-": 1098,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 392,
   "my": 47,
   "en": 496,
-  "fa": 17988,
+  "fa": 18011,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -5007,10 +5009,11 @@
   "ads-cloud-20261123T232102800499-0001.jsonl.gz": "e6a2b4df4e6f6c83a9c1d072f426c2d66fcacccfa225516dfe40e6db2aa4deb9",
   "ads-cloud-20261123T234004505590-0001.jsonl.gz": "5350d48a3deb1b301e626031f1c5dd7c612f5040a24306b073bdeebae8a32fe7",
   "ads-cloud-20261123T235719243031-0001.jsonl.gz": "d9038b66eadac9a7782b688fa9404b911b34ddf3c1da958d1245d7d6fe213c83",
-  "ads-cloud-20261124T001056493976-0001.jsonl.gz": "a7179126487d76a98bb98295e2c90ae31524367b84679a52deb04b457d3a618f"
+  "ads-cloud-20261124T001056493976-0001.jsonl.gz": "a7179126487d76a98bb98295e2c90ae31524367b84679a52deb04b457d3a618f",
+  "ads-cloud-20261124T072842947524-0001.jsonl.gz": "ee4b5f4e6858d08011c029861b14afd0f6e918275c117e7fe40e49fe94af68c9"
  },
  "ad_history_v1": {
-  "next_at": 1795504845,
+  "next_at": 1795508452,
   "days": {},
   "advertisers": {
    "tg-iranperfect-money": {
@@ -5707,17 +5710,187 @@
     "offset": 8,
     "status": "read",
     "first_id": "cmwip70iq05jjqm013py9ippw"
+   },
+   "tg-dr_derss_h1": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-rahmani_sportt": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-thefinancee": {
+    "offset": 32,
+    "status": "read",
+    "first_id": "cmt09f0vl0017p101qrou083y"
+   },
+   "tg-rahatmasraf": {
+    "offset": 24,
+    "status": "read",
+    "first_id": "cmw3x6ge20170rq01qsxzju3k"
+   },
+   "tg-viptipgold": {
+    "offset": 24,
+    "status": "read",
+    "first_id": "cmtbhy0ob00mwml01jfvmdx3v"
+   },
+   "tg-downlodgram_bot": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-falojet": {
+    "offset": 11,
+    "status": "read",
+    "first_id": "cmup5vrzn0998qg01p6y12ryj"
+   },
+   "tg-rezaraomde": {
+    "offset": 23,
+    "status": "read",
+    "first_id": "cmwth5mag1n7nqm017if5sgww"
+   },
+   "tg-kz_brand": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-bdgroupir": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmuxamh8401coo501wronji8h"
+   },
+   "tg-ilancerpro": {
+    "offset": 17,
+    "status": "read",
+    "first_id": "cmwrf3dmw1ckgqm015n3pswfj"
+   },
+   "tg-fortiva_vpn": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-mysarafcom": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmvulp3cd01smmi01wjdl6jyl"
+   },
+   "tg-tehran777777": {
+    "offset": 23,
+    "status": "read",
+    "first_id": "cmwl7yjsp0j8tqm018rl3vg5x"
+   },
+   "tg-ahanayandeh_1400": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-salino_ir20": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-promplibot": {
+    "offset": 29,
+    "status": "read",
+    "first_id": "cmuixaux707dvpg01ttroz6dy"
+   },
+   "tg-opo_fa": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-gamenet_arena0": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-roadmap1405": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmu8p3pfx0067ld01lclcyo24"
+   },
+   "tg-gramular_bot": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-puzzelito": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmu7ma0ux00hvn0015rjpcluc"
+   },
+   "tg-artanburstop": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmv2k8j0z0d41qu01h5ti1l31"
+   },
+   "tg-negareh_ac": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-shadowpingxbot": {
+    "offset": 20,
+    "status": "read",
+    "first_id": "cmto1zu5f005hqt01zlvb1fat"
+   },
+   "tg-ccgameofficialbot": {
+    "offset": 11,
+    "status": "read",
+    "first_id": "cmtmp331800ifqt01v71e1ce2"
+   },
+   "tg-fluentupbot": {
+    "offset": 11,
+    "status": "read",
+    "first_id": "cmtm3lnyr00yhqt01svd9wk9e"
+   },
+   "tg-setlab_ir": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-efootballdns_vpnbot": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-bitfinai": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmwsflep21h48qm01onr1dkh1"
+   },
+   "tg-coin_minutefa": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-zorafx_fa": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-mazdaahik": {
+    "offset": 10,
+    "status": "read",
+    "first_id": "cmvyaokzm0awdls01j15x3iwh"
+   },
+   "tg-hotelvernus": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmvcvuvdw05etmr014kgsrwsg"
    }
   },
   "last": {
-   "requests": 10,
-   "new": 8,
+   "requests": 34,
+   "new": 65,
    "dates_new": 0,
-   "advertisers_new": 8,
+   "advertisers_new": 65,
    "pages": [
     {
      "via": "advertiser",
-     "target": "tg-ultranet_irbot",
+     "target": "tg-dr_derss_h1",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -5725,15 +5898,39 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-steelping",
+     "target": "tg-rahmani_sportt",
      "offset": 0,
-     "rows": 19,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-thefinancee",
+     "offset": 0,
+     "rows": 32,
+     "new": 12,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-rahatmasraf",
+     "offset": 0,
+     "rows": 24,
      "new": 4,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-viona_clothe",
+     "target": "tg-viptipgold",
+     "offset": 0,
+     "rows": 24,
+     "new": 7,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-downlodgram_bot",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -5741,61 +5938,230 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-bulltrader_11",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-sighe_sobhan1",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-traderooml",
-     "offset": 0,
-     "rows": 8,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-bebelakids",
-     "offset": 0,
-     "rows": 8,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-cryptomafia55",
+     "target": "tg-falojet",
      "offset": 0,
      "rows": 11,
-     "new": 3,
+     "new": 0,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-memeoftone",
+     "target": "tg-rezaraomde",
+     "offset": 0,
+     "rows": 23,
+     "new": 7,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-kz_brand",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-bdgroupir",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-ilancerpro",
+     "offset": 0,
+     "rows": 17,
+     "new": 6,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-fortiva_vpn",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-mysarafcom",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-tehran777777",
+     "offset": 0,
+     "rows": 23,
+     "new": 8,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-ahanayandeh_1400",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-salino_ir20",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-promplibot",
+     "offset": 0,
+     "rows": 29,
+     "new": 12,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-opo_fa",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-gamenet_arena0",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-roadmap1405",
      "offset": 0,
      "rows": 9,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-gramular_bot",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-puzzelito",
+     "offset": 0,
+     "rows": 9,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-artanburstop",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-negareh_ac",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-shadowpingxbot",
+     "offset": 0,
+     "rows": 20,
+     "new": 7,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-ccgameofficialbot",
+     "offset": 0,
+     "rows": 11,
      "new": 1,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-aricokids",
+     "target": "tg-fluentupbot",
+     "offset": 0,
+     "rows": 11,
+     "new": 1,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-setlab_ir",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-efootballdns_vpnbot",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-bitfinai",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-coin_minutefa",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-zorafx_fa",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-mazdaahik",
+     "offset": 0,
+     "rows": 10,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-hotelvernus",
      "offset": 0,
      "rows": 8,
      "new": 0,
      "status": "read"
     }
-   ]
+   ],
+   "stop": "Quota reserve"
   },
   "date_unsupported": "Known day empty or firstSeenAt outside requested UTC day"
  }
