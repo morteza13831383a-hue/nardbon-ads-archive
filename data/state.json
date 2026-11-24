@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-24T04:35:50Z",
+ "cursor": "2026-11-24T05:35:43Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "6c8bfe733fda28e1",
+  "tgads/data/2026-11.json": "08dc0e1ca54e7762",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -21,13 +21,13 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "6babda817eb7c266",
-  "tgads/data/2026-08.json": "ba68886f44cc0bc3",
-  "tgads/data/2026-09.json": "8fffa42d1e1676f5",
-  "tgads/data/2026-04.json": "dd1a1c1fa5e1e97e",
-  "tgads/data/2026-05.json": "55d67b1e868f3120",
-  "tgads/data/2026-06.json": "0ce75f6737737026",
-  "tgads/data/2026-07.json": "ce7ab69750b069ce",
-  "tgads/data/2026-10.json": "51fccbd879b88448",
+  "tgads/data/2026-08.json": "fa1c39173b030488",
+  "tgads/data/2026-09.json": "eca85ba3520e0852",
+  "tgads/data/2026-04.json": "96315e57f5e7148a",
+  "tgads/data/2026-05.json": "8b04c2f5e2e78bb8",
+  "tgads/data/2026-06.json": "f477ad9eeda5e8da",
+  "tgads/data/2026-07.json": "345ea6baeaf82349",
+  "tgads/data/2026-10.json": "a366ac62ef975b40",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
   "tgads/channels/channels-00.json": "effd001e6b6a9cec",
   "tgads/channels/channels-01.json": "75c12bd6021db5ff",
@@ -37,18 +37,6 @@
   "tgads/channels/channels-05.json": "13f68d34431a6d06"
  },
  "runs": [
-  {
-   "at": "2026-11-22T00:36:17Z",
-   "ok": true,
-   "error": null,
-   "new": 13,
-   "updated": 3,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 28
-  },
   {
    "at": "2026-11-22T01:36:28Z",
    "ok": true,
@@ -786,18 +774,32 @@
    "sent_media": 0,
    "sent_files": 8,
    "secs": 69
+  },
+  {
+   "at": "2026-11-24T06:35:44Z",
+   "ok": true,
+   "error": null,
+   "html_new": 0,
+   "html_parts": 0,
+   "new": 7,
+   "updated": 5,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 8,
+   "secs": 271
   }
  ],
- "last_upload_ok": "2026-11-24T05:36:54Z",
+ "last_upload_ok": "2026-11-24T06:40:10Z",
  "lang_seen": {
-  "-": 1095,
+  "-": 1096,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 392,
   "my": 47,
   "en": 496,
-  "fa": 17968,
+  "fa": 17988,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -5008,7 +5010,7 @@
   "ads-cloud-20261124T001056493976-0001.jsonl.gz": "a7179126487d76a98bb98295e2c90ae31524367b84679a52deb04b457d3a618f"
  },
  "ad_history_v1": {
-  "next_at": 1795501251,
+  "next_at": 1795504845,
   "days": {},
   "advertisers": {
    "tg-iranperfect-money": {
@@ -5655,17 +5657,107 @@
     "offset": 0,
     "status": "read",
     "first_id": null
+   },
+   "tg-ultranet_irbot": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-steelping": {
+    "offset": 19,
+    "status": "read",
+    "first_id": "cmuegkhy2001xnb01xtda2t45"
+   },
+   "tg-viona_clothe": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-bulltrader_11": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-sighe_sobhan1": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-traderooml": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmufop7nf02daqg01v3r13vtt"
+   },
+   "tg-bebelakids": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmwdp6x760590qv01l92qv77k"
+   },
+   "tg-cryptomafia55": {
+    "offset": 11,
+    "status": "read",
+    "first_id": "cmwtg4c1f1mymqm01a0semwa3"
+   },
+   "tg-memeoftone": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmv6svzfa09hcs901otckbmju"
+   },
+   "tg-aricokids": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmwip70iq05jjqm013py9ippw"
    }
   },
   "last": {
    "requests": 10,
-   "new": 0,
+   "new": 8,
    "dates_new": 0,
-   "advertisers_new": 0,
+   "advertisers_new": 8,
    "pages": [
     {
      "via": "advertiser",
-     "target": "tg-aenakwalajin",
+     "target": "tg-ultranet_irbot",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-steelping",
+     "offset": 0,
+     "rows": 19,
+     "new": 4,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-viona_clothe",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-bulltrader_11",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-sighe_sobhan1",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-traderooml",
      "offset": 0,
      "rows": 8,
      "new": 0,
@@ -5673,7 +5765,7 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-doctordaraei",
+     "target": "tg-bebelakids",
      "offset": 0,
      "rows": 8,
      "new": 0,
@@ -5681,65 +5773,25 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-vpn_lol",
+     "target": "tg-cryptomafia55",
      "offset": 0,
-     "rows": 0,
-     "new": 0,
+     "rows": 11,
+     "new": 3,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-pingdon_bot",
+     "target": "tg-memeoftone",
      "offset": 0,
-     "rows": 0,
-     "new": 0,
+     "rows": 9,
+     "new": 1,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-gharibemii",
+     "target": "tg-aricokids",
      "offset": 0,
      "rows": 8,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-khanehtradee",
-     "offset": 0,
-     "rows": 8,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-lbank_exchangepro",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-v2ray_irbot",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-allefvpn_bot",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-a_678788",
-     "offset": 0,
-     "rows": 0,
      "new": 0,
      "status": "read"
     }
