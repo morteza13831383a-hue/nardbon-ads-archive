@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-24T17:36:19Z",
+ "cursor": "2026-11-24T21:36:17Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "455161b1d799e115",
+  "tgads/data/2026-11.json": "bc372fcafd92da31",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -22,11 +22,11 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "5b342ecd24c7ccb0",
   "tgads/data/2026-08.json": "4fb8cf475555e5ae",
-  "tgads/data/2026-09.json": "79f6eba45f270cae",
+  "tgads/data/2026-09.json": "faf0a9920a8bdcde",
   "tgads/data/2026-04.json": "43aa059aab55b494",
-  "tgads/data/2026-05.json": "101f36acbcf21f13",
-  "tgads/data/2026-06.json": "f83fd6b60befdd25",
-  "tgads/data/2026-07.json": "2e482d7836f433be",
+  "tgads/data/2026-05.json": "32734ff1fba2604b",
+  "tgads/data/2026-06.json": "856a2f53397b26d0",
+  "tgads/data/2026-07.json": "42f04d6dd4f740b5",
   "tgads/data/2026-10.json": "159580ed4f101262",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
   "tgads/channels/channels-00.json": "72c34ef42d787186",
@@ -38,18 +38,6 @@
   "tgads/channels/channels-06.json": "460a9bbb78919c76"
  },
  "runs": [
-  {
-   "at": "2026-11-22T18:36:27Z",
-   "ok": true,
-   "error": null,
-   "new": 23,
-   "updated": 7,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 10
-  },
   {
    "at": "2026-11-22T19:36:35Z",
    "ok": true,
@@ -825,18 +813,32 @@
    "sent_media": 0,
    "sent_files": 2,
    "secs": 11
+  },
+  {
+   "at": "2026-11-24T22:36:18Z",
+   "ok": true,
+   "error": null,
+   "html_new": 20,
+   "html_parts": 3,
+   "new": 64,
+   "updated": 8,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 5,
+   "secs": 121
   }
  ],
- "last_upload_ok": "2026-11-24T21:36:35Z",
+ "last_upload_ok": "2026-11-24T22:38:12Z",
  "lang_seen": {
-  "-": 1109,
+  "-": 1111,
   "tr": 63,
   "he": 39,
   "ru": 732,
-  "ar": 397,
+  "ar": 400,
   "my": 47,
   "en": 496,
-  "fa": 18243,
+  "fa": 18318,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -870,8 +872,8 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": null,
-  "X-RateLimit-Remaining": null,
+  "X-RateLimit-Limit": "60",
+  "X-RateLimit-Remaining": "59",
   "X-RateLimit-Reset": null
  },
  "channels_total": 2261,
@@ -5098,10 +5100,13 @@
   "ads-cloud-20261124T194855155908-0001.jsonl.gz": "091cdea3e341a7f24675b9546be9bf0424e47e5f412f988a705e213945d719e4",
   "ads-cloud-20261124T201903301351-0001.jsonl.gz": "a0f810091e0f3607563b8e611e6c0cc40256ab23cfe6c38ec47731edbbdf96be",
   "ads-cloud-20261124T204718410228-0001.jsonl.gz": "1b2b0814ec908b3302438c8579155eb57289e3d5e137c174f20eb68d933fb9ff",
-  "ads-cloud-20261124T211640941234-0001.jsonl.gz": "e9636f736c4f32a53b95d19fb0d2ec6ef011503bcbb74b8c160b1d81649b9142"
+  "ads-cloud-20261124T211640941234-0001.jsonl.gz": "e9636f736c4f32a53b95d19fb0d2ec6ef011503bcbb74b8c160b1d81649b9142",
+  "ads-cloud-20261124T214545713539-0001.jsonl.gz": "1fd85fccd2ae88a1bfde1854ecce0cdb3f0b442ec4afe194105c64f59a29e28b",
+  "ads-cloud-20261124T220805520272-0001.jsonl.gz": "984b654226f5d44f0f144eb0d5fd04c172b8077abe6b374704dc85085e353c45",
+  "ads-cloud-20261124T222414919165-0001.jsonl.gz": "60ce8d5360878704488240ac874fe60ec1b36d3dfbcff9deca8b74da0cf665e9"
  },
  "ad_history_v1": {
-  "next_at": 1795556181,
+  "next_at": 1795570579,
   "days": {},
   "advertisers": {
    "tg-iranperfect-money": {
@@ -6403,17 +6408,120 @@
     "offset": 17,
     "status": "read",
     "first_id": "cmtx8w8b300hlqt01vd91rckb"
+   },
+   "tg-lumochatbot": {
+    "offset": 24,
+    "status": "read",
+    "first_id": "cmu5g5qqg01ljmn012nb2v3aj"
+   },
+   "tg-kamrangold_trader233": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-liyano1": {
+    "offset": 19,
+    "status": "read",
+    "first_id": "cmuaa357x051yld01pbfcuevk"
+   },
+   "tg-milad_drop": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-sattarvpnbot": {
+    "offset": 23,
+    "status": "read",
+    "first_id": "cmvrg0niq0034qi01mv0ormcv"
+   },
+   "tg-gisouacademy": {
+    "offset": 22,
+    "status": "read",
+    "first_id": "cmwowvf4511pdqm010rhcvsp3"
+   },
+   "tg-nobitexmarket": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmwuupuoo1v06qm01zefep2s5"
+   },
+   "tg-novinparsfooladabtin": {
+    "offset": 19,
+    "status": "read",
+    "first_id": "cmw9bs29g03gyql01qkmyeg31"
+   },
+   "tg-pargarsoal": {
+    "offset": 10,
+    "status": "read",
+    "first_id": "cmub200k509gwld018k9w7yls"
+   },
+   "tg-trustgoldfx": {
+    "offset": 27,
+    "status": "read",
+    "first_id": "cmuq6gmrj010tmd01w7nib7j2"
+   },
+   "tg-smart_money_trade_6": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-gharatgame": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmsrizmlm00vzqp01m9qvofqj"
+   },
+   "tg-mezoonmedusa": {
+    "offset": 17,
+    "status": "read",
+    "first_id": "cmun0vnef004lpn01glxnl9ry"
+   },
+   "tg-trendovipgold_05": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-trading_education4": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-tak_shakhshop": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-matrixxmta": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmvvue7lh02jzls01f5ua9dhe"
+   },
+   "tg-sdf_fund": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-eshgheabadi_iran": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
    }
   },
   "last": {
    "requests": 20,
-   "new": 10,
+   "new": 8,
    "dates_new": 0,
-   "advertisers_new": 10,
+   "advertisers_new": 8,
    "pages": [
     {
      "via": "advertiser",
-     "target": "tg-cactus_tsco",
+     "target": "tg-lumochatbot",
+     "offset": 0,
+     "rows": 24,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-kamrangold_trader233",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -6421,55 +6529,55 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-dsmvpnbot",
+     "target": "tg-liyano1",
      "offset": 0,
-     "rows": 22,
+     "rows": 19,
      "new": 0,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-thebehzadecom",
+     "target": "tg-milad_drop",
      "offset": 0,
-     "rows": 22,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-sattarvpnbot",
+     "offset": 0,
+     "rows": 23,
      "new": 4,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-explorevpnnbot",
+     "target": "tg-gisouacademy",
      "offset": 0,
-     "rows": 28,
+     "rows": 22,
+     "new": 3,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-nobitexmarket",
+     "offset": 0,
+     "rows": 9,
      "new": 0,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-pooshakalphaa",
+     "target": "tg-novinparsfooladabtin",
      "offset": 0,
-     "rows": 15,
+     "rows": 19,
      "new": 1,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-jivano_collection",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-learnovaenglishbot",
-     "offset": 0,
-     "rows": 14,
-     "new": 1,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-avaneedco",
+     "target": "tg-pargarsoal",
      "offset": 0,
      "rows": 10,
      "new": 0,
@@ -6477,7 +6585,15 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-touraj_tourje",
+     "target": "tg-trustgoldfx",
+     "offset": 0,
+     "rows": 27,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-smart_money_trade_6",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -6485,82 +6601,66 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-vitalikaorgfa",
+     "target": "tg-gharatgame",
      "offset": 0,
-     "rows": 15,
+     "rows": 9,
      "new": 0,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-derbybetofficial",
-     "offset": 0,
-     "rows": 14,
-     "new": 2,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-secrez_bot",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-betinjachanel",
-     "offset": 0,
-     "rows": 12,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-kiddisport",
-     "offset": 0,
-     "rows": 10,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-fenefx_fa",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-u3fi_shop",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-mr_aitrade",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-mondfx_fa",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-filopersian",
+     "target": "tg-mezoonmedusa",
      "offset": 0,
      "rows": 17,
-     "new": 2,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-trendovipgold_05",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-trading_education4",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-tak_shakhshop",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-matrixxmta",
+     "offset": 0,
+     "rows": 9,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-sdf_fund",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-eshgheabadi_iran",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
      "status": "read"
     }
    ],
