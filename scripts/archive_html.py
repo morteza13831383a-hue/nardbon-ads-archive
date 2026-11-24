@@ -34,7 +34,7 @@ def now():
 
 def connect(directory, cutoff=None, seed_known=False):
     directory.mkdir(parents=True, exist_ok=True)
-    db = sqlite3.connect(directory / 'checkpoint.sqlite3')
+    db = sqlite3.connect(directory / 'checkpoint.sqlite3', timeout=60)
     db.executescript('''
     CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS queue (
@@ -307,6 +307,7 @@ def crawl(db, client, max_pages, max_seconds, only_via=None, claims=None):
     attempts = 0
     db.execute("CREATE TEMP TABLE IF NOT EXISTS attempted (url TEXT PRIMARY KEY)")
     db.execute("DELETE FROM attempted")
+    db.commit()
     while attempts < max_pages and time.monotonic()-started < max_seconds:
         # Limit retrying failed jobs to a later invocation; zero-try jobs first at equal priority.
         # only_via: test slices limited to some strategies (prefix match, e.g. 'channel_advertisers')
@@ -319,6 +320,8 @@ def crawl(db, client, max_pages, max_seconds, only_via=None, claims=None):
             break
         url,kind,tries = job
         db.execute("INSERT INTO attempted VALUES(?)",(url,))
+        # Release the checkpoint before waiting for the host or recording the request.
+        db.commit()
         ad_id = AD_PATH.fullmatch(urlsplit(url).path)[1] if kind == 'detail' and AD_PATH.fullmatch(urlsplit(url).path) else None
         if claims and ad_id:
             claim = claims.acquire(ad_id, 'tgadsspy')
@@ -362,6 +365,11 @@ def crawl(db, client, max_pages, max_seconds, only_via=None, claims=None):
                             if not found:
                                 raise ValueError('Iran catalogue has no ad links; possible layout/challenge')
         except Exception as exc:
+            if isinstance(exc, sqlite3.OperationalError) and (getattr(exc, "sqlite_errorcode", 0) & 255) in (sqlite3.SQLITE_BUSY, sqlite3.SQLITE_LOCKED):
+                db.rollback()
+                if claims and ad_id:
+                    claims.finish(ad_id, "tgadsspy", False)
+                raise  # Local contention must leave the source job eligible.
             error = f'{type(exc).__name__}: {exc}'[:500]
             status = 'failed' if tries+1 >= 3 else 'pending'
             LOG.warning('%s %s',url,error)

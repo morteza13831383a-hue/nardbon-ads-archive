@@ -3,6 +3,7 @@ import gzip
 import hashlib
 import io
 import json
+import sqlite3
 from pathlib import Path
 import sys
 import tempfile
@@ -37,6 +38,25 @@ class FakeClient:
 
 
 class Tests(unittest.TestCase):
+    def test_other_writer_can_deliver_while_fetching(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db = a.connect(Path(tmp), CUTOFF)
+            mirror = sqlite3.connect(Path(tmp) / 'checkpoint.sqlite3', timeout=0)
+            self.addCleanup(db.close)
+            self.addCleanup(mirror.close)
+            a.enqueue(db, URL, 'detail', 1, via='test_concurrency')
+            db.commit()
+            client = FakeClient({URL: html()})
+            def fetch(url):
+                self.assertFalse(db.in_transaction)
+                with mirror:
+                    mirror.execute("INSERT INTO meta VALUES ('test_mirror_delivery', '1')")
+                return client.pages[url]
+            client.get = fetch
+            a.crawl(db, client, 1, 30, only_via=['test_concurrency'])
+            self.assertEqual(db.execute("SELECT status,tries FROM queue WHERE url=?", (URL,)).fetchone(), ('iran', 1))
+            self.assertEqual(db.execute("SELECT value FROM meta WHERE key='test_mirror_delivery'").fetchone(), ('1',))
+
     def test_extract_iran_and_cutoff(self):
         row,status=a.extract(Document(html()),URL,CUTOFF)
         self.assertEqual(status,'iran')

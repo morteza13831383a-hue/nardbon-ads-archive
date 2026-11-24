@@ -353,9 +353,12 @@ class RequestLedger:
     def open(self,request,**kwargs):
         from urllib.error import HTTPError
         from datetime import datetime,timezone
-        row=self.db.execute('SELECT via FROM queue WHERE url=?',(request.full_url,)).fetchone()
-        via=(row[0]if row else None)or'overhead'
-        key=self.db.execute('INSERT INTO source_requests(url,via,status,at)VALUES(?,?,0,?)',(request.full_url,via,datetime.now(timezone.utc).isoformat())).lastrowid;self.db.commit()
+        key = self.db.execute(
+            "INSERT INTO source_requests(url,via,status,at) "
+            "VALUES (?,COALESCE((SELECT NULLIF(via,'') FROM queue WHERE url=?),'overhead'),0,?)",
+            (request.full_url, request.full_url, datetime.now(timezone.utc).isoformat()),
+        ).lastrowid
+        self.db.commit()
         try:response=self.opener.open(request,**kwargs)
         except HTTPError as exc:
             self.db.execute('UPDATE source_requests SET status=?WHERE id=?',(exc.code,key));self.db.commit();raise
