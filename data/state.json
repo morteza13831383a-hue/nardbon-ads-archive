@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-24T21:36:17Z",
+ "cursor": "2026-11-25T01:35:56Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "a2ea8426cb8a45a2",
+  "tgads/data/2026-11.json": "33bc0970793b4ece",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -22,7 +22,7 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "f44b807a9e33a83c",
   "tgads/data/2026-08.json": "46a13b061c31fe5c",
-  "tgads/data/2026-09.json": "f4e60e91810dfbfe",
+  "tgads/data/2026-09.json": "2f1a8b9e1074ab54",
   "tgads/data/2026-04.json": "43aa059aab55b494",
   "tgads/data/2026-05.json": "c23aa30a3fef5488",
   "tgads/data/2026-06.json": "b5da37526c825168",
@@ -38,18 +38,6 @@
   "tgads/channels/channels-06.json": "7fda8784b9316e68"
  },
  "runs": [
-  {
-   "at": "2026-11-22T23:36:23Z",
-   "ok": true,
-   "error": null,
-   "new": 14,
-   "updated": 5,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 10
-  },
   {
    "at": "2026-11-23T00:36:16Z",
    "ok": true,
@@ -837,18 +825,32 @@
    "sent_media": 0,
    "sent_files": 0,
    "secs": 10
+  },
+  {
+   "at": "2026-11-25T02:35:57Z",
+   "ok": true,
+   "error": null,
+   "html_new": 0,
+   "html_parts": 0,
+   "new": 40,
+   "updated": 13,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 2,
+   "secs": 120
   }
  ],
- "last_upload_ok": "2026-11-25T01:36:00Z",
+ "last_upload_ok": "2026-11-25T02:37:51Z",
  "lang_seen": {
-  "-": 1111,
+  "-": 1114,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 400,
   "my": 47,
   "en": 496,
-  "fa": 18318,
+  "fa": 18369,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -882,8 +884,8 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": null,
-  "X-RateLimit-Remaining": null,
+  "X-RateLimit-Limit": "60",
+  "X-RateLimit-Remaining": "59",
   "X-RateLimit-Reset": null
  },
  "channels_total": 2261,
@@ -5116,7 +5118,7 @@
   "ads-cloud-20261124T222414919165-0001.jsonl.gz": "60ce8d5360878704488240ac874fe60ec1b36d3dfbcff9deca8b74da0cf665e9"
  },
  "ad_history_v1": {
-  "next_at": 1795570579,
+  "next_at": 1795584958,
   "days": {},
   "advertisers": {
    "tg-iranperfect-money": {
@@ -6513,81 +6515,168 @@
     "offset": 0,
     "status": "read",
     "first_id": null
+   },
+   "tg-wynefx": {
+    "offset": 18,
+    "status": "read",
+    "first_id": "cmwhmam4800lsqm011qe09osz"
+   },
+   "tg-sahel_saraei": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-foodbale": {
+    "offset": 23,
+    "status": "read",
+    "first_id": "cmuvet6bw0uz6md013jn8rq7b"
+   },
+   "tg-gheymatairdrop": {
+    "offset": 11,
+    "status": "read",
+    "first_id": "cmvubufet00vpmi019xbjbshz"
+   },
+   "tg-fet_shop_omde": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-lebas_zir_barardaran": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-bwinnerx": {
+    "offset": 12,
+    "status": "read",
+    "first_id": "cmui6urg304gppg01gzk1jtvp"
+   },
+   "tg-freefromvip": {
+    "offset": 10,
+    "status": "read",
+    "first_id": "cmwpe6ir214jcqm01nqrm54o1"
+   },
+   "tg-erfun_mms": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-gsmob5": {
+    "offset": 10,
+    "status": "read",
+    "first_id": "cmv27ppw50bkgqu018cm8fb7t"
+   },
+   "tg-mino_nanaz": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-sarvestyle": {
+    "offset": 10,
+    "status": "read",
+    "first_id": "cmv70m3x90auqs901j6jgih5s"
+   },
+   "tg-jamaco_design": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-keytexnews": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmwn8u9lz0tg3qm01up3u98oy"
+   },
+   "tg-fitana-bot": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmwv8ch7v1x19qm01c8cs75k0"
+   },
+   "tg-zipflowbot": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmwv33u9p1w86qm01huda6nlw"
+   },
+   "tg-horachartbot": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmwuzspv71vruqm016byd6bp6"
+   },
+   "tg-hashtahan": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmvkivnpx01b7lp01jrabgh66"
+   },
+   "tg-footballnews20206": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmtduaae500a3ml01nb4wm2p3"
    }
   },
   "last": {
    "requests": 20,
-   "new": 8,
+   "new": 2,
    "dates_new": 0,
-   "advertisers_new": 8,
+   "advertisers_new": 2,
    "pages": [
     {
      "via": "advertiser",
-     "target": "tg-lumochatbot",
+     "target": "tg-wynefx",
      "offset": 0,
-     "rows": 24,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-kamrangold_trader233",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-liyano1",
-     "offset": 0,
-     "rows": 19,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-milad_drop",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-sattarvpnbot",
-     "offset": 0,
-     "rows": 23,
-     "new": 4,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-gisouacademy",
-     "offset": 0,
-     "rows": 22,
-     "new": 3,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-nobitexmarket",
-     "offset": 0,
-     "rows": 9,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-novinparsfooladabtin",
-     "offset": 0,
-     "rows": 19,
+     "rows": 18,
      "new": 1,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-pargarsoal",
+     "target": "tg-sahel_saraei",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-foodbale",
+     "offset": 0,
+     "rows": 23,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-gheymatairdrop",
+     "offset": 0,
+     "rows": 11,
+     "new": 1,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-fet_shop_omde",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-lebas_zir_barardaran",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-bwinnerx",
+     "offset": 0,
+     "rows": 12,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-freefromvip",
      "offset": 0,
      "rows": 10,
      "new": 0,
@@ -6595,15 +6684,7 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-trustgoldfx",
-     "offset": 0,
-     "rows": 27,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-smart_money_trade_6",
+     "target": "tg-erfun_mms",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -6611,7 +6692,39 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-gharatgame",
+     "target": "tg-gsmob5",
+     "offset": 0,
+     "rows": 10,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-mino_nanaz",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-sarvestyle",
+     "offset": 0,
+     "rows": 10,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-jamaco_design",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-keytexnews",
      "offset": 0,
      "rows": 9,
      "new": 0,
@@ -6619,39 +6732,7 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-mezoonmedusa",
-     "offset": 0,
-     "rows": 17,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-trendovipgold_05",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-trading_education4",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-tak_shakhshop",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-matrixxmta",
+     "target": "tg-fitana-bot",
      "offset": 0,
      "rows": 9,
      "new": 0,
@@ -6659,17 +6740,33 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-sdf_fund",
+     "target": "tg-zipflowbot",
      "offset": 0,
-     "rows": 0,
+     "rows": 9,
      "new": 0,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-eshgheabadi_iran",
+     "target": "tg-horachartbot",
      "offset": 0,
-     "rows": 0,
+     "rows": 9,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-hashtahan",
+     "offset": 0,
+     "rows": 9,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-footballnews20206",
+     "offset": 0,
+     "rows": 8,
      "new": 0,
      "status": "read"
     }
