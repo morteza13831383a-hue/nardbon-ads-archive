@@ -1,0 +1,19 @@
+[Unit]
+Description=Nardbon checkpointed channel collection
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=nardbon
+WorkingDirectory=/opt/nardbon
+EnvironmentFile=/etc/nardbon/channel-worker.env
+ExecStart=/opt/nardbon/.venv/bin/python scripts/fast_iran_channels_crawler.py --work-dir ${CHANNEL_WORK} --ads-checkpoint ${ADS_CHECKPOINT} --outbox ${CHANNEL_OUTBOX}
+Restart=on-failure
+RestartSec=120
+RestartPreventExitStatus=75
+TimeoutStopSec=120
+NoNewPrivileges=true
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

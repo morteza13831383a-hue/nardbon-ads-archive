@@ -203,8 +203,12 @@ class Client:
                                 except Exception:
                                     pass
                             from source_budget import retry_after_seconds
-                            report(self.base, 'challenge' if 'Just a moment' in body else e.code,
+                            from source_budget import Challenge, is_challenge
+                            challenged = (e.headers or {}).get('cf-mitigated', '').lower() == 'challenge' or is_challenge(body) or 'Just a moment' in body
+                            report(self.base, 'challenge' if challenged else e.code,
                                    retry_after=retry_after_seconds(e.headers))
+                            if self.resilient and challenged:
+                                raise Challenge('Source challenge') from e
                         if e.code in (301,302,303,307,308):report(self.base,e.code)
                         raise
                     except (OSError, TimeoutError):
@@ -222,7 +226,9 @@ class Client:
                         body=raw.decode(r.headers.get_content_charset() or 'utf-8', errors='replace')
                         if self.resilient:
                             from source_budget import is_challenge,Challenge
-                            if is_challenge(body):report(self.base,'challenge');raise Challenge('Cloudflare challenge; waiting for shared pause')
+                            if is_challenge(body) or r.headers.get('cf-mitigated', '').lower() == 'challenge':
+                                report(self.base,'challenge')
+                                raise Challenge('Cloudflare challenge; waiting for shared pause')
                         report(self.base,response.status)
                         return body
                 except HTTPError as e:

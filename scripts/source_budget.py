@@ -118,7 +118,7 @@ def report(base, status, retry_after=None):
             state['delay'] = min(MAX_DELAY, state['delay'] * 2)
             pause=min(MAX_BLOCK_PAUSE,(CHALLENGE_PAUSE if status=='challenge' else BLOCK_PAUSE)*2**min(state['block_streak']-1,4))
             if retry_after is not None:
-                pause=max(pause,min(MAX_BLOCK_PAUSE,max(0,float(retry_after))))
+                pause=max(pause,max(0,float(retry_after)))
             state['pause_until'] = max(state['pause_until'], now + pause)
             state['streak'] = 0
         elif status == 0 or (isinstance(status, int) and status >= 500):
