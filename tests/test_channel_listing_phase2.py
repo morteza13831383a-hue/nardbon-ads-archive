@@ -52,3 +52,35 @@ class DeeperSample(unittest.TestCase):
             self.assertEqual(next_page(db),3)
             db.execute('insert into listing_pages values(3,0)')
             self.assertIsNone(next_page(db))
+
+
+class DeepFirst(unittest.TestCase):
+    def test_deferred_blocks_resume_inside_visible_end(self):
+        from channel_listing_pass import deep_page
+        with sqlite3.connect(':memory:') as db:
+            db.execute('create table meta(key primary key,value)')
+            db.execute('create table listing_pages(page primary key,more)')
+            db.executemany('insert into listing_pages values(?,?)',[(1,1),(7,0)])
+            self.assertEqual(deep_page(db,4,2),4)
+            db.execute("insert into meta values('deep_cursor','8')")
+            self.assertEqual(deep_page(db,4,2),5)
+            db.executemany('insert into listing_pages values(?,1)',[(5,),(6,)])
+            self.assertEqual(deep_page(db,4,2),3)
+            db.executemany('insert into listing_pages values(?,1)',[(2,),(3,),(4,)])
+            self.assertIsNone(deep_page(db,4,2))
+
+    def test_low_yield_window_skips_one_block_and_persists(self):
+        from channel_listing_pass import deep_page, store
+        with tempfile.TemporaryDirectory() as folder:
+            db=c.connect(Path(folder))
+            try:
+                db.execute('create table listing_pages(page primary key,fingerprint,rows,new_local,iran,started,more)')
+                db.execute('create table listing_yield(page primary key,net,rows)')
+                known={'known_one','known_two'}
+                for page,u in enumerate(sorted(known),1):
+                    body=f'<main><a href="/channels/{u}">{u}</a><a href="/channels?lang=fa&amp;page={page+1}">Next</a></main>'
+                    store(db,page,body,page,known,2)
+                self.assertEqual(deep_page(db,None,2),5)
+                self.assertEqual(db.execute('select sum(net),sum(rows) from listing_yield').fetchone(),(0,2))
+            finally:
+                db.close()
