@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "33bc0970793b4ece",
+  "tgads/data/2026-11.json": "cdc73150df1c9dc1",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -22,7 +22,7 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "f44b807a9e33a83c",
   "tgads/data/2026-08.json": "46a13b061c31fe5c",
-  "tgads/data/2026-09.json": "2f1a8b9e1074ab54",
+  "tgads/data/2026-09.json": "1ab3ebd672b6a0da",
   "tgads/data/2026-04.json": "43aa059aab55b494",
   "tgads/data/2026-05.json": "c23aa30a3fef5488",
   "tgads/data/2026-06.json": "b5da37526c825168",
@@ -38,18 +38,6 @@
   "tgads/channels/channels-06.json": "7fda8784b9316e68"
  },
  "runs": [
-  {
-   "at": "2026-11-23T00:36:16Z",
-   "ok": true,
-   "error": null,
-   "new": 16,
-   "updated": 2,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 1,
-   "secs": 10
-  },
   {
    "at": "2026-11-23T01:36:21Z",
    "ok": true,
@@ -839,9 +827,23 @@
    "sent_media": 0,
    "sent_files": 2,
    "secs": 120
+  },
+  {
+   "at": "2026-11-25T03:35:47Z",
+   "ok": false,
+   "error": "api: rate limited, paused until 2026-11-25T06:35:47Z",
+   "html_new": 0,
+   "html_parts": 0,
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 2,
+   "secs": 15
   }
  ],
- "last_upload_ok": "2026-11-25T02:37:51Z",
+ "last_upload_ok": "2026-11-25T03:35:55Z",
  "lang_seen": {
   "-": 1114,
   "tr": 63,
@@ -884,12 +886,12 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": "60",
-  "X-RateLimit-Remaining": "59",
+  "X-RateLimit-Limit": null,
+  "X-RateLimit-Remaining": null,
   "X-RateLimit-Reset": null
  },
  "channels_total": 2261,
- "api_blocked_until": "2026-11-25T01:45:19Z",
+ "api_blocked_until": "2026-11-25T06:35:47Z",
  "channels_idx": 13,
  "desc_last": "2026-11-13T17:31:52Z",
  "html_archive_exported_at": "2026-11-24T22:52:32Z",
