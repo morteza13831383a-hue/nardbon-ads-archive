@@ -79,7 +79,8 @@ def enqueue(db, url, kind=None, priority=None):
         if CHANNEL.fullmatch(path):
             kind = 'channel'
         elif ((path.rstrip('/') == '/channels' and parse_qs(urlsplit(url).query).get('lang') == ['fa'])
-              or path.startswith('/countries/ir/channels')):
+              or path.startswith('/countries/ir/channels')
+              or re.fullmatch(r'/(?:niches|categories)/[a-z0-9_-]+/?|/search/?',path)):
             kind = 'listing'
         elif ADV_CHANNELS.fullmatch(path) and ADV_CHANNELS.fullmatch(path)[1] in iran_advertisers():
             kind = 'listing'
@@ -213,9 +214,40 @@ def listing_eligibility(fields):
     return None
 
 
-def extract_listing(doc, url):
+def listing_handle(href, url):
+    link = urlsplit(urljoin(url, href))
+    if origin(link.geturl()) != origin(BASE):
+        return None
+    match = CHANNEL.fullmatch(link.path)
+    if match and match[1].lower() != 'most-advertised':
+        return match[1].lower()
+    return None
+
+
+def direct_row(username, title, url, fields):
+    desc = fields.get('Description')
+    language = fields.get('Language') or fields.get('Lang') or ''
+    fa = (parse_qs(urlsplit(url).query).get('lang') == ['fa'] or
+          language.casefold() in ('fa', 'persian', 'farsi', 'فارسی'))
+    country = fields.get('Country') or fields.get('Geo')
+    iran = str(country).casefold() in ('ir','iran','ایران')
+    script = (title or '') + ' ' + (desc or '')
+    members = listing_number(fields.get('Subscribers') or fields.get('Members',''))
+    return dict(username=username, title=title, description=desc, members=members, subscribers=members,
+                avg_views=listing_number(fields.get('Avg. views','')), category=fields.get('Category') or fields.get('Niche'),
+                language='fa' if fa else language or None, source_language_tags=['fa'] if fa else [],
+                country='IR' if iran else country, iran_geo_tag=iran, iran_advertisers=[],
+                iran_evidence=[{'field':'Country','value':country}] if iran else [],
+                classification='iran_confirmed' if iran else 'persian_candidate' if fa or PERSIAN.search(script) else 'unclassified',
+                has_persian_script=bool(re.search(r'[\u0600-\u06ff]',script)), metrics={},
+                channel_url=BASE+'/channels/'+username, source_url=url, record_detail='listing', collected_at=now())
+
+
+def extract_listing(doc, url, all_listings=False):
     """Read public Persian listing table rows by heading, never infer columns by position."""
-    if urlsplit(url).path != '/channels' or parse_qs(urlsplit(url).query).get('lang') != ['fa']:
+    if not all_listings and (urlsplit(url).path != '/channels' or parse_qs(urlsplit(url).query).get('lang') != ['fa']):
+        return []
+    if CHANNEL.fullmatch(urlsplit(url).path):
         return []
     result = {}
     for table in doc.root.nodes():
@@ -248,25 +280,56 @@ def extract_listing(doc, url):
             anchor = next((n for n in fields['Channel'].nodes() if n.tag == 'a' and CHANNEL.fullmatch(urlsplit(n.attrs.get('href', '')).path)), None)
             if anchor is None:
                 continue
-            username = CHANNEL.fullmatch(urlsplit(anchor.attrs['href']).path)[1].lower()
+            username = listing_handle(anchor.attrs['href'], url)
+            if not username:
+                continue
             title = re.sub(r'\s*@' + re.escape(username) + r'\s*$', '', anchor.text().strip(), flags=re.I).strip()
             if not title:
                 continue
             previous=result.get(username,{})
             metrics = {key: fields[key].text().strip() for key in ('Members', 'Avg. views') if key in fields}
-            result[username] = {'username': username, 'title': title, 'source_url': url,
-                'channel_url': BASE + '/channels/' + username, 'classification': 'persian_candidate',
-                'members': listing_number(metrics.get('Members', '')), 'avg_views': listing_number(metrics.get('Avg. views', '')),
-                'cabinet_type': fields['Cabinet type'].text().strip()if 'Cabinet type'in fields else None,
-                'sponsored_eligible': listing_eligibility(fields),
-                'metrics': metrics, 'category': fields['Category'].text().strip() if 'Category' in fields else None,
-                'source_language_tags': ['fa'], 'language': 'fa', 'country': None, 'iran_geo_tag': False,
-                'has_persian_script': bool(re.search(r'[\u0600-\u06ff]',title)),
-                'iran_advertisers': [], 'iran_evidence': [],
-                'collected_at': now(), 'record_detail': 'listing'}
+            row = direct_row(username,title,url,{k:v.text().strip() for k,v in fields.items()})
+            row.update(metrics=metrics, sponsored_eligible=listing_eligibility(fields),
+                       cabinet_type=fields['Cabinet type'].text().strip() if 'Cabinet type' in fields else None)
+            result[username] = row
             if previous:
                 for key,value in previous.items():
                     if value is not None:result[username][key]=value
+    if not all_listings:
+        return list(result.values())
+    main = next((n for n in doc.root.nodes() if n.tag == 'main'), doc.root)
+    for card in main.nodes():
+        if card.tag not in ('article', 'li') and not card.attrs.get('data-channel'):
+            continue
+        nodes = list(card.nodes())
+        anchors = [n for n in nodes if n.tag == 'a' and listing_handle(n.attrs.get('href',''),url)]
+        names = {listing_handle(n.attrs['href'],url) for n in anchors}
+        if len(names) != 1:
+            continue
+        username = names.pop()
+        if username in result:
+            continue
+        fields = {}
+        for label in ('Members','Subscribers','Niche','Category','Country','Geo','Language','Description'):
+            attr = 'data-' + label.lower()
+            value = next((n.attrs[attr] for n in nodes if n.attrs.get(attr)), None)
+            if value:
+                fields[label] = value
+        desc = next((n.text().strip() for n in nodes if n.attrs.get('itemprop') == 'description'),None)
+        if desc:
+            fields.setdefault('Description',desc)
+        title = next((n.text().strip() for n in nodes if n.tag in ('h2','h3','h4')),anchors[0].text().strip())
+        result[username] = direct_row(username,title or None,url,fields)
+
+    for node in main.nodes():
+        if node.tag != 'a':
+            continue
+        username = listing_handle(node.attrs.get('href',''), url)
+        if not username or username in result:
+            continue
+        text = node.text().strip()
+        title = re.sub(r'\s*@'+re.escape(username)+r'\s*$', '', text, flags=re.I).strip() or None
+        result[username] = direct_row(username,title,url,{})
     return list(result.values())
 
 
@@ -276,8 +339,9 @@ def save_listing(db, rows):
         current = json.loads(old[0]) if old else {}
         # A summary never overwrites a fetched profile, explicit Iran evidence or a known value with null.
         if current and current.get('record_detail') != 'listing':
-            if current.get('classification') == 'unclassified':
-                current['classification'] = 'persian_candidate'
+            classification = row.get('classification', 'persian_candidate' if parse_qs(urlsplit(row['source_url']).query).get('lang') == ['fa'] else 'unclassified')
+            if current.get('classification') == 'unclassified' and classification != 'unclassified':
+                current['classification'] = classification
                 current['listing_source_url'] = row['source_url']
                 db.execute('UPDATE channels SET payload=? WHERE username=?', (json.dumps(current, ensure_ascii=False), row['username']))
             continue
@@ -285,12 +349,16 @@ def save_listing(db, rows):
         for key, value in row.items():
             if value is not None and (value != [] or key not in merged):
                 merged[key] = value
+        if current.get('iran_geo_tag') or current.get('classification') == 'iran_confirmed':
+            merged.update(iran_geo_tag=True, country='IR', classification='iran_confirmed')
+        elif current.get('classification') == 'persian_candidate' and merged['classification'] == 'unclassified':
+            merged['classification'] = 'persian_candidate'
         merged['metrics'] = dict(current.get('metrics', {}), **row['metrics'])
         db.execute('INSERT OR REPLACE INTO channels VALUES(?,?)', (row['username'], json.dumps(merged, ensure_ascii=False)))
-        enqueue(db, row['channel_url'], priority=P_PERSIAN_LINK)
+        enqueue(db, row['channel_url'], priority=P_OTHER if merged['classification']=='unclassified' else P_PERSIAN_LINK)
         queued = db.execute('SELECT priority FROM queue WHERE url=?', (row['channel_url'],)).fetchone()
         needs_profile = bool(merged.get('iran_advertisers')) or queued[0] == P_IRAN_PLACEMENT or any(merged.get(k) is None for k in ('members','avg_views'))
-        if not needs_profile:
+        if not needs_profile or (merged['classification'] == 'unclassified' and not merged.get('iran_advertisers') and queued[0] > P_IRAN_PLACEMENT):
             db.execute("UPDATE queue SET status='listing_saved',error=NULL WHERE url=? AND status IN ('pending','in_progress')", (row['channel_url'],))
 
 
@@ -328,27 +396,36 @@ ROTATION = (
 )
 
 
-def next_job(db, turn):
+def next_job(db, turn, critical_profiles=False):
     """Best pending job of this turn's type; if that type is empty, the next type; then any."""
+    eligibility = ""
+    if critical_profiles:
+        eligibility = """ AND (kind!='channel' OR (priority<=2 AND NOT EXISTS (
+            SELECT 1 FROM channels c WHERE c.username=substr(queue.url,length('https://tgadsspy.com/channels/')+1)
+            AND length(trim(json_extract(c.payload,'$.title')))>0
+            AND json_type(c.payload,'$.members') IN ('integer','real') )))"""
     for i in range(len(ROTATION)):
         _, where = ROTATION[(turn + i) % len(ROTATION)]
-        job = db.execute(f"SELECT url,kind FROM queue WHERE status='pending' AND {where} "
+        job = db.execute(f"SELECT url,kind FROM queue WHERE status='pending' AND {where} {eligibility} "
                          "ORDER BY priority, url LIMIT 1").fetchone()
         if job:
             return job
-    return db.execute("SELECT url,kind FROM queue WHERE status='pending' ORDER BY priority, url LIMIT 1").fetchone()
+    return db.execute(f"SELECT url,kind FROM queue WHERE status='pending' {eligibility} ORDER BY priority, url LIMIT 1").fetchone()
 
 
 def consume(db, url, kind, body, document=Document):
     if kind == 'sitemap':
         tree = ET.fromstring(body)
         index = tree.tag.endswith('sitemapindex')
-        for node in tree.iter():
-            if node.tag.endswith('}loc') or node.tag == 'loc':
-                enqueue(db, node.text or '', 'sitemap' if index else None)
+        for node in tree.findall('{*}sitemap/{*}loc' if index else '{*}url/{*}loc'):
+            location = node.text or ''
+            username = listing_handle(location,url) if not index else None
+            if username:
+                save_listing(db,[direct_row(username,None,url,{})])
+            enqueue(db, location, 'sitemap' if index else None)
     else:
         doc = document(body)
-        save_listing(db, extract_listing(doc, url))
+        save_listing(db, extract_listing(doc, url, all_listings=(kind=='listing')))
         page_priority = P_OTHER
         if kind == 'channel':
             value = extract(doc, url)

@@ -40,14 +40,14 @@ def release(db):
     db.execute("UPDATE queue SET status='pending' WHERE status='in_progress'")
 
 
-def claim(db, size):
+def claim(db, size, critical_profiles=False):
     db.execute('BEGIN IMMEDIATE')
     with db:
         row = db.execute("SELECT value FROM meta WHERE key='rotation_turn'").fetchone()
         turn = int(row[0]) if row else 0
         jobs = []
         for _ in range(size):
-            job = channels.next_job(db, turn)
+            job = channels.next_job(db, turn, critical_profiles)
             if not job:
                 break
             db.execute("UPDATE queue SET status='in_progress' WHERE url=?", (job[0],))
@@ -150,7 +150,7 @@ def collect(args):
                 return 75
             channels.seed(db, args.ads_checkpoint)
             seed_files(db, args.seed, args.advertisers, args.keywords, args.catalog)
-            client = Client(channels.BASE, delay=0, resilient=True)
+            client = Client(channels.BASE, delay=getattr(args,"min_interval",1.0), resilient=True)
             if not db.execute("SELECT 1 FROM queue WHERE status='pending' LIMIT 1").fetchone():
                 return 0
             if args.transport == 'curl':
@@ -176,7 +176,7 @@ def collect(args):
             while not stopping:
                 if held(db,args.ads_checkpoint):
                     return 75
-                jobs = claim(db,args.batch)
+                jobs = claim(db,args.batch,critical_profiles=True)
                 if not jobs:
                     break
                 for url,kind in jobs:
@@ -191,6 +191,8 @@ def collect(args):
                         body = client.get(url)
                         with db:
                             channels.consume(db,url,kind,body,document=parse)
+                        if kind != "channel":
+                            flush(db,args.outbox)
                     except HostBlocked:
                         raise
                     except HTTPError as error:
@@ -235,9 +237,13 @@ if __name__ == '__main__':
     parser.add_argument('--advertisers',type=Path)
     parser.add_argument('--keywords',type=Path,nargs='+',default=[])
     parser.add_argument('--catalog',type=Path)
+    parser.add_argument('--min-interval',type=float,default=os.getenv('CHANNEL_MIN_INTERVAL','1.0'))
     parser.add_argument('--transport',choices=('curl','stdlib'),default='curl')
     parser.add_argument('--batch',type=int,default=16)
     args = parser.parse_args()
     if args.batch <= 0 or (args.keywords and not args.catalog):
         parser.error('Use a positive batch size and supply --catalog with --keywords')
+    if not 1 <= args.min_interval < float('inf'):
+        parser.error('interval must be finite and at least one second')
+    os.environ['CHANNEL_MIN_INTERVAL']=str(args.min_interval)
     sys.exit(collect(args))

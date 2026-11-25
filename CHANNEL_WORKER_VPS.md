@@ -60,3 +60,11 @@ sqlite3 -readonly "$CHANNEL_WORK/channels.sqlite3" 'SELECT status,count(*) FROM 
 sqlite3 -readonly "$CHANNEL_WORK/channels.sqlite3" 'SELECT count(*) FROM channel_outgoing'
 systemctl list-timers nardbon-channel-publish.timer
 ```
+
+## Persian listing pass
+
+A successful check of the public Persian listing permits a separately locked, listing-only pass when ad details remain challenged. The pass follows an observed next-page link. Its opener permits only robots.txt and the exact same-origin /channels?lang=fa pagination family, including during redirects. Source challenges and unexpected layouts are persisted in listing_hold. The broader fast worker still honors the archive stop reason.
+
+Run scripts/channel_listing_pass.py with --work and --outbox on a persistent filesystem. Optional --ads-checkpoint, --advertisers, --keywords and --catalog initialize the broader discovery queue; pending profile or sitemap jobs are not fetched by this pass. Use a distinct checkpoint from the production profile worker. Page and HTTP receipts live in listing_pages and listing_http. Place a file named pause in the work directory to stop between pages. Use scripts/publish_listing_batches.py with --repo, --work and --outbox for an existing authorized GitHub CLI deployment. The default publication interval is 1,800 seconds. Run only one publication helper per outbox.
+
+The listing worker accepts --min-interval or CHANNEL_MIN_INTERVAL (1 second by default). For its tgadsspy requests the shared budget adds 0.7–1.4 seconds of jitter above the greatest of the configured floor, robots delay and current adaptive delay. Existing cooldowns and the clean-streak recovery are preserved. Even at the configured floor this cannot deliver 100,000 individual profile GETs per day. Count newly discovered handles against a frozen catalog and keep explicit Iran evidence separate from Persian-language listing membership.
