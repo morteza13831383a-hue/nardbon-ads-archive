@@ -83,6 +83,24 @@ def budgeted_request(request):
         # html_core reported the response. reserve() waits before the next request.
 
 
+def next_page(db, start=None, sample_pages=0):
+    """Prioritize a bounded sample, then resume the earliest uncovered sequential page."""
+    pages = dict(db.execute('SELECT page,more FROM listing_pages ORDER BY page'))
+    if start is not None:
+        for page in range(start,start + sample_pages):
+            if page in pages:
+                if not pages[page]:
+                    break
+                continue
+            return page
+    page = 1
+    while page in pages:
+        if not pages[page]:
+            return None
+        page += 1
+    return page
+
+
 def run(args):
     args.work.mkdir(parents=True,exist_ok=True)
     with (args.work/'worker.lock').open('a') as lock:
@@ -101,14 +119,13 @@ def run(args):
                         url=FIRST if done==1 else FIRST+'&page='+str(done)
                         channels.enqueue(db,url,'listing')
                         db.execute("UPDATE queue SET status='done' WHERE url=?",(url,))
-            last=db.execute('SELECT page,more FROM listing_pages ORDER BY page DESC LIMIT 1').fetchone()
-            if last and not last[1]:
+            page=next_page(db,args.start_page,args.sample_pages)
+            if page is None:
                 return
             if db.execute("SELECT 1 FROM meta WHERE key IN ('listing_hold','stop_reason','fast_hold') AND value<>''").fetchone():
                 raise SystemExit('Recorded hold')
             client=Client(channels.BASE,delay=args.min_interval,resilient=True)
             client.opener=ListingOpener(client.opener, db)
-            page=last[0]+1 if last else 1
             try:
                 if status(channels.BASE)['halted']:
                     raise SystemExit('Host halted')
@@ -125,9 +142,9 @@ def run(args):
                     count, more=store(db,page,body,started)
                     flush(db,args.outbox)
                     print('page',page,'rows',count,'more',more,flush=True)
-                    if not more:
+                    page=next_page(db,args.start_page,args.sample_pages)
+                    if page is None:
                         return
-                    page+=1
             except (Challenge,HTTPError,ValueError) as error:
                 with db:
                     db.execute("INSERT OR REPLACE INTO meta VALUES('listing_hold',?)",(str(error),))
@@ -144,9 +161,13 @@ if __name__=='__main__':
     parser.add_argument('--keywords',type=Path,nargs='+',default=[])
     parser.add_argument('--catalog',type=Path)
     parser.add_argument('--advertisers',type=Path)
+    parser.add_argument('--start-page',type=int,help='Prioritize a bounded sample beginning at this listing page')
+    parser.add_argument('--sample-pages',type=int,default=10,help='Maximum sample width before returning to backlog')
     parser.add_argument('--first-page',type=Path,help='Verified first listing response from the access check')
     parser.add_argument('--min-interval',type=float,default=os.getenv('CHANNEL_MIN_INTERVAL','1.0'))
     args=parser.parse_args()
+    if args.sample_pages < 1 or (args.start_page is not None and args.start_page < 1):
+        parser.error('page numbers and sample width must be positive')
     if args.keywords and not args.catalog:
         parser.error('keyword lookup requires --catalog')
     if not 1 <= args.min_interval < float('inf'):

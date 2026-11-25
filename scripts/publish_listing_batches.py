@@ -52,4 +52,10 @@ if __name__=='__main__':
                 publish(args.repo,args.outbox,db)
             except subprocess.CalledProcessError as exc:
                 print('Publication deferred; exit code',exc.returncode,flush=True)
-            time.sleep(args.interval)
+            deadline = time.monotonic() + args.interval
+            wake = args.work/'publish-now'
+            while time.monotonic() < deadline and not (args.work/'pause-publisher').exists():
+                if wake.exists():
+                    wake.unlink(missing_ok=True)
+                    break
+                time.sleep(min(5, max(0,deadline-time.monotonic())))

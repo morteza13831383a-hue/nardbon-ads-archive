@@ -38,3 +38,17 @@ class DirectListings(unittest.TestCase):
                 self.assertEqual(worker.claim(db,2,critical_profiles=True),[(c.BASE+'/channels/missing','channel')])
             finally:
                 db.close()
+
+
+class DeeperSample(unittest.TestCase):
+    def test_restart_does_not_skip_holes_or_repeat_sample(self):
+        from channel_listing_pass import next_page
+        with sqlite3.connect(':memory:') as db:
+            db.execute('create table listing_pages(page integer primary key,more integer)')
+            db.executemany('insert into listing_pages values(?,?)',[(1,1),(2,1),(201,1)])
+            self.assertEqual(next_page(db,201,3),202)
+            db.execute('insert into listing_pages values(202,0)')
+            self.assertEqual(next_page(db,201,3),3)
+            self.assertEqual(next_page(db),3)
+            db.execute('insert into listing_pages values(3,0)')
+            self.assertIsNone(next_page(db))
