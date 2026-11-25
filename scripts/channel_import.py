@@ -19,6 +19,7 @@ This module upserts them, by username / (advertiser, channel), into
   data/placements.json  (who bought where: the basis for channel suggestions)
 Re-importing the same parts never creates duplicates. Runs on every sync; no network.
 """
+from datetime import datetime, timezone
 import glob
 from pathlib import Path
 import gzip
@@ -91,12 +92,32 @@ def import_html_buckets(chans, pl, log, now_iso):
             if not line.strip():
                 continue
             r = json.loads(line)
-            u = r.get("username") or ""
+            u = (r.get("username") or "").strip().lstrip("@").lower()
             iran_advs = r.get("iran_advertisers") or []
             if not USERNAME.match(u) or (r.get("classification") == "unclassified" and not iran_advs):
                 continue
             m = r.get("metrics") or {}
             c = chans.get(u) or {"u": u, "k": [], "sr": "tgadsspy"}
+            for adv in iran_advs:
+                key = f"{adv}|{u}"
+                pl["rows"].setdefault(key, {"a": adv, "c": u, "n": 0})
+            # Immutable batches can arrive out of chronological order.
+            stamps = pl.setdefault("html_collected_at", {})
+            try:
+                instant = datetime.fromisoformat(r.get("collected_at") or "")
+                stamp = instant.astimezone(timezone.utc).isoformat(timespec="microseconds") if instant.tzinfo else ""
+            except (ValueError, TypeError):
+                stamp = ""
+            if stamps.get(u, "") > stamp:
+                continue
+            if stamp:
+                stamps[u] = stamp
+            if r.get("record_detail") in ("profile", "listing"):
+                c["kd"] = "channel"
+            if r.get("country"):
+                c["co"] = r["country"]
+            if r.get("language"):
+                c["lg"] = r["language"]
             if r.get("title"):
                 c["t"] = r["title"]
             if r.get("description"):
@@ -113,9 +134,6 @@ def import_html_buckets(chans, pl, log, now_iso):
                 c["c"] = r["category"]
             c["s"] = (r.get("collected_at") or now_iso())[:10]
             c["cl"] = r.get("classification")
-            for adv in iran_advs:                       # Iranian advertisers linked from the channel page
-                key = f"{adv}|{u}"
-                pl["rows"].setdefault(key, {"a": adv, "c": u, "n": 0})
             chans[u] = c
             n += 1
         seen[name] = digest

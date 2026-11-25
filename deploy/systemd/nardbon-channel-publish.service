@@ -1,0 +1,10 @@
+[Unit]
+Description=Publish Nardbon channel batches
+
+[Service]
+Type=oneshot
+User=nardbon
+WorkingDirectory=/opt/nardbon
+EnvironmentFile=/etc/nardbon/channel-worker.env
+ExecStart=/opt/nardbon/.venv/bin/python scripts/commit_channel_parts.py --repo /opt/nardbon --outbox ${CHANNEL_OUTBOX}
+UMask=0077

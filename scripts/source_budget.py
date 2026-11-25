@@ -94,8 +94,10 @@ def reserve(base, delay=0):
             host=urlsplit(base).netloc.lower()
             today=time.strftime('%Y-%m-%d',time.gmtime(now))
             if state['day']!=today:state['day'],state['day_count']=today,0
-            floor=MIN_BY_HOST.get(host,0)
-            gap=max(state['delay'],delay or 0,floor)+random.uniform(0,1.5)
+            configured = host == 'tgadsspy.com' and 'CHANNEL_MIN_INTERVAL' in os.environ
+            floor = max(1.0,float(os.environ['CHANNEL_MIN_INTERVAL'])) if configured else MIN_BY_HOST.get(host,MIN_DELAY)
+            jitter = random.uniform(0.7,1.4) if configured else random.uniform(0,1.5)
+            gap=max(state['delay'],delay or 0,floor)+jitter
             wait=max(state['pause_until']-now,state['last']+gap-now,0)
             if wait<=0:
                 state['last']=now;state['day_count']+=1;_save(path,state);return
@@ -118,7 +120,7 @@ def report(base, status, retry_after=None):
             state['delay'] = min(MAX_DELAY, state['delay'] * 2)
             pause=min(MAX_BLOCK_PAUSE,(CHALLENGE_PAUSE if status=='challenge' else BLOCK_PAUSE)*2**min(state['block_streak']-1,4))
             if retry_after is not None:
-                pause=max(pause,min(MAX_BLOCK_PAUSE,max(0,float(retry_after))))
+                pause=max(pause,max(0,float(retry_after)))
             state['pause_until'] = max(state['pause_until'], now + pause)
             state['streak'] = 0
         elif status == 0 or (isinstance(status, int) and status >= 500):
@@ -129,6 +131,8 @@ def report(base, status, retry_after=None):
             state['streak'] += 1
             if state['streak'] >= SPEEDUP_EVERY:
                 floor = MIN_BY_HOST.get(urlsplit(base).netloc.lower(), MIN_DELAY)
+                if urlsplit(base).hostname == 'tgadsspy.com' and 'CHANNEL_MIN_INTERVAL' in os.environ:
+                    floor = max(1.0,float(os.environ['CHANNEL_MIN_INTERVAL']))
                 state['delay'] = max(floor, state['delay'] - SPEEDUP_STEP)
                 state['streak'] = 0
                 state['block_streak'] = 0
