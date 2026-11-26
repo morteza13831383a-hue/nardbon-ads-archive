@@ -40,20 +40,6 @@
  },
  "runs": [
   {
-   "at": "2026-11-24T09:35:52Z",
-   "ok": false,
-   "error": "api: rate limited, paused until 2026-11-24T10:35:52Z",
-   "html_new": 423,
-   "html_parts": 4,
-   "new": 0,
-   "updated": 0,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 10,
-   "secs": 21
-  },
-  {
    "at": "2026-11-24T10:23:01Z",
    "ok": true,
    "error": null,
@@ -878,9 +864,23 @@
    "sent_media": 0,
    "sent_files": 0,
    "secs": 9
+  },
+  {
+   "at": "2026-11-26T10:35:58Z",
+   "ok": true,
+   "error": null,
+   "html_new": 0,
+   "html_parts": 0,
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 0,
+   "secs": 12
   }
  ],
- "last_upload_ok": "2026-11-26T09:36:19Z",
+ "last_upload_ok": "2026-11-26T10:36:03Z",
  "lang_seen": {
   "-": 1124,
   "tr": 63,
