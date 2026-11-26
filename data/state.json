@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-25T22:36:06Z",
+ "cursor": "2026-11-26T03:35:50Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -38,20 +38,6 @@
   "tgads/channels/channels-06.json": "3bb03c774c000d66"
  },
  "runs": [
-  {
-   "at": "2026-11-24T01:35:58Z",
-   "ok": true,
-   "error": null,
-   "html_new": 0,
-   "html_parts": 0,
-   "new": 2,
-   "updated": 4,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 8,
-   "secs": 260
-  },
   {
    "at": "2026-11-24T02:35:52Z",
    "ok": true,
@@ -877,9 +863,23 @@
    "sent_media": 0,
    "sent_files": 0,
    "secs": 10
+  },
+  {
+   "at": "2026-11-26T04:35:50Z",
+   "ok": true,
+   "error": null,
+   "html_new": 0,
+   "html_parts": 0,
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 0,
+   "secs": 115
   }
  ],
- "last_upload_ok": "2026-11-26T03:35:56Z",
+ "last_upload_ok": "2026-11-26T04:37:40Z",
  "lang_seen": {
   "-": 1121,
   "tr": 63,
@@ -922,8 +922,8 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": null,
-  "X-RateLimit-Remaining": null,
+  "X-RateLimit-Limit": "60",
+  "X-RateLimit-Remaining": "59",
   "X-RateLimit-Reset": null
  },
  "channels_total": 2261,
@@ -5156,7 +5156,7 @@
   "ads-cloud-20261124T222414919165-0001.jsonl.gz": "60ce8d5360878704488240ac874fe60ec1b36d3dfbcff9deca8b74da0cf665e9"
  },
  "ad_history_v1": {
-  "next_at": 1795660568,
+  "next_at": 1795678551,
   "days": {},
   "advertisers": {
    "tg-iranperfect-money": {
@@ -7168,17 +7168,120 @@
     "offset": 7,
     "status": "read",
     "first_id": "cmvp4m1qu01vrpp01rii0v5z6"
+   },
+   "tg-address_bedoone_filter_ap_site": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-tradermoein": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmrc6ns8j02i7m64iog2dff8l"
+   },
+   "tg-uvocher_vocher": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-zankolinee_bot": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-abishik_sharma99": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-thekingofforexxpro": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmrocin5d0mwbth0129mvtjua"
+   },
+   "tg-ostadsarlak": {
+    "offset": 7,
+    "status": "read",
+    "first_id": "cmwkxp9h40hlkqm01b12jfvku"
+   },
+   "tg-alieslamico": {
+    "offset": 7,
+    "status": "read",
+    "first_id": "cmu9mzzd602r5ld01xiil2453"
+   },
+   "tg-ayandesazorg": {
+    "offset": 7,
+    "status": "read",
+    "first_id": "cmrayzua40xzum6960qszi8bb"
+   },
+   "tg-tehranmoblehir": {
+    "offset": 7,
+    "status": "read",
+    "first_id": "cmuwdx87i03tiqa010rj102r7"
+   },
+   "tg-avantour_ir": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-levelup_consult": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-shahryaarrajaeecrypto": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmrpflpf50rbhth01vuc5xspg"
+   },
+   "tg-nftbazan": {
+    "offset": 7,
+    "status": "read",
+    "first_id": "cmtilwhbi0013qt0186rk32gv"
+   },
+   "tg-konkur_hammasir": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-aghye_khaas": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-kit_shabestari": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-betfido": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmqgrwh2j0gmjm6v8esd2clqu"
+   },
+   "tg-sharifi_commerce": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
    }
   },
   "last": {
    "requests": 20,
-   "new": 4,
+   "new": 0,
    "dates_new": 0,
-   "advertisers_new": 4,
+   "advertisers_new": 0,
    "pages": [
     {
      "via": "advertiser",
-     "target": "tg-kelasdaraje3raminkhan001",
+     "target": "tg-address_bedoone_filter_ap_site",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-tradermoein",
      "offset": 0,
      "rows": 8,
      "new": 0,
@@ -7186,31 +7289,7 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-satoshiframe",
-     "offset": 0,
-     "rows": 7,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-winsopage",
-     "offset": 0,
-     "rows": 22,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-entrepreneurtradersacademy",
-     "offset": 0,
-     "rows": 7,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-vam_markett",
+     "target": "tg-uvocher_vocher",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -7218,47 +7297,7 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-mahbobecoaching",
-     "offset": 0,
-     "rows": 10,
-     "new": 1,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-eshraghacademi",
-     "offset": 0,
-     "rows": 12,
-     "new": 1,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-betpark3",
-     "offset": 0,
-     "rows": 7,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-officialtgads",
-     "offset": 0,
-     "rows": 7,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-hosseinwears",
-     "offset": 0,
-     "rows": 14,
-     "new": 2,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-gold_scalper_tradee",
+     "target": "tg-zankolinee_bot",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -7266,7 +7305,7 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-fendi_kids",
+     "target": "tg-abishik_sharma99",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -7274,7 +7313,47 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-ekeepa_art",
+     "target": "tg-thekingofforexxpro",
+     "offset": 0,
+     "rows": 9,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-ostadsarlak",
+     "offset": 0,
+     "rows": 7,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-alieslamico",
+     "offset": 0,
+     "rows": 7,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-ayandesazorg",
+     "offset": 0,
+     "rows": 7,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-tehranmoblehir",
+     "offset": 0,
+     "rows": 7,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-avantour_ir",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -7282,31 +7361,7 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-armanigoldfx",
-     "offset": 0,
-     "rows": 7,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-fastways",
-     "offset": 0,
-     "rows": 13,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-millionairetraderfxgiri1",
-     "offset": 0,
-     "rows": 7,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-m_m_3232",
+     "target": "tg-levelup_consult",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -7314,7 +7369,15 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-ghozatiil",
+     "target": "tg-shahryaarrajaeecrypto",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-nftbazan",
      "offset": 0,
      "rows": 7,
      "new": 0,
@@ -7322,9 +7385,41 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-tabdealplatform",
+     "target": "tg-konkur_hammasir",
      "offset": 0,
-     "rows": 7,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-aghye_khaas",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-kit_shabestari",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-betfido",
+     "offset": 0,
+     "rows": 9,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-sharifi_commerce",
+     "offset": 0,
+     "rows": 0,
      "new": 0,
      "status": "read"
     }
