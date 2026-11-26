@@ -49,6 +49,22 @@ def seed(db, catalog_file, source_db):
                        ((u,*v) for u,v in rows.items() if USERNAME.fullmatch(u)))
 
 
+def reconcile_listings(db, source_db):
+    """Use previously parsed channel rows for type, retaining incomplete rows for enrichment."""
+    with closing(sqlite3.connect(source_db.resolve().as_uri()+'?mode=ro', uri=True)) as src:
+        rows = src.execute("""SELECT lower(username), payload FROM channels
+            WHERE json_extract(payload,'$.record_detail') IN ('listing','profile')
+            AND json_extract(payload,'$.classification') IN ('persian_candidate','iran_confirmed')
+            AND lower(json_extract(payload,'$.username'))=lower(username)""")
+        with db:
+            for u,payload in rows:
+                row=json.loads(payload)
+                complete=all(row.get(k) for k in ('title','members','description'))
+                db.execute("""UPDATE jobs SET listing_verified=1, priority=2,
+                    status=CASE WHEN ? THEN 'already_known' ELSE status END
+                    WHERE username=? AND status='pending'""",(complete,u))
+
+
 def inspect_page(body, u, existing):
     doc = LexborHTMLParser(body)
     header = doc.css_first('.tgme_channel_info')
@@ -85,7 +101,7 @@ def inspect_page(body, u, existing):
 
 
 def fetch(session, db, url, delay):
-    reserve(BASE, max(4, delay))
+    reserve(BASE, max(2.5, delay))
     try:
         with session.get(url,allow_redirects=False,timeout=(10,25)) as response:
             code, body = response.status_code, response.content.decode('utf-8','replace')
@@ -113,13 +129,19 @@ def run(args):
         CREATE INDEX IF NOT EXISTS preview_pending ON jobs(priority,members DESC,username) WHERE status='pending';
         CREATE TABLE IF NOT EXISTS events(at REAL,url TEXT,outcome TEXT);
         """)
+        if 'listing_verified' not in {c[1] for c in db.execute('PRAGMA table_info(jobs)')}:
+            db.execute('ALTER TABLE jobs ADD COLUMN listing_verified INTEGER DEFAULT 0')
         seed(db,args.catalog,args.source_db)
+        next_reconcile = 0
         session.headers['User-Agent'] = UA
         rules = None
         last_flush = 0
         while not (args.work/'pause').exists():
             if db.execute("SELECT 1 FROM meta WHERE key='preview_hold'").fetchone():
                 break
+            if time.monotonic() >= next_reconcile:
+                reconcile_listings(db,args.source_db)
+                next_reconcile = time.monotonic()+1800
             job = db.execute("""SELECT username,existing,attempts FROM jobs WHERE status='pending' AND ready<=?
                                 ORDER BY priority,members DESC,username LIMIT 1""",(time.time(),)).fetchone()
             if not job:
