@@ -97,7 +97,7 @@ def import_html_buckets(chans, pl, log, now_iso):
             if not USERNAME.match(u) or (r.get("classification") == "unclassified" and not iran_advs):
                 continue
             m = r.get("metrics") or {}
-            c = chans.get(u) or {"u": u, "k": [], "sr": "tgadsspy"}
+            c = chans.get(u) or {"u": u, "k": [], "sr": "tme" if r.get("source") == "tme" else "tgadsspy"}
             for adv in iran_advs:
                 key = f"{adv}|{u}"
                 pl["rows"].setdefault(key, {"a": adv, "c": u, "n": 0})
@@ -133,7 +133,12 @@ def import_html_buckets(chans, pl, log, now_iso):
             if r.get("category"):
                 c["c"] = r["category"]
             c["s"] = (r.get("collected_at") or now_iso())[:10]
-            c["cl"] = r.get("classification")
+            if r.get("source") == "tme":
+                c["tm"] = c["s"]
+                if r.get("region_signal") and not c.get("rg"):
+                    c["rg"] = r["region_signal"]
+            if r.get("source") != "tme" or not c.get("cl"):
+                c["cl"] = r.get("classification")
             chans[u] = c
             n += 1
         seen[name] = digest
