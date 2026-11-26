@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-26T17:36:01Z",
+ "cursor": "2026-11-26T18:35:55Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "9c25fe8064985367",
+  "tgads/data/2026-11.json": "80ac259e40eb3959",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,7 +20,7 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "ea7b98bfb8e24d76",
+  "tgads/channels/channels.json": "07bc77eb85d839e1",
   "tgads/data/2026-08.json": "ff4ac28906eb8791",
   "tgads/data/2026-09.json": "57eb880d00b8b7d2",
   "tgads/data/2026-04.json": "43aa059aab55b494",
@@ -29,30 +29,16 @@
   "tgads/data/2026-07.json": "b30d4bbec31caeb1",
   "tgads/data/2026-10.json": "7494963eb282ada6",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
-  "tgads/channels/channels-00.json": "3bda04bcabed0ca4",
-  "tgads/channels/channels-01.json": "6ff08ed1d555c92a",
-  "tgads/channels/channels-02.json": "b8a3771e5dd82945",
+  "tgads/channels/channels-00.json": "6380205d7f31fbb0",
+  "tgads/channels/channels-01.json": "535a1c7227c87888",
+  "tgads/channels/channels-02.json": "7b5cfc578dcf7219",
   "tgads/channels/channels-03.json": "72cb4ef9d8fac64c",
   "tgads/channels/channels-04.json": "14cf03e7e6313860",
   "tgads/channels/channels-05.json": "15768c2fbd8d733b",
-  "tgads/channels/channels-06.json": "aa67b4add2587933",
-  "tgads/channels/channels-07.json": "f52d1f1c8783f7db"
+  "tgads/channels/channels-06.json": "f55dcabd779908d9",
+  "tgads/channels/channels-07.json": "b588da83bcf879e5"
  },
  "runs": [
-  {
-   "at": "2026-11-24T17:36:02Z",
-   "ok": true,
-   "error": null,
-   "html_new": 0,
-   "html_parts": 0,
-   "new": 0,
-   "updated": 0,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 3,
-   "secs": 145
-  },
   {
    "at": "2026-11-24T18:36:20Z",
    "ok": true,
@@ -870,9 +856,21 @@
    "sent_media": 0,
    "sent_files": 1,
    "secs": 15
+  },
+  {
+   "at": "2026-11-26T19:35:56Z",
+   "ok": true,
+   "error": null,
+   "new": 11,
+   "updated": 7,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 7,
+   "secs": 18
   }
  ],
- "last_upload_ok": "2026-11-26T18:36:11Z",
+ "last_upload_ok": "2026-11-26T19:36:08Z",
  "lang_seen": {
   "-": 1126,
   "tr": 63,
@@ -881,7 +879,7 @@
   "ar": 408,
   "my": 47,
   "en": 496,
-  "fa": 19013,
+  "fa": 19036,
   "uz": 63,
   "zh": 26,
   "id": 44,
