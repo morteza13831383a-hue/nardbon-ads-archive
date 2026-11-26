@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-26T21:35:54Z",
+ "cursor": "2026-11-26T22:35:54Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "3c1c2b625af905dc",
+  "tgads/data/2026-11.json": "c3ea1b78799ed136",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,7 +20,7 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "07bc77eb85d839e1",
+  "tgads/channels/channels.json": "c36156a94ccd7ceb",
   "tgads/data/2026-08.json": "ff4ac28906eb8791",
   "tgads/data/2026-09.json": "57eb880d00b8b7d2",
   "tgads/data/2026-04.json": "43aa059aab55b494",
@@ -29,30 +29,16 @@
   "tgads/data/2026-07.json": "b30d4bbec31caeb1",
   "tgads/data/2026-10.json": "7494963eb282ada6",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
-  "tgads/channels/channels-00.json": "6380205d7f31fbb0",
-  "tgads/channels/channels-01.json": "535a1c7227c87888",
-  "tgads/channels/channels-02.json": "7b5cfc578dcf7219",
+  "tgads/channels/channels-00.json": "df31f0b922311804",
+  "tgads/channels/channels-01.json": "1528c509c1177282",
+  "tgads/channels/channels-02.json": "7d50343331182c00",
   "tgads/channels/channels-03.json": "72cb4ef9d8fac64c",
   "tgads/channels/channels-04.json": "14cf03e7e6313860",
   "tgads/channels/channels-05.json": "15768c2fbd8d733b",
-  "tgads/channels/channels-06.json": "f55dcabd779908d9",
-  "tgads/channels/channels-07.json": "b588da83bcf879e5"
+  "tgads/channels/channels-06.json": "5e846321bd73f3f0",
+  "tgads/channels/channels-07.json": "63dde04d627c87fc"
  },
  "runs": [
-  {
-   "at": "2026-11-24T22:36:18Z",
-   "ok": true,
-   "error": null,
-   "html_new": 20,
-   "html_parts": 3,
-   "new": 64,
-   "updated": 8,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 5,
-   "secs": 121
-  },
   {
    "at": "2026-11-24T22:45:19Z",
    "ok": false,
@@ -860,18 +846,30 @@
    "sent_media": 0,
    "sent_files": 1,
    "secs": 13
+  },
+  {
+   "at": "2026-11-26T23:35:55Z",
+   "ok": true,
+   "error": null,
+   "new": 16,
+   "updated": 11,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 7,
+   "secs": 19
   }
  ],
- "last_upload_ok": "2026-11-26T22:36:02Z",
+ "last_upload_ok": "2026-11-26T23:36:08Z",
  "lang_seen": {
-  "-": 1131,
+  "-": 1133,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 408,
   "my": 47,
   "en": 496,
-  "fa": 19150,
+  "fa": 19181,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -905,8 +903,8 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": "60",
-  "X-RateLimit-Remaining": "59",
+  "X-RateLimit-Limit": "150",
+  "X-RateLimit-Remaining": "149",
   "X-RateLimit-Reset": null
  },
  "channels_total": 2261,
