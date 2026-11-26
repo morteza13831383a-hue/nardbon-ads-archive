@@ -11,6 +11,7 @@ import sqlite3
 import time
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit, urljoin
+from urllib.parse import parse_qsl
 import xml.etree.ElementTree as ET
 
 import channels_html as ch
@@ -19,7 +20,7 @@ from fast_iran_channels_crawler import prepare, flush, seed_files
 from html_core import Client
 from source_budget import Challenge, HostBlocked, status
 
-SOURCES = ('sitemap','advertiser','placement','related','keyword','country')
+SOURCES = ('directory','sitemap','advertiser','placement','related','keyword','country')
 MAP = re.compile(r'/sitemap(?:-index)?\.xml|/sitemap/[0-9]+\.xml')
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -30,6 +31,15 @@ def kind(url):
         return None
     if MAP.fullmatch(u.path) and not u.query:
         return 'sitemap'
+    if u.path == '/channels' and any(rx.fullmatch(u.path+'?'+u.query) for rx in ch.OWNER_APPROVED['tgadsspy.com']):
+        pairs = parse_qsl(u.query)
+        if len(dict(pairs)) == len(pairs) and any(k in ('category','niche','sort','minMembers','maxMembers','sponsored') for k,v in pairs):
+            return 'listing'
+    if re.fullmatch(r'/(?:niches|categories)(?:/[a-z0-9_-]{1,64})?/?', u.path) and (
+            not u.query or re.fullmatch(r'page=[1-9][0-9]*',u.query)):
+        return 'listing'
+    if u.path.rstrip('/') == '/search' and re.fullmatch(r'(?:q|query)=[^&#]{1,256}(?:&page=[1-9][0-9]*)?',u.query):
+        return 'listing'
     if ch.CHANNEL.fullmatch(u.path) and not u.query:
         return 'channel'
     if (ch.ADV_CHANNELS.fullmatch(u.path) or u.path.rstrip('/') == '/countries/ir/channels') and (
@@ -117,6 +127,35 @@ def init(db,args):
         db.execute("INSERT INTO meta VALUES('discovery_sources_ready','1')")
 
 
+def seed_indexes(db, files):
+    def add(target, source):
+        url = urljoin(ch.BASE, target)
+        if kind(url) == 'listing':
+            enqueue(db, url, source, 0 if not ch.ADV_CHANNELS.fullmatch(urlsplit(url).path) else 1)
+
+    with db:
+        for path in files:
+            if path.suffix == '.xml':
+                for loc in ET.parse(path).iterfind('.//{*}loc'):
+                    add(loc.text or '', 'sitemap')
+            else:
+                for link in parse(path.read_bytes().decode()).links():
+                    add(link, 'directory')
+        for path in (ROOT/'data').glob('channel_keywords*.txt'):
+            for line in path.read_text().splitlines():
+                term = line.partition('#')[0].strip()
+                if term.startswith(('/', ch.BASE+'/')):
+                    add(term, 'keyword')
+        seed_files(db, [], ROOT/'data/advertiser_seeds.txt', [], None)
+        for url, in db.execute("SELECT url FROM queue WHERE kind='listing'"):
+            add(url, 'advertiser' if ch.ADV_CHANNELS.fullmatch(urlsplit(url).path) else 'directory')
+        catalog = json.loads((ROOT/'data/channels.json').read_bytes())
+        for row in catalog['rows']:
+            for value in row:
+                if isinstance(value, str) and value.startswith((ch.BASE+'/', '/')):
+                    add(value, 'directory')
+
+
 def save(db,row,source,known):
     u=row['username']
     db.execute('INSERT OR IGNORE INTO discovery_seen VALUES(?,?,?)',(u,source,int(u not in known)))
@@ -149,7 +188,7 @@ def ingest(db,url,source,body,known):
         for loc in tree.findall('{*}sitemap/{*}loc' if name=='sitemapindex' else '{*}url/{*}loc'):
             target=loc.text or ''
             k=kind(target)
-            if k=='sitemap' or k=='channel':
+            if k in ('sitemap','channel','listing'):
                 enqueue(db,target,'sitemap',3 if k=='channel' else 0)
                 if k=='channel':
                     u=ch.listing_handle(target,url)
@@ -173,8 +212,8 @@ def ingest(db,url,source,body,known):
             enqueue(db,row['channel_url'],source,1)
         for link in doc.links():
             target=urljoin(url,link)
-            if urlsplit(target).path==urlsplit(url).path and kind(target)=='listing':
-                enqueue(db,target,source,1)
+            if kind(target)=='listing':
+                enqueue(db,target,source if urlsplit(target).path==urlsplit(url).path else 'directory',1)
 
 
 def record_challenge(db, response, job_url):
@@ -189,6 +228,8 @@ def run(args):
     with (args.work/'worker.lock').open('a') as lock, closing(ch.connect(args.work)) as db:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         init(db,args)
+        seed_indexes(db, args.index_file)
+        db.execute("CREATE INDEX IF NOT EXISTS discovery_pending_indexes ON queue(priority,url) WHERE status='pending' AND kind IN ('listing','sitemap')")
         db.execute("CREATE TABLE IF NOT EXISTS discovery_challenges(url TEXT, started REAL, code INTEGER, job_url TEXT)")
         known=set(json.loads(args.baseline.read_bytes()))
         args.listings_only = args.listings_only or bool(db.execute("SELECT 1 FROM meta WHERE key='discovery_profile_hold' AND value!=''").fetchone())
@@ -205,15 +246,25 @@ def run(args):
             try:
                 client.opener.last_response = None
                 turn=int((db.execute("SELECT value FROM meta WHERE key='discovery_turn'").fetchone() or (0,))[0])
-                for i in range(len(SOURCES)):
-                    index=(turn+i)%len(SOURCES)
-                    source=SOURCES[index]
-                    job=db.execute("""SELECT q.url FROM discovery_jobs j JOIN queue q USING(url)
-                        WHERE j.source=? AND q.status='pending' AND (?=0 OR q.kind IN ('listing','sitemap'))
-                        ORDER BY (q.kind='channel'),q.priority,q.url LIMIT 1""",(source,args.listings_only)).fetchone()
+                if args.listings_only:
+                    job = db.execute("""SELECT q.url,j.source FROM queue q INDEXED BY discovery_pending_indexes
+                        CROSS JOIN discovery_jobs j ON j.url=q.url
+                        WHERE q.status='pending' AND q.kind IN ('listing','sitemap')
+                        ORDER BY CASE WHEN j.source>=? THEN 0 ELSE 1 END,j.source,q.priority,q.url LIMIT 1""",
+                        (sorted(SOURCES)[turn % len(SOURCES)],)).fetchone()
                     if job:
-                        url=job[0]
-                        break
+                        url, source = job
+                        index = sorted(SOURCES).index(source)
+                else:
+                    for i in range(len(SOURCES)):
+                        index=(turn+i)%len(SOURCES)
+                        source=SOURCES[index]
+                        job=db.execute("""SELECT q.url FROM discovery_jobs j JOIN queue q USING(url)
+                            WHERE j.source=? AND q.status='pending' AND (?=0 OR q.kind IN ('listing','sitemap'))
+                            ORDER BY (q.kind='channel'),q.priority,q.url LIMIT 1""",(source,args.listings_only)).fetchone()
+                        if job:
+                            url=job[0]
+                            break
                 if url is None:
                     flush(db,args.outbox)
                     time.sleep(30)
@@ -274,6 +325,7 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     for field in ('work','outbox','baseline','profiles','archive'):
         parser.add_argument('--'+field,type=Path,required=True)
+    parser.add_argument("--index-file", action="append", default=[], type=Path)
     parser.add_argument('--listings-only', action='store_true', help='Defer all profile requests, including redirects')
     os.environ.setdefault('CHANNEL_MIN_INTERVAL','2.5')
     run(parser.parse_args())

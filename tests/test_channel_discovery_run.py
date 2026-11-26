@@ -46,3 +46,11 @@ class Discovery(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'Profile redirect deferred'):
                 runner.Restricted(opener, db, True).open(Request(url))
             opener.open.assert_not_called()
+
+    def test_observed_listing_routes(self):
+        base = runner.ch.BASE
+        for path in ('/channels?lang=fa&category=tech&page=2', '/niches/auto', '/search?q=test'):
+            self.assertEqual(runner.kind(base+path), 'listing')
+        for path in ('/channels?lang=en&category=tech', '/channels?lang=fa&category=x&category=y',
+                     '/search?q=test&redirect=bad', '/niches/auto/ads'):
+            self.assertIsNone(runner.kind(base+path))
