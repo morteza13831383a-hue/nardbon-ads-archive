@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-26T07:35:54Z",
+ "cursor": "2026-11-26T11:36:02Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "fdab1940de3115b9",
+  "tgads/data/2026-11.json": "39c0c273a11ebde8",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,39 +20,25 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "6fb58adc56ce23f3",
-  "tgads/data/2026-08.json": "5352f2192900e70a",
-  "tgads/data/2026-09.json": "1a95e9d3b6ae19aa",
+  "tgads/channels/channels.json": "748320fe21f820dc",
+  "tgads/data/2026-08.json": "199fcb7d6c5d8a0d",
+  "tgads/data/2026-09.json": "326b0a8fe5e1ff2d",
   "tgads/data/2026-04.json": "43aa059aab55b494",
   "tgads/data/2026-05.json": "73c15fc11a0e04fa",
-  "tgads/data/2026-06.json": "b26d77ad565a45d5",
-  "tgads/data/2026-07.json": "67a8fc3134c80add",
+  "tgads/data/2026-06.json": "a417e7d45847488e",
+  "tgads/data/2026-07.json": "0bb14452425fec2b",
   "tgads/data/2026-10.json": "7494963eb282ada6",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
-  "tgads/channels/channels-00.json": "0cace04523a4027b",
-  "tgads/channels/channels-01.json": "38588398a7ff132f",
-  "tgads/channels/channels-02.json": "267844c1e1ec4b6a",
-  "tgads/channels/channels-03.json": "929c00d83e877b78",
-  "tgads/channels/channels-04.json": "fdd7e61192d07b1b",
-  "tgads/channels/channels-05.json": "79402e5f53fae451",
-  "tgads/channels/channels-06.json": "2312aa64b854d8d0",
-  "tgads/channels/channels-07.json": "847928957d30fe13"
+  "tgads/channels/channels-00.json": "8e9048f1e4dd45ad",
+  "tgads/channels/channels-01.json": "b4a84f25cab47595",
+  "tgads/channels/channels-02.json": "579d17acbba84fc3",
+  "tgads/channels/channels-03.json": "a782a9cedfb9ffc9",
+  "tgads/channels/channels-04.json": "9088181de23745d0",
+  "tgads/channels/channels-05.json": "93ed64c126019827",
+  "tgads/channels/channels-06.json": "13230d6c99a888ab",
+  "tgads/channels/channels-07.json": "f2affffa62938c3d"
  },
  "runs": [
-  {
-   "at": "2026-11-24T10:36:12Z",
-   "ok": true,
-   "error": null,
-   "html_new": 0,
-   "html_parts": 0,
-   "new": 38,
-   "updated": 8,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 5,
-   "secs": 119
-  },
   {
    "at": "2026-11-24T11:35:53Z",
    "ok": false,
@@ -878,18 +864,32 @@
    "sent_media": 0,
    "sent_files": 0,
    "secs": 12
+  },
+  {
+   "at": "2026-11-26T12:36:03Z",
+   "ok": true,
+   "error": null,
+   "html_new": 0,
+   "html_parts": 0,
+   "new": 95,
+   "updated": 16,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 14,
+   "secs": 180
   }
  ],
- "last_upload_ok": "2026-11-26T11:36:11Z",
+ "last_upload_ok": "2026-11-26T12:38:56Z",
  "lang_seen": {
   "-": 1124,
   "tr": 63,
   "he": 39,
   "ru": 732,
-  "ar": 404,
+  "ar": 405,
   "my": 47,
   "en": 496,
-  "fa": 18744,
+  "fa": 18867,
   "uz": 63,
   "zh": 26,
   "id": 44,
@@ -923,8 +923,8 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": null,
-  "X-RateLimit-Remaining": null,
+  "X-RateLimit-Limit": "60",
+  "X-RateLimit-Remaining": "59",
   "X-RateLimit-Reset": null
  },
  "channels_total": 2261,
@@ -5157,7 +5157,7 @@
   "ads-cloud-20261124T222414919165-0001.jsonl.gz": "60ce8d5360878704488240ac874fe60ec1b36d3dfbcff9deca8b74da0cf665e9"
  },
  "ad_history_v1": {
-  "next_at": 1795692956,
+  "next_at": 1795707364,
   "days": {},
   "advertisers": {
    "tg-iranperfect-money": {
@@ -7404,17 +7404,173 @@
     "offset": 0,
     "status": "read",
     "first_id": null
+   },
+   "tg-hypersit": {
+    "offset": 10,
+    "status": "read",
+    "first_id": "cmwxcxiup26rjqm01x8bz03c2"
+   },
+   "tg-mehranmoradii00": {
+    "offset": 13,
+    "status": "read",
+    "first_id": "cmwxj57r9287jqm01gfif9xa5"
+   },
+   "tg-teachytalkplatform": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmwxd2cro26t7qm01i6xsr2dd"
+   },
+   "tg-eplanet-teampro": {
+    "offset": 47,
+    "status": "read",
+    "first_id": "cmwxchgqu26kxqm01ezqj5hqo"
+   },
+   "tg-zenvorafx005": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmwxdbpfs26vtqm01ek7u2myj"
+   },
+   "tg-vip_gold_fx347": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-artateam_agency": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-nabzekhabartv": {
+    "offset": 7,
+    "status": "read",
+    "first_id": "cmtpuyjm7008zqt01gry5tj6n"
+   },
+   "tg-gurbatfx804": {
+    "offset": 7,
+    "status": "read",
+    "first_id": "cmwg9vl2a04h7o301xcomttbx"
+   },
+   "tg-kouroshstock": {
+    "offset": 11,
+    "status": "read",
+    "first_id": "cmulpipe8023lnz01p61hbce9"
+   },
+   "tg-ir_sport1": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-department_ashkan": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-vpnsara_bot": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-mel9000": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmvlc3geq01ispe01l1jyer6x"
+   },
+   "tg-varzeshi_sedighi": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-nekoumoku_crypto": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-pakhshnazi": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmtag3dc500zhml01q0039thb"
+   },
+   "tg-propfirmmeetingch": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmuw49gg002pyqa019crhefcd"
+   },
+   "tg-n8nsohrabibot": {
+    "offset": 9,
+    "status": "read",
+    "first_id": "cmu2wl3ld012qmn019m7ttjjl"
+   },
+   "tg-vega_cosmeticc": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-dezhgankala": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmtobtj7000g0qt017qbp7lzw"
+   },
+   "tg-ketabkhaneh2024": {
+    "offset": 8,
+    "status": "read",
+    "first_id": "cmwcqcqie002yqv01tqv1nfb3"
+   },
+   "tg-mantoatosa": {
+    "offset": 13,
+    "status": "read",
+    "first_id": "cmvkw5rjz00khqq01s2gv9o98"
+   },
+   "tg-sofiakid20": {
+    "offset": 15,
+    "status": "read",
+    "first_id": "cmw0vp2q10mwils01n1eny3zf"
+   },
+   "tg-persiancode_tm": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-kalaoriginal_baneh": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
+   },
+   "tg-goldowner001": {
+    "offset": 16,
+    "status": "read",
+    "first_id": "cmtfmd1cc00dmml01rg66hjrn"
+   },
+   "tg-iprofile_ir": {
+    "offset": 0,
+    "status": "read",
+    "first_id": null
    }
   },
   "last": {
    "requests": 29,
-   "new": 8,
+   "new": 10,
    "dates_new": 0,
-   "advertisers_new": 8,
+   "advertisers_new": 10,
    "pages": [
     {
      "via": "advertiser",
-     "target": "tg-dailygoldsignal1008",
+     "target": "tg-hypersit",
+     "offset": 0,
+     "rows": 10,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-mehranmoradii00",
+     "offset": 0,
+     "rows": 13,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-teachytalkplatform",
      "offset": 0,
      "rows": 8,
      "new": 0,
@@ -7422,15 +7578,23 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-iranian-finance",
+     "target": "tg-eplanet-teampro",
      "offset": 0,
-     "rows": 19,
+     "rows": 47,
      "new": 0,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-bastetcat_com",
+     "target": "tg-zenvorafx005",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-vip_gold_fx347",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -7438,7 +7602,15 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-arshadmimshimi",
+     "target": "tg-artateam_agency",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-nabzekhabartv",
      "offset": 0,
      "rows": 7,
      "new": 0,
@@ -7446,47 +7618,23 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-booktop",
+     "target": "tg-gurbatfx804",
+     "offset": 0,
+     "rows": 7,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-kouroshstock",
      "offset": 0,
      "rows": 11,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-plan_xroute",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-elora_wear",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-tehranomde2",
-     "offset": 0,
-     "rows": 16,
      "new": 2,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-pubggozar",
-     "offset": 0,
-     "rows": 7,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-younes_jean_ir",
+     "target": "tg-ir_sport1",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -7494,7 +7642,7 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-laptop_stocke_pasargad",
+     "target": "tg-department_ashkan",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -7502,31 +7650,7 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-goldvipsignals54",
-     "offset": 0,
-     "rows": 12,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-boursebazacademy",
-     "offset": 0,
-     "rows": 11,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-elysiumlinkbot",
-     "offset": 0,
-     "rows": 10,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-residence_europe",
+     "target": "tg-vpnsara_bot",
      "offset": 0,
      "rows": 0,
      "new": 0,
@@ -7534,103 +7658,119 @@
     },
     {
      "via": "advertiser",
-     "target": "tg-chikokidss",
+     "target": "tg-mel9000",
      "offset": 0,
-     "rows": 10,
+     "rows": 8,
+     "new": 1,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-varzeshi_sedighi",
+     "offset": 0,
+     "rows": 0,
      "new": 0,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-razzdan1",
+     "target": "tg-nekoumoku_crypto",
      "offset": 0,
-     "rows": 14,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-pakhshnazi",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-propfirmmeetingch",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-n8nsohrabibot",
+     "offset": 0,
+     "rows": 9,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-vega_cosmeticc",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-dezhgankala",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-ketabkhaneh2024",
+     "offset": 0,
+     "rows": 8,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-mantoatosa",
+     "offset": 0,
+     "rows": 13,
+     "new": 2,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-sofiakid20",
+     "offset": 0,
+     "rows": 15,
      "new": 4,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-ecohosseini",
+     "target": "tg-persiancode_tm",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-kalaoriginal_baneh",
+     "offset": 0,
+     "rows": 0,
+     "new": 0,
+     "status": "read"
+    },
+    {
+     "via": "advertiser",
+     "target": "tg-goldowner001",
      "offset": 0,
      "rows": 16,
-     "new": 0,
+     "new": 1,
      "status": "read"
     },
     {
      "via": "advertiser",
-     "target": "tg-gduwoqnslbzlahlq43",
-     "offset": 0,
-     "rows": 10,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-selectvisa_channel",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-salmilyardibot",
-     "offset": 0,
-     "rows": 36,
-     "new": 2,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-biophillia",
-     "offset": 0,
-     "rows": 7,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-sadradashti_olympiad",
-     "offset": 0,
-     "rows": 0,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-hoseinrazmiseo",
-     "offset": 0,
-     "rows": 7,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-forextgoldraders1",
-     "offset": 0,
-     "rows": 12,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-asheganeh15",
-     "offset": 0,
-     "rows": 15,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-turrrbovpnbot",
-     "offset": 0,
-     "rows": 7,
-     "new": 0,
-     "status": "read"
-    },
-    {
-     "via": "advertiser",
-     "target": "tg-mezon_medusa",
+     "target": "tg-iprofile_ir",
      "offset": 0,
      "rows": 0,
      "new": 0,
