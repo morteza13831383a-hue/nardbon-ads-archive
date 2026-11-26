@@ -28,3 +28,21 @@ class Discovery(unittest.TestCase):
                 self.assertEqual(db.execute('select count(*) from discovery_jobs').fetchone()[0],1)
             finally:
                 db.close()
+
+    def test_deferred_profile_cannot_be_fetched_or_return_to_pending(self):
+        from unittest.mock import Mock
+        from urllib.request import Request
+        with tempfile.TemporaryDirectory() as folder:
+            db = runner.ch.connect(Path(folder))
+            self.addCleanup(db.close)
+            url = runner.ch.BASE + '/channels/example'
+            runner.ch.enqueue(db, url, 'channel', 0)
+            db.execute("create table discovery_challenges(url, started, code, job_url)")
+            runner.record_challenge(db, (url, 123, 200), url)
+            self.assertEqual(db.execute('select status from queue where url=?', (url,)).fetchone()[0],
+                             'challenge_deferred')
+            self.assertEqual(db.execute('select code from discovery_challenges').fetchone()[0], 200)
+            opener = Mock()
+            with self.assertRaisesRegex(ValueError, 'Profile redirect deferred'):
+                runner.Restricted(opener, db, True).open(Request(url))
+            opener.open.assert_not_called()

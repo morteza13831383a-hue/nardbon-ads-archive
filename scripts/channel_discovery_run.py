@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import re
+import random
 import sqlite3
 import time
 from urllib.error import HTTPError, URLError
@@ -38,12 +39,16 @@ def kind(url):
 
 
 class Restricted:
-    def __init__(self, opener, db):
+    def __init__(self, opener, db, listings_only=False):
         self.opener, self.db = opener, db
+        self.listings_only = listings_only
+        self.last_response = None
 
     def open(self, req, **kwargs):
         if req.full_url != ch.BASE+'/robots.txt' and not kind(req.full_url):
             raise ValueError('Off-scope request or redirect')
+        if self.listings_only and kind(req.full_url) == "channel":
+            raise ValueError("Profile redirect deferred")
         code = 0
         try:
             res = self.opener.open(req,**kwargs)
@@ -53,8 +58,9 @@ class Restricted:
             code = err.code
             raise
         finally:
+            self.last_response = (req.full_url, time.time(), code)
             with self.db:
-                self.db.execute('INSERT INTO discovery_http VALUES(?,?,?)',(req.full_url,time.time(),code))
+                self.db.execute('INSERT INTO discovery_http VALUES(?,?,?)',self.last_response)
 
 
 def enqueue(db, url, source, priority):
@@ -171,13 +177,23 @@ def ingest(db,url,source,body,known):
                 enqueue(db,target,source,1)
 
 
+def record_challenge(db, response, job_url):
+    url, started, code = response
+    db.execute("INSERT INTO discovery_challenges VALUES(?,?,?,?)", (url, started, code, job_url))
+    if job_url:
+        db.execute("UPDATE queue SET status='challenge_deferred',error='source challenge' WHERE url=?", (job_url,))
+    print(f"Challenge deferred: HTTP {code} {url}", flush=True)
+
+
 def run(args):
     with (args.work/'worker.lock').open('a') as lock, closing(ch.connect(args.work)) as db:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         init(db,args)
+        db.execute("CREATE TABLE IF NOT EXISTS discovery_challenges(url TEXT, started REAL, code INTEGER, job_url TEXT)")
         known=set(json.loads(args.baseline.read_bytes()))
+        args.listings_only = args.listings_only or bool(db.execute("SELECT 1 FROM meta WHERE key='discovery_profile_hold' AND value!=''").fetchone())
         client=Client(ch.BASE,1,resilient=True)
-        client.opener=Restricted(client.opener,db)
+        client.opener=Restricted(client.opener,db,args.listings_only)
         with db:
             db.execute("UPDATE queue SET status='pending' WHERE status='in_progress' AND url IN (SELECT url FROM discovery_jobs)")
         flush(db,args.outbox)
@@ -187,14 +203,14 @@ def run(args):
                 return
             url=None
             try:
-                if client.robots is None:
-                    client.initialize()
+                client.opener.last_response = None
                 turn=int((db.execute("SELECT value FROM meta WHERE key='discovery_turn'").fetchone() or (0,))[0])
                 for i in range(len(SOURCES)):
                     index=(turn+i)%len(SOURCES)
                     source=SOURCES[index]
                     job=db.execute("""SELECT q.url FROM discovery_jobs j JOIN queue q USING(url)
-                        WHERE j.source=? AND q.status='pending' ORDER BY q.priority,q.url LIMIT 1""",(source,)).fetchone()
+                        WHERE j.source=? AND q.status='pending' AND (?=0 OR q.kind IN ('listing','sitemap'))
+                        ORDER BY (q.kind='channel'),q.priority,q.url LIMIT 1""",(source,args.listings_only)).fetchone()
                     if job:
                         url=job[0]
                         break
@@ -205,6 +221,9 @@ def run(args):
                 with db:
                     db.execute("INSERT OR REPLACE INTO meta VALUES('discovery_turn',?)",(str((index+1)%len(SOURCES)),))
                     db.execute("UPDATE queue SET status='in_progress' WHERE url=?",(url,))
+                if client.robots is None:
+                    client.initialize()
+                time.sleep(random.uniform(0.4, 1.0))
                 if not client.robots.allowed(url):
                     with db: db.execute("UPDATE queue SET status='skipped',error='robots' WHERE url=?",(url,))
                     continue
@@ -219,7 +238,16 @@ def run(args):
                 print(source,'done',flush=True)
             except (Challenge,HostBlocked) as exc:
                 with db:
-                    db.execute("INSERT OR REPLACE INTO meta VALUES('discovery_hold',?)",(type(exc).__name__,))
+                    response = client.opener.last_response
+                    if isinstance(exc, Challenge) and response:
+                        record_challenge(db, response, url if response[0] != ch.BASE+'/robots.txt' else None)
+                    profile_challenge = isinstance(exc, Challenge) and response and kind(response[0]) == 'channel'
+                    hold = 'discovery_profile_hold' if profile_challenge else 'discovery_hold'
+                    db.execute("INSERT OR REPLACE INTO meta VALUES(?,?)", (hold, type(exc).__name__))
+                if profile_challenge:
+                    args.listings_only = client.opener.listings_only = True
+                    flush(db,args.outbox)
+                    continue
                 flush(db,args.outbox)
                 return
             except HTTPError as exc:
@@ -246,5 +274,6 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     for field in ('work','outbox','baseline','profiles','archive'):
         parser.add_argument('--'+field,type=Path,required=True)
-    os.environ.setdefault('CHANNEL_MIN_INTERVAL','1.0')
+    parser.add_argument('--listings-only', action='store_true', help='Defer all profile requests, including redirects')
+    os.environ.setdefault('CHANNEL_MIN_INTERVAL','2.5')
     run(parser.parse_args())
