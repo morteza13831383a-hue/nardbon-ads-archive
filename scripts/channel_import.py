@@ -81,6 +81,7 @@ def import_html_buckets(chans, pl, log, now_iso):
     changes. Only Persian / Iran-evidence channels go into the catalog."""
     import hashlib
     seen = pl.setdefault("html_buckets", {})
+    catalog_keys = {key.lower(): key for key in chans}
     n = 0
     for path in sorted(glob.glob(str(HTML_DIR / "channels-*.jsonl.gz"))):
         name = path.rsplit("/", 1)[-1]
@@ -97,6 +98,8 @@ def import_html_buckets(chans, pl, log, now_iso):
             if not USERNAME.match(u) or (r.get("classification") == "unclassified" and not iran_advs):
                 continue
             m = r.get("metrics") or {}
+            if r.get("source") == "tme" and u not in chans:
+                u = catalog_keys.get(u, u)
             c = chans.get(u) or {"u": u, "k": [], "sr": "tme" if r.get("source") == "tme" else "tgadsspy"}
             for adv in iran_advs:
                 key = f"{adv}|{u}"
@@ -134,10 +137,9 @@ def import_html_buckets(chans, pl, log, now_iso):
                 c["c"] = r["category"]
             c["s"] = (r.get("collected_at") or now_iso())[:10]
             if r.get("source") == "tme":
-                c["tm"] = c["s"]
                 if r.get("region_signal") and not c.get("rg"):
                     c["rg"] = r["region_signal"]
-            if r.get("source") != "tme" or not c.get("cl"):
+            if r.get("source") != "tme":
                 c["cl"] = r.get("classification")
             chans[u] = c
             n += 1
