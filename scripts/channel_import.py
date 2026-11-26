@@ -160,6 +160,7 @@ def import_tgstat(chans, pl, log, now_iso, directory=None, seen_key="tgstat_file
     entities_f=channels.ROOT/'data'/'tgstat-entities.json'
     entities=json.loads(entities_f.read_text('utf-8'))if entities_f.exists()else{}
     entities_changed=False
+    tgme_keys = {key.lower(): key for key in chans} if source == "tgme" else {}
     for path in sorted(glob.glob(str((directory or TGSTAT_DIR) / "*.jsonl.gz"))):
         name = path.rsplit("/", 1)[-1]
         raw = Path(path).read_bytes()
@@ -180,10 +181,12 @@ def import_tgstat(chans, pl, log, now_iso, directory=None, seen_key="tgstat_file
                 continue
             private_key=r['type']+':'+str(r.get('source_id',''))
             if private_key in entities:entities.pop(private_key);entities_changed=True
+            if source == "tgme" and u not in chans:
+                u = tgme_keys.get(u.lower(), u)
             c = chans.get(u) or {"u": u, "k": [], "sr": source}
             c["kd"] = r["type"]
             for src, dst in (("title", "t"), ("category", "c"), ("country", "co"), ("language", "lg")):
-                if r.get(src):
+                if r.get(src) and (source != "tgme" or not c.get(dst)):
                     c[dst] = r[src]
             if r.get("description"):
                 c["d"] = str(r["description"])[:400]
@@ -198,7 +201,8 @@ def import_tgstat(chans, pl, log, now_iso, directory=None, seen_key="tgstat_file
                 c["v"] = reach                      # TGStat average post reach ~ views per post
             if r.get("err") not in (None, ""):
                 c["er"] = r["err"]
-            c[stamp] = (r.get("collected_at") or now_iso())[:10]
+            if stamp:
+                c[stamp] = (r.get("collected_at") or now_iso())[:10]
             rg = region(" ".join(str(r.get(k) or "") for k in ("title", "description", "text_sample")))
             if rg:
                 c["rg"] = rg
@@ -241,6 +245,7 @@ def run(log, now_iso):
     n_html += import_tgstat(chans, pl, log, now_iso, LYZEM_DIR, "lyzem_files", "lyzem", "lz")
     n_html += import_tgstat(chans, pl, log, now_iso, TELEMETR_DIR, "telemetr_files", "telemetr", "tm")
     n_html += import_tgstat(chans, pl, log, now_iso, TSE_DIR, "tse_files", "telegramsearchengine", "tse")
+    n_html += import_tgstat(chans, pl, log, now_iso, channels.ROOT / "data/tgme-import", "tgme_files", "tgme", None)
     n_html += import_tgstat(chans, pl, log, now_iso, TGCHME_DIR, "tgchannelsme_files", "tgchannelsme", "tc")
     if not todo and not n_html:
         return 0
