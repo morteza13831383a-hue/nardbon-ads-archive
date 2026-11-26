@@ -22,9 +22,9 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "3824fc27ccda8097",
   "tgads/data/2026-08.json": "5352f2192900e70a",
-  "tgads/data/2026-09.json": "b4907fb23a813a32",
+  "tgads/data/2026-09.json": "6f165d5e283e1bfe",
   "tgads/data/2026-04.json": "43aa059aab55b494",
-  "tgads/data/2026-05.json": "bf6784f3f4aea10e",
+  "tgads/data/2026-05.json": "73c15fc11a0e04fa",
   "tgads/data/2026-06.json": "8347b9e7ba4f6aed",
   "tgads/data/2026-07.json": "c11e501f25489974",
   "tgads/data/2026-10.json": "7494963eb282ada6",
@@ -38,20 +38,6 @@
   "tgads/channels/channels-06.json": "3bb03c774c000d66"
  },
  "runs": [
-  {
-   "at": "2026-11-23T22:36:24Z",
-   "ok": true,
-   "error": null,
-   "html_new": 197,
-   "html_parts": 4,
-   "new": 14,
-   "updated": 4,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 10,
-   "secs": 73
-  },
   {
    "at": "2026-11-23T23:36:22Z",
    "ok": true,
@@ -877,9 +863,23 @@
    "sent_media": 0,
    "sent_files": 10,
    "secs": 443
+  },
+  {
+   "at": "2026-11-26T00:35:56Z",
+   "ok": false,
+   "error": "api: rate limited, paused until 2026-11-26T03:35:57Z",
+   "html_new": 0,
+   "html_parts": 0,
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 2,
+   "secs": 16
   }
  ],
- "last_upload_ok": "2026-11-25T23:43:26Z",
+ "last_upload_ok": "2026-11-26T00:36:05Z",
  "lang_seen": {
   "-": 1121,
   "tr": 63,
@@ -922,12 +922,12 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": "60",
-  "X-RateLimit-Remaining": "59",
+  "X-RateLimit-Limit": null,
+  "X-RateLimit-Remaining": null,
   "X-RateLimit-Reset": null
  },
  "channels_total": 2261,
- "api_blocked_until": "2026-11-25T23:35:54Z",
+ "api_blocked_until": "2026-11-26T03:35:57Z",
  "channels_idx": 13,
  "desc_last": "2026-11-13T17:31:52Z",
  "html_archive_exported_at": "2026-11-25T22:04:36Z",
