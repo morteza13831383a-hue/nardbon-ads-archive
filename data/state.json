@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "87dbf3b8dd6df082",
+  "tgads/data/2026-11.json": "fdab1940de3115b9",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -22,11 +22,11 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
   "tgads/channels/channels.json": "6fb58adc56ce23f3",
   "tgads/data/2026-08.json": "5352f2192900e70a",
-  "tgads/data/2026-09.json": "8fa592d8d275472b",
+  "tgads/data/2026-09.json": "1a95e9d3b6ae19aa",
   "tgads/data/2026-04.json": "43aa059aab55b494",
   "tgads/data/2026-05.json": "73c15fc11a0e04fa",
   "tgads/data/2026-06.json": "b26d77ad565a45d5",
-  "tgads/data/2026-07.json": "2e85f8d763e70cc4",
+  "tgads/data/2026-07.json": "67a8fc3134c80add",
   "tgads/data/2026-10.json": "7494963eb282ada6",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
   "tgads/channels/channels-00.json": "0cace04523a4027b",
@@ -39,20 +39,6 @@
   "tgads/channels/channels-07.json": "847928957d30fe13"
  },
  "runs": [
-  {
-   "at": "2026-11-24T07:35:51Z",
-   "ok": true,
-   "error": null,
-   "html_new": 69,
-   "html_parts": 1,
-   "new": 19,
-   "updated": 6,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 10,
-   "secs": 194
-  },
   {
    "at": "2026-11-24T08:35:47Z",
    "ok": true,
@@ -878,9 +864,23 @@
    "sent_media": 0,
    "sent_files": 4,
    "secs": 207
+  },
+  {
+   "at": "2026-11-26T08:51:40Z",
+   "ok": false,
+   "error": "api: rate limited, paused until 2026-11-26T11:51:41Z",
+   "html_new": 0,
+   "html_parts": 0,
+   "new": 0,
+   "updated": 0,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 3,
+   "secs": 22
   }
  ],
- "last_upload_ok": "2026-11-26T08:39:16Z",
+ "last_upload_ok": "2026-11-26T08:51:56Z",
  "lang_seen": {
   "-": 1124,
   "tr": 63,
@@ -923,12 +923,12 @@
  },
  "api_info": {
   "X-Plan": "FREE",
-  "X-RateLimit-Limit": "60",
-  "X-RateLimit-Remaining": "59",
+  "X-RateLimit-Limit": null,
+  "X-RateLimit-Remaining": null,
   "X-RateLimit-Reset": null
  },
  "channels_total": 2261,
- "api_blocked_until": "2026-11-26T08:15:09Z",
+ "api_blocked_until": "2026-11-26T11:51:41Z",
  "channels_idx": 13,
  "desc_last": "2026-11-13T17:31:52Z",
  "html_archive_exported_at": "2026-11-25T22:04:36Z",
