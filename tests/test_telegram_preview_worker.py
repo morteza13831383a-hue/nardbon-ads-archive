@@ -26,3 +26,18 @@ class PublicPreview(unittest.TestCase):
                                 ('<title>Telegram</title>','sample','no_public_preview'),
                                 ('<div class="tgme_page_extra">15 members</div>','sample','group')]:
             self.assertEqual(inspect_page(body,u,True),(expected,None))
+
+
+class AdaptiveConcurrency(unittest.TestCase):
+    def test_recovery_requires_clean_window(self):
+        from telegram_preview_worker import Concurrency
+        control = Concurrency(5)
+        self.assertEqual(control.limit, 3)
+        control.observe([(0, '', 'timeout')]*2)
+        self.assertEqual(control.limit, 1)
+        control.observe([(0, '', '200')]*399)
+        self.assertEqual(control.limit, 1)
+        control.observe([(0, '', '200')])
+        self.assertEqual(control.limit, 2)
+        control.observe([(0, '', '429')])
+        self.assertEqual(control.limit, 1)

@@ -83,12 +83,14 @@ def is_challenge(body):
     return any(v in value for v in ('<title>just a moment','cf-chl-','/cdn-cgi/challenge-platform','challenge-form','checking your browser',
                                     'captcha','g-recaptcha','hcaptcha','cf-turnstile','smartcaptcha'))
 
-def reserve(base, delay=0):
+def reserve(base, delay=0, *, cancelled=None):
     """Wait in short, unlocked intervals so other workers can report an in-flight failure."""
     lock,path=_paths(base)
     while True:
         with lock.open('a+') as handle:
             fcntl.flock(handle,fcntl.LOCK_EX)
+            if cancelled is not None and cancelled():
+                return False
             state=_load(path);now=time.time()
             if state['last']>now+60:state['last']=0
             host=urlsplit(base).netloc.lower()
@@ -100,8 +102,8 @@ def reserve(base, delay=0):
             gap=max(state['delay'],delay or 0,floor)+jitter
             wait=max(state['pause_until']-now,state['last']+gap-now,0)
             if wait<=0:
-                state['last']=now;state['day_count']+=1;_save(path,state);return
-        time.sleep(min(wait,30))
+                state['last']=now;state['day_count']+=1;_save(path,state);return True
+        time.sleep(min(wait, 1 if cancelled is not None else 30))
 
 
 def report(base, status, retry_after=None):
