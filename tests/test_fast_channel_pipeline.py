@@ -99,3 +99,17 @@ class Pipeline(unittest.TestCase):
         worker.seed_files(self.db,[seeds],advertisers,[terms],catalog)
         paths = {url.removeprefix(ch.BASE) for url, in self.db.execute('select url from queue')}
         self.assertEqual(paths,{'/channels/helloworld','/channels/sports_net','/advertisers/tg-example/channels'})
+
+    def test_listing_only_saves_unclassified_handles_and_follows_pagination(self):
+        url = ch.BASE + '/channels?lang=fa'
+        with self.db:
+            ch.enqueue(self.db, url, 'listing')
+            ch.enqueue(self.db, '/channels/Example', 'channel')
+            worker.consume_listing_handles(self.db, url,
+                '<main><a href="/channels/Example">Example</a>'
+                '<a href="/channels?lang=fa&amp;page=2">Next</a></main>')
+        record = json.loads(self.db.execute('SELECT payload FROM channels').fetchone()[0])
+        self.assertEqual(record['username'], 'example')
+        self.assertEqual(record['classification'], 'unclassified')
+        self.assertNotIn('language', record)
+        self.assertEqual(worker.claim(self.db, 3, listings_only=True), [(url+'&page=2', 'listing')])

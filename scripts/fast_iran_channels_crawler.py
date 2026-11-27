@@ -11,12 +11,12 @@ import signal
 import sqlite3
 import sys
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlsplit
+from urllib.parse import urljoin, urlsplit
 from xml.etree.ElementTree import ParseError
 
 import channels_html as channels
 from channel_document import parse
-from html_core import Client
+from html_core import Client, origin
 from source_budget import Challenge, HostBlocked, status
 
 
@@ -40,23 +40,64 @@ def release(db):
     db.execute("UPDATE queue SET status='pending' WHERE status='in_progress'")
 
 
+def listing_url(url):
+    target = urlsplit(url)
+    if origin(url) != origin(channels.BASE) or target.fragment:
+        return False
+    if target.path == '/channels':
+        return any(rule.fullmatch(target.path + '?' + target.query)
+                   for rule in channels.OWNER_APPROVED['tgadsspy.com'])
+    return bool(channels.ADV_CHANNELS.fullmatch(target.path) and
+                (not target.query or re.fullmatch(r'page=[1-9][0-9]*', target.query)))
+
+
+class ListingOpener:
+    def __init__(self, opener):
+        self.opener = opener
+
+    def open(self, request, **kwargs):
+        url = request.full_url
+        if url != channels.BASE + '/robots.txt' and not listing_url(url):
+            raise ValueError('Redirect outside the channel listing scope')
+        return self.opener.open(request, **kwargs)
+
+
+def consume_listing_handles(db, url, body):
+    doc = parse(body)
+    for row in channels.extract_listing(doc, url, all_listings=True):
+        username = row['username']
+        candidate = dict(username=username, source_url=url, classification='unclassified',
+                         record_detail='listing_candidate', collected_at=channels.now())
+        db.execute('INSERT OR IGNORE INTO channels VALUES(?,?)',
+                   (username, json.dumps(candidate, ensure_ascii=False)))
+    for href in doc.links():
+        target = urljoin(url, href)
+        if listing_url(target) and urlsplit(target).path == urlsplit(url).path:
+            channels.enqueue(db, target, 'listing')
+    db.execute("UPDATE queue SET status='done',error=NULL WHERE url=?", (url,))
+
+
 def claim(db, size, critical_profiles=False, listings_only=False):
     db.execute('BEGIN IMMEDIATE')
     with db:
         row = db.execute("SELECT value FROM meta WHERE key='rotation_turn'").fetchone()
         turn = int(row[0]) if row else 0
         jobs = []
+        if listings_only:
+            candidates = db.execute("""SELECT url,kind FROM queue WHERE status='pending' AND kind='listing'
+                ORDER BY priority,url""")
+            for job in candidates:
+                if listing_url(job[0]):
+                    jobs.append(job)
+                    if len(jobs) == size:
+                        break
+            candidates.close()
+            db.executemany("UPDATE queue SET status='in_progress' WHERE url=?", ((job[0],) for job in jobs))
+            return jobs
         for _ in range(size):
             job = channels.next_job(db, turn, critical_profiles)
             if not job:
                 break
-            if listings_only and job[1] == 'channel':
-                listing_job = db.execute(
-                    "SELECT url,kind FROM queue WHERE status='pending' AND kind!='channel' ORDER BY priority, url LIMIT 1"
-                ).fetchone()
-                if not listing_job:
-                    break
-                job = listing_job
             db.execute("UPDATE queue SET status='in_progress' WHERE url=?", (job[0],))
             jobs.append(job)
             turn = (turn + 1) % len(channels.ROTATION)
@@ -122,10 +163,12 @@ def seed_files(db, paths, advertiser_file, keywords, catalog):
     db.commit()
 
 
-def held(db, archive):
+def held(db, archive, listings_only=False):
     row = db.execute("SELECT value FROM meta WHERE key IN ('fast_hold','stop_reason') AND value!='' LIMIT 1").fetchone()
     if row or status(channels.BASE)['halted']:
         return True
+    if listings_only:
+        return bool(db.execute("SELECT 1 FROM meta WHERE key='listing_only_hold'").fetchone())
     with sqlite3.connect(archive.resolve().as_uri()+'?mode=ro', uri=True) as other:
         row = other.execute("SELECT value FROM meta WHERE key='last_stop_reason'").fetchone()
     return bool(row and re.search(r'challenge|captcha|blocked|halt|403|429|account',row[0],re.I))
@@ -135,6 +178,7 @@ def collect(args):
     work = args.work_dir
     work.mkdir(parents=True, exist_ok=True)
     stopping = False
+    listings_only = getattr(args, "listings_only", False)
 
     def stop(*_):
         nonlocal stopping
@@ -153,18 +197,20 @@ def collect(args):
         try:
             prepare(db)
             flush(db, args.outbox)
-            if held(db, args.ads_checkpoint):
+            if held(db, args.ads_checkpoint, listings_only):
                 print("Existing source hold; no requests sent", file=sys.stderr)
                 return 75
-            channels.seed(db, args.ads_checkpoint)
+            channels.seed(db, None if listings_only else args.ads_checkpoint)
             seed_files(db, args.seed, args.advertisers, args.keywords, args.catalog)
             client = Client(channels.BASE, delay=getattr(args,"min_interval",1.0), resilient=True)
             if not db.execute("SELECT 1 FROM queue WHERE status='pending' LIMIT 1").fetchone():
                 return 0
-            if args.transport == 'curl':
+            if args.transport == 'curl' and not listings_only:
                 from channel_transport import CurlOpener
                 transport = CurlOpener()
                 client.opener = transport
+            if listings_only:
+                client.opener = ListingOpener(client.opener)
             for sig in (signal.SIGTERM,signal.SIGINT):
                 signal.signal(sig,stop)
             while not stopping:
@@ -174,6 +220,10 @@ def collect(args):
                 except HostBlocked:
                     raise
                 except HTTPError as error:
+                    if listings_only and error.code in (403,429):
+                        with db:
+                            db.execute("INSERT OR REPLACE INTO meta VALUES('listing_only_hold',?)", (str(error.code),))
+                        return 75
                     if error.code == 401:
                         raise HostBlocked('Authentication required') from error
                     if error.code not in (403,429) and error.code < 500:
@@ -182,9 +232,9 @@ def collect(args):
                 except (TimeoutError,URLError):
                     continue
             while not stopping:
-                if held(db,args.ads_checkpoint):
+                if held(db,args.ads_checkpoint,listings_only):
                     return 75
-                jobs = claim(db,args.batch,critical_profiles=True,listings_only=getattr(args,'listings_only',False))
+                jobs = claim(db,args.batch,critical_profiles=True,listings_only=listings_only)
                 if not jobs:
                     break
                 for url,kind in jobs:
@@ -198,12 +248,19 @@ def collect(args):
                     try:
                         body = client.get(url)
                         with db:
-                            channels.consume(db,url,kind,body,document=parse)
+                            if listings_only:
+                                consume_listing_handles(db,url,body)
+                            else:
+                                channels.consume(db,url,kind,body,document=parse)
                         if kind != "channel":
                             flush(db,args.outbox)
                     except HostBlocked:
                         raise
                     except HTTPError as error:
+                        if listings_only and error.code in (403,429):
+                            with db:
+                                db.execute("INSERT OR REPLACE INTO meta VALUES('listing_only_hold',?)",(str(error.code),))
+                            return 75
                         if error.code in (403,429) or error.code >= 500:
                             # html_core has already reported this response to the shared budget.
                             break
@@ -221,7 +278,7 @@ def collect(args):
                 flush(db,args.outbox)
         except (Challenge,HostBlocked) as error:
             with db:
-                db.execute("INSERT OR REPLACE INTO meta VALUES('fast_hold',?)",(type(error).__name__,))
+                db.execute("INSERT OR REPLACE INTO meta VALUES(?,?)", ("listing_only_hold" if listings_only else "fast_hold", type(error).__name__))
             return 75
         except KeyboardInterrupt:
             pass
