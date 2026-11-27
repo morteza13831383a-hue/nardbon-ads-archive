@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-27T14:36:07Z",
+ "cursor": "2026-11-27T15:35:58Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "ed54cc4e030efd82",
+  "tgads/data/2026-11.json": "3ef1dcdcead2fa5a",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -20,7 +20,7 @@
   "tgads/channels/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
   "tgads/channels/fonts/Vazirmatn-UI-FD-Regular.woff2": "8c30cfd1abcca3d7",
-  "tgads/channels/channels.json": "c36156a94ccd7ceb",
+  "tgads/channels/channels.json": "dc38d08ef12afcc7",
   "tgads/data/2026-08.json": "ff4ac28906eb8791",
   "tgads/data/2026-09.json": "57eb880d00b8b7d2",
   "tgads/data/2026-04.json": "43aa059aab55b494",
@@ -29,30 +29,16 @@
   "tgads/data/2026-07.json": "b30d4bbec31caeb1",
   "tgads/data/2026-10.json": "7494963eb282ada6",
   "tgads/data/2025-07.json": "d5de5ed5ad6c4cda",
-  "tgads/channels/channels-00.json": "df31f0b922311804",
-  "tgads/channels/channels-01.json": "1528c509c1177282",
-  "tgads/channels/channels-02.json": "7d50343331182c00",
-  "tgads/channels/channels-03.json": "72cb4ef9d8fac64c",
-  "tgads/channels/channels-04.json": "14cf03e7e6313860",
-  "tgads/channels/channels-05.json": "15768c2fbd8d733b",
-  "tgads/channels/channels-06.json": "5e846321bd73f3f0",
-  "tgads/channels/channels-07.json": "63dde04d627c87fc"
+  "tgads/channels/channels-00.json": "b603dd02338f79c7",
+  "tgads/channels/channels-01.json": "ee9b8edba5e99a56",
+  "tgads/channels/channels-02.json": "f8346a88c3822452",
+  "tgads/channels/channels-03.json": "31498897a75172da",
+  "tgads/channels/channels-04.json": "d24cb32a0d36fbff",
+  "tgads/channels/channels-05.json": "d43e77ce7f70f123",
+  "tgads/channels/channels-06.json": "9d68eb0ff9cf3123",
+  "tgads/channels/channels-07.json": "9094f37f74d893a0"
  },
  "runs": [
-  {
-   "at": "2026-11-25T13:35:55Z",
-   "ok": true,
-   "error": null,
-   "html_new": 0,
-   "html_parts": 0,
-   "new": 0,
-   "updated": 0,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 0,
-   "secs": 10
-  },
   {
    "at": "2026-11-25T14:35:59Z",
    "ok": true,
@@ -824,18 +810,30 @@
    "sent_media": 0,
    "sent_files": 1,
    "secs": 16
+  },
+  {
+   "at": "2026-11-27T16:35:59Z",
+   "ok": true,
+   "error": null,
+   "new": 9,
+   "updated": 4,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 10,
+   "secs": 243
   }
  ],
- "last_upload_ok": "2026-11-27T15:36:17Z",
+ "last_upload_ok": "2026-11-27T16:39:56Z",
  "lang_seen": {
-  "-": 1153,
+  "-": 1159,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 417,
   "my": 47,
   "en": 496,
-  "fa": 19498,
+  "fa": 19514,
   "uz": 63,
   "zh": 26,
   "id": 44,
