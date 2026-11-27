@@ -60,10 +60,12 @@ jobs:
           with zipfile.ZipFile('checkpoint.zip') as z:
               for item in z.infolist():
                   path = Path(item.filename)
-                  allowed = path.parts and path.parts[0] == 'channels-work'
-                  if path.is_absolute() or '..' in path.parts or not allowed:
+                  if path.is_absolute() or '..' in path.parts:
                       raise RuntimeError('Unexpected checkpoint member: ' + item.filename)
-              z.extractall('.')
+              for item in z.infolist():
+                  path = Path(item.filename)
+                  dest = Path('.') if (path.parts and path.parts[0] == 'channels-work') else Path('channels-work')
+                  z.extract(item, dest)
           PY
             echo "Restored channels checkpoint artifact $artifact"
           else
