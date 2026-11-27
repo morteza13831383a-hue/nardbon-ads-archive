@@ -1,7 +1,7 @@
 """Resume the Persian listing only. Follow same-route pagination in the returned HTML."""
 import argparse
 from contextlib import closing
-import fcntl
+import filelock as fcntl
 import hashlib
 import json
 from pathlib import Path

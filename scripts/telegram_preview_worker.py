@@ -2,8 +2,9 @@
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import closing
-import fcntl
+import filelock as fcntl
 import json
+import os
 from pathlib import Path
 import re
 import sqlite3
@@ -19,7 +20,7 @@ from channel_import import region
 from fast_iran_channels_crawler import flush, prepare
 from html_core import Robots, UA
 from source_budget import is_challenge, report, reserve, retry_after_seconds, status as budget_status
-from tme_crawler import ARABIC_SCRIPT, USERNAME, is_persian, number
+from tme_crawler import ARABIC_SCRIPT, LINKS, MENTIONS, NOT_CHANNEL, USERNAME, is_persian, number
 
 BASE = 'https://t.me'
 
@@ -110,6 +111,18 @@ def inspect_page(body, u, existing):
     return 'channel', row
 
 
+def extract_links(body, self_username):
+    """Extract candidate channel usernames from t.me links and @mentions for snowball discovery."""
+    found = set()
+    for candidate in LINKS.findall(body) + MENTIONS.findall(body):
+        u = candidate.lower()
+        if u == self_username or u in NOT_CHANNEL or u.endswith('bot'):
+            continue
+        if USERNAME.fullmatch(u):
+            found.add(u)
+    return sorted(found)
+
+
 class PreviewClient:
     def __init__(self, maximum, pause):
         self.adapter = requests.adapters.HTTPAdapter(pool_maxsize=maximum, pool_block=True)
@@ -118,7 +131,8 @@ class PreviewClient:
         self.pause = pause
 
     def fetch(self, url, delay, events):
-        if not reserve(BASE, max(2.5, delay), cancelled=lambda: self.blocked.is_set() or self.pause.exists()):
+        tme_delay = float(os.environ['TME_MIN_INTERVAL']) if 'TME_MIN_INTERVAL' in os.environ else max(2.5, delay)
+        if not reserve(BASE, tme_delay, cancelled=lambda: self.blocked.is_set() or self.pause.exists()):
             return 'cancelled', '', ''
         if not hasattr(self.sessions, 'session'):
             session = requests.Session()
@@ -153,11 +167,14 @@ class PreviewClient:
         fallback = f'{BASE}/{username}'
         if code in ('301','302','303','307','308') and urljoin(url,location).lower() == fallback and rules.allowed(fallback):
             code, body, _ = self.fetch(fallback,rules.delay,events)
+        discovered = []
         if code == '200':
             result,row = inspect_page(body,username,existing)
+            if result == 'channel' and row and (row.get('language') == 'fa' or row.get('region_signal') == 'ir'):
+                discovered = extract_links(body, username)
         else:
             result,row = code,None
-        return result,row,events
+        return result,row,events,discovered
 
 
 class Concurrency:
@@ -188,15 +205,17 @@ class Concurrency:
 
 
 def save_batch(db, jobs, results):
-    events = [event for _,_,receipts in results for event in receipts]
+    events = [event for item in results for event in item[2]]
     now = time.time()
     with db:
         db.executemany('INSERT INTO events VALUES(?,?,?)',events)
         hold = next((event[2] for event in events if event[2] in ('challenge','401','403')),None)
         if hold:
             db.execute("INSERT OR REPLACE INTO meta VALUES('preview_hold',?)",(hold,))
-        updates, records = [], []
-        for (username,_,attempts),(result,row,_) in zip(jobs,results):
+        updates, records, discovered_rows = [], [], []
+        for (username,_,attempts), item in zip(jobs,results):
+            result, row = item[0], item[1]
+            discovered = item[3] if len(item) > 3 else []
             if result in ('cancelled','challenge','401','403'):
                 continue
             ready = 0
@@ -208,8 +227,12 @@ def save_batch(db, jobs, results):
             updates.append((result,ready,username))
             if row:
                 records.append((username,json.dumps(row,ensure_ascii=False)))
+            for target in discovered:
+                discovered_rows.append((target,))
         db.executemany('UPDATE jobs SET status=?,ready=?,attempts=attempts+1 WHERE username=?',updates)
         db.executemany('INSERT OR REPLACE INTO channels VALUES(?,?)',records)
+        if discovered_rows:
+            db.executemany('INSERT OR IGNORE INTO jobs(username,priority,members,existing) VALUES(?,1,0,0)',discovered_rows)
     return events
 
 
@@ -226,22 +249,36 @@ def run(args):
         """)
         if 'listing_verified' not in {c[1] for c in db.execute('PRAGMA table_info(jobs)')}:
             db.execute('ALTER TABLE jobs ADD COLUMN listing_verified INTEGER DEFAULT 0')
+        if getattr(args, 'min_interval', None) is not None:
+            os.environ['TME_MIN_INTERVAL'] = str(args.min_interval)
+        if getattr(args, 'seed', None) and args.seed.exists():
+            seed_rows = []
+            for raw in args.seed.read_text(encoding='utf-8').splitlines():
+                u = raw.split('#', 1)[0].strip().lstrip('@').lower()
+                if USERNAME.fullmatch(u):
+                    seed_rows.append((u,))
+            with db:
+                db.executemany('INSERT OR IGNORE INTO jobs(username,priority,members,existing) VALUES(?,0,0,0)', seed_rows)
         client = PreviewClient(args.concurrency,args.work/'pause')
         concurrency = Concurrency(args.concurrency)
         rules = None
         catalog_mtime = None
         next_reconcile = last_flush = 0
+        batches_done = 0
         try:
             with ThreadPoolExecutor(max_workers=args.concurrency) as pool:
                 while not client.pause.exists():
+                    if getattr(args, 'max_batches', 0) and batches_done >= args.max_batches:
+                        break
                     if budget_status(BASE)['halted'] or db.execute("SELECT 1 FROM meta WHERE key='preview_hold'").fetchone():
                         break
                     if time.monotonic() >= next_reconcile:
-                        mtime = args.catalog.stat().st_mtime_ns
-                        if mtime != catalog_mtime:
-                            seed(db,args.catalog,args.source_db)
-                            catalog_mtime = mtime
-                        reconcile_listings(db,args.source_db)
+                        if args.catalog and args.catalog.exists() and args.source_db and args.source_db.exists():
+                            mtime = args.catalog.stat().st_mtime_ns
+                            if mtime != catalog_mtime:
+                                seed(db,args.catalog,args.source_db)
+                                catalog_mtime = mtime
+                            reconcile_listings(db,args.source_db)
                         next_reconcile = time.monotonic()+1800
                     # Delayed classification work still takes precedence over enrichment.
                     unresolved = db.execute("SELECT 1 FROM jobs WHERE status='pending' AND priority<2 LIMIT 1").fetchone()
@@ -266,6 +303,7 @@ def run(args):
                         continue
                     results = list(pool.map(lambda job: client.check(job,rules),jobs))
                     events = save_batch(db,jobs,results)
+                    batches_done += 1
                     concurrency.observe(events)
                     if time.monotonic()-last_flush>=60:
                         flush(db,args.outbox)
@@ -277,7 +315,12 @@ def run(args):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
-    for name in ('work','outbox','source-db','catalog'):
-        parser.add_argument('--'+name,required=True,type=Path)
-    parser.add_argument('--concurrency',type=int,choices=range(1,6),default=5)
+    parser.add_argument('--work',required=True,type=Path)
+    parser.add_argument('--outbox',required=True,type=Path)
+    parser.add_argument('--source-db',type=Path,default=None)
+    parser.add_argument('--catalog',type=Path,default=None)
+    parser.add_argument('--seed',type=Path,default=None)
+    parser.add_argument('--min-interval',type=float,default=None)
+    parser.add_argument('--max-batches',type=int,default=0)
+    parser.add_argument('--concurrency',type=int,choices=range(1,17),default=5)
     run(parser.parse_args())

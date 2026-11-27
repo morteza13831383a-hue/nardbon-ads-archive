@@ -1,6 +1,6 @@
 """Checkpointed listing-first collector. Network access uses the shared HTML client."""
 import argparse
-import fcntl
+import filelock as fcntl
 import gzip
 import hashlib
 import json
@@ -40,7 +40,7 @@ def release(db):
     db.execute("UPDATE queue SET status='pending' WHERE status='in_progress'")
 
 
-def claim(db, size, critical_profiles=False):
+def claim(db, size, critical_profiles=False, listings_only=False):
     db.execute('BEGIN IMMEDIATE')
     with db:
         row = db.execute("SELECT value FROM meta WHERE key='rotation_turn'").fetchone()
@@ -50,6 +50,13 @@ def claim(db, size, critical_profiles=False):
             job = channels.next_job(db, turn, critical_profiles)
             if not job:
                 break
+            if listings_only and job[1] == 'channel':
+                listing_job = db.execute(
+                    "SELECT url,kind FROM queue WHERE status='pending' AND kind!='channel' ORDER BY priority, url LIMIT 1"
+                ).fetchone()
+                if not listing_job:
+                    break
+                job = listing_job
             db.execute("UPDATE queue SET status='in_progress' WHERE url=?", (job[0],))
             jobs.append(job)
             turn = (turn + 1) % len(channels.ROTATION)
@@ -75,11 +82,12 @@ def flush(db, directory, size=500):
                 output.flush()
                 os.fsync(output.fileno())
             tmp.replace(target)
-            directory_fd = os.open(directory, os.O_DIRECTORY)
-            try:
-                os.fsync(directory_fd)
-            finally:
-                os.close(directory_fd)
+            if hasattr(os, 'O_DIRECTORY'):
+                directory_fd = os.open(directory, os.O_DIRECTORY)
+                try:
+                    os.fsync(directory_fd)
+                finally:
+                    os.close(directory_fd)
             db.executemany('DELETE FROM channel_outgoing WHERE username=?', [(u,) for u,_ in rows])
 
 
@@ -176,7 +184,7 @@ def collect(args):
             while not stopping:
                 if held(db,args.ads_checkpoint):
                     return 75
-                jobs = claim(db,args.batch,critical_profiles=True)
+                jobs = claim(db,args.batch,critical_profiles=True,listings_only=getattr(args,'listings_only',False))
                 if not jobs:
                     break
                 for url,kind in jobs:
@@ -240,6 +248,7 @@ if __name__ == '__main__':
     parser.add_argument('--min-interval',type=float,default=os.getenv('CHANNEL_MIN_INTERVAL','1.0'))
     parser.add_argument('--transport',choices=('curl','stdlib'),default='curl')
     parser.add_argument('--batch',type=int,default=16)
+    parser.add_argument('--listings-only',action='store_true',help='Skip single-channel profile GETs; dedicate budget to listings and advertiser pages')
     args = parser.parse_args()
     if args.batch <= 0 or (args.keywords and not args.catalog):
         parser.error('Use a positive batch size and supply --catalog with --keywords')

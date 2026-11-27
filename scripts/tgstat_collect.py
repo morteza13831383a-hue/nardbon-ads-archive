@@ -3,7 +3,7 @@
 import argparse
 import sys
 from datetime import datetime, timezone
-import fcntl
+import filelock as fcntl
 import gzip
 import hashlib
 from http.cookiejar import CookieJar

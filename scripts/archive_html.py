@@ -2,7 +2,7 @@
 """One-off Iran ad backfill from public HTML and sitemaps, never source APIs."""
 import argparse
 import csv
-import fcntl
+import filelock as fcntl
 from datetime import datetime, timezone
 import gzip
 import hashlib

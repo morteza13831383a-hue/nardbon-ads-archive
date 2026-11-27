@@ -3,7 +3,7 @@
 import argparse
 import base64
 from datetime import datetime, timezone
-import fcntl
+import filelock as fcntl
 import gzip
 import hashlib
 import json

@@ -1,7 +1,7 @@
 """Non-pagination channel discovery using the existing channel checkpoint and outbox."""
 import argparse
 from contextlib import closing
-import fcntl
+import filelock as fcntl
 import json
 import os
 from pathlib import Path

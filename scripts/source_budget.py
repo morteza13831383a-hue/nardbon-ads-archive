@@ -11,7 +11,7 @@ with adaptive pacing so long unattended runs stay polite without manual tuning.
 A crawl-delay from robots.txt (passed as `delay`) is always respected as a floor.
 State lives next to the lock (CRAWL_BUDGET_DIR) and survives process restarts.
 """
-import fcntl
+import filelock as fcntl
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 import hashlib
@@ -97,9 +97,20 @@ def reserve(base, delay=0, *, cancelled=None):
             today=time.strftime('%Y-%m-%d',time.gmtime(now))
             if state['day']!=today:state['day'],state['day_count']=today,0
             configured = host == 'tgadsspy.com' and 'CHANNEL_MIN_INTERVAL' in os.environ
-            floor = max(1.0,float(os.environ['CHANNEL_MIN_INTERVAL'])) if configured else MIN_BY_HOST.get(host,MIN_DELAY)
-            jitter = random.uniform(0.7,1.4) if configured else random.uniform(0,1.5)
-            gap=max(state['delay'],delay or 0,floor)+jitter
+            tme_configured = host == 't.me' and 'TME_MIN_INTERVAL' in os.environ
+            if configured:
+                floor = max(1.0, float(os.environ['CHANNEL_MIN_INTERVAL']))
+                jitter = random.uniform(0.7, 1.4)
+            elif tme_configured:
+                floor = max(0.15, float(os.environ['TME_MIN_INTERVAL']))
+                jitter = random.uniform(0.05, 0.25)
+                if state['reported_requests'] == 0 and not state['blocks']:
+                    state['delay'] = floor
+            else:
+                floor = MIN_BY_HOST.get(host, MIN_DELAY)
+                jitter = random.uniform(0, 1.5)
+            effective_delay = floor if tme_configured and not state['blocks'] else max(state['delay'], delay or 0, floor)
+            gap = effective_delay + jitter
             wait=max(state['pause_until']-now,state['last']+gap-now,0)
             if wait<=0:
                 state['last']=now;state['day_count']+=1;_save(path,state);return True
@@ -135,6 +146,8 @@ def report(base, status, retry_after=None):
                 floor = MIN_BY_HOST.get(urlsplit(base).netloc.lower(), MIN_DELAY)
                 if urlsplit(base).hostname == 'tgadsspy.com' and 'CHANNEL_MIN_INTERVAL' in os.environ:
                     floor = max(1.0,float(os.environ['CHANNEL_MIN_INTERVAL']))
+                elif urlsplit(base).hostname == 't.me' and 'TME_MIN_INTERVAL' in os.environ:
+                    floor = max(0.15,float(os.environ['TME_MIN_INTERVAL']))
                 state['delay'] = max(floor, state['delay'] - SPEEDUP_STEP)
                 state['streak'] = 0
                 state['block_streak'] = 0

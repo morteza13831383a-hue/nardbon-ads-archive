@@ -41,3 +41,25 @@ class AdaptiveConcurrency(unittest.TestCase):
         self.assertEqual(control.limit, 2)
         control.observe([(0, '', '429')])
         self.assertEqual(control.limit, 1)
+
+
+class SnowballAndFastPacing(unittest.TestCase):
+    def test_extract_links_discovers_channels_and_skips_bots(self):
+        from telegram_preview_worker import extract_links
+        html = '''<div class="tgme_widget_message_text">
+            Join <a href="https://t.me/PersianTechNews/123">news</a> and @iran_dev_channel
+            or @helper_bot and <a href="https://t.me/joinchat/abc">invite</a> and @sample
+        </div>'''
+        self.assertEqual(extract_links(html, 'sample'), ['iran_dev_channel', 'persiantechnews'])
+
+    def test_tme_min_interval_allows_fast_reserve(self):
+        import os, tempfile, time
+        from unittest.mock import patch
+        import source_budget
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.dict(os.environ, {'CRAWL_BUDGET_DIR': tmp, 'TME_MIN_INTERVAL': '0.2'}):
+                t0 = time.monotonic()
+                self.assertTrue(source_budget.reserve('https://t.me', 4))
+                self.assertTrue(source_budget.reserve('https://t.me', 4))
+                elapsed = time.monotonic() - t0
+                self.assertLess(elapsed, 1.0)

@@ -1,7 +1,7 @@
 """Collect public ranked channel cards from TG.me's Iran directory."""
 import argparse
 from datetime import datetime, timezone
-import fcntl
+import filelock as fcntl
 import gzip
 import hashlib
 import json
