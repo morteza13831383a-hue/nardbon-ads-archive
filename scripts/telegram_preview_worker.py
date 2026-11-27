@@ -143,7 +143,8 @@ class PreviewClient:
             with self.sessions.session.get(url,allow_redirects=False,timeout=(10,25)) as response:
                 code, body = response.status_code, response.content.decode("utf-8", "replace")
                 challenge = response.headers.get('cf-mitigated','').lower() == 'challenge' or (
-                    code in (200,403) and is_challenge(body))
+                    code == 403 and is_challenge(body)) or (
+                    code == 200 and 'tgme_' not in body and is_challenge(body))
                 outcome = 'challenge' if challenge else str(code)
                 if outcome in ('challenge','401','403','429') or code >= 500:
                     self.blocked.set()
