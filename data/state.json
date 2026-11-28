@@ -1,5 +1,5 @@
 {
- "cursor": "2026-11-28T14:35:47Z",
+ "cursor": "2026-11-28T15:36:01Z",
  "backfill": {
   "since": "2026-06-07T11:50:07Z",
   "done": false,
@@ -9,7 +9,7 @@
   "stalled": "2026-11-17T23:35:49Z"
  },
  "uploaded": {
-  "tgads/data/2026-11.json": "677bca5397fd4447",
+  "tgads/data/2026-11.json": "7af4c2735f9332ba",
   "tgads/fonts/OFL.txt": "9a5f8ab8125359f6",
   "tgads/fonts/Vazirmatn-UI-FD-Black.woff2": "db8bd92f6a15d45a",
   "tgads/fonts/Vazirmatn-UI-FD-Bold.woff2": "d86fa716f9fb426f",
@@ -39,20 +39,6 @@
   "tgads/channels/channels-07.json": "afc479f590c95636"
  },
  "runs": [
-  {
-   "at": "2026-11-26T11:36:05Z",
-   "ok": true,
-   "error": null,
-   "html_new": 0,
-   "html_parts": 0,
-   "new": 0,
-   "updated": 0,
-   "media": 0,
-   "missed": 0,
-   "sent_media": 0,
-   "sent_files": 0,
-   "secs": 12
-  },
   {
    "at": "2026-11-26T12:36:03Z",
    "ok": true,
@@ -770,18 +756,30 @@
    "sent_media": 0,
    "sent_files": 1,
    "secs": 52
+  },
+  {
+   "at": "2026-11-28T16:36:01Z",
+   "ok": true,
+   "error": null,
+   "new": 12,
+   "updated": 8,
+   "media": 0,
+   "missed": 0,
+   "sent_media": 0,
+   "sent_files": 1,
+   "secs": 56
   }
  ],
- "last_upload_ok": "2026-11-28T15:36:33Z",
+ "last_upload_ok": "2026-11-28T16:36:50Z",
  "lang_seen": {
-  "-": 1206,
+  "-": 1207,
   "tr": 63,
   "he": 39,
   "ru": 732,
   "ar": 419,
   "my": 47,
   "en": 496,
-  "fa": 19950,
+  "fa": 19972,
   "uz": 63,
   "zh": 26,
   "id": 44,
